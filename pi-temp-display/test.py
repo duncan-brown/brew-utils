@@ -55,7 +55,7 @@ try:
             GPIO.output(digits[digit], 1)
             for loop in range(0,7):
                 GPIO.output(segments[loop], num[str(n)][loop])
-            if (digits[digit] == 22) and (ticks % 1000):
+            if (digits[digit] == 22):
                 GPIO.output(16,1)
             else:
                 GPIO.output(16,0)
