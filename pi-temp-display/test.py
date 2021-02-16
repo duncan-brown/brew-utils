@@ -5,52 +5,68 @@ import time
 GPIO.setmode(GPIO.BCM)
  
 # GPIO ports for the 7seg pins + dp
-# (b,a,e,d,f,g,dp,c)
-segments =  (5,6,13,19,26,16,20,21)
+# (b,a,e,d,f,g,c)
+segments =  (5,6,13,19,26,16,21)
 
 for segment in segments:
     GPIO.setup(segment, GPIO.OUT)
     GPIO.output(segment, 0)
 
+GPIO.setup(20, GPIO.OUT)
+GPIO.output(20, 0)
+
 # GPIO ports for the 8 digit ground pins
 # need to add the following to /boot/config.txt
 # dtparam=spi=off
 # to use spi pins as gpio
-digits = (7,8,11,9,25,10,23,24)
+# mash temp h,t,u.f
+mash_digits = (7,8,22,24)
+
+# high temp t,u
+high_digits = (11,9)
+
+# low temp t,u
+low_digits = (25,10)
+
+digits = low_digits + high_digits + mash_digits
 
 for digit in digits:
     GPIO.setup(digit, GPIO.OUT)
     GPIO.output(digit, 1)
 
-num = {' ':(0,0,0,0,0,0,0,0),
-    '0':(1,1,1,1,1,0,1,1),
-    '1':(1,0,0,0,0,0,1,1),
-    '2':(1,1,1,1,0,1,1,0),
-    '3':(1,1,0,1,0,1,1,1),
-    '4':(1,0,0,0,1,1,1,1),
-    '5':(0,1,0,1,1,1,1,1),
-    '6':(0,1,1,1,1,1,1,1),
-    '7':(1,1,0,0,0,0,1,1),
-    '8':(1,1,1,1,1,1,1,1),
-    '9':(1,1,0,0,1,1,1,1)}
+num = {' ':(0,0,0,0,0,0,0),
+    '0':(1,1,1,1,1,0,1),
+    '1':(1,0,0,0,0,0,1),
+    '2':(1,1,1,1,0,1,0),
+    '3':(1,1,0,1,0,1,1),
+    '4':(1,0,0,0,1,1,1),
+    '5':(0,1,0,1,1,1,1),
+    '6':(0,1,1,1,1,1,1),
+    '7':(1,1,0,0,0,0,1),
+    '8':(1,1,1,1,1,1,1),
+    '9':(1,1,0,0,1,1,1)}
 
 n = 0
 ticks = 0
 
 try:
     while True:
-        for loop in range(0,8):
-            for digit in range(len(digits)):
+        for digit in range(len(digits)):
+            GPIO.output(digits[digit], 1)
+            for loop in range(0,7):
                 GPIO.output(segments[loop], num[str(n)][loop])
-                GPIO.output(digits[digit], 0)
-                time.sleep(0.001)
-                GPIO.output(digits[digit], 1)
-                ticks += 1
-            if ticks > 500:
-                ticks = 0
-                if n > 8:
-                    n = 0
-                else:
-                    n += 1
+            if (digits[digit] == 22) and (ticks < 500):
+                GPIO.output(20,1)
+            else:
+                GPIO.output(20,0)
+            GPIO.output(digits[digit], 0)
+            time.sleep(0.001)
+            ticks += 1
+        if ticks > 1000:
+            ticks = 0
+            if n > 8:
+                n = 0
+            else:
+                n += 1
 finally:
     GPIO.cleanup()
