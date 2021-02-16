@@ -12,8 +12,11 @@ for segment in segments:
     GPIO.setup(segment, GPIO.OUT)
     GPIO.output(segment, 0)
 
-# GPIO ports for the 8 digit ground pins 
-digits = (24,25,4,17,2,27,22,23)
+# GPIO ports for the 8 digit ground pins
+# need to add the following to /boot/config.txt
+# dtparam=spi=off
+# to use spi pins as gpio
+digits = (7,8,11,9,25,10,23,24)
 
 for digit in digits:
     GPIO.setup(digit, GPIO.OUT)
