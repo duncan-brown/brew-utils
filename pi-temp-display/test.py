@@ -14,7 +14,11 @@ for segment in segments:
 
 # GPIO ports for the 8 digit ground pins 
 digits = (4,17,18,27,22,23,25)
-   
+
+for digit in digits:
+    GPIO.setup(digit, GPIO.OUT)
+    GPIO.output(digit, 1)
+
 num = {' ':(0,0,0,0,0,0,0,0),
     '0':(1,1,1,1,1,0,1,1),
     '1':(1,0,0,0,0,0,1,1),
@@ -38,12 +42,12 @@ try:
                 GPIO.output(digits[digit], 0)
                 time.sleep(0.001)
                 GPIO.output(digits[digit], 1)
-           ticks += 1
-           if ticks > 999:
-               ticks = 0
-               if n > 9:
-                   n = 0
-               else:
-                   n += 1
+            ticks += 1
+            if ticks > 999:
+                ticks = 0
+                if n > 9:
+                    n = 0
+                else:
+                    n += 1
 finally:
     GPIO.cleanup()
