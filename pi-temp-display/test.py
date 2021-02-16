@@ -27,7 +27,7 @@ num = {' ':(0,0,0,0,0,0,0,0),
  
 try:
     while True:
-        for n in range(0,9):
+        for n in range(0,10):
             for loop in range(0,8):
                 GPIO.output(segments[loop], num[str(n)][loop])
             time.sleep(1)
