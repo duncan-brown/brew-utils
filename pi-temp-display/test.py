@@ -6,14 +6,14 @@ GPIO.setmode(GPIO.BCM)
  
 # GPIO ports for the 7seg pins + dp
 # (b,a,e,d,f,g,c)
-segments =  (5,6,13,19,26,16,21)
+segments =  (5,6,13,19,26,12,21)
 
 for segment in segments:
     GPIO.setup(segment, GPIO.OUT)
     GPIO.output(segment, 0)
 
-GPIO.setup(20, GPIO.OUT)
-GPIO.output(20, 0)
+GPIO.setup(16, GPIO.OUT)
+GPIO.output(16, 0)
 
 # GPIO ports for the 8 digit ground pins
 # need to add the following to /boot/config.txt
@@ -56,9 +56,9 @@ try:
             for loop in range(0,7):
                 GPIO.output(segments[loop], num[str(n)][loop])
             if (digits[digit] == 22) and (ticks < 500):
-                GPIO.output(20,1)
+                GPIO.output(16,1)
             else:
-                GPIO.output(20,0)
+                GPIO.output(16,0)
             GPIO.output(digits[digit], 0)
             time.sleep(0.001)
             ticks += 1
