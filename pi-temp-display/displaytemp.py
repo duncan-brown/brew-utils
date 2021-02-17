@@ -17,7 +17,7 @@ KEEZER_PROBES = ['/sys/devices/w1_bus_master1/28-3c01b5562fd2/w1_slave',
 # For testing purposes each LED is refreshed (REFRESH) for
 # 100000 microseconds.  In a practical application you probably
 # want to use a figure in the region of 1000 microseconds.
-REFRESH=1000
+REFRESH=500
 
 CHARSET={
 ' ': 0b00000000,
