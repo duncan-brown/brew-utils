@@ -20,15 +20,15 @@ GPIO.output(16, 0)
 # dtparam=spi=off
 # to use spi pins as gpio
 # mash temp h,t,u.f
-mash_digits = (7,8,22,24)
+mash_digits = (10,25,24,22)
 
 # high temp t,u
-high_digits = (11,9)
+high_digits = (8,7)
 
 # low temp t,u
-low_digits = (25,10)
+low_digits = (9,11)
 
-digits = low_digits + high_digits + mash_digits
+digits = mash_digits + high_digits + low_digits
 
 for digit in digits:
     GPIO.setup(digit, GPIO.OUT)
@@ -50,23 +50,21 @@ n = 0
 ticks = 0
 
 try:
+    ticks = 0
+    test_str = '12345678'
     while True:
         for digit in range(len(digits)):
-            GPIO.output(digits[digit], 1)
             for loop in range(0,7):
-                GPIO.output(segments[loop], num[str(n)][loop])
-            if (digits[digit] == 22):
+                GPIO.output(segments[loop], num[test_str[digit]][loop])
+            if (digits[digit] == 24):
                 GPIO.output(16,1)
             else:
                 GPIO.output(16,0)
-            GPIO.output(digits[digit], 0)
+            GPIO.output(digits[digit], 1)
             time.sleep(0.001)
+            GPIO.output(digits[digit], 0)
             ticks += 1
-        if ticks > 1000:
+        if ticks > 4998:
             ticks = 0
-            if n > 8:
-                n = 0
-            else:
-                n += 1
 finally:
     GPIO.cleanup()
