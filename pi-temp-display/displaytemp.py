@@ -187,13 +187,16 @@ keezer_q = Queue()
 mash_q = Queue()
 
 t1 = Thread(target=get_keezer_temps, args=(keezer_q,))
-t2 = Thread(target=display_temps, args=(keezer_q,mash_q,))
+t2 = Thread(target=get_mash_temp, args=(mash_q,))
+t3 = Thread(target=display_temps, args=(keezer_q,mash_q,))
 
 t1.daemon = True
 t2.daemon = True
+t3.daemon = True
 
 t1.start()
 t2.start()
+t3.start()
 
 try:
    while True:
