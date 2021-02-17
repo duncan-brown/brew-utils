@@ -14,7 +14,7 @@ from multiprocessing import Queue
 KEEZER_PROBES = ['/sys/devices/w1_bus_master1/28-3c01b5562fd2/w1_slave',
                  '/sys/devices/w1_bus_master1/28-3c01b556f835/w1_slave']
 
-MASH_PROBE = '/sys/devices/w1_bus_master1/28-3c01b556504f'
+MASH_PROBE = '/sys/devices/w1_bus_master1/28-3c01b556504f/w1_slave'
 
 # For testing purposes each LED is refreshed (REFRESH) for
 # 100000 microseconds.  In a practical application you probably
