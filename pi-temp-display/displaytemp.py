@@ -1,47 +1,113 @@
+#!/usr/bin/env python
+
+# _7_segment.py
+# 2016-12-12
+# Public Domain
+
+import time
+import pigpio # http://abyz.co.uk/rpi/pigpio/python.html
 import os
-import glob
 import time
 from threading import Thread
 from multiprocessing import Queue
- 
-# GPIO ports for the 7seg pins + dp
-# (b,a,e,d,f,g,c)
-segments =  (5,6,13,19,26,12,21)
 
-# GPIO ports for the 8 digit ground pins
-# need to add the following to /boot/config.txt
-# dtparam=spi=off
-# to use spi pins as gpio
-# mash temp h,t,u.f
-mash_digits = (7,8,22,24)
-
-# high temp t,u
-high_digits = (11,9)
-
-# low temp t,u
-low_digits = (25,10)
-
-digits = mash_digits + high_digits + low_digits
-
-num = {' ':(0,0,0,0,0,0,0),
-    '0':(1,1,1,1,1,0,1),
-    '1':(1,0,0,0,0,0,1),
-    '2':(1,1,1,1,0,1,0),
-    '3':(1,1,0,1,0,1,1),
-    '4':(1,0,0,0,1,1,1),
-    '5':(0,1,0,1,1,1,1),
-    '6':(0,1,1,1,1,1,1),
-    '7':(1,1,0,0,0,0,1),
-    '8':(1,1,1,1,1,1,1),
-    '9':(1,1,0,0,1,1,1)}
-
-keezer_probes = ['/sys/devices/w1_bus_master1/28-3c01b5562fd2/w1_slave',
+KEEZER_PROBES = ['/sys/devices/w1_bus_master1/28-3c01b5562fd2/w1_slave',
                  '/sys/devices/w1_bus_master1/28-3c01b556f835/w1_slave']
 
-def producer(out_q):
-    while True: 
-        keezer_temps = []
-        for k in keezer_probes:
+# For testing purposes each LED is refreshed (REFRESH) for
+# 100000 microseconds.  In a practical application you probably
+# want to use a figure in the region of 1000 microseconds.
+REFRESH=1000
+
+CHARSET={
+' ': 0b00000000,
+'-': 0b00000010,
+'0': 0b11111101,
+'1': 0b01100001,
+'2': 0b11011011,
+'3': 0b11110011,
+'4': 0b01100111,
+'5': 0b10110111,
+'6': 0b00111111,
+'7': 0b11100001,
+'8': 0b11111111,
+'9': 0b11100111,
+'A': 0b11101110,
+'b': 0b00111110,
+'C': 0b10011100,
+'c': 0b00011010,
+'d': 0b01111010,
+'E': 0b10011110,
+'F': 0b10001110,
+'H': 0b01101110,
+'h': 0b00101110,
+'L': 0b00011100,
+'l': 0b01100000,
+'O': 0b11111100,
+'o': 0b00111010,
+'P': 0b11001110,
+'S': 0b10110110,
+}
+
+# This defines which gpios are connected to which segments
+#          a   b   c   d   e   f   g  dp
+SEG2GPIO=[ 6,  5, 21, 19, 13, 26, 12, 16]
+
+# This defines the gpio used to switch on a LED
+LED2GPIO=[10,25,24,22,8,7,9,11]
+
+wid = None
+
+showing = [0]*len(LED2GPIO)
+
+CHARS=len(CHARSET)
+
+def display(LED, char):
+   if char in CHARSET:
+      showing[LED] = CHARSET[char]
+   else:
+      showing[LED] = 0
+
+def update_display():
+   global wid
+   wf = []
+   for LED in range(len(LED2GPIO)):
+
+      segments = showing[LED] # segments on for current LED
+
+      on = 0 # gpios to switch on
+      off = 0 # gpios to switch off
+
+      # set this LED on, others off
+      for L in range(len(LED2GPIO)):
+         if L == LED:
+            on |= 1<<LED2GPIO[L] # switch LED on
+         else:
+            off |= 1<<LED2GPIO[L] # switch LED off
+
+      # set used segments on, unused segments off
+      for b in range(8):
+         if segments & 1<<(7-b):
+            on |= 1<<SEG2GPIO[b] # switch segment on
+         else:
+            off |= 1<<SEG2GPIO[b] # switch segment off
+
+      wf.append(pigpio.pulse(on, off, REFRESH))
+
+   pi.wave_add_generic(wf) # add pulses to waveform
+   new_wid = pi.wave_create() # commit waveform
+   pi.wave_send_repeat(new_wid) # transmit waveform repeatedly
+
+   if wid is not None:
+      pi.wave_delete(wid) # delete no longer used waveform
+
+   wid = new_wid
+
+def get_keezer_temps(out_q):
+   while True:
+      try:
+         keezer_temps = []
+         for k in KEEZER_PROBES:
             fileobj = open(k,'r')
             lines = fileobj.readlines()
             fileobj.close()
@@ -53,64 +119,66 @@ def producer(out_q):
             tempvalue = int(round(tempvalue_f,0))
             keezer_temps.append(tempvalue)
 
-        k_min = str(min(keezer_temps)).rjust(2)
-        k_max = str(max(keezer_temps)).rjust(2)
-        
-        display_str='    '+k_max+k_min
-        out_q.put(display_str)
-        time.sleep(5)
+         k_min = str(min(keezer_temps)).rjust(2)
+         k_max = str(max(keezer_temps)).rjust(2)
+         display_str=k_max+k_min
+      except:
+         display_str = '----'
 
-def consumer(in_q):
-    import RPi.GPIO as GPIO
-    GPIO.setmode(GPIO.BCM)
+      out_q.put(display_str)
+      time.sleep(1)
 
-    for segment in segments:
-        GPIO.setup(segment, GPIO.OUT)
-        GPIO.output(segment, 0)
+def display_temps(keezer_q, mash_q):
+   while True:
+      try:
+         keezer_str = keezer_q.get(False)
+         for d in range(len(keezer_str)):
+             display(d + 4, keezer_str[d])
+         update_display()
+      except:
+         pass
+      time.sleep(1)
 
-    GPIO.setup(16, GPIO.OUT)
-    GPIO.output(16, 0)
 
-    for digit in digits:
-        GPIO.setup(digit, GPIO.OUT)
-        GPIO.output(digit, 1)
+# initialize the gpio controller
+pi = pigpio.pi()
 
-    ticks = 0
-    my_str = '12345678'
-    while True:
-        if ticks == 0:
-            try:
-                display_str = in_q.get(False)
-                my_str = display_str
-            except:
-                pass
-        for digit in range(len(digits)):
-            ticks += 1
-            for loop in range(0,7):
-                GPIO.output(segments[loop], num[my_str[digit]][loop])
-            if (digits[digit] == 22):
-                GPIO.output(16,1)
-            else:
-                GPIO.output(16,0)
-            GPIO.output(digits[digit], 0)
-            time.sleep(0.001)
-            GPIO.output(digits[digit], 1)
-        if ticks > 4998: ticks = 0
+# Set all used gpios as outputs.
+for segment in SEG2GPIO:
+   pi.set_mode(segment, pigpio.OUTPUT)
+
+for LED in LED2GPIO:
+   pi.set_mode(LED, pigpio.OUTPUT)
+
+# initialize the display
+for d in range(len(LED2GPIO)):
+   display(d,'-')
+update_display()
+
+# create ipc queues
+keezer_q = Queue()
+mash_q = Queue()
+
+t1 = Thread(target=get_keezer_temps, args=(keezer_q,))
+t2 = Thread(target=display_temps, args=(keezer_q,mash_q,))
+
+t1.daemon = True
+t2.daemon = True
+
+t1.start()
+t2.start()
 
 try:
-    q = Queue()
-    t1 = Thread(target = consumer, args=(q,))
-    t2 = Thread(target = producer, args=(q,))
-    t1.daemon = True
-    t2.daemon = True
-    t1.start()
-    t2.start()
-    while True:
-        time.sleep(0.1)
-finally:
-    import RPi.GPIO as GPIO
-    try:
-        GPIO.cleanup()
-    except:
-        pass
+   while True:
+      time.sleep(0.1)
+except KeyboardInterrupt:
+   for d in range(len(LED2GPIO)):
+      display(d,' ')
+   update_display()
+
+   # clean up on exit
+   pi.wave_delete(wid)
+   pi.stop()
+
+   raise KeyboardInterrupt
 
