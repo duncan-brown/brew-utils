@@ -139,7 +139,7 @@ def get_mash_temp(out_q):
       try:
          tempvalue_f = get_probe_temp(MASH_PROBE)
          tempvalue = round(tempvalue_f,1)
-         display_str = str(tempvalue).rjust(4)
+         display_str = '.'.split(str(tempvalue).rjust(4)).join()
       except:
          display_str = '----'
 
