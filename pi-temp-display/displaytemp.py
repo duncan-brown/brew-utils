@@ -138,8 +138,8 @@ def get_mash_temp(out_q):
    while True:
       try:
          tempvalue_f = get_probe_temp(MASH_PROBE)
-         tempvalue = int(round(tempvalue_f,1))
-         display_str = str(min(tempvalue)).rjust(4)
+         tempvalue = round(tempvalue_f,1)
+         display_str = str(tempvalue).rjust(4)
       except:
          display_str = '----'
 
