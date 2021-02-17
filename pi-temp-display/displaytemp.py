@@ -14,6 +14,8 @@ from multiprocessing import Queue
 KEEZER_PROBES = ['/sys/devices/w1_bus_master1/28-3c01b5562fd2/w1_slave',
                  '/sys/devices/w1_bus_master1/28-3c01b556f835/w1_slave']
 
+MASH_PROBE = '/sys/devices/w1_bus_master1/28-3c01b556504f'
+
 # For testing purposes each LED is refreshed (REFRESH) for
 # 100000 microseconds.  In a practical application you probably
 # want to use a figure in the region of 1000 microseconds.
@@ -102,26 +104,42 @@ def update_display():
       pi.wave_delete(wid) # delete no longer used waveform
 
    wid = new_wid
+  
+def get_probe_temp(probe):
+   fileobj = open(probe,'r')
+   lines = fileobj.readlines()
+   fileobj.close()
+   status = lines[0][-4:-1]
+   equals_pos = lines[1].find('t=')
+   tempstr = lines[1][equals_pos+2:]
+   tempvalue_c = float(tempstr)/1000.0
+   tempvalue_f = tempvalue_c * 9.0 / 5.0 + 32.0
+   return tempvalue_f
 
 def get_keezer_temps(out_q):
    while True:
       try:
          keezer_temps = []
          for k in KEEZER_PROBES:
-            fileobj = open(k,'r')
-            lines = fileobj.readlines()
-            fileobj.close()
-            status = lines[0][-4:-1]
-            equals_pos = lines[1].find('t=')
-            tempstr = lines[1][equals_pos+2:]
-            tempvalue_c = float(tempstr)/1000.0
-            tempvalue_f = tempvalue_c * 9.0 / 5.0 + 32.0
+            tempvalue_f = get_probe_temp(k)
             tempvalue = int(round(tempvalue_f,0))
             keezer_temps.append(tempvalue)
-
+            
          k_min = str(min(keezer_temps)).rjust(2)
          k_max = str(max(keezer_temps)).rjust(2)
          display_str=k_max+k_min
+      except:
+         display_str = '----'
+
+      out_q.put(display_str)
+      time.sleep(1)
+
+def get_mash_temp(out_q):
+   while True:
+      try:
+         tempvalue_f = get_probe_temp(MASH_PROBE)
+         tempvalue = int(round(tempvalue_f,1))
+         display_str = str(min(tempvalue)).rjust(4)
       except:
          display_str = '----'
 
@@ -137,6 +155,15 @@ def display_temps(keezer_q, mash_q):
          update_display()
       except:
          pass
+
+      try:
+         mash_str = mash_q.get(False)
+         for d in range(len(mash_str)):
+             display(d, mash_str[d])
+         update_display()
+      except:
+         pass
+
       time.sleep(1)
 
 
