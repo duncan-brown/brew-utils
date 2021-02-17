@@ -1,0 +1,11 @@
+# /lib/systemd/system/displaytemp.service
+[Unit]
+Description=Seven Segment LED Temperature Display
+After=pigpiod.service
+[Service]
+Type=simple
+ExecStart=/usr/bin/python /home/pi/brew-utils/pi-temp-display/displaytemp.py
+ExecStop=/bin/systemctl kill python
+KillSignal=SIGINT
+[Install]
+WantedBy=multi-user.target
