@@ -11,8 +11,8 @@ import time
 from threading import Thread
 from multiprocessing import Queue
 
-KEEZER_PROBES = ['/sys/devices/w1_bus_master1/28-3c01b5562fd2/w1_slave',
-                 '/sys/devices/w1_bus_master1/28-3c01b556f835/w1_slave']
+KEEZER_PROBES = ['/sys/bus/w1/devices/28-3c01b5562fd2/w1_slave',
+                 '/sys/bus/w1/devices/28-3c01b556f835/w1_slave']
 
 MASH_PROBE = '/sys/devices/w1_bus_master1/28-3c01b556504f/w1_slave'
 
