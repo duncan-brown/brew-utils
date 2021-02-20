@@ -4,7 +4,6 @@
 # 2016-12-12
 # Public Domain
 
-import time
 import pigpio # http://abyz.co.uk/rpi/pigpio/python.html
 import os
 import time
