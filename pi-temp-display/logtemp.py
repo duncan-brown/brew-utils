@@ -22,5 +22,5 @@ while True:
    tempvalue_f = get_probe_temp(MASH_PROBE)
    tempvalue = round(tempvalue_f,1)
    minutes = round((time.time() - start_time)/60.0,2)
-   print minutes, tempvalue
+   print "{},{}".format(minutes, tempvalue)
    time.sleep(30)
