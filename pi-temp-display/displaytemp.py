@@ -97,7 +97,7 @@ def update_display():
 
    pi.wave_add_generic(wf) # add pulses to waveform
    new_wid = pi.wave_create() # commit waveform
-   pi.wave_send_repeat(new_wid) # transmit waveform repeatedly
+   pi.wave_send_using_mode(new_wid, pigpio.WAVE_MODE_REPEAT_SYNC) # transmit waveform repeatedly
 
    if wid is not None:
       pi.wave_delete(wid) # delete no longer used waveform
