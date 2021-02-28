@@ -100,7 +100,7 @@ def update_display():
    if wid is not None:
       pi.wave_delete(wid) # delete no longer used waveform
       pi.wave_tx_stop() # stop transmission
-   pi.pi.wave_send_repeat(new_wid) # transmit waveform repeatedly
+   pi.wave_send_repeat(new_wid) # transmit waveform repeatedly
    wid = new_wid
   
 def get_probe_temp(probe):
