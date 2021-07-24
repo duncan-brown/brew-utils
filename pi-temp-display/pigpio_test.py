@@ -48,7 +48,7 @@ CHARSET={
 SEG2GPIO=[ 6,  5, 21, 19, 13, 26, 12, 16]
 
 # This defines the gpio used to switch on a LED
-LED2GPIO=[10,25,24,22,8,7,9,11]
+LED2GPIO=[9,11,22,10,24,25,8,7]
 
 wid = None
 
