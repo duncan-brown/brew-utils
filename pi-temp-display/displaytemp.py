@@ -18,7 +18,7 @@ KEEZER_PROBES = ['/sys/bus/w1/devices/28-012058fc2851/w1_slave',
                  '/sys/bus/w1/devices/28-012052b426ca/w1_slave']
 
 MASH_PROBE = '/sys/bus/w1/devices/28-012052b65be5/w1_slave'
-HLT_PROVE = '/sys/bus/w1/devices/28-0120529d8f20/w1_slave'
+HLT_PROBE = '/sys/bus/w1/devices/28-0120529d8f20/w1_slave'
 
 # For testing purposes each LED is refreshed (REFRESH) for
 # 100000 microseconds.  In a practical application you probably
