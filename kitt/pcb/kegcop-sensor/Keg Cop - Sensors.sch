@@ -1,0 +1,244 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Wire Wire Line
+	4000 4200 4600 4200
+Wire Wire Line
+	4600 5500 4600 4200
+Wire Wire Line
+	7600 5500 4600 5500
+Text Label 4000 4200 0    70   ~ 0
+TDAT
+Wire Wire Line
+	4000 4100 4700 4100
+Wire Wire Line
+	4700 4100 4700 4700
+Wire Wire Line
+	4700 4700 7600 4700
+Text Label 4000 4100 0    70   ~ 0
+UDAT
+Wire Wire Line
+	4000 4000 4700 4000
+Wire Wire Line
+	4700 3900 4700 4000
+Wire Wire Line
+	7600 3900 4700 3900
+Text Label 4000 4000 0    70   ~ 0
+LDAT
+Wire Wire Line
+	4000 3900 4300 3900
+Wire Wire Line
+	4300 3900 4600 3900
+Wire Wire Line
+	4000 3800 4300 3800
+Wire Wire Line
+	4300 3800 4300 3900
+Wire Wire Line
+	4600 3900 4600 3100
+Wire Wire Line
+	4600 3100 7600 3100
+Text Label 4000 3900 0    70   ~ 0
+KDAT
+Connection ~ 4300 3900
+Wire Wire Line
+	4000 3600 7500 3600
+Wire Wire Line
+	7500 2900 7500 3600
+Wire Wire Line
+	7500 3600 7500 3700
+Wire Wire Line
+	7500 3700 7500 4500
+Wire Wire Line
+	7500 4500 7500 5300
+Wire Wire Line
+	7500 2900 7600 2900
+Wire Wire Line
+	7600 3700 7500 3700
+Wire Wire Line
+	7600 4500 7500 4500
+Wire Wire Line
+	7600 5300 7500 5300
+Text Label 4000 3600 0    70   ~ 0
+5V
+Connection ~ 7500 3600
+Connection ~ 7500 3700
+Connection ~ 7500 4500
+Wire Wire Line
+	7400 2700 7400 3500
+Wire Wire Line
+	7400 3500 7400 3700
+Wire Wire Line
+	7400 3700 7400 4300
+Wire Wire Line
+	7400 4300 7400 5100
+Wire Wire Line
+	4000 3700 7400 3700
+Wire Wire Line
+	7400 2700 7600 2700
+Wire Wire Line
+	7400 3500 7600 3500
+Wire Wire Line
+	7600 4300 7400 4300
+Wire Wire Line
+	7600 5100 7400 5100
+Connection ~ 7400 3700
+Text Label 4000 3700 0    70   ~ 0
+GND
+Connection ~ 7400 3500
+Connection ~ 7400 4300
+$Comp
+L Keg_Cop_-_Sensors-eagle-import:RJ45 SENSORS1
+U 1 1 F603A791
+P 3900 4000
+F 0 "SENSORS1" H 3800 4400 59  0000 L BNN
+F 1 "RJ45" H 3800 3480 59  0000 L BNN
+F 2 "Keg Cop - Sensors:RJ45-NO-SHIELD" H 3900 4000 50  0001 C CNN
+F 3 "" H 3900 4000 50  0001 C CNN
+	1    3900 4000
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Sensors-eagle-import:W237-103 TDAT1
+U 1 1 EBF375D7
+P 7800 5100
+F 0 "TDAT1" H 7800 5135 59  0000 R TNN
+F 1 "W237-103" H 7700 4955 59  0001 L BNN
+F 2 "Keg Cop - Sensors:W237-103" H 7800 5100 50  0001 C CNN
+F 3 "" H 7800 5100 50  0001 C CNN
+	1    7800 5100
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Sensors-eagle-import:W237-103 TDAT1
+U 2 1 EBF375DB
+P 7800 5300
+F 0 "TDAT1" H 7800 5335 59  0000 R TNN
+F 1 "W237-103" H 7700 5155 59  0001 L BNN
+F 2 "Keg Cop - Sensors:W237-103" H 7800 5300 50  0001 C CNN
+F 3 "" H 7800 5300 50  0001 C CNN
+	2    7800 5300
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Sensors-eagle-import:W237-103 TDAT1
+U 3 1 EBF375DF
+P 7800 5500
+F 0 "TDAT1" H 7800 5535 59  0000 R TNN
+F 1 "W237-103" H 7700 5355 59  0000 L BNN
+F 2 "Keg Cop - Sensors:W237-103" H 7800 5500 50  0001 C CNN
+F 3 "" H 7800 5500 50  0001 C CNN
+	3    7800 5500
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Sensors-eagle-import:W237-103 UDAT1
+U 1 1 09CB6CD2
+P 7800 4300
+F 0 "UDAT1" H 7800 4335 59  0000 R TNN
+F 1 "W237-103" H 7700 4155 59  0001 L BNN
+F 2 "Keg Cop - Sensors:W237-103" H 7800 4300 50  0001 C CNN
+F 3 "" H 7800 4300 50  0001 C CNN
+	1    7800 4300
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Sensors-eagle-import:W237-103 UDAT1
+U 2 1 09CB6CDE
+P 7800 4500
+F 0 "UDAT1" H 7800 4535 59  0000 R TNN
+F 1 "W237-103" H 7700 4355 59  0001 L BNN
+F 2 "Keg Cop - Sensors:W237-103" H 7800 4500 50  0001 C CNN
+F 3 "" H 7800 4500 50  0001 C CNN
+	2    7800 4500
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Sensors-eagle-import:W237-103 UDAT1
+U 3 1 09CB6CDA
+P 7800 4700
+F 0 "UDAT1" H 7800 4735 59  0000 R TNN
+F 1 "W237-103" H 7700 4555 59  0000 L BNN
+F 2 "Keg Cop - Sensors:W237-103" H 7800 4700 50  0001 C CNN
+F 3 "" H 7800 4700 50  0001 C CNN
+	3    7800 4700
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Sensors-eagle-import:W237-103 LDAT1
+U 1 1 DC96C082
+P 7800 3500
+F 0 "LDAT1" H 7800 3535 59  0000 R TNN
+F 1 "W237-103" H 7700 3355 59  0001 L BNN
+F 2 "Keg Cop - Sensors:W237-103" H 7800 3500 50  0001 C CNN
+F 3 "" H 7800 3500 50  0001 C CNN
+	1    7800 3500
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Sensors-eagle-import:W237-103 LDAT1
+U 2 1 DC96C08E
+P 7800 3700
+F 0 "LDAT1" H 7800 3735 59  0000 R TNN
+F 1 "W237-103" H 7700 3555 59  0001 L BNN
+F 2 "Keg Cop - Sensors:W237-103" H 7800 3700 50  0001 C CNN
+F 3 "" H 7800 3700 50  0001 C CNN
+	2    7800 3700
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Sensors-eagle-import:W237-103 LDAT1
+U 3 1 DC96C08A
+P 7800 3900
+F 0 "LDAT1" H 7800 3935 59  0000 R TNN
+F 1 "W237-103" H 7700 3755 59  0000 L BNN
+F 2 "Keg Cop - Sensors:W237-103" H 7800 3900 50  0001 C CNN
+F 3 "" H 7800 3900 50  0001 C CNN
+	3    7800 3900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Sensors-eagle-import:W237-103 KDAT1
+U 1 1 B05A8DCC
+P 7800 2700
+F 0 "KDAT1" H 7800 2735 59  0000 R TNN
+F 1 "W237-103" H 7700 2555 59  0001 L BNN
+F 2 "Keg Cop - Sensors:W237-103" H 7800 2700 50  0001 C CNN
+F 3 "" H 7800 2700 50  0001 C CNN
+	1    7800 2700
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Sensors-eagle-import:W237-103 KDAT1
+U 2 1 B05A8DC0
+P 7800 2900
+F 0 "KDAT1" H 7800 2935 59  0000 R TNN
+F 1 "W237-103" H 7700 2755 59  0001 L BNN
+F 2 "Keg Cop - Sensors:W237-103" H 7800 2900 50  0001 C CNN
+F 3 "" H 7800 2900 50  0001 C CNN
+	2    7800 2900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Sensors-eagle-import:W237-103 KDAT1
+U 3 1 B05A8DC4
+P 7800 3100
+F 0 "KDAT1" H 7800 3135 59  0000 R TNN
+F 1 "W237-103" H 7700 2955 59  0000 L BNN
+F 2 "Keg Cop - Sensors:W237-103" H 7800 3100 50  0001 C CNN
+F 3 "" H 7800 3100 50  0001 C CNN
+	3    7800 3100
+	-1   0    0    1   
+$EndComp
+$EndSCHEMATC

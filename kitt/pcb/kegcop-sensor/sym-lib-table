@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name Keg_Cop_-_Sensors-eagle-import)(type Legacy)(uri ${KIPRJMOD}/Keg_Cop_-_Sensors-eagle-import.lib)(options "")(descr ""))
+)

@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name "Keg Cop - Daisy Chain Screw")(type KiCad)(uri "$(KIPRJMOD)/Keg Cop - Daisy Chain Screw.pretty")(options "")(descr ""))
+)

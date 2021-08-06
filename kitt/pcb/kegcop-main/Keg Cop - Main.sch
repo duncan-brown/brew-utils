@@ -1,0 +1,850 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr User 11693 8584
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Wire Wire Line
+	3900 3100 3900 3500
+Wire Wire Line
+	3900 3500 3900 3900
+Wire Wire Line
+	5900 3100 5400 3100
+Wire Wire Line
+	5400 3100 5000 3100
+Wire Wire Line
+	5000 3100 3900 3100
+Wire Wire Line
+	3700 3900 3900 3900
+Wire Wire Line
+	3900 5400 3900 4800
+Wire Wire Line
+	3900 4800 3900 4700
+Wire Wire Line
+	3900 4700 3900 4300
+Wire Wire Line
+	3900 4300 3900 3900
+Wire Wire Line
+	5000 2900 5000 3100
+Wire Wire Line
+	5400 2900 5400 3100
+Wire Wire Line
+	3900 3100 3700 3100
+Wire Wire Line
+	3700 3500 3900 3500
+Wire Wire Line
+	3700 4300 3900 4300
+Wire Wire Line
+	3700 4700 3900 4700
+Wire Wire Line
+	8200 4900 8300 4900
+Wire Wire Line
+	8200 5200 8300 5200
+Wire Wire Line
+	8200 5200 8200 5500
+Wire Wire Line
+	8200 5500 8300 5500
+Wire Wire Line
+	7900 4800 7900 4900
+Wire Wire Line
+	7900 4900 8200 4900
+Wire Wire Line
+	8200 3800 8200 3500
+Wire Wire Line
+	8200 3500 8200 3200
+Wire Wire Line
+	8200 3200 8200 2300
+Wire Wire Line
+	8200 2300 8200 2000
+Wire Wire Line
+	8200 2000 8200 1700
+Wire Wire Line
+	8200 1700 8300 1700
+Wire Wire Line
+	8200 2000 8300 2000
+Wire Wire Line
+	8200 2300 8300 2300
+Wire Wire Line
+	8200 3200 8300 3200
+Wire Wire Line
+	8200 3500 8300 3500
+Wire Wire Line
+	8200 3800 8300 3800
+Text Label 3900 5375 1    70   ~ 0
+3V3
+Text Label 5500 3100 0    70   ~ 0
+3V3
+Connection ~ 3900 3100
+Connection ~ 3900 3500
+Connection ~ 3900 3900
+Connection ~ 5000 3100
+Connection ~ 5400 3100
+Connection ~ 3900 4300
+Connection ~ 3900 4700
+Connection ~ 3900 4800
+Text Label 8300 4900 0    70   ~ 0
+3V3
+Connection ~ 8200 5200
+Connection ~ 8200 4900
+Connection ~ 8200 2000
+Connection ~ 8200 2300
+Connection ~ 8200 3200
+Connection ~ 8200 3500
+Connection ~ 8200 3800
+Wire Wire Line
+	4600 2800 4600 4500
+Wire Wire Line
+	5900 4500 5400 4500
+Wire Wire Line
+	5400 4500 5000 4500
+Wire Wire Line
+	5000 4500 4600 4500
+Wire Wire Line
+	5000 4400 5000 4500
+Wire Wire Line
+	5400 4400 5400 4500
+Wire Wire Line
+	4600 4500 4600 4700
+Wire Wire Line
+	4600 4700 4900 4700
+Wire Wire Line
+	4900 4700 4900 5400
+Wire Wire Line
+	2900 3100 2900 2800
+Wire Wire Line
+	2900 2800 4600 2800
+Wire Wire Line
+	2900 3100 2300 3100
+Wire Wire Line
+	5400 4500 5400 5300
+Wire Wire Line
+	5400 5300 8100 5300
+Wire Wire Line
+	4600 4700 4600 5000
+Wire Wire Line
+	4600 5000 3000 5000
+Wire Wire Line
+	3000 5000 3000 5200
+Wire Wire Line
+	3000 5200 2900 5200
+Wire Wire Line
+	2900 5200 2500 5200
+Wire Wire Line
+	2900 5400 2900 5200
+Wire Wire Line
+	8100 5300 8100 4100
+Wire Wire Line
+	8100 4100 9200 4100
+Wire Wire Line
+	8100 4100 8100 2500
+Wire Wire Line
+	8100 2500 9200 2500
+Wire Wire Line
+	8100 2500 8100 1000
+Wire Wire Line
+	8100 1000 9200 1000
+Text Label 5500 4500 0    70   ~ 0
+5V
+Connection ~ 5000 4500
+Connection ~ 5400 4500
+Connection ~ 4600 4500
+Text Label 2300 3100 0    70   ~ 0
+5V
+Connection ~ 4600 4700
+Connection ~ 2900 5200
+Connection ~ 8100 4100
+Connection ~ 8100 2500
+Wire Wire Line
+	5000 2400 5400 2400
+Wire Wire Line
+	5400 2400 8000 2400
+Wire Wire Line
+	5000 2400 5000 2600
+Wire Wire Line
+	5400 2400 5400 2600
+Wire Wire Line
+	5000 2400 4200 2400
+Wire Wire Line
+	4200 2400 2700 2400
+Wire Wire Line
+	2700 2400 2700 3200
+Wire Wire Line
+	8000 3100 8000 2900
+Wire Wire Line
+	8000 2900 8000 2400
+Wire Wire Line
+	8000 3100 7300 3100
+Wire Wire Line
+	4200 5400 4200 5200
+Wire Wire Line
+	4200 5200 4200 5100
+Wire Wire Line
+	4200 5100 4200 3800
+Wire Wire Line
+	4200 3800 4200 2400
+Wire Wire Line
+	5400 4100 5400 3800
+Wire Wire Line
+	5400 3800 5000 3800
+Wire Wire Line
+	5000 4100 5000 3800
+Wire Wire Line
+	5000 3800 4200 3800
+Wire Wire Line
+	5000 5400 5000 5200
+Wire Wire Line
+	5000 5200 4200 5200
+Wire Wire Line
+	2700 3200 2300 3200
+Wire Wire Line
+	4200 5100 3100 5100
+Wire Wire Line
+	3100 5100 3100 5300
+Wire Wire Line
+	3100 5300 2700 5300
+Wire Wire Line
+	2700 5300 2500 5300
+Wire Wire Line
+	2700 5400 2700 5300
+Wire Wire Line
+	9200 1200 9100 1200
+Wire Wire Line
+	9100 1200 9100 1400
+Wire Wire Line
+	9100 1400 9200 1400
+Wire Wire Line
+	9100 1400 9100 1600
+Wire Wire Line
+	9100 1600 9200 1600
+Wire Wire Line
+	9100 1400 8000 1400
+Wire Wire Line
+	8000 1400 8000 2400
+Wire Wire Line
+	9200 2700 9100 2700
+Wire Wire Line
+	9100 2700 9100 2900
+Wire Wire Line
+	9200 2900 9100 2900
+Wire Wire Line
+	9100 3100 9100 2900
+Wire Wire Line
+	9100 3100 9200 3100
+Wire Wire Line
+	8000 2900 9100 2900
+Wire Wire Line
+	9200 4300 9100 4300
+Wire Wire Line
+	9100 4300 9100 4500
+Wire Wire Line
+	9100 4500 9200 4500
+Wire Wire Line
+	9100 4500 9100 4700
+Wire Wire Line
+	9100 4700 9200 4700
+Wire Wire Line
+	9100 4500 8000 4500
+Wire Wire Line
+	8000 4500 8000 3100
+Wire Wire Line
+	9100 4300 9100 4000
+Wire Wire Line
+	9100 4000 9200 4000
+Wire Wire Line
+	9100 2700 9100 2400
+Wire Wire Line
+	9100 2400 9200 2400
+Wire Wire Line
+	9100 1200 9100 900 
+Wire Wire Line
+	9100 900  9200 900 
+Text Label 7475 3100 0    70   ~ 0
+GND
+Text Label 4200 5400 1    70   ~ 0
+GND
+Connection ~ 5400 2400
+Connection ~ 5000 2400
+Text Label 2300 3200 0    70   ~ 0
+GND
+Connection ~ 4200 2400
+Connection ~ 5000 3800
+Connection ~ 4200 3800
+Connection ~ 4200 5200
+Connection ~ 4200 5100
+Connection ~ 2700 5300
+Connection ~ 9100 1400
+Connection ~ 8000 2400
+Connection ~ 9100 2900
+Connection ~ 8000 2900
+Connection ~ 9100 4500
+Connection ~ 8000 3100
+Connection ~ 9100 4300
+Connection ~ 9100 2700
+Connection ~ 9100 1200
+Wire Wire Line
+	2300 3800 2900 3800
+Wire Wire Line
+	2900 3800 2900 4700
+Wire Wire Line
+	2900 4700 3300 4700
+Wire Wire Line
+	2500 5100 2800 5100
+Wire Wire Line
+	2800 5100 2900 5100
+Wire Wire Line
+	2900 5100 2900 4700
+Wire Wire Line
+	2800 5400 2800 5100
+Text Label 2300 3800 0    70   ~ 0
+RDAT
+Connection ~ 2900 4700
+Connection ~ 2800 5100
+Wire Wire Line
+	5900 3600 5600 3600
+Text Label 5600 3600 0    70   ~ 0
+RDAT
+Wire Wire Line
+	5900 3700 5600 3700
+Text Label 5600 3700 0    70   ~ 0
+TDAT
+Wire Wire Line
+	3000 4300 3000 3700
+Wire Wire Line
+	3000 3700 2300 3700
+Wire Wire Line
+	3300 4300 3000 4300
+Text Label 2300 3700 0    70   ~ 0
+TDAT
+Wire Wire Line
+	2300 3600 3100 3600
+Wire Wire Line
+	3100 3600 3100 3900
+Wire Wire Line
+	3100 3900 3300 3900
+Text Label 2300 3600 0    70   ~ 0
+UDAT
+Wire Wire Line
+	5900 3800 5600 3800
+Text Label 5600 3800 0    70   ~ 0
+UDAT
+Wire Wire Line
+	2300 3500 3300 3500
+Text Label 2300 3500 0    70   ~ 0
+LDAT
+Wire Wire Line
+	5900 3900 5600 3900
+Text Label 5600 3900 0    70   ~ 0
+LDAT
+Wire Wire Line
+	2300 3400 2600 3400
+Wire Wire Line
+	2600 3400 3100 3400
+Wire Wire Line
+	3100 3400 3100 3100
+Wire Wire Line
+	3100 3100 3300 3100
+Wire Wire Line
+	2300 3300 2600 3300
+Wire Wire Line
+	2600 3300 2600 3400
+Text Label 2300 3400 0    70   ~ 0
+KDAT
+Connection ~ 2600 3400
+Wire Wire Line
+	5900 4100 5700 4100
+Text Label 5700 4100 0    70   ~ 0
+KDAT
+Wire Wire Line
+	4100 5400 4100 4900
+Wire Wire Line
+	4100 4900 7500 4900
+Wire Wire Line
+	7500 4900 7500 4400
+Wire Wire Line
+	7500 4400 7300 4400
+Text Label 4100 5400 1    70   ~ 0
+SOL
+Text Label 7400 4400 0    70   ~ 0
+SOL
+Wire Wire Line
+	4000 5400 4000 4000
+Wire Wire Line
+	4000 4000 5900 4000
+Text Label 5600 4000 0    70   ~ 0
+COOL
+Text Label 4000 5400 1    70   ~ 0
+COOL
+Wire Wire Line
+	7600 4200 7600 4600
+Wire Wire Line
+	7600 4600 9000 4600
+Wire Wire Line
+	9000 4600 9200 4600
+Wire Wire Line
+	9000 4600 9000 5500
+Wire Wire Line
+	9000 5500 8700 5500
+Wire Wire Line
+	7300 4200 7600 4200
+Text Label 8300 4600 0    70   ~ 0
+KEG0
+Connection ~ 9000 4600
+Wire Wire Line
+	9200 4400 8900 4400
+Wire Wire Line
+	8700 5200 8900 5200
+Wire Wire Line
+	8900 5200 8900 4400
+Wire Wire Line
+	7700 4100 7700 4400
+Wire Wire Line
+	7700 4400 8900 4400
+Wire Wire Line
+	7300 4100 7700 4100
+Text Label 8300 4400 0    70   ~ 0
+KEG1
+Connection ~ 8900 4400
+Wire Wire Line
+	8800 4200 9200 4200
+Wire Wire Line
+	8700 4900 8800 4900
+Wire Wire Line
+	8800 4900 8800 4200
+Wire Wire Line
+	7300 4000 7800 4000
+Wire Wire Line
+	7800 4000 7800 4200
+Wire Wire Line
+	7800 4200 8800 4200
+Text Label 8300 4200 0    70   ~ 0
+KEG2
+Connection ~ 8800 4200
+Wire Wire Line
+	7300 3800 7900 3800
+Wire Wire Line
+	7900 3800 7900 3000
+Wire Wire Line
+	9000 3000 9200 3000
+Wire Wire Line
+	8700 3800 9000 3800
+Wire Wire Line
+	9000 3800 9000 3000
+Text Label 8300 3000 0    70   ~ 0
+KEG3
+Connection ~ 9000 3000
+Wire Wire Line
+	7300 3700 7800 3700
+Wire Wire Line
+	7800 3700 7800 2800
+Wire Wire Line
+	8900 2800 9200 2800
+Wire Wire Line
+	8900 3500 8900 2800
+Text Label 8300 2800 0    70   ~ 0
+KEG4
+Connection ~ 8900 2800
+Wire Wire Line
+	7300 3600 7700 3600
+Wire Wire Line
+	7700 3600 7700 2600
+Wire Wire Line
+	8800 2600 9200 2600
+Wire Wire Line
+	8700 3200 8800 3200
+Wire Wire Line
+	8800 3200 8800 2600
+Text Label 8300 2600 0    70   ~ 0
+KEG5
+Connection ~ 8800 2600
+Wire Wire Line
+	7300 3300 7600 3300
+Wire Wire Line
+	7600 3300 7600 1500
+Wire Wire Line
+	7600 1500 9000 1500
+Wire Wire Line
+	9000 1500 9200 1500
+Wire Wire Line
+	9000 2300 9000 1500
+Text Label 8300 1500 0    70   ~ 0
+KEG6
+Connection ~ 9000 1500
+Wire Wire Line
+	9200 1300 8900 1300
+Wire Wire Line
+	8900 1300 7500 1300
+Wire Wire Line
+	7500 1300 7500 3200
+Wire Wire Line
+	7500 3200 7300 3200
+Wire Wire Line
+	8700 2000 8900 2000
+Wire Wire Line
+	8900 2000 8900 1300
+Text Label 8300 1300 0    70   ~ 0
+KEG7
+Connection ~ 8900 1300
+Wire Wire Line
+	5500 4300 5500 3300
+Wire Wire Line
+	5500 3300 5700 3300
+Wire Wire Line
+	5700 3300 5700 1100
+Wire Wire Line
+	5700 1100 8800 1100
+Wire Wire Line
+	8800 1100 9200 1100
+Wire Wire Line
+	8700 1700 8800 1700
+Wire Wire Line
+	8800 1700 8800 1100
+Wire Wire Line
+	5500 4300 5900 4300
+Text Label 8300 1100 0    70   ~ 0
+KEG8
+Connection ~ 8800 1100
+$Comp
+L Keg_Cop_-_Main-eagle-import:WEMOS-D32D32_NO_BATT D32
+U 1 1 8B4B235F
+P 6600 3900
+F 0 "D32" H 6700 3000 59  0000 L BNN
+F 1 "Lolin D32" H 6600 3900 50  0001 C CNN
+F 2 "Keg Cop - Main:D32_NO_BATT" H 6600 3900 50  0001 C CNN
+F 3 "" H 6600 3900 50  0001 C CNN
+	1    6600 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:MA04-1 RELAY1
+U 1 1 E30CABC0
+P 4000 5700
+F 0 "RELAY1" H 3950 5930 59  0000 L BNN
+F 1 "4-PIN" H 3950 5300 59  0000 L BNN
+F 2 "Keg Cop - Main:MA04-1" H 4000 5700 50  0001 C CNN
+F 3 "" H 4000 5700 50  0001 C CNN
+	1    4000 5700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:LETTER_L #FRAME1
+U 1 1 7D0788B5
+P 1000 7700
+F 0 "#FRAME1" H 1000 7700 50  0001 C CNN
+F 1 "LETTER_L" H 1000 7700 50  0001 C CNN
+F 2 "" H 1000 7700 50  0001 C CNN
+F 3 "" H 1000 7700 50  0001 C CNN
+	1    1000 7700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:LETTER_L #FRAME1
+U 2 1 7D0788B9
+P 6800 7700
+F 0 "#FRAME1" H 6800 7700 50  0001 C CNN
+F 1 "LETTER_L" H 6800 7700 50  0001 C CNN
+F 2 "" H 6800 7700 50  0001 C CNN
+F 3 "" H 6800 7700 50  0001 C CNN
+	2    6800 7700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RESISTORAXIAL-0.3 R1
+U 1 1 4E58BAB8
+P 3500 4700
+F 0 "R1" H 3500 4760 70  0000 C BNN
+F 1 "2.2kΩ" H 3500 4640 70  0000 C TNN
+F 2 "Keg Cop - Main:AXIAL-0.3" H 3500 4700 50  0001 C CNN
+F 3 "" H 3500 4700 50  0001 C CNN
+	1    3500 4700
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RESISTORAXIAL-0.3 R2
+U 1 1 D3CBBA5E
+P 3500 4300
+F 0 "R2" H 3500 4360 70  0000 C BNN
+F 1 "2.2kΩ" H 3500 4240 70  0000 C TNN
+F 2 "Keg Cop - Main:AXIAL-0.3" H 3500 4300 50  0001 C CNN
+F 3 "" H 3500 4300 50  0001 C CNN
+	1    3500 4300
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RESISTORAXIAL-0.3 R3
+U 1 1 76ECD3EE
+P 3500 3900
+F 0 "R3" H 3500 3960 70  0000 C BNN
+F 1 "2.2kΩ" H 3500 3840 70  0000 C TNN
+F 2 "Keg Cop - Main:AXIAL-0.3" H 3500 3900 50  0001 C CNN
+F 3 "" H 3500 3900 50  0001 C CNN
+	1    3500 3900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RESISTORAXIAL-0.3 R4
+U 1 1 7570ABFD
+P 3500 3500
+F 0 "R4" H 3500 3560 70  0000 C BNN
+F 1 "2.2kΩ" H 3500 3440 70  0000 C TNN
+F 2 "Keg Cop - Main:AXIAL-0.3" H 3500 3500 50  0001 C CNN
+F 3 "" H 3500 3500 50  0001 C CNN
+	1    3500 3500
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RESISTORAXIAL-0.3 R5
+U 1 1 908A4547
+P 3500 3100
+F 0 "R5" H 3500 3160 70  0000 C BNN
+F 1 "2.2kΩ" H 3500 3040 70  0000 C TNN
+F 2 "Keg Cop - Main:AXIAL-0.3" H 3500 3100 50  0001 C CNN
+F 3 "" H 3500 3100 50  0001 C CNN
+	1    3500 3100
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:HDR-2 POWER1
+U 1 1 5709EAEE
+P 5000 5700
+F 0 "POWER1" H 4950 5930 59  0000 L BNN
+F 1 "2-PIN" H 4950 5500 59  0000 L BNN
+F 2 "Keg Cop - Main:HDR-2_VERT" H 5000 5700 50  0001 C CNN
+F 3 "" H 5000 5700 50  0001 C CNN
+	1    5000 5700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:CAP_CERAMIC_2.54 C1
+U 1 1 92531EF8
+P 5000 2600
+F 0 "C1" H 5060 2815 70  0000 L BNN
+F 1 "0.1μF" H 5060 2615 70  0000 L BNN
+F 2 "Keg Cop - Main:CAP_PTH-2.54" H 5000 2600 50  0001 C CNN
+F 3 "" H 5000 2600 50  0001 C CNN
+	1    5000 2600
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:CAP_CERAMIC_2.54 C2
+U 1 1 17CC23D5
+P 5400 2600
+F 0 "C2" H 5460 2815 70  0000 L BNN
+F 1 "1.0μF" H 5460 2615 70  0000 L BNN
+F 2 "Keg Cop - Main:CAP_PTH-2.54" H 5400 2600 50  0001 C CNN
+F 3 "" H 5400 2600 50  0001 C CNN
+	1    5400 2600
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:CAP_CERAMIC_2.54 C3
+U 1 1 FB282AF6
+P 5000 4100
+F 0 "C3" H 5060 4315 70  0000 L BNN
+F 1 "0.1μF" H 5060 4115 70  0000 L BNN
+F 2 "Keg Cop - Main:CAP_PTH-2.54" H 5000 4100 50  0001 C CNN
+F 3 "" H 5000 4100 50  0001 C CNN
+	1    5000 4100
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:CAP_CERAMIC_2.54 C4
+U 1 1 9314FEE8
+P 5400 4100
+F 0 "C4" H 5460 4315 70  0000 L BNN
+F 1 "1.0μF" H 5460 4115 70  0000 L BNN
+F 2 "Keg Cop - Main:CAP_PTH-2.54" H 5400 4100 50  0001 C CNN
+F 3 "" H 5400 4100 50  0001 C CNN
+	1    5400 4100
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RJ45 X2
+U 1 1 4D5CB0BE
+P 9300 4400
+F 0 "X2" H 9200 4800 59  0000 L BNN
+F 1 "RJ45" H 9200 3780 59  0000 L BNN
+F 2 "Keg Cop - Main:RJ45-NO-SHIELD" H 9300 4400 50  0001 C CNN
+F 3 "" H 9300 4400 50  0001 C CNN
+	1    9300 4400
+	1    0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RJ45 X1
+U 1 1 6F919911
+P 2200 3500
+F 0 "X1" H 2100 3900 59  0000 L BNN
+F 1 "RJ45" H 2100 2880 59  0000 L BNN
+F 2 "Keg Cop - Main:RJ45-NO-SHIELD" H 2200 3500 50  0001 C CNN
+F 3 "" H 2200 3500 50  0001 C CNN
+	1    2200 3500
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:HDR-3 ROOM1
+U 1 1 1CDF512E
+P 2200 5300
+F 0 "ROOM1" H 2150 5630 59  0000 L BNN
+F 1 "3-PIN" H 2150 5100 59  0000 L BNN
+F 2 "Keg Cop - Main:HDR-3_VERT" H 2200 5300 50  0001 C CNN
+F 3 "" H 2200 5300 50  0001 C CNN
+	1    2200 5300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:DS18B20+ IC1
+U 1 1 70C115B1
+P 2900 5400
+F 0 "IC1" H 3650 5700 59  0000 L CNN
+F 1 "DS18B20+" H 3650 5600 59  0000 L CNN
+F 2 "Keg Cop - Main:TO-92" H 2900 5400 50  0001 C CNN
+F 3 "" H 2900 5400 50  0001 C CNN
+	1    2900 5400
+	0    1    1    0   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RJ45 X3
+U 1 1 D04EA57B
+P 9300 2800
+F 0 "X3" H 9200 3200 59  0000 L BNN
+F 1 "RJ45" H 9200 2180 59  0000 L BNN
+F 2 "Keg Cop - Main:RJ45-NO-SHIELD" H 9300 2800 50  0001 C CNN
+F 3 "" H 9300 2800 50  0001 C CNN
+	1    9300 2800
+	1    0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RJ45 X4
+U 1 1 66363CF1
+P 9300 1300
+F 0 "X4" H 9200 1700 59  0000 L BNN
+F 1 "RJ45" H 9200 680 59  0000 L BNN
+F 2 "Keg Cop - Main:RJ45-NO-SHIELD" H 9300 1300 50  0001 C CNN
+F 3 "" H 9300 1300 50  0001 C CNN
+	1    9300 1300
+	1    0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RESISTORAXIAL-0.3 R14
+U 1 1 9B39C16F
+P 8500 5500
+F 0 "R14" H 8500 5560 70  0000 C BNN
+F 1 "2.2kΩ" H 8500 5440 70  0000 C TNN
+F 2 "Keg Cop - Main:AXIAL-0.3" H 8500 5500 50  0001 C CNN
+F 3 "" H 8500 5500 50  0001 C CNN
+	1    8500 5500
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RESISTORAXIAL-0.3 R12
+U 1 1 F42A63F1
+P 8500 4900
+F 0 "R12" H 8500 4960 70  0000 C BNN
+F 1 "2.2kΩ" H 8500 4840 70  0000 C TNN
+F 2 "Keg Cop - Main:AXIAL-0.3" H 8500 4900 50  0001 C CNN
+F 3 "" H 8500 4900 50  0001 C CNN
+	1    8500 4900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RESISTORAXIAL-0.3 R13
+U 1 1 F28FA2DA
+P 8500 5200
+F 0 "R13" H 8500 5260 70  0000 C BNN
+F 1 "2.2kΩ" H 8500 5140 70  0000 C TNN
+F 2 "Keg Cop - Main:AXIAL-0.3" H 8500 5200 50  0001 C CNN
+F 3 "" H 8500 5200 50  0001 C CNN
+	1    8500 5200
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RESISTORAXIAL-0.3 R6
+U 1 1 7C3348C8
+P 8500 1700
+F 0 "R6" H 8500 1760 70  0000 C BNN
+F 1 "2.2kΩ" H 8500 1640 70  0000 C TNN
+F 2 "Keg Cop - Main:AXIAL-0.3" H 8500 1700 50  0001 C CNN
+F 3 "" H 8500 1700 50  0001 C CNN
+	1    8500 1700
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RESISTORAXIAL-0.3 R7
+U 1 1 2E40B747
+P 8500 2000
+F 0 "R7" H 8500 2060 70  0000 C BNN
+F 1 "2.2kΩ" H 8500 1940 70  0000 C TNN
+F 2 "Keg Cop - Main:AXIAL-0.3" H 8500 2000 50  0001 C CNN
+F 3 "" H 8500 2000 50  0001 C CNN
+	1    8500 2000
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RESISTORAXIAL-0.3 R8
+U 1 1 76F8DC68
+P 8500 2300
+F 0 "R8" H 8500 2360 70  0000 C BNN
+F 1 "2.2kΩ" H 8500 2240 70  0000 C TNN
+F 2 "Keg Cop - Main:AXIAL-0.3" H 8500 2300 50  0001 C CNN
+F 3 "" H 8500 2300 50  0001 C CNN
+	1    8500 2300
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RESISTORAXIAL-0.3 R9
+U 1 1 E9D596CF
+P 8500 3200
+F 0 "R9" H 8500 3260 70  0000 C BNN
+F 1 "2.2kΩ" H 8500 3140 70  0000 C TNN
+F 2 "Keg Cop - Main:AXIAL-0.3" H 8500 3200 50  0001 C CNN
+F 3 "" H 8500 3200 50  0001 C CNN
+	1    8500 3200
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RESISTORAXIAL-0.3 R10
+U 1 1 D507D169
+P 8500 3500
+F 0 "R10" H 8500 3560 70  0000 C BNN
+F 1 "2.2kΩ" H 8500 3440 70  0000 C TNN
+F 2 "Keg Cop - Main:AXIAL-0.3" H 8500 3500 50  0001 C CNN
+F 3 "" H 8500 3500 50  0001 C CNN
+	1    8500 3500
+	-1   0    0    1   
+$EndComp
+$Comp
+L Keg_Cop_-_Main-eagle-import:RESISTORAXIAL-0.3 R11
+U 1 1 A5061AE4
+P 8500 3800
+F 0 "R11" H 8500 3860 70  0000 C BNN
+F 1 "2.2kΩ" H 8500 3740 70  0000 C TNN
+F 2 "Keg Cop - Main:AXIAL-0.3" H 8500 3800 50  0001 C CNN
+F 3 "" H 8500 3800 50  0001 C CNN
+	1    8500 3800
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	3900 4800 7900 4800
+Wire Wire Line
+	8200 4900 8200 5200
+Wire Wire Line
+	8200 3800 8200 4900
+Wire Wire Line
+	7900 3000 9000 3000
+Wire Wire Line
+	7800 2800 8900 2800
+Wire Wire Line
+	8700 3500 8900 3500
+Wire Wire Line
+	7700 2600 8800 2600
+Wire Wire Line
+	8700 2300 9000 2300
+$EndSCHEMATC
