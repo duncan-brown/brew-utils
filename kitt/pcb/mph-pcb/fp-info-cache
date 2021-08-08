@@ -1,4 +1,4 @@
-19216177554188187
+19219434427019424
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -55090,6 +55090,13 @@ solder jumper open
 5
 3
 KITT-Footpads
+LDS-A816RI
+
+
+0
+0
+0
+KITT-Footpads
 TTGO_ESP32_TDisplay_v1.1
 
 
@@ -77727,6 +77734,13 @@ Logo WEEE
 0
 0
 0
+TTGO-tdisplay
+TTGO_ESP32_TDisplay_v1.1
+
+
+0
+24
+24
 TerminalBlock
 TerminalBlock_Altech_AK300-2_P5.00mm
 Altech AK300 terminal block, pitch 5.0mm, 45 degree angled, see http://www.mouser.com/ds/2/16/PCBMETRC-24178.pdf
