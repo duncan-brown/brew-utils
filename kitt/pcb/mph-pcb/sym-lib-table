@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name KITT-Symbols)(type Legacy)(uri /Users/dbrown/brew-utils/kitt/pcb/KITT-Symbols.lib)(options "")(descr ""))
+  (lib (name ttgo_esp32)(type Legacy)(uri /Users/dbrown/ttgo-tdisplay-kicad/ttgo_esp32.lib)(options "")(descr ""))
+)
