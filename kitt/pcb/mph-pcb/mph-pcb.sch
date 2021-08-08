@@ -14,17 +14,6 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Driver_LED:TLC5940NT U1
-U 1 1 6110428D
-P 4000 11650
-F 0 "U1" V 4046 10506 50  0000 R CNN
-F 1 "TLC5940NT" V 3955 10506 50  0000 R CNN
-F 2 "Package_DIP:DIP-28_W7.62mm" H 4050 10675 50  0001 L CNN
-F 3 "http://www.ti.com/lit/ds/symlink/tlc5940.pdf" H 3600 12350 50  0001 C CNN
-	1    4000 11650
-	0    -1   -1   0   
-$EndComp
-$Comp
 L power:+5V #PWR0101
 U 1 1 61118DF9
 P 3000 11650
@@ -863,12 +852,506 @@ NoConn ~ 4550 14400
 NoConn ~ 3450 14400
 NoConn ~ 3450 14500
 NoConn ~ 3450 14600
+$Comp
+L Display_Character:LDS-A816RI DISP1
+U 1 1 61139383
+P 3500 9100
+F 0 "DISP1" H 3500 9767 50  0000 C CNN
+F 1 "LDS-A816RI" H 3500 9676 50  0000 C CNN
+F 2 "Display_7Segment:7SegmentLED_LDSA816RI_LDSA816RI" H 3500 8500 50  0001 C CNN
+F 3 "https://datasheet.octopart.com/LTS-6960HR-Lite-On-datasheet-11803242.pdf" H 4450 9050 50  0001 C CNN
+	1    3500 9100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4000 9000 4000 8900
+Connection ~ 4000 8700
+Wire Wire Line
+	4000 8700 4000 8500
+Connection ~ 4000 8800
+Wire Wire Line
+	4000 8800 4000 8700
+Connection ~ 4000 8900
+Wire Wire Line
+	4000 8900 4000 8800
+$Comp
+L power:+5V #PWR?
+U 1 1 6113BF63
+P 4000 8500
+F 0 "#PWR?" H 4000 8350 50  0001 C CNN
+F 1 "+5V" H 4015 8673 50  0000 C CNN
+F 2 "" H 4000 8500 50  0001 C CNN
+F 3 "" H 4000 8500 50  0001 C CNN
+	1    4000 8500
+	1    0    0    -1  
+$EndComp
+NoConn ~ 4000 9400
+$Comp
+L Display_Character:LDS-A816RI DISP2
+U 1 1 6114598A
+P 5000 9100
+F 0 "DISP2" H 5000 9767 50  0000 C CNN
+F 1 "LDS-A816RI" H 5000 9676 50  0000 C CNN
+F 2 "Display_7Segment:7SegmentLED_LDSA816RI_LDSA816RI" H 5000 8500 50  0001 C CNN
+F 3 "https://datasheet.octopart.com/LTS-6960HR-Lite-On-datasheet-11803242.pdf" H 5950 9050 50  0001 C CNN
+	1    5000 9100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5500 9000 5500 8900
+Connection ~ 5500 8700
+Wire Wire Line
+	5500 8700 5500 8500
+Connection ~ 5500 8800
+Wire Wire Line
+	5500 8800 5500 8700
+Connection ~ 5500 8900
+Wire Wire Line
+	5500 8900 5500 8800
+$Comp
+L power:+5V #PWR?
+U 1 1 61145997
+P 5500 8500
+F 0 "#PWR?" H 5500 8350 50  0001 C CNN
+F 1 "+5V" H 5515 8673 50  0000 C CNN
+F 2 "" H 5500 8500 50  0001 C CNN
+F 3 "" H 5500 8500 50  0001 C CNN
+	1    5500 8500
+	1    0    0    -1  
+$EndComp
+NoConn ~ 5500 9400
+$Comp
+L Display_Character:LDS-A816RI DISP3
+U 1 1 61149F6E
+P 6500 9100
+F 0 "DISP3" H 6500 9767 50  0000 C CNN
+F 1 "LDS-A816RI" H 6500 9676 50  0000 C CNN
+F 2 "Display_7Segment:7SegmentLED_LDSA816RI_LDSA816RI" H 6500 8500 50  0001 C CNN
+F 3 "https://datasheet.octopart.com/LTS-6960HR-Lite-On-datasheet-11803242.pdf" H 7450 9050 50  0001 C CNN
+	1    6500 9100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7000 9000 7000 8900
+Connection ~ 7000 8700
+Wire Wire Line
+	7000 8700 7000 8500
+Connection ~ 7000 8800
+Wire Wire Line
+	7000 8800 7000 8700
+Connection ~ 7000 8900
+Wire Wire Line
+	7000 8900 7000 8800
+$Comp
+L power:+5V #PWR?
+U 1 1 61149F7B
+P 7000 8500
+F 0 "#PWR?" H 7000 8350 50  0001 C CNN
+F 1 "+5V" H 7015 8673 50  0000 C CNN
+F 2 "" H 7000 8500 50  0001 C CNN
+F 3 "" H 7000 8500 50  0001 C CNN
+	1    7000 8500
+	1    0    0    -1  
+$EndComp
+NoConn ~ 7000 9400
+$Comp
+L Display_Character:LDS-A816RI DISP4
+U 1 1 6114DA45
+P 8000 9100
+F 0 "DISP4" H 8000 9767 50  0000 C CNN
+F 1 "LDS-A816RI" H 8000 9676 50  0000 C CNN
+F 2 "Display_7Segment:7SegmentLED_LDSA816RI_LDSA816RI" H 8000 8500 50  0001 C CNN
+F 3 "https://datasheet.octopart.com/LTS-6960HR-Lite-On-datasheet-11803242.pdf" H 8950 9050 50  0001 C CNN
+	1    8000 9100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8500 9000 8500 8900
+Connection ~ 8500 8700
+Wire Wire Line
+	8500 8700 8500 8500
+Connection ~ 8500 8800
+Wire Wire Line
+	8500 8800 8500 8700
+Connection ~ 8500 8900
+Wire Wire Line
+	8500 8900 8500 8800
+$Comp
+L power:+5V #PWR?
+U 1 1 6114DA52
+P 8500 8500
+F 0 "#PWR?" H 8500 8350 50  0001 C CNN
+F 1 "+5V" H 8515 8673 50  0000 C CNN
+F 2 "" H 8500 8500 50  0001 C CNN
+F 3 "" H 8500 8500 50  0001 C CNN
+	1    8500 8500
+	1    0    0    -1  
+$EndComp
+NoConn ~ 8500 9400
+Text Label 3000 8800 2    50   ~ 0
+DISP1_A
+Text Label 3000 8900 2    50   ~ 0
+DISP1_B
+Text Label 3000 9000 2    50   ~ 0
+DISP1_C
+Text Label 3000 9100 2    50   ~ 0
+DISP1_D
+Text Label 3000 9200 2    50   ~ 0
+DISP1_E
+Text Label 3000 9300 2    50   ~ 0
+DISP1_F
+Text Label 3000 9400 2    50   ~ 0
+DISP1_G
+Text Label 4000 9500 3    50   ~ 0
+DISP1_RDP
+Text Label 4500 8800 2    50   ~ 0
+DISP2_A
+Text Label 4500 8900 2    50   ~ 0
+DISP2_B
+Text Label 4500 9000 2    50   ~ 0
+DISP2_C
+Text Label 4500 9100 2    50   ~ 0
+DISP2_D
+Text Label 4500 9200 2    50   ~ 0
+DISP2_E
+Text Label 4500 9300 2    50   ~ 0
+DISP2_F
+Text Label 4500 9400 2    50   ~ 0
+DISP2_G
+Text Label 5500 9500 3    50   ~ 0
+DISP2_RDP
+Text Label 6000 8800 2    50   ~ 0
+DISP3_A
+Text Label 6000 8900 2    50   ~ 0
+DISP3_B
+Text Label 6000 9000 2    50   ~ 0
+DISP3_C
+Text Label 6000 9100 2    50   ~ 0
+DISP3_D
+Text Label 6000 9200 2    50   ~ 0
+DISP3_E
+Text Label 6000 9300 2    50   ~ 0
+DISP3_F
+Text Label 6000 9400 2    50   ~ 0
+DISP3_G
+Text Label 7000 9500 3    50   ~ 0
+DISP3_RDP
+Text Label 7500 8800 2    50   ~ 0
+DISP4_A
+Text Label 7500 8900 2    50   ~ 0
+DISP4_B
+Text Label 7500 9000 2    50   ~ 0
+DISP4_C
+Text Label 7500 9100 2    50   ~ 0
+DISP4_D
+Text Label 7500 9200 2    50   ~ 0
+DISP4_E
+Text Label 7500 9300 2    50   ~ 0
+DISP4_F
+Text Label 7500 9400 2    50   ~ 0
+DISP4_G
+Text Label 8500 9500 3    50   ~ 0
+DISP4_RDP
+Entry Wire Line
+	2600 8900 2700 8800
+Entry Wire Line
+	4100 8900 4200 8800
+Entry Wire Line
+	2600 9000 2700 8900
+Entry Wire Line
+	2600 9100 2700 9000
+Entry Wire Line
+	2600 9200 2700 9100
+Entry Wire Line
+	2600 9300 2700 9200
+Entry Wire Line
+	2600 9400 2700 9300
+Entry Wire Line
+	2600 9500 2700 9400
+Entry Wire Line
+	4100 9000 4200 8900
+Entry Wire Line
+	4100 9100 4200 9000
+Entry Wire Line
+	4100 9200 4200 9100
+Entry Wire Line
+	4100 9300 4200 9200
+Entry Wire Line
+	4100 9400 4200 9300
+Entry Wire Line
+	4100 9500 4200 9400
+Entry Wire Line
+	5600 8900 5700 8800
+Entry Wire Line
+	5600 9000 5700 8900
+Entry Wire Line
+	5600 9100 5700 9000
+Entry Wire Line
+	5600 9200 5700 9100
+Entry Wire Line
+	5600 9300 5700 9200
+Entry Wire Line
+	5600 9400 5700 9300
+Entry Wire Line
+	5600 9500 5700 9400
+Entry Wire Line
+	7100 8900 7200 8800
+Entry Wire Line
+	7100 9000 7200 8900
+Entry Wire Line
+	7100 9100 7200 9000
+Entry Wire Line
+	7100 9200 7200 9100
+Entry Wire Line
+	7100 9300 7200 9200
+Entry Wire Line
+	7100 9400 7200 9300
+Entry Wire Line
+	7100 9500 7200 9400
+Entry Wire Line
+	4000 9550 4100 9650
+Entry Wire Line
+	5500 9550 5600 9650
+Entry Wire Line
+	7000 9550 7100 9650
+Entry Wire Line
+	8500 9550 8600 9650
+Wire Bus Line
+	2600 9650 4100 9650
+Wire Bus Line
+	4100 9650 5600 9650
+Connection ~ 4100 9650
+Wire Bus Line
+	7100 9650 8600 9650
+Text Label 3300 10950 1    50   ~ 0
+DISP1_A
+Text Label 3400 10950 1    50   ~ 0
+DISP1_F
+Text Label 3500 10950 1    50   ~ 0
+DISP1_E
+Wire Wire Line
+	4000 9550 4000 9500
+Wire Wire Line
+	5500 9550 5500 9500
+Wire Wire Line
+	7000 9550 7000 9500
+Wire Wire Line
+	8500 9550 8500 9500
+Text Label 3700 10950 1    50   ~ 0
+DISP1_D
+Text Label 4000 10950 1    50   ~ 0
+DISP1_B
+Text Label 4100 10950 1    50   ~ 0
+DISP2_A
+Text Label 4200 10950 1    50   ~ 0
+DISP2_F
+Text Label 4300 10950 1    50   ~ 0
+DISP2_E
+Text Label 4400 10950 1    50   ~ 0
+DISP2_RDP
+Text Label 4500 10950 1    50   ~ 0
+DISP2_D
+Text Label 4600 10950 1    50   ~ 0
+DISP2_C
+Text Label 4700 10950 1    50   ~ 0
+DISP2_G
+Text Label 4800 10950 1    50   ~ 0
+DISP2_B
+Entry Wire Line
+	3500 10400 3600 10500
+Entry Wire Line
+	3400 10400 3500 10500
+Entry Wire Line
+	3300 10400 3400 10500
+Entry Wire Line
+	3200 10400 3300 10500
+Text Label 3600 10950 1    50   ~ 0
+DISP1_RDP
+Entry Wire Line
+	3900 10400 4000 10500
+Entry Wire Line
+	3800 10400 3900 10500
+Entry Wire Line
+	3700 10400 3800 10500
+Entry Wire Line
+	3600 10400 3700 10500
+Entry Wire Line
+	4300 10400 4400 10500
+Entry Wire Line
+	4200 10400 4300 10500
+Entry Wire Line
+	4100 10400 4200 10500
+Entry Wire Line
+	4000 10400 4100 10500
+Entry Wire Line
+	4700 10400 4800 10500
+Entry Wire Line
+	4600 10400 4700 10500
+Entry Wire Line
+	4500 10400 4600 10500
+Entry Wire Line
+	4400 10400 4500 10500
+Wire Wire Line
+	3700 10950 3700 10500
+Wire Wire Line
+	3600 10950 3600 10500
+Wire Wire Line
+	3500 10950 3500 10500
+Wire Wire Line
+	3400 10950 3400 10500
+Wire Wire Line
+	3300 10500 3300 10950
+Text Label 3900 10950 1    50   ~ 0
+DISP1_G
+Text Label 3800 10950 1    50   ~ 0
+DISP1_C
+$Comp
+L Driver_LED:TLC5940NT U1
+U 1 1 6110428D
+P 4000 11650
+F 0 "U1" V 4046 10506 50  0000 R CNN
+F 1 "TLC5940NT" V 3955 10506 50  0000 R CNN
+F 2 "Package_DIP:DIP-28_W7.62mm" H 4050 10675 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/tlc5940.pdf" H 3600 12350 50  0001 C CNN
+	1    4000 11650
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	3800 10950 3800 10500
+Wire Wire Line
+	3900 10950 3900 10500
+Wire Wire Line
+	4000 10500 4000 10950
+Wire Wire Line
+	4100 10500 4100 10950
+Wire Wire Line
+	4200 10500 4200 10950
+Wire Wire Line
+	4300 10500 4300 10950
+Wire Wire Line
+	4400 10500 4400 10950
+Wire Wire Line
+	4500 10500 4500 10950
+Wire Wire Line
+	4600 10500 4600 10950
+Wire Wire Line
+	4700 10500 4700 10950
+Wire Wire Line
+	4800 10500 4800 10950
+Text Label 5900 10950 1    50   ~ 0
+DISP3_A
+Text Label 6000 10950 1    50   ~ 0
+DISP3_F
+Text Label 6100 10950 1    50   ~ 0
+DISP3_E
+Text Label 6300 10950 1    50   ~ 0
+DISP3_D
+Text Label 6600 10950 1    50   ~ 0
+DISP3_B
+Text Label 6700 10950 1    50   ~ 0
+DISP4_A
+Text Label 6800 10950 1    50   ~ 0
+DISP4_F
+Text Label 6900 10950 1    50   ~ 0
+DISP4_E
+Text Label 7000 10950 1    50   ~ 0
+DISP4_RDP
+Text Label 7100 10950 1    50   ~ 0
+DISP4_D
+Text Label 7200 10950 1    50   ~ 0
+DISP4_C
+Text Label 7300 10950 1    50   ~ 0
+DISP4_G
+Text Label 7400 10950 1    50   ~ 0
+DISP4_B
+Entry Wire Line
+	6100 10400 6200 10500
+Entry Wire Line
+	6000 10400 6100 10500
+Entry Wire Line
+	5900 10400 6000 10500
+Entry Wire Line
+	5800 10400 5900 10500
+Text Label 6200 10950 1    50   ~ 0
+DISP3_RDP
+Entry Wire Line
+	6500 10400 6600 10500
+Entry Wire Line
+	6400 10400 6500 10500
+Entry Wire Line
+	6300 10400 6400 10500
+Entry Wire Line
+	6200 10400 6300 10500
+Entry Wire Line
+	6900 10400 7000 10500
+Entry Wire Line
+	6800 10400 6900 10500
+Entry Wire Line
+	6700 10400 6800 10500
+Entry Wire Line
+	6600 10400 6700 10500
+Entry Wire Line
+	7300 10400 7400 10500
+Entry Wire Line
+	7200 10400 7300 10500
+Entry Wire Line
+	7100 10400 7200 10500
+Entry Wire Line
+	7000 10400 7100 10500
+Wire Wire Line
+	6300 10950 6300 10500
+Wire Wire Line
+	6200 10950 6200 10500
+Wire Wire Line
+	6100 10950 6100 10500
+Wire Wire Line
+	6000 10950 6000 10500
+Wire Wire Line
+	5900 10500 5900 10950
+Text Label 6500 10950 1    50   ~ 0
+DISP3_G
+Text Label 6400 10950 1    50   ~ 0
+DISP3_C
+Wire Wire Line
+	6400 10950 6400 10500
+Wire Wire Line
+	6500 10950 6500 10500
+Wire Wire Line
+	6600 10500 6600 10950
+Wire Wire Line
+	6700 10500 6700 10950
+Wire Wire Line
+	6800 10500 6800 10950
+Wire Wire Line
+	6900 10500 6900 10950
+Wire Wire Line
+	7000 10500 7000 10950
+Wire Wire Line
+	7100 10500 7100 10950
+Wire Wire Line
+	7200 10500 7200 10950
+Wire Wire Line
+	7300 10500 7300 10950
+Wire Wire Line
+	7400 10500 7400 10950
 Wire Bus Line
 	2900 13250 2900 14700
 Wire Bus Line
 	5150 13250 5150 14800
 Wire Bus Line
+	2600 8900 2600 9650
+Wire Bus Line
+	4100 8900 4100 9650
+Wire Bus Line
+	5600 8900 5600 9650
+Wire Bus Line
+	7100 8900 7100 9650
+Wire Bus Line
 	2900 13250 5150 13250
+Wire Bus Line
+	3200 10400 4700 10400
+Wire Bus Line
+	5800 10400 7300 10400
 Wire Bus Line
 	5150 13250 20300 13250
 $EndSCHEMATC
