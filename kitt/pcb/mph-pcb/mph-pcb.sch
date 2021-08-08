@@ -7,7 +7,7 @@ Sheet 1 1
 Title "KITT MPH PCB"
 Date "2021-08-09"
 Rev "1"
-Comp ""
+Comp "Duncan Brown"
 Comment1 "Green LEDs connected to power"
 Comment2 "Yellow LEDs connected to TLC5940"
 Comment3 "Red LEDs connected to TLC5940"
