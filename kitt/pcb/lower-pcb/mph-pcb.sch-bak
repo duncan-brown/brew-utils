@@ -1,0 +1,452 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Driver_LED:TLC5940NT U1
+U 1 1 6110428D
+P 2100 3800
+F 0 "U1" V 2146 2656 50  0000 R CNN
+F 1 "TLC5940NT" V 2055 2656 50  0000 R CNN
+F 2 "Package_DIP:DIP-28_W7.62mm" H 2150 2825 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/tlc5940.pdf" H 1700 4500 50  0001 C CNN
+	1    2100 3800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 61118DF9
+P 1100 3800
+F 0 "#PWR?" H 1100 3650 50  0001 C CNN
+F 1 "+5V" H 1115 3973 50  0000 C CNN
+F 2 "" H 1100 3800 50  0001 C CNN
+F 3 "" H 1100 3800 50  0001 C CNN
+	1    1100 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 61119761
+P 3200 3800
+F 0 "#PWR?" H 3200 3550 50  0001 C CNN
+F 1 "GND" H 3205 3627 50  0000 C CNN
+F 2 "" H 3200 3800 50  0001 C CNN
+F 3 "" H 3200 3800 50  0001 C CNN
+	1    3200 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 6111817F
+P 1550 7150
+F 0 "#PWR?" H 1550 6900 50  0001 C CNN
+F 1 "GND" V 1555 7022 50  0000 R CNN
+F 2 "" H 1550 7150 50  0001 C CNN
+F 3 "" H 1550 7150 50  0001 C CNN
+	1    1550 7150
+	0    1    -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 61118275
+P 1550 7050
+F 0 "#PWR?" H 1550 6800 50  0001 C CNN
+F 1 "GND" V 1555 6922 50  0000 R CNN
+F 2 "" H 1550 7050 50  0001 C CNN
+F 3 "" H 1550 7050 50  0001 C CNN
+	1    1550 7050
+	0    1    -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 611170F6
+P 2650 7150
+F 0 "#PWR?" H 2650 6900 50  0001 C CNN
+F 1 "GND" V 2655 7022 50  0000 R CNN
+F 2 "" H 2650 7150 50  0001 C CNN
+F 3 "" H 2650 7150 50  0001 C CNN
+	1    2650 7150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 611160CA
+P 1550 6250
+F 0 "#PWR?" H 1550 6000 50  0001 C CNN
+F 1 "GND" V 1555 6122 50  0000 R CNN
+F 2 "" H 1550 6250 50  0001 C CNN
+F 3 "" H 1550 6250 50  0001 C CNN
+	1    1550 6250
+	0    1    -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 61114FA9
+P 1550 6150
+F 0 "#PWR?" H 1550 5900 50  0001 C CNN
+F 1 "GND" V 1555 6022 50  0000 R CNN
+F 2 "" H 1550 6150 50  0001 C CNN
+F 3 "" H 1550 6150 50  0001 C CNN
+	1    1550 6150
+	0    1    -1   0   
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 61112410
+P 2650 7250
+F 0 "#PWR?" H 2650 7100 50  0001 C CNN
+F 1 "+5V" V 2665 7378 50  0000 L CNN
+F 2 "" H 2650 7250 50  0001 C CNN
+F 3 "" H 2650 7250 50  0001 C CNN
+	1    2650 7250
+	0    1    1    0   
+$EndComp
+$Comp
+L ttgo_esp32:TTGO_ESP32_TDISPLAY_V1.1 TTGO1
+U 1 1 610FD390
+P 1750 7300
+F 0 "TTGO1" H 2100 8737 60  0000 C CNN
+F 1 "TTGO_ESP32_TDISPLAY_V1.1" H 2100 8631 60  0000 C CNN
+F 2 "TTGO-tdisplay:TTGO_ESP32_TDisplay_v1.1" H 1750 7300 60  0001 C CNN
+F 3 "" H 1750 7300 60  0001 C CNN
+	1    1750 7300
+	1    0    0    -1  
+$EndComp
+Text Label 2650 7050 0    50   ~ 0
+BLANK
+Text Label 2650 6950 0    50   ~ 0
+XLAT
+Text Label 2650 6850 0    50   ~ 0
+SCLK
+Text Label 2650 6750 0    50   ~ 0
+SIN_1
+Text Label 2650 6650 0    50   ~ 0
+VPRG
+Text Label 1550 6950 2    50   ~ 0
+GSCLK
+Text Label 2650 6350 0    50   ~ 0
+DCPRG
+Wire Wire Line
+	2650 6450 2650 6350
+Text Label 1550 6850 2    50   ~ 0
+SOUT_RETURN
+Connection ~ 3250 5400
+Entry Wire Line
+	3150 7050 3250 6950
+Wire Wire Line
+	2650 7050 3150 7050
+Entry Wire Line
+	3150 6650 3250 6550
+Entry Wire Line
+	3150 6950 3250 6850
+Entry Wire Line
+	3150 6850 3250 6750
+Entry Wire Line
+	3150 6350 3250 6250
+Wire Wire Line
+	2650 6950 3150 6950
+Wire Wire Line
+	2650 6850 3150 6850
+Wire Wire Line
+	3150 6650 2650 6650
+Wire Wire Line
+	3150 6350 2650 6350
+Connection ~ 2650 6350
+Entry Wire Line
+	1000 6850 1100 6950
+Wire Bus Line
+	1000 5400 1000 6850
+Wire Wire Line
+	1100 6950 1550 6950
+Text Label 2900 4500 3    50   ~ 0
+SIN_2
+Text Label 2800 4500 3    50   ~ 0
+SIN_1
+Text Label 2700 4500 3    50   ~ 0
+SCLK
+Text Label 2000 4500 3    50   ~ 0
+XLAT
+Text Label 1900 4500 3    50   ~ 0
+BLANK
+Text Label 1700 4500 3    50   ~ 0
+GSCLK
+Text Label 1600 4500 3    50   ~ 0
+DCPRG
+Text Label 1400 4500 3    50   ~ 0
+VPRG
+Entry Wire Line
+	3150 6750 3250 6650
+Wire Wire Line
+	2650 6750 3150 6750
+$Comp
+L Device:R R1
+U 1 1 6113DDEC
+P 1500 4900
+F 0 "R1" H 1570 4946 50  0000 L CNN
+F 1 "2.2K" H 1570 4855 50  0000 L CNN
+F 2 "" V 1430 4900 50  0001 C CNN
+F 3 "~" H 1500 4900 50  0001 C CNN
+	1    1500 4900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1500 4500 1500 4750
+$Comp
+L power:GND #PWR?
+U 1 1 61140F39
+P 1500 5050
+F 0 "#PWR?" H 1500 4800 50  0001 C CNN
+F 1 "GND" H 1505 4877 50  0000 C CNN
+F 2 "" H 1500 5050 50  0001 C CNN
+F 3 "" H 1500 5050 50  0001 C CNN
+	1    1500 5050
+	1    0    0    -1  
+$EndComp
+Entry Wire Line
+	1300 5400 1400 5300
+Wire Wire Line
+	1400 4500 1400 5300
+Entry Wire Line
+	1600 5400 1700 5300
+Wire Wire Line
+	1700 4500 1700 5300
+Wire Wire Line
+	1900 4500 1900 5300
+Wire Wire Line
+	2000 4500 2000 5300
+Wire Wire Line
+	2700 4500 2700 5300
+Wire Wire Line
+	2800 4500 2800 5300
+Wire Wire Line
+	2900 4500 2900 5300
+Entry Wire Line
+	1800 5400 1900 5300
+Entry Wire Line
+	1900 5400 2000 5300
+Entry Wire Line
+	2600 5400 2700 5300
+Entry Wire Line
+	2700 5400 2800 5300
+Entry Wire Line
+	2800 5400 2900 5300
+$Comp
+L Driver_LED:TLC5940NT U2
+U 1 1 6114CC1E
+P 4700 3800
+F 0 "U2" V 4746 2656 50  0000 R CNN
+F 1 "TLC5940NT" V 4655 2656 50  0000 R CNN
+F 2 "Package_DIP:DIP-28_W7.62mm" H 4750 2825 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/tlc5940.pdf" H 4300 4500 50  0001 C CNN
+	1    4700 3800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 6114CC24
+P 3700 3800
+F 0 "#PWR?" H 3700 3650 50  0001 C CNN
+F 1 "+5V" H 3715 3973 50  0000 C CNN
+F 2 "" H 3700 3800 50  0001 C CNN
+F 3 "" H 3700 3800 50  0001 C CNN
+	1    3700 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 6114CC2A
+P 5800 3800
+F 0 "#PWR?" H 5800 3550 50  0001 C CNN
+F 1 "GND" H 5805 3627 50  0000 C CNN
+F 2 "" H 5800 3800 50  0001 C CNN
+F 3 "" H 5800 3800 50  0001 C CNN
+	1    5800 3800
+	1    0    0    -1  
+$EndComp
+Text Label 5500 4500 3    50   ~ 0
+SIN_3
+Text Label 5400 4500 3    50   ~ 0
+SIN_2
+Text Label 5300 4500 3    50   ~ 0
+SCLK
+Text Label 4600 4500 3    50   ~ 0
+XLAT
+Text Label 4500 4500 3    50   ~ 0
+BLANK
+Text Label 4300 4500 3    50   ~ 0
+GSCLK
+Text Label 4200 4500 3    50   ~ 0
+DCPRG
+Text Label 4000 4500 3    50   ~ 0
+VPRG
+$Comp
+L Device:R R2
+U 1 1 6114CC38
+P 4100 4900
+F 0 "R2" H 4170 4946 50  0000 L CNN
+F 1 "2.2K" H 4170 4855 50  0000 L CNN
+F 2 "" V 4030 4900 50  0001 C CNN
+F 3 "~" H 4100 4900 50  0001 C CNN
+	1    4100 4900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4100 4500 4100 4750
+$Comp
+L power:GND #PWR?
+U 1 1 6114CC3F
+P 4100 5050
+F 0 "#PWR?" H 4100 4800 50  0001 C CNN
+F 1 "GND" H 4105 4877 50  0000 C CNN
+F 2 "" H 4100 5050 50  0001 C CNN
+F 3 "" H 4100 5050 50  0001 C CNN
+	1    4100 5050
+	1    0    0    -1  
+$EndComp
+Entry Wire Line
+	3900 5400 4000 5300
+Wire Wire Line
+	4000 4500 4000 5300
+Entry Wire Line
+	4200 5400 4300 5300
+Wire Wire Line
+	4300 4500 4300 5300
+Wire Wire Line
+	4500 4500 4500 5300
+Wire Wire Line
+	4600 4500 4600 5300
+Wire Wire Line
+	5300 4500 5300 5300
+Wire Wire Line
+	5400 4500 5400 5300
+Wire Wire Line
+	5500 4500 5500 5300
+Entry Wire Line
+	4400 5400 4500 5300
+Entry Wire Line
+	4500 5400 4600 5300
+Entry Wire Line
+	5200 5400 5300 5300
+Entry Wire Line
+	5300 5400 5400 5300
+Entry Wire Line
+	5400 5400 5500 5300
+$Comp
+L Driver_LED:TLC5940NT U?
+U 1 1 6115B8C6
+P 7300 3800
+F 0 "U?" V 7346 2656 50  0000 R CNN
+F 1 "TLC5940NT" V 7255 2656 50  0000 R CNN
+F 2 "Package_DIP:DIP-28_W7.62mm" H 7350 2825 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/tlc5940.pdf" H 6900 4500 50  0001 C CNN
+	1    7300 3800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 6115B8CC
+P 6300 3800
+F 0 "#PWR?" H 6300 3650 50  0001 C CNN
+F 1 "+5V" H 6315 3973 50  0000 C CNN
+F 2 "" H 6300 3800 50  0001 C CNN
+F 3 "" H 6300 3800 50  0001 C CNN
+	1    6300 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 6115B8D2
+P 8400 3800
+F 0 "#PWR?" H 8400 3550 50  0001 C CNN
+F 1 "GND" H 8405 3627 50  0000 C CNN
+F 2 "" H 8400 3800 50  0001 C CNN
+F 3 "" H 8400 3800 50  0001 C CNN
+	1    8400 3800
+	1    0    0    -1  
+$EndComp
+Text Label 8100 4500 3    50   ~ 0
+SIN_2
+Text Label 8000 4500 3    50   ~ 0
+SIN_1
+Text Label 7900 4500 3    50   ~ 0
+SCLK
+Text Label 7200 4500 3    50   ~ 0
+XLAT
+Text Label 7100 4500 3    50   ~ 0
+BLANK
+Text Label 6900 4500 3    50   ~ 0
+GSCLK
+Text Label 6800 4500 3    50   ~ 0
+DCPRG
+Text Label 6600 4500 3    50   ~ 0
+VPRG
+$Comp
+L Device:R R?
+U 1 1 6115B8E0
+P 6700 4900
+F 0 "R?" H 6770 4946 50  0000 L CNN
+F 1 "2.2K" H 6770 4855 50  0000 L CNN
+F 2 "" V 6630 4900 50  0001 C CNN
+F 3 "~" H 6700 4900 50  0001 C CNN
+	1    6700 4900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6700 4500 6700 4750
+$Comp
+L power:GND #PWR?
+U 1 1 6115B8E7
+P 6700 5050
+F 0 "#PWR?" H 6700 4800 50  0001 C CNN
+F 1 "GND" H 6705 4877 50  0000 C CNN
+F 2 "" H 6700 5050 50  0001 C CNN
+F 3 "" H 6700 5050 50  0001 C CNN
+	1    6700 5050
+	1    0    0    -1  
+$EndComp
+Entry Wire Line
+	6500 5400 6600 5300
+Wire Wire Line
+	6600 4500 6600 5300
+Entry Wire Line
+	6800 5400 6900 5300
+Wire Wire Line
+	6900 4500 6900 5300
+Wire Wire Line
+	7100 4500 7100 5300
+Wire Wire Line
+	7200 4500 7200 5300
+Wire Wire Line
+	7900 4500 7900 5300
+Wire Wire Line
+	8000 4500 8000 5300
+Wire Wire Line
+	8100 4500 8100 5300
+Entry Wire Line
+	7000 5400 7100 5300
+Entry Wire Line
+	7100 5400 7200 5300
+Entry Wire Line
+	7800 5400 7900 5300
+Entry Wire Line
+	7900 5400 8000 5300
+Entry Wire Line
+	8000 5400 8100 5300
+Wire Bus Line
+	3250 5400 3250 6950
+Wire Bus Line
+	1000 5400 3250 5400
+Wire Bus Line
+	3250 5400 11000 5400
+$EndSCHEMATC
