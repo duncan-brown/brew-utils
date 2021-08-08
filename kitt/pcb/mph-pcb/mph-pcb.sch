@@ -4,14 +4,14 @@ EELAYER END
 $Descr A2 23386 16535
 encoding utf-8
 Sheet 1 1
-Title ""
-Date ""
-Rev ""
+Title "KITT MPH PCB"
+Date "2021-08-09"
+Rev "1"
 Comp ""
-Comment1 ""
-Comment2 ""
-Comment3 ""
-Comment4 ""
+Comment1 "Green LEDs connected to power"
+Comment2 "Yellow LEDs connected to TLC5940"
+Comment3 "Red LEDs connected to TLC5940"
+Comment4 "7 segment displays connected to TLC5940"
 $EndDescr
 $Comp
 L power:GND #PWR0103
