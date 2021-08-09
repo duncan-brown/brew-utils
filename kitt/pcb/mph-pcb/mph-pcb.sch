@@ -80,7 +80,7 @@ F 3 "" H 6450 15300 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L ttgo_esp32:TTGO_ESP32_TDISPLAY_V1.1 TTGO1
+L KITT-Symbols:TTGO_ESP32_TDISPLAY_V1.1 TTGO1
 U 1 1 610FD390
 P 4850 15350
 F 0 "TTGO1" H 5200 16787 60  0000 C CNN
@@ -2515,17 +2515,6 @@ HV_TX
 Text Label 2900 14500 2    50   ~ 0
 HV_RX
 $Comp
-L Converter_DCDC:OKI-78SR-3.3_1.5-W36H-C PWR1
-U 1 1 615C46C8
-P 2800 13250
-F 0 "PWR1" H 2800 13492 50  0000 C CNN
-F 1 "OKI-78SR-3.3_1.5-W36H-C" H 2800 13401 50  0000 C CNN
-F 2 "Converter_DCDC:Converter_DCDC_muRata_OKI-78SR_Horizontal" H 2850 13000 50  0001 L CIN
-F 3 "https://power.murata.com/data/power/oki-78sr.pdf" H 2800 13250 50  0001 C CNN
-	1    2800 13250
-	1    0    0    -1  
-$EndComp
-$Comp
 L power:+5V #PWR0150
 U 1 1 61608554
 P 3550 13250
@@ -4336,6 +4325,9 @@ F 3 "" H 21100 12950 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	20800 12950 20600 12950
+Connection ~ 20600 12950
+Wire Wire Line
+	20600 12950 20600 13350
 Wire Bus Line
 	11650 5050 13500 5050
 Wire Bus Line
@@ -4376,7 +4368,15 @@ Wire Bus Line
 	6150 13450 21500 13450
 Wire Bus Line
 	4400 10250 20700 10250
-Connection ~ 20600 12950
-Wire Wire Line
-	20600 12950 20600 13350
+$Comp
+L KITT-Symbols:OKI-78SR-5_1.5-W36H-C PWR1
+U 1 1 6117F50F
+P 2800 13250
+F 0 "PWR1" H 2800 13492 50  0000 C CNN
+F 1 "OKI-78SR-5_1.5-W36H-C" H 2800 13401 50  0000 C CNN
+F 2 "Converter_DCDC:Converter_DCDC_muRata_OKI-78SR_Horizontal" H 2850 13000 50  0001 L CIN
+F 3 "https://power.murata.com/data/power/oki-78sr.pdf" H 2800 13250 50  0001 C CNN
+	1    2800 13250
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
