@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name KITT-Symbols)(type Legacy)(uri /Users/dbrown/brew-utils/kitt/pcb/KITT-Symbols.lib)(options "")(descr ""))
+)
