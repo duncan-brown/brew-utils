@@ -72,29 +72,29 @@ Entry Wire Line
 Entry Wire Line
 	12250 4350 12350 4250
 Text Label 14000 3850 3    50   ~ 0
-KEG_CAP_R_L
+GLK_T_R_L
 Text Label 13850 3850 3    50   ~ 0
-KEG_CAP_R_K
+GLK_T_R_K
 Text Label 13700 3850 3    50   ~ 0
-KEG_CAP_R_J
+GLK_T_R_J
 Text Label 13550 3850 3    50   ~ 0
-KEG_CAP_R_I
+GLK_T_R_I
 Text Label 13400 3850 3    50   ~ 0
-KEG_CAP_R_H
+GLK_T_R_H
 Text Label 13250 3850 3    50   ~ 0
-KEG_CAP_R_G
+GLK_T_R_G
 Text Label 13100 3850 3    50   ~ 0
-KEG_CAP_R_F
+GLK_T_R_F
 Text Label 12950 3850 3    50   ~ 0
-KEG_CAP_R_E
+GLK_T_R_E
 Text Label 12800 3850 3    50   ~ 0
-KEG_CAP_R_D
+GLK_T_R_D
 Text Label 12650 3850 3    50   ~ 0
-KEG_CAP_R_C
+GLK_T_R_C
 Text Label 12500 3850 3    50   ~ 0
-KEG_CAP_R_B
+GLK_T_R_B
 Text Label 12350 3850 3    50   ~ 0
-KEG_CAP_R_A
+GLK_T_R_A
 Wire Wire Line
 	11250 3850 11250 4250
 Wire Wire Line
@@ -144,29 +144,29 @@ Entry Wire Line
 Entry Wire Line
 	9500 4350 9600 4250
 Text Label 11250 3850 3    50   ~ 0
-KEG_CAP_L_L
+GLK_T_L_L
 Text Label 11100 3850 3    50   ~ 0
-KEG_CAP_L_K
+GLK_T_L_K
 Text Label 10950 3850 3    50   ~ 0
-KEG_CAP_L_J
+GLK_T_L_J
 Text Label 10800 3850 3    50   ~ 0
-KEG_CAP_L_I
+GLK_T_L_I
 Text Label 10650 3850 3    50   ~ 0
-KEG_CAP_L_H
+GLK_T_L_H
 Text Label 10500 3850 3    50   ~ 0
-KEG_CAP_L_G
+GLK_T_L_G
 Text Label 10350 3850 3    50   ~ 0
-KEG_CAP_L_F
+GLK_T_L_F
 Text Label 10200 3850 3    50   ~ 0
-KEG_CAP_L_E
+GLK_T_L_E
 Text Label 10050 3850 3    50   ~ 0
-KEG_CAP_L_D
+GLK_T_L_D
 Text Label 9900 3850 3    50   ~ 0
-KEG_CAP_L_C
+GLK_T_L_C
 Text Label 9750 3850 3    50   ~ 0
-KEG_CAP_L_B
+GLK_T_L_B
 Text Label 9600 3850 3    50   ~ 0
-KEG_CAP_L_A
+GLK_T_L_A
 Wire Wire Line
 	7900 9250 7900 9650
 Wire Wire Line
@@ -216,29 +216,29 @@ Entry Wire Line
 Entry Wire Line
 	6150 9750 6250 9650
 Text Label 7900 9250 3    50   ~ 0
-LAGER_R_L
+KEG_CAP_R_L
 Text Label 7750 9250 3    50   ~ 0
-LAGER_R_K
+KEG_CAP_R_K
 Text Label 7600 9250 3    50   ~ 0
-LAGER_R_J
+KEG_CAP_R_J
 Text Label 7450 9250 3    50   ~ 0
-LAGER_R_I
+KEG_CAP_R_I
 Text Label 7300 9250 3    50   ~ 0
-LAGER_R_H
+KEG_CAP_R_H
 Text Label 7150 9250 3    50   ~ 0
-LAGER_R_G
+KEG_CAP_R_G
 Text Label 7000 9250 3    50   ~ 0
-LAGER_R_F
+KEG_CAP_R_F
 Text Label 6850 9250 3    50   ~ 0
-LAGER_R_E
+KEG_CAP_R_E
 Text Label 6700 9250 3    50   ~ 0
-LAGER_R_D
+KEG_CAP_R_D
 Text Label 6550 9250 3    50   ~ 0
-LAGER_R_C
+KEG_CAP_R_C
 Text Label 6400 9250 3    50   ~ 0
-LAGER_R_B
+KEG_CAP_R_B
 Text Label 6250 9250 3    50   ~ 0
-LAGER_R_A
+KEG_CAP_R_A
 Wire Wire Line
 	5150 9250 5150 9650
 Wire Wire Line
@@ -288,29 +288,29 @@ Entry Wire Line
 Entry Wire Line
 	3400 9750 3500 9650
 Text Label 5150 9250 3    50   ~ 0
-LAGER_L_L
+KEG_CAP_L_L
 Text Label 5000 9250 3    50   ~ 0
-LAGER_L_K
+KEG_CAP_L_K
 Text Label 4850 9250 3    50   ~ 0
-LAGER_L_J
+KEG_CAP_L_J
 Text Label 4700 9250 3    50   ~ 0
-LAGER_L_I
+KEG_CAP_L_I
 Text Label 4550 9250 3    50   ~ 0
-LAGER_L_H
+KEG_CAP_L_H
 Text Label 4400 9250 3    50   ~ 0
-LAGER_L_G
+KEG_CAP_L_G
 Text Label 4250 9250 3    50   ~ 0
-LAGER_L_F
+KEG_CAP_L_F
 Text Label 4100 9250 3    50   ~ 0
-LAGER_L_E
+KEG_CAP_L_E
 Text Label 3950 9250 3    50   ~ 0
-LAGER_L_D
+KEG_CAP_L_D
 Text Label 3800 9250 3    50   ~ 0
-LAGER_L_C
+KEG_CAP_L_C
 Text Label 3650 9250 3    50   ~ 0
-LAGER_L_B
+KEG_CAP_L_B
 Text Label 3500 9250 3    50   ~ 0
-LAGER_L_A
+KEG_CAP_L_A
 Wire Wire Line
 	7900 6500 7900 6900
 Wire Wire Line
@@ -360,29 +360,29 @@ Entry Wire Line
 Entry Wire Line
 	6150 7000 6250 6900
 Text Label 7900 6500 3    50   ~ 0
-LAGER_R_L
+KEG_CAP_R_L
 Text Label 7750 6500 3    50   ~ 0
-LAGER_R_K
+KEG_CAP_R_K
 Text Label 7600 6500 3    50   ~ 0
-LAGER_R_J
+KEG_CAP_R_J
 Text Label 7450 6500 3    50   ~ 0
-LAGER_R_I
+KEG_CAP_R_I
 Text Label 7300 6500 3    50   ~ 0
-LAGER_R_H
+KEG_CAP_R_H
 Text Label 7150 6500 3    50   ~ 0
-LAGER_R_G
+KEG_CAP_R_G
 Text Label 7000 6500 3    50   ~ 0
-LAGER_R_F
+KEG_CAP_R_F
 Text Label 6850 6500 3    50   ~ 0
-LAGER_R_E
+KEG_CAP_R_E
 Text Label 6700 6500 3    50   ~ 0
-LAGER_R_D
+KEG_CAP_R_D
 Text Label 6550 6500 3    50   ~ 0
-LAGER_R_C
+KEG_CAP_R_C
 Text Label 6400 6500 3    50   ~ 0
-LAGER_R_B
+KEG_CAP_R_B
 Text Label 6250 6500 3    50   ~ 0
-LAGER_R_A
+KEG_CAP_R_A
 Wire Wire Line
 	5150 6500 5150 6900
 Wire Wire Line
@@ -432,29 +432,29 @@ Entry Wire Line
 Entry Wire Line
 	3400 7000 3500 6900
 Text Label 5150 6500 3    50   ~ 0
-LAGER_L_L
+KEG_CAP_L_L
 Text Label 5000 6500 3    50   ~ 0
-LAGER_L_K
+KEG_CAP_L_K
 Text Label 4850 6500 3    50   ~ 0
-LAGER_L_J
+KEG_CAP_L_J
 Text Label 4700 6500 3    50   ~ 0
-LAGER_L_I
+KEG_CAP_L_I
 Text Label 4550 6500 3    50   ~ 0
-LAGER_L_H
+KEG_CAP_L_H
 Text Label 4400 6500 3    50   ~ 0
-LAGER_L_G
+KEG_CAP_L_G
 Text Label 4250 6500 3    50   ~ 0
-LAGER_L_F
+KEG_CAP_L_F
 Text Label 4100 6500 3    50   ~ 0
-LAGER_L_E
+KEG_CAP_L_E
 Text Label 3950 6500 3    50   ~ 0
-LAGER_L_D
+KEG_CAP_L_D
 Text Label 3800 6500 3    50   ~ 0
-LAGER_L_C
+KEG_CAP_L_C
 Text Label 3650 6500 3    50   ~ 0
-LAGER_L_B
+KEG_CAP_L_B
 Text Label 3500 6500 3    50   ~ 0
-LAGER_L_A
+KEG_CAP_L_A
 Text Label 8000 12500 3    50   ~ 0
 SIG_8
 Wire Wire Line
@@ -802,11 +802,11 @@ Wire Wire Line
 Wire Wire Line
 	8000 10300 8000 11100
 Text Label 8000 11100 1    50   ~ 0
-LAGER_R_L
+KEG_CAP_R_L
 Text Label 7900 11100 1    50   ~ 0
-LAGER_R_K
+KEG_CAP_R_K
 Text Label 7800 11100 1    50   ~ 0
-LAGER_R_J
+KEG_CAP_R_J
 Wire Wire Line
 	7200 11100 7200 10300
 Entry Wire Line
@@ -832,17 +832,17 @@ Wire Wire Line
 Wire Wire Line
 	7300 10300 7300 11100
 Text Label 7700 11100 1    50   ~ 0
-LAGER_R_I
+KEG_CAP_R_I
 Text Label 7600 11100 1    50   ~ 0
-LAGER_R_H
+KEG_CAP_R_H
 Text Label 7500 11100 1    50   ~ 0
-LAGER_R_G
+KEG_CAP_R_G
 Text Label 7400 11100 1    50   ~ 0
-LAGER_R_F
+KEG_CAP_R_F
 Text Label 7300 11100 1    50   ~ 0
-LAGER_R_E
+KEG_CAP_R_E
 Text Label 7200 11100 1    50   ~ 0
-LAGER_R_D
+KEG_CAP_R_D
 Entry Wire Line
 	7000 10200 7100 10300
 Entry Wire Line
@@ -856,9 +856,9 @@ Wire Wire Line
 Wire Wire Line
 	7100 11100 7100 10300
 Text Label 7100 11100 1    50   ~ 0
-LAGER_R_C
+KEG_CAP_R_C
 Text Label 7000 11100 1    50   ~ 0
-LAGER_R_B
+KEG_CAP_R_B
 NoConn ~ 3900 11100
 Wire Wire Line
 	7000 12900 7000 13300
@@ -927,11 +927,11 @@ Wire Wire Line
 Wire Wire Line
 	5400 10300 5400 11100
 Text Label 5400 11100 1    50   ~ 0
-LAGER_L_L
+KEG_CAP_L_L
 Text Label 5300 11100 1    50   ~ 0
-LAGER_L_K
+KEG_CAP_L_K
 Text Label 5200 11100 1    50   ~ 0
-LAGER_L_J
+KEG_CAP_L_J
 Wire Wire Line
 	4600 11100 4600 10300
 Entry Wire Line
@@ -957,17 +957,17 @@ Wire Wire Line
 Wire Wire Line
 	4700 10300 4700 11100
 Text Label 5100 11100 1    50   ~ 0
-LAGER_L_I
+KEG_CAP_L_I
 Text Label 5000 11100 1    50   ~ 0
-LAGER_L_H
+KEG_CAP_L_H
 Text Label 4900 11100 1    50   ~ 0
-LAGER_L_G
+KEG_CAP_L_G
 Text Label 4800 11100 1    50   ~ 0
-LAGER_L_F
+KEG_CAP_L_F
 Text Label 4700 11100 1    50   ~ 0
-LAGER_L_E
+KEG_CAP_L_E
 Text Label 4600 11100 1    50   ~ 0
-LAGER_L_D
+KEG_CAP_L_D
 Wire Wire Line
 	4000 11100 4000 10300
 Entry Wire Line
@@ -983,17 +983,17 @@ Wire Wire Line
 Wire Wire Line
 	4100 10300 4100 11100
 Text Label 4500 11100 1    50   ~ 0
-LAGER_L_C
+KEG_CAP_L_C
 Text Label 4400 11100 1    50   ~ 0
-LAGER_L_B
+KEG_CAP_L_B
 Text Label 4300 11100 1    50   ~ 0
-LAGER_L_A
+KEG_CAP_L_A
 Text Label 4200 11100 1    50   ~ 0
-LAGER_L_YD3
+KEG_CAP_L_YD3
 Text Label 4100 11100 1    50   ~ 0
-LAGER_L_YD2
+KEG_CAP_L_YD2
 Text Label 4000 11100 1    50   ~ 0
-LAGER_L_YD1
+KEG_CAP_L_YD1
 Connection ~ 6200 11800
 Wire Wire Line
 	6000 11800 6200 11800
@@ -1246,52 +1246,6 @@ F 3 "" H 3400 12100 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	3400 11800 3600 11800
-Connection ~ 12350 3250
-Wire Wire Line
-	12350 3250 11950 3250
-Wire Wire Line
-	13850 3250 13700 3250
-Connection ~ 13850 3250
-Wire Wire Line
-	13700 3250 13550 3250
-Connection ~ 13700 3250
-Wire Wire Line
-	13550 3250 13400 3250
-Connection ~ 13550 3250
-Wire Wire Line
-	13400 3250 13250 3250
-Connection ~ 13400 3250
-Wire Wire Line
-	13250 3250 13100 3250
-Connection ~ 13250 3250
-Wire Wire Line
-	13100 3250 12950 3250
-Connection ~ 13100 3250
-Wire Wire Line
-	12950 3250 12800 3250
-Connection ~ 12950 3250
-Wire Wire Line
-	12800 3250 12650 3250
-Connection ~ 12800 3250
-Wire Wire Line
-	12650 3250 12500 3250
-Connection ~ 12650 3250
-Wire Wire Line
-	12500 3250 12350 3250
-Connection ~ 12500 3250
-Wire Wire Line
-	14000 3250 13850 3250
-$Comp
-L KITT-Symbols:STBD01-4R8GA KEG_1_CAP_R1
-U 1 1 615A7B14
-P 13300 3550
-F 0 "KEG_1_CAP_R1" H 14128 3596 50  0000 L CNN
-F 1 "STBD01-4R8GA" H 14128 3505 50  0000 L CNN
-F 2 "" H 12350 3850 50  0001 C CNN
-F 3 "" H 12350 3850 50  0001 C CNN
-	1    13300 3550
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	9200 3250 9200 2250
 $Comp
@@ -1385,11 +1339,11 @@ Entry Wire Line
 Entry Wire Line
 	3750 8550 3850 8450
 Text Label 4200 7950 3    50   ~ 0
-LAGER_L_YD3
+KEG_CAP_L_YD3
 Text Label 3850 7950 3    50   ~ 0
-LAGER_L_YD2
+KEG_CAP_L_YD2
 Text Label 3500 7950 3    50   ~ 0
-LAGER_L_YD1
+KEG_CAP_L_YD1
 Wire Wire Line
 	4200 7650 3850 7650
 Wire Wire Line
@@ -1455,11 +1409,11 @@ Entry Wire Line
 Entry Wire Line
 	3750 5800 3850 5700
 Text Label 4200 5200 3    50   ~ 0
-LAGER_L_YD3
+KEG_CAP_L_YD3
 Text Label 3850 5200 3    50   ~ 0
-LAGER_L_YD2
+KEG_CAP_L_YD2
 Text Label 3500 5200 3    50   ~ 0
-LAGER_L_YD1
+KEG_CAP_L_YD1
 Wire Wire Line
 	4200 4900 3850 4900
 Wire Wire Line
@@ -1598,29 +1552,29 @@ Entry Wire Line
 Entry Wire Line
 	6150 4350 6250 4250
 Text Label 7900 3850 3    50   ~ 0
-LAGER_R_L
+KEG_CAP_R_L
 Text Label 7750 3850 3    50   ~ 0
-LAGER_R_K
+KEG_CAP_R_K
 Text Label 7600 3850 3    50   ~ 0
-LAGER_R_J
+KEG_CAP_R_J
 Text Label 7450 3850 3    50   ~ 0
-LAGER_R_I
+KEG_CAP_R_I
 Text Label 7300 3850 3    50   ~ 0
-LAGER_R_H
+KEG_CAP_R_H
 Text Label 7150 3850 3    50   ~ 0
-LAGER_R_G
+KEG_CAP_R_G
 Text Label 7000 3850 3    50   ~ 0
-LAGER_R_F
+KEG_CAP_R_F
 Text Label 6850 3850 3    50   ~ 0
-LAGER_R_E
+KEG_CAP_R_E
 Text Label 6700 3850 3    50   ~ 0
-LAGER_R_D
+KEG_CAP_R_D
 Text Label 6550 3850 3    50   ~ 0
-LAGER_R_C
+KEG_CAP_R_C
 Text Label 6400 3850 3    50   ~ 0
-LAGER_R_B
+KEG_CAP_R_B
 Text Label 6250 3850 3    50   ~ 0
-LAGER_R_A
+KEG_CAP_R_A
 Wire Wire Line
 	5850 3250 5850 2250
 Wire Wire Line
@@ -1672,29 +1626,29 @@ Entry Wire Line
 Entry Wire Line
 	3400 4350 3500 4250
 Text Label 5150 3850 3    50   ~ 0
-LAGER_L_L
+KEG_CAP_L_L
 Text Label 5000 3850 3    50   ~ 0
-LAGER_L_K
+KEG_CAP_L_K
 Text Label 4850 3850 3    50   ~ 0
-LAGER_L_J
+KEG_CAP_L_J
 Text Label 4700 3850 3    50   ~ 0
-LAGER_L_I
+KEG_CAP_L_I
 Text Label 4550 3850 3    50   ~ 0
-LAGER_L_H
+KEG_CAP_L_H
 Text Label 4400 3850 3    50   ~ 0
-LAGER_L_G
+KEG_CAP_L_G
 Text Label 4250 3850 3    50   ~ 0
-LAGER_L_F
+KEG_CAP_L_F
 Text Label 4100 3850 3    50   ~ 0
-LAGER_L_E
+KEG_CAP_L_E
 Text Label 3950 3850 3    50   ~ 0
-LAGER_L_D
+KEG_CAP_L_D
 Text Label 3800 3850 3    50   ~ 0
-LAGER_L_C
+KEG_CAP_L_C
 Text Label 3650 3850 3    50   ~ 0
-LAGER_L_B
+KEG_CAP_L_B
 Text Label 3500 3850 3    50   ~ 0
-LAGER_L_A
+KEG_CAP_L_A
 $Comp
 L power:+5V #PWR0127
 U 1 1 61D6857A
@@ -1737,11 +1691,11 @@ Entry Wire Line
 Entry Wire Line
 	3750 3150 3850 3050
 Text Label 4200 2550 3    50   ~ 0
-LAGER_L_YD3
+KEG_CAP_L_YD3
 Text Label 3850 2550 3    50   ~ 0
-LAGER_L_YD2
+KEG_CAP_L_YD2
 Text Label 3500 2550 3    50   ~ 0
-LAGER_L_YD1
+KEG_CAP_L_YD1
 Wire Wire Line
 	4200 2250 3850 2250
 Wire Wire Line
@@ -2018,25 +1972,25 @@ Wire Wire Line
 Wire Wire Line
 	11950 3250 11950 2250
 Text Label 10300 2550 3    50   ~ 0
-KEG_CAP_L_YD3
+GLK_T_L_YD3
 Text Label 9950 2550 3    50   ~ 0
-KEG_CAP_L_YD2
+GLK_T_L_YD2
 Text Label 9600 2550 3    50   ~ 0
-KEG_CAP_L_YD1
+GLK_T_L_YD1
 Text Label 6900 11100 1    50   ~ 0
-LAGER_R_A
+KEG_CAP_R_A
 Text Label 9200 11100 1    50   ~ 0
-KEG_CAP_L_YD1
+GLK_T_L_YD1
 Text Label 9300 11100 1    50   ~ 0
-KEG_CAP_L_YD2
+GLK_T_L_YD2
 Text Label 9400 11100 1    50   ~ 0
-KEG_CAP_L_YD3
+GLK_T_L_YD3
 Text Label 9500 11100 1    50   ~ 0
-KEG_CAP_L_A
+GLK_T_L_A
 Text Label 9600 11100 1    50   ~ 0
-KEG_CAP_L_B
+GLK_T_L_B
 Text Label 9700 11100 1    50   ~ 0
-KEG_CAP_L_C
+GLK_T_L_C
 Wire Wire Line
 	9300 10300 9300 11100
 Wire Wire Line
@@ -2062,17 +2016,17 @@ Entry Wire Line
 Wire Wire Line
 	9200 11100 9200 10300
 Text Label 9800 11100 1    50   ~ 0
-KEG_CAP_L_D
+GLK_T_L_D
 Text Label 9900 11100 1    50   ~ 0
-KEG_CAP_L_E
+GLK_T_L_E
 Text Label 10000 11100 1    50   ~ 0
-KEG_CAP_L_F
+GLK_T_L_F
 Text Label 10100 11100 1    50   ~ 0
-KEG_CAP_L_G
+GLK_T_L_G
 Text Label 10200 11100 1    50   ~ 0
-KEG_CAP_L_H
+GLK_T_L_H
 Text Label 10300 11100 1    50   ~ 0
-KEG_CAP_L_I
+GLK_T_L_I
 Wire Wire Line
 	9900 10300 9900 11100
 Wire Wire Line
@@ -2098,11 +2052,11 @@ Entry Wire Line
 Wire Wire Line
 	9800 11100 9800 10300
 Text Label 10400 11100 1    50   ~ 0
-KEG_CAP_L_J
+GLK_T_L_J
 Text Label 10500 11100 1    50   ~ 0
-KEG_CAP_L_K
+GLK_T_L_K
 Text Label 10600 11100 1    50   ~ 0
-KEG_CAP_L_L
+GLK_T_L_L
 Wire Wire Line
 	10600 10300 10600 11100
 Wire Wire Line
@@ -2116,11 +2070,11 @@ Entry Wire Line
 Entry Wire Line
 	10400 10200 10500 10300
 Text Label 12100 11100 1    50   ~ 0
-KEG_CAP_R_A
+GLK_T_R_A
 Text Label 12200 11100 1    50   ~ 0
-KEG_CAP_R_B
+GLK_T_R_B
 Text Label 12300 11100 1    50   ~ 0
-KEG_CAP_R_C
+GLK_T_R_C
 Wire Wire Line
 	12300 11100 12300 10300
 Wire Wire Line
@@ -2134,17 +2088,17 @@ Entry Wire Line
 Entry Wire Line
 	12200 10200 12300 10300
 Text Label 12400 11100 1    50   ~ 0
-KEG_CAP_R_D
+GLK_T_R_D
 Text Label 12500 11100 1    50   ~ 0
-KEG_CAP_R_E
+GLK_T_R_E
 Text Label 12600 11100 1    50   ~ 0
-KEG_CAP_R_F
+GLK_T_R_F
 Text Label 12700 11100 1    50   ~ 0
-KEG_CAP_R_G
+GLK_T_R_G
 Text Label 12800 11100 1    50   ~ 0
-KEG_CAP_R_H
+GLK_T_R_H
 Text Label 12900 11100 1    50   ~ 0
-KEG_CAP_R_I
+GLK_T_R_I
 Wire Wire Line
 	12500 10300 12500 11100
 Wire Wire Line
@@ -2170,11 +2124,11 @@ Entry Wire Line
 Wire Wire Line
 	12400 11100 12400 10300
 Text Label 13000 11100 1    50   ~ 0
-KEG_CAP_R_J
+GLK_T_R_J
 Text Label 13100 11100 1    50   ~ 0
-KEG_CAP_R_K
+GLK_T_R_K
 Text Label 13200 11100 1    50   ~ 0
-KEG_CAP_R_L
+GLK_T_R_L
 Wire Wire Line
 	13200 10300 13200 11100
 Wire Wire Line
@@ -2316,51 +2270,16 @@ Connection ~ 9600 4900
 $Comp
 L KITT-Symbols:STBD01-4R8GA KEG_CAP_2_R1
 U 1 1 615A7C26
-P 13300 6200
-F 0 "KEG_CAP_2_R1" H 14128 6246 50  0000 L CNN
-F 1 "STBD01-4R8GA" H 14128 6155 50  0000 L CNN
-F 2 "" H 12350 6500 50  0001 C CNN
-F 3 "" H 12350 6500 50  0001 C CNN
-	1    13300 6200
-	1    0    0    -1  
+P 13050 6200
+F 0 "KEG_CAP_2_R1" H 11400 6250 50  0000 L CNN
+F 1 "STBD01-4R8GA" H 11350 6150 50  0000 L CNN
+F 2 "" H 12100 6500 50  0001 C CNN
+F 3 "" H 12100 6500 50  0001 C CNN
+	1    13050 6200
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
-	14000 5900 13850 5900
-Connection ~ 12500 5900
-Wire Wire Line
-	12500 5900 12350 5900
-Connection ~ 12650 5900
-Wire Wire Line
-	12650 5900 12500 5900
-Connection ~ 12800 5900
-Wire Wire Line
-	12800 5900 12650 5900
-Connection ~ 12950 5900
-Wire Wire Line
-	12950 5900 12800 5900
-Connection ~ 13100 5900
-Wire Wire Line
-	13100 5900 12950 5900
-Connection ~ 13250 5900
-Wire Wire Line
-	13250 5900 13100 5900
-Connection ~ 13400 5900
-Wire Wire Line
-	13400 5900 13250 5900
-Connection ~ 13550 5900
-Wire Wire Line
-	13550 5900 13400 5900
-Connection ~ 13700 5900
-Wire Wire Line
-	13700 5900 13550 5900
-Connection ~ 13850 5900
-Wire Wire Line
-	13850 5900 13700 5900
-Wire Wire Line
-	12350 5900 11950 5900
-Wire Wire Line
 	11950 5900 11950 4900
-Connection ~ 12350 5900
 Wire Wire Line
 	11950 4900 10300 4900
 Connection ~ 10300 4900
@@ -2453,54 +2372,8 @@ Wire Wire Line
 	9200 7650 9600 7650
 Connection ~ 9600 8650
 Connection ~ 9600 7650
-$Comp
-L KITT-Symbols:STBD01-4R8GA KEG_CAP_3_R1
-U 1 1 615A7D10
-P 13300 8950
-F 0 "KEG_CAP_3_R1" H 14128 8996 50  0000 L CNN
-F 1 "STBD01-4R8GA" H 14128 8905 50  0000 L CNN
-F 2 "" H 12350 9250 50  0001 C CNN
-F 3 "" H 12350 9250 50  0001 C CNN
-	1    13300 8950
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	14000 8650 13850 8650
-Connection ~ 12500 8650
-Wire Wire Line
-	12500 8650 12350 8650
-Connection ~ 12650 8650
-Wire Wire Line
-	12650 8650 12500 8650
-Connection ~ 12800 8650
-Wire Wire Line
-	12800 8650 12650 8650
-Connection ~ 12950 8650
-Wire Wire Line
-	12950 8650 12800 8650
-Connection ~ 13100 8650
-Wire Wire Line
-	13100 8650 12950 8650
-Connection ~ 13250 8650
-Wire Wire Line
-	13250 8650 13100 8650
-Connection ~ 13400 8650
-Wire Wire Line
-	13400 8650 13250 8650
-Connection ~ 13550 8650
-Wire Wire Line
-	13550 8650 13400 8650
-Connection ~ 13700 8650
-Wire Wire Line
-	13700 8650 13550 8650
-Connection ~ 13850 8650
-Wire Wire Line
-	13850 8650 13700 8650
-Wire Wire Line
-	12350 8650 11950 8650
 Wire Wire Line
 	11950 8650 11950 7650
-Connection ~ 12350 8650
 Wire Wire Line
 	11950 7650 10300 7650
 Connection ~ 10300 7650
@@ -2517,11 +2390,11 @@ Wire Wire Line
 Wire Wire Line
 	9600 5700 9600 5200
 Text Label 10300 5200 3    50   ~ 0
-KEG_CAP_L_YD3
+GLK_T_L_YD3
 Text Label 9950 5200 3    50   ~ 0
-KEG_CAP_L_YD2
+GLK_T_L_YD2
 Text Label 9600 5200 3    50   ~ 0
-KEG_CAP_L_YD1
+GLK_T_L_YD1
 Entry Wire Line
 	9850 8550 9950 8450
 Entry Wire Line
@@ -2535,35 +2408,35 @@ Wire Wire Line
 Wire Wire Line
 	9600 8450 9600 7950
 Text Label 10300 7950 3    50   ~ 0
-KEG_CAP_L_YD3
+GLK_T_L_YD3
 Text Label 9950 7950 3    50   ~ 0
-KEG_CAP_L_YD2
+GLK_T_L_YD2
 Text Label 9600 7950 3    50   ~ 0
-KEG_CAP_L_YD1
+GLK_T_L_YD1
 Text Label 9600 6500 3    50   ~ 0
-KEG_CAP_L_A
+GLK_T_L_A
 Text Label 9750 6500 3    50   ~ 0
-KEG_CAP_L_B
+GLK_T_L_B
 Text Label 9900 6500 3    50   ~ 0
-KEG_CAP_L_C
+GLK_T_L_C
 Text Label 10050 6500 3    50   ~ 0
-KEG_CAP_L_D
+GLK_T_L_D
 Text Label 10200 6500 3    50   ~ 0
-KEG_CAP_L_E
+GLK_T_L_E
 Text Label 10350 6500 3    50   ~ 0
-KEG_CAP_L_F
+GLK_T_L_F
 Text Label 10500 6500 3    50   ~ 0
-KEG_CAP_L_G
+GLK_T_L_G
 Text Label 10650 6500 3    50   ~ 0
-KEG_CAP_L_H
+GLK_T_L_H
 Text Label 10800 6500 3    50   ~ 0
-KEG_CAP_L_I
+GLK_T_L_I
 Text Label 10950 6500 3    50   ~ 0
-KEG_CAP_L_J
+GLK_T_L_J
 Text Label 11100 6500 3    50   ~ 0
-KEG_CAP_L_K
+GLK_T_L_K
 Text Label 11250 6500 3    50   ~ 0
-KEG_CAP_L_L
+GLK_T_L_L
 Entry Wire Line
 	9500 7000 9600 6900
 Entry Wire Line
@@ -2613,29 +2486,29 @@ Wire Wire Line
 Wire Wire Line
 	11250 6500 11250 6900
 Text Label 12350 6500 3    50   ~ 0
-KEG_CAP_R_A
+GLK_T_R_A
 Text Label 12500 6500 3    50   ~ 0
-KEG_CAP_R_B
+GLK_T_R_B
 Text Label 12650 6500 3    50   ~ 0
-KEG_CAP_R_C
+GLK_T_R_C
 Text Label 12800 6500 3    50   ~ 0
-KEG_CAP_R_D
+GLK_T_R_D
 Text Label 12950 6500 3    50   ~ 0
-KEG_CAP_R_E
+GLK_T_R_E
 Text Label 13100 6500 3    50   ~ 0
-KEG_CAP_R_F
+GLK_T_R_F
 Text Label 13250 6500 3    50   ~ 0
-KEG_CAP_R_G
+GLK_T_R_G
 Text Label 13400 6500 3    50   ~ 0
-KEG_CAP_R_H
+GLK_T_R_H
 Text Label 13550 6500 3    50   ~ 0
-KEG_CAP_R_I
+GLK_T_R_I
 Text Label 13700 6500 3    50   ~ 0
-KEG_CAP_R_J
+GLK_T_R_J
 Text Label 13850 6500 3    50   ~ 0
-KEG_CAP_R_K
+GLK_T_R_K
 Text Label 14000 6500 3    50   ~ 0
-KEG_CAP_R_L
+GLK_T_R_L
 Entry Wire Line
 	12250 7000 12350 6900
 Entry Wire Line
@@ -2685,29 +2558,29 @@ Wire Wire Line
 Wire Wire Line
 	14000 6500 14000 6900
 Text Label 12350 9250 3    50   ~ 0
-KEG_CAP_R_A
+GLK_T_R_A
 Text Label 12500 9250 3    50   ~ 0
-KEG_CAP_R_B
+GLK_T_R_B
 Text Label 12650 9250 3    50   ~ 0
-KEG_CAP_R_C
+GLK_T_R_C
 Text Label 12800 9250 3    50   ~ 0
-KEG_CAP_R_D
+GLK_T_R_D
 Text Label 12950 9250 3    50   ~ 0
-KEG_CAP_R_E
+GLK_T_R_E
 Text Label 13100 9250 3    50   ~ 0
-KEG_CAP_R_F
+GLK_T_R_F
 Text Label 13250 9250 3    50   ~ 0
-KEG_CAP_R_G
+GLK_T_R_G
 Text Label 13400 9250 3    50   ~ 0
-KEG_CAP_R_H
+GLK_T_R_H
 Text Label 13550 9250 3    50   ~ 0
-KEG_CAP_R_I
+GLK_T_R_I
 Text Label 13700 9250 3    50   ~ 0
-KEG_CAP_R_J
+GLK_T_R_J
 Text Label 13850 9250 3    50   ~ 0
-KEG_CAP_R_K
+GLK_T_R_K
 Text Label 14000 9250 3    50   ~ 0
-KEG_CAP_R_L
+GLK_T_R_L
 Entry Wire Line
 	12250 9750 12350 9650
 Entry Wire Line
@@ -2757,29 +2630,29 @@ Wire Wire Line
 Wire Wire Line
 	14000 9250 14000 9650
 Text Label 9600 9250 3    50   ~ 0
-KEG_CAP_L_A
+GLK_T_L_A
 Text Label 9750 9250 3    50   ~ 0
-KEG_CAP_L_B
+GLK_T_L_B
 Text Label 9900 9250 3    50   ~ 0
-KEG_CAP_L_C
+GLK_T_L_C
 Text Label 10050 9250 3    50   ~ 0
-KEG_CAP_L_D
+GLK_T_L_D
 Text Label 10200 9250 3    50   ~ 0
-KEG_CAP_L_E
+GLK_T_L_E
 Text Label 10350 9250 3    50   ~ 0
-KEG_CAP_L_F
+GLK_T_L_F
 Text Label 10500 9250 3    50   ~ 0
-KEG_CAP_L_G
+GLK_T_L_G
 Text Label 10650 9250 3    50   ~ 0
-KEG_CAP_L_H
+GLK_T_L_H
 Text Label 10800 9250 3    50   ~ 0
-KEG_CAP_L_I
+GLK_T_L_I
 Text Label 10950 9250 3    50   ~ 0
-KEG_CAP_L_J
+GLK_T_L_J
 Text Label 11100 9250 3    50   ~ 0
-KEG_CAP_L_K
+GLK_T_L_K
 Text Label 11250 9250 3    50   ~ 0
-KEG_CAP_L_L
+GLK_T_L_L
 Entry Wire Line
 	9500 9750 9600 9650
 Entry Wire Line
@@ -2919,10 +2792,10 @@ F 3 "" H 9200 14500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L KITT-Symbols:125807R LAGER_1_T_L1
+L KITT-Symbols:125807R KEG_4_CAP_L1
 U 1 1 611E80D7
 P 4450 3550
-F 0 "LAGER_1_T_L1" H 5278 3596 50  0000 L CNN
+F 0 "KEG_4_CAP_L1" H 5278 3596 50  0000 L CNN
 F 1 "125807R" H 5278 3505 50  0000 L CNN
 F 2 "" H 3500 3850 50  0001 C CNN
 F 3 "" H 3500 3850 50  0001 C CNN
@@ -2932,10 +2805,10 @@ $EndComp
 Wire Wire Line
 	5000 3250 5150 3250
 $Comp
-L KITT-Symbols:125807R LAGER_1_T_R1
+L KITT-Symbols:125807R KEG_4_CAP_R1
 U 1 1 61231533
 P 7200 3550
-F 0 "LAGER_1_T_R1" H 8028 3596 50  0000 L CNN
+F 0 "KEG_4_CAP_R1" H 8028 3596 50  0000 L CNN
 F 1 "125807R" H 8028 3505 50  0000 L CNN
 F 2 "" H 6250 3850 50  0001 C CNN
 F 3 "" H 6250 3850 50  0001 C CNN
@@ -2945,10 +2818,10 @@ $EndComp
 Wire Wire Line
 	7750 3250 7900 3250
 $Comp
-L KITT-Symbols:125807R LAGER_2_T_L1
+L KITT-Symbols:125807R KEG_5_CAP_L1
 U 1 1 61278945
 P 4450 6200
-F 0 "LAGER_2_T_L1" H 5278 6246 50  0000 L CNN
+F 0 "KEG_5_CAP_L1" H 5278 6246 50  0000 L CNN
 F 1 "125807R" H 5278 6155 50  0000 L CNN
 F 2 "" H 3500 6500 50  0001 C CNN
 F 3 "" H 3500 6500 50  0001 C CNN
@@ -2960,10 +2833,10 @@ Wire Wire Line
 Wire Wire Line
 	5850 5900 6250 5900
 $Comp
-L KITT-Symbols:125807R LAGER_2_T_R1
+L KITT-Symbols:125807R KEG_5_CAP_R1
 U 1 1 612BF6D1
 P 7200 6200
-F 0 "LAGER_2_T_R1" H 8028 6246 50  0000 L CNN
+F 0 "KEG_5_CAP_R1" H 8028 6246 50  0000 L CNN
 F 1 "125807R" H 8028 6155 50  0000 L CNN
 F 2 "" H 6250 6500 50  0001 C CNN
 F 3 "" H 6250 6500 50  0001 C CNN
@@ -2975,10 +2848,10 @@ Wire Wire Line
 Wire Wire Line
 	3100 8650 3500 8650
 $Comp
-L KITT-Symbols:125807R LAGER_3_T_L1
+L KITT-Symbols:125807R FLOW_L1
 U 1 1 6130380B
 P 4450 8950
-F 0 "LAGER_3_T_L1" H 5278 8996 50  0000 L CNN
+F 0 "FLOW_L1" H 5278 8996 50  0000 L CNN
 F 1 "125807R" H 5278 8905 50  0000 L CNN
 F 2 "" H 3500 9250 50  0001 C CNN
 F 3 "" H 3500 9250 50  0001 C CNN
@@ -2988,10 +2861,10 @@ $EndComp
 Wire Wire Line
 	5850 8650 6250 8650
 $Comp
-L KITT-Symbols:125807R LAGER_3_T_R1
+L KITT-Symbols:125807R FLOW_R1
 U 1 1 61387CD9
 P 7200 8950
-F 0 "LAGER_3_T_R1" H 8028 8996 50  0000 L CNN
+F 0 "FLOW_R1" H 8028 8996 50  0000 L CNN
 F 1 "125807R" H 8028 8905 50  0000 L CNN
 F 2 "" H 6250 9250 50  0001 C CNN
 F 3 "" H 6250 9250 50  0001 C CNN
@@ -3194,41 +3067,194 @@ Wire Wire Line
 Connection ~ 4850 3250
 Wire Wire Line
 	4850 3250 5000 3250
+Connection ~ 9600 3250
 Wire Wire Line
-	11250 3250 11100 3250
-Connection ~ 9750 3250
-Connection ~ 9900 3250
+	9600 3250 9200 3250
 Wire Wire Line
-	9900 3250 9750 3250
-Connection ~ 10050 3250
-Connection ~ 10200 3250
-Wire Wire Line
-	10050 3250 9900 3250
-Wire Wire Line
-	10200 3250 10050 3250
-Connection ~ 10350 3250
-Connection ~ 10500 3250
-Wire Wire Line
-	10350 3250 10200 3250
-Wire Wire Line
-	10500 3250 10350 3250
-Connection ~ 10650 3250
-Connection ~ 10800 3250
-Wire Wire Line
-	10650 3250 10500 3250
-Wire Wire Line
-	10800 3250 10650 3250
-Connection ~ 10950 3250
+	9750 3250 9600 3250
 Connection ~ 11100 3250
+Connection ~ 10950 3250
+Connection ~ 10800 3250
+Connection ~ 10650 3250
+Connection ~ 10500 3250
+Connection ~ 10350 3250
+Connection ~ 10200 3250
+Connection ~ 10050 3250
+Connection ~ 9900 3250
+Connection ~ 9750 3250
 Wire Wire Line
 	10950 3250 10800 3250
 Wire Wire Line
 	11100 3250 10950 3250
 Wire Wire Line
-	9750 3250 9600 3250
+	11250 3250 11100 3250
 Wire Wire Line
-	9600 3250 9200 3250
-Connection ~ 9600 3250
+	9900 3250 9750 3250
+Wire Wire Line
+	10050 3250 9900 3250
+Wire Wire Line
+	10200 3250 10050 3250
+Wire Wire Line
+	10350 3250 10200 3250
+Wire Wire Line
+	10500 3250 10350 3250
+Wire Wire Line
+	10650 3250 10500 3250
+Wire Wire Line
+	10800 3250 10650 3250
+$Comp
+L KITT-Symbols:STBD01-4R8GA GLYCOL_T_L1
+U 1 1 615A7A8D
+P 10550 3550
+F 0 "GLYCOL_T_L1" H 11378 3596 50  0000 L CNN
+F 1 "STBD01-4R8GA" H 11378 3505 50  0000 L CNN
+F 2 "" H 9600 3850 50  0001 C CNN
+F 3 "" H 9600 3850 50  0001 C CNN
+	1    10550 3550
+	1    0    0    -1  
+$EndComp
+Connection ~ 13250 3250
+Connection ~ 13100 3250
+Connection ~ 12950 3250
+Connection ~ 12800 3250
+Connection ~ 12650 3250
+Connection ~ 12500 3250
+Connection ~ 12350 3250
+Connection ~ 13700 3250
+Connection ~ 13550 3250
+Connection ~ 13400 3250
+Wire Wire Line
+	13100 3250 13250 3250
+Wire Wire Line
+	13250 3250 13400 3250
+Wire Wire Line
+	13400 3250 13550 3250
+Wire Wire Line
+	13550 3250 13700 3250
+Wire Wire Line
+	11950 3250 12350 3250
+Wire Wire Line
+	12350 3250 12500 3250
+Wire Wire Line
+	12500 3250 12650 3250
+Wire Wire Line
+	12650 3250 12800 3250
+Wire Wire Line
+	12800 3250 12950 3250
+Wire Wire Line
+	12950 3250 13100 3250
+$Comp
+L KITT-Symbols:STBD01-4R8GA GLYCOL_T_R1
+U 1 1 615A7B14
+P 13050 3550
+F 0 "GLYCOL_T_R1" H 11450 3600 50  0000 L CNN
+F 1 "STBD01-4R8GA" H 11350 3500 50  0000 L CNN
+F 2 "" H 12100 3850 50  0001 C CNN
+F 3 "" H 12100 3850 50  0001 C CNN
+	1    13050 3550
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	13850 3250 13700 3250
+Wire Wire Line
+	13850 3250 14000 3250
+Connection ~ 13850 3250
+Connection ~ 13250 5900
+Connection ~ 13100 5900
+Connection ~ 12950 5900
+Connection ~ 12800 5900
+Connection ~ 12650 5900
+Connection ~ 12500 5900
+Connection ~ 12350 5900
+Connection ~ 13700 5900
+Connection ~ 13550 5900
+Connection ~ 13400 5900
+Wire Wire Line
+	12350 5900 12500 5900
+Wire Wire Line
+	12500 5900 12650 5900
+Wire Wire Line
+	12650 5900 12800 5900
+Wire Wire Line
+	12800 5900 12950 5900
+Wire Wire Line
+	12950 5900 13100 5900
+Wire Wire Line
+	13100 5900 13250 5900
+Wire Wire Line
+	13250 5900 13400 5900
+Wire Wire Line
+	13400 5900 13550 5900
+Wire Wire Line
+	13550 5900 13700 5900
+Wire Wire Line
+	11950 5900 12350 5900
+Wire Wire Line
+	13850 5900 13700 5900
+Wire Wire Line
+	14000 5900 13850 5900
+Connection ~ 13850 5900
+Connection ~ 13250 8650
+Connection ~ 13100 8650
+Connection ~ 12950 8650
+Connection ~ 12800 8650
+Connection ~ 12650 8650
+Connection ~ 12500 8650
+Connection ~ 12350 8650
+Connection ~ 13700 8650
+Connection ~ 13550 8650
+Connection ~ 13400 8650
+Wire Wire Line
+	13100 8650 13250 8650
+Wire Wire Line
+	13250 8650 13400 8650
+Wire Wire Line
+	13400 8650 13550 8650
+Wire Wire Line
+	13550 8650 13700 8650
+Wire Wire Line
+	11950 8650 12350 8650
+Wire Wire Line
+	12350 8650 12500 8650
+Wire Wire Line
+	12500 8650 12650 8650
+Wire Wire Line
+	12650 8650 12800 8650
+Wire Wire Line
+	12800 8650 12950 8650
+Wire Wire Line
+	12950 8650 13100 8650
+$Comp
+L KITT-Symbols:STBD01-4R8GA KEG_CAP_3_R1
+U 1 1 615A7D10
+P 13050 8950
+F 0 "KEG_CAP_3_R1" H 11400 9000 50  0000 L CNN
+F 1 "STBD01-4R8GA" H 11350 8900 50  0000 L CNN
+F 2 "" H 12100 9250 50  0001 C CNN
+F 3 "" H 12100 9250 50  0001 C CNN
+	1    13050 8950
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	13700 8650 13850 8650
+Wire Bus Line
+	9500 8550 10200 8550
+Wire Bus Line
+	9500 5800 10200 5800
+Wire Bus Line
+	9500 3150 10200 3150
+Wire Wire Line
+	2950 14750 3800 14750
+Wire Bus Line
+	3350 13400 3350 14850
+Wire Bus Line
+	3400 3150 4100 3150
+Wire Bus Line
+	3400 5800 4100 5800
+Wire Bus Line
+	3400 8550 4100 8550
+Wire Bus Line
+	5300 13400 5300 14950
 Wire Bus Line
 	9500 9750 11150 9750
 Wire Bus Line
@@ -3238,54 +3264,28 @@ Wire Bus Line
 Wire Bus Line
 	9500 7000 11150 7000
 Wire Bus Line
-	9500 8550 10200 8550
-Wire Bus Line
-	9500 5800 10200 5800
-Wire Bus Line
-	9500 3150 10200 3150
-Wire Bus Line
-	5300 13400 5300 14950
-Wire Bus Line
-	3350 13400 3350 14850
-Wire Wire Line
-	2950 14750 3800 14750
-Wire Bus Line
-	3400 3150 4100 3150
-Wire Bus Line
-	3400 4350 5050 4350
-Wire Bus Line
-	6150 4350 7800 4350
-Wire Bus Line
-	3400 5800 4100 5800
-Wire Bus Line
-	3400 8550 4100 8550
-Wire Bus Line
 	3350 13400 5300 13400
-Wire Bus Line
-	5300 13400 13100 13400
-Wire Bus Line
-	3400 7000 5050 7000
-Wire Bus Line
-	6150 7000 7800 7000
-Wire Bus Line
-	3400 9750 5050 9750
-Wire Bus Line
-	6150 9750 7800 9750
-Wire Bus Line
-	9500 4350 11150 4350
 Wire Bus Line
 	12250 4350 13900 4350
 Wire Bus Line
+	9500 4350 11150 4350
+Wire Bus Line
+	6150 9750 7800 9750
+Wire Bus Line
+	3400 9750 5050 9750
+Wire Bus Line
+	6150 7000 7800 7000
+Wire Bus Line
+	3400 7000 5050 7000
+Wire Bus Line
+	6150 4350 7800 4350
+Wire Bus Line
+	3400 4350 5050 4350
+Wire Bus Line
+	5300 13400 13100 13400
+Wire Bus Line
 	3900 10200 13100 10200
-$Comp
-L KITT-Symbols:STBD01-4R8GA KEG_1_CAP_L1
-U 1 1 615A7A8D
-P 10550 3550
-F 0 "KEG_1_CAP_L1" H 11378 3596 50  0000 L CNN
-F 1 "STBD01-4R8GA" H 11378 3505 50  0000 L CNN
-F 2 "" H 9600 3850 50  0001 C CNN
-F 3 "" H 9600 3850 50  0001 C CNN
-	1    10550 3550
-	1    0    0    -1  
-$EndComp
+Connection ~ 13850 8650
+Wire Wire Line
+	13850 8650 14000 8650
 $EndSCHEMATC
