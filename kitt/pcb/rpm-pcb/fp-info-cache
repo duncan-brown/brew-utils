@@ -1,4 +1,4 @@
-19227583029504187
+19229212980441187
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -55138,6 +55138,13 @@ LED_12_Segment_2.0mm_24_pin
 0
 24
 24
+KITT-Footpads
+LVL_5V_3V3
+
+
+0
+12
+12
 KITT-Footpads
 TTGO_ESP32_TDisplay_v1.1
 
