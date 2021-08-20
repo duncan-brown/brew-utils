@@ -640,7 +640,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 6120E705)
-    (at 61.64 122.6)
+    (at 161.64 122.6)
     (path /61CBA73E)
     (fp_text reference CG0 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -680,7 +680,7 @@
   )
 
   (module MountingHole:MountingHole_5.3mm_M5 (layer F.Cu) (tedit 56D1B4CB) (tstamp 612070D4)
-    (at 220 197)
+    (at 320 197)
     (descr "Mounting Hole 5.3mm, no annular, M5")
     (tags "mounting hole 5.3mm no annular m5")
     (path /6168010C)
@@ -1181,7 +1181,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201DDC)
-    (at 65.39 119)
+    (at 165.39 119)
     (path /61A28E8F)
     (fp_text reference CG1 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1201,7 +1201,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201DE5)
-    (at 69.34 115.65)
+    (at 169.34 115.65)
     (path /6128943C)
     (fp_text reference CG2 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1221,7 +1221,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201DEE)
-    (at 73.44 112.4)
+    (at 173.44 112.4)
     (path /6128943D)
     (fp_text reference CG3 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1241,7 +1241,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201DF7)
-    (at 77.59 109.3)
+    (at 177.59 109.3)
     (path /6128943E)
     (fp_text reference CG4 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1261,7 +1261,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E00)
-    (at 81.89 106.45)
+    (at 181.89 106.45)
     (path /6128943F)
     (fp_text reference CG5 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1281,7 +1281,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E09)
-    (at 86.34 103.75)
+    (at 186.34 103.75)
     (path /61289440)
     (fp_text reference CG6 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1301,7 +1301,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E12)
-    (at 90.89 101.25)
+    (at 190.89 101.25)
     (path /61289441)
     (fp_text reference CG7 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1321,7 +1321,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E1B)
-    (at 95.59 98.95)
+    (at 195.59 98.95)
     (path /61289442)
     (fp_text reference CG8 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1341,7 +1341,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E24)
-    (at 100.34 96.85)
+    (at 200.34 96.85)
     (path /61289443)
     (fp_text reference CG9 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1361,7 +1361,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E2D)
-    (at 105.14 94.95)
+    (at 205.14 94.95)
     (path /61A28EC5)
     (fp_text reference CG10 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1381,7 +1381,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E36)
-    (at 109.965 93.25)
+    (at 209.965 93.25)
     (path /61A28ECB)
     (fp_text reference CG11 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1401,7 +1401,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E3F)
-    (at 114.89 91.75)
+    (at 214.89 91.75)
     (path /61A28ED1)
     (fp_text reference CG12 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1421,7 +1421,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E48)
-    (at 119.89 90.5)
+    (at 219.89 90.5)
     (path /61A28ED7)
     (fp_text reference CG13 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1441,7 +1441,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E51)
-    (at 124.94 89.4)
+    (at 224.94 89.4)
     (path /61A28EDD)
     (fp_text reference CG14 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1461,7 +1461,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E5A)
-    (at 129.99 88.525)
+    (at 229.99 88.525)
     (path /61A28EE3)
     (fp_text reference CG15 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1481,7 +1481,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E63)
-    (at 135.09 87.9)
+    (at 235.09 87.9)
     (path /61A28EE9)
     (fp_text reference CG16 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1501,7 +1501,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E6C)
-    (at 140.24 87.45)
+    (at 240.24 87.45)
     (path /61A69268)
     (fp_text reference CG17 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1521,7 +1521,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E75)
-    (at 145.39 87.25)
+    (at 245.39 87.25)
     (path /61A6926E)
     (fp_text reference CG18 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1541,7 +1541,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E7E)
-    (at 150.54 87.25)
+    (at 250.54 87.25)
     (path /61289450)
     (fp_text reference CG19 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1561,7 +1561,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E87)
-    (at 155.69 87.5)
+    (at 255.69 87.5)
     (path /61289451)
     (fp_text reference CG20 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1581,7 +1581,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E90)
-    (at 160.84 87.9)
+    (at 260.84 87.9)
     (path /6110D5BC)
     (fp_text reference CG21 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1601,7 +1601,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201E99)
-    (at 165.94 88.55)
+    (at 265.94 88.55)
     (path /6110EE01)
     (fp_text reference CG22 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1621,7 +1621,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201EA2)
-    (at 171.04 89.35)
+    (at 271.04 89.35)
     (path /61118DB3)
     (fp_text reference CG23 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1641,7 +1641,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201EAB)
-    (at 176.04 90.5)
+    (at 276.04 90.5)
     (path /612893BE)
     (fp_text reference CG24 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1661,7 +1661,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201EB4)
-    (at 181.04 91.8)
+    (at 281.04 91.8)
     (path /612893C2)
     (fp_text reference CG25 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1681,7 +1681,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201EBD)
-    (at 185.99 93.25)
+    (at 285.99 93.25)
     (path /612893C3)
     (fp_text reference CG26 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1721,7 +1721,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201ECF)
-    (at 190.89 94.95)
+    (at 290.89 94.95)
     (path /6112DC7B)
     (fp_text reference CG28 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1741,7 +1741,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201ED8)
-    (at 195.74 96.8)
+    (at 295.74 96.8)
     (path /612893CE)
     (fp_text reference CG29 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1761,7 +1761,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201EE1)
-    (at 200.465 98.9)
+    (at 300.465 98.9)
     (path /612893CF)
     (fp_text reference CG30 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1781,7 +1781,7 @@
   )
 
   (module KITT-Footpads:LDS-A816RI (layer F.Cu) (tedit 611C3551) (tstamp 61201F07)
-    (at 132.19 104.6)
+    (at 232.19 104.6)
     (path /612893C9)
     (fp_text reference CT_DISP1 (at 8.255 -6.35) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -1865,7 +1865,7 @@
   )
 
   (module KITT-Footpads:LDS-A816RI (layer F.Cu) (tedit 611C3551) (tstamp 61201F2D)
-    (at 152.51 104.6)
+    (at 252.51 104.6)
     (path /6114598A)
     (fp_text reference CT_DISP2 (at 8.255 -6.35) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
@@ -3756,7 +3756,7 @@
   )
 
   (module MountingHole:MountingHole_3.2mm_M3 (layer F.Cu) (tedit 56D1B4CB) (tstamp 612022C7)
-    (at 62 71.5)
+    (at 162 71.5)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (path /65AEFB0E)
@@ -3776,7 +3776,7 @@
   )
 
   (module MountingHole:MountingHole_3.2mm_M3 (layer F.Cu) (tedit 56D1B4CB) (tstamp 612022CF)
-    (at 202 71.5)
+    (at 302 71.5)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (path /65AF2138)
@@ -3796,7 +3796,7 @@
   )
 
   (module MountingHole:MountingHole_3.2mm_M3 (layer F.Cu) (tedit 56D1B4CB) (tstamp 612022D7)
-    (at 248 71.5)
+    (at 348 71.5)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (path /65C0EA6A)
@@ -3836,7 +3836,7 @@
   )
 
   (module MountingHole:MountingHole_3.2mm_M3 (layer F.Cu) (tedit 56D1B4CB) (tstamp 612022E7)
-    (at 62 195.5)
+    (at 162 195.5)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (path /65E480FC)
@@ -3856,7 +3856,7 @@
   )
 
   (module MountingHole:MountingHole_3.2mm_M3 (layer F.Cu) (tedit 56D1B4CB) (tstamp 612022EF)
-    (at 202 195.5)
+    (at 302 195.5)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (path /65F64EBE)
@@ -3876,7 +3876,7 @@
   )
 
   (module MountingHole:MountingHole_3.2mm_M3 (layer F.Cu) (tedit 56D1B4CB) (tstamp 612022F7)
-    (at 248 195.5)
+    (at 348 195.5)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (path /66081B52)
@@ -4254,7 +4254,7 @@
   )
 
   (module MountingHole:MountingHole_5.3mm_M5 (layer F.Cu) (tedit 56D1B4CB) (tstamp 612023B0)
-    (at 45 72)
+    (at 145 72)
     (descr "Mounting Hole 5.3mm, no annular, M5")
     (tags "mounting hole 5.3mm no annular m5")
     (path /65794D33)
@@ -4274,7 +4274,7 @@
   )
 
   (module MountingHole:MountingHole_5.3mm_M5 (layer F.Cu) (tedit 56D1B4CB) (tstamp 6120851D)
-    (at 220 72)
+    (at 320 72)
     (descr "Mounting Hole 5.3mm, no annular, M5")
     (tags "mounting hole 5.3mm no annular m5")
     (path /6579578D)
@@ -4314,7 +4314,7 @@
   )
 
   (module MountingHole:MountingHole_5.3mm_M5 (layer F.Cu) (tedit 56D1B4CB) (tstamp 612023C8)
-    (at 45 197)
+    (at 145 197)
     (descr "Mounting Hole 5.3mm, no annular, M5")
     (tags "mounting hole 5.3mm no annular m5")
     (path /659CEDF8)
@@ -7536,16 +7536,16 @@
       (net 120 "Net-(KEG_CAP_3_L1-Pad1)"))
   )
 
-  (gr_circle (center 148 212) (end 274 212) (layer Dwgs.User) (width 0.15))
+  (gr_circle (center 248 212) (end 374 212) (layer Dwgs.User) (width 0.15))
   (gr_line (start 35 65) (end 35 204) (layer Edge.Cuts) (width 0.05) (tstamp 611FF7FF))
   (gr_line (start 35 204) (end 465 204) (layer Edge.Cuts) (width 0.05))
   (gr_line (start 465 65) (end 465 204) (layer Edge.Cuts) (width 0.05))
   (gr_line (start 35 65) (end 465 65) (layer Edge.Cuts) (width 0.05))
-  (gr_line (start 167.75 123.38) (end 167.75 110.68) (layer Dwgs.User) (width 0.15))
-  (gr_line (start 152.51 104.6) (end 152.51 117.3) (layer Dwgs.User) (width 0.15))
-  (gr_line (start 167.75 104.6) (end 152.51 104.6) (layer Dwgs.User) (width 0.15))
-  (gr_line (start 147.43 110.68) (end 147.43 123.38) (layer Dwgs.User) (width 0.15))
-  (gr_line (start 147.43 104.6) (end 132.19 104.6) (layer Dwgs.User) (width 0.15) (tstamp 61202F6C))
-  (gr_line (start 132.19 117.3) (end 132.19 104.6) (layer Dwgs.User) (width 0.15) (tstamp 61202F6B))
+  (gr_line (start 267.75 123.38) (end 267.75 110.68) (layer Dwgs.User) (width 0.15))
+  (gr_line (start 252.51 104.6) (end 252.51 117.3) (layer Dwgs.User) (width 0.15))
+  (gr_line (start 267.75 104.6) (end 252.51 104.6) (layer Dwgs.User) (width 0.15))
+  (gr_line (start 247.43 110.68) (end 247.43 123.38) (layer Dwgs.User) (width 0.15))
+  (gr_line (start 247.43 104.6) (end 232.19 104.6) (layer Dwgs.User) (width 0.15) (tstamp 61202F6C))
+  (gr_line (start 232.19 117.3) (end 232.19 104.6) (layer Dwgs.User) (width 0.15) (tstamp 61202F6B))
 
 )
