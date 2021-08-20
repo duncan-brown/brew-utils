@@ -7204,6 +7204,50 @@ F 3 "~" H 1250 4500 50  0001 C CNN
 	1    1250 4500
 	1    0    0    -1  
 $EndComp
+$Comp
+L Mechanical:MountingHole THRU1
+U 1 1 6640C7A6
+P 2200 3150
+F 0 "THRU1" H 2300 3196 50  0000 L CNN
+F 1 "MountingHole" H 2300 3105 50  0000 L CNN
+F 2 "MountingHole:MountingHole_6.4mm_M6" H 2200 3150 50  0001 C CNN
+F 3 "~" H 2200 3150 50  0001 C CNN
+	1    2200 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole THRU2
+U 1 1 6640EEE1
+P 2200 3700
+F 0 "THRU2" H 2300 3746 50  0000 L CNN
+F 1 "MountingHole" H 2300 3655 50  0000 L CNN
+F 2 "MountingHole:MountingHole_6.4mm_M6" H 2200 3700 50  0001 C CNN
+F 3 "~" H 2200 3700 50  0001 C CNN
+	1    2200 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole PEG5
+U 1 1 6168010C
+P 3150 2150
+F 0 "PEG5" H 3250 2196 50  0000 L CNN
+F 1 "MountingHole" H 3250 2105 50  0000 L CNN
+F 2 "MountingHole:MountingHole_5.3mm_M5" H 3150 2150 50  0001 C CNN
+F 3 "~" H 3150 2150 50  0001 C CNN
+	1    3150 2150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole PEG6
+U 1 1 61680112
+P 3150 2600
+F 0 "PEG6" H 3250 2646 50  0000 L CNN
+F 1 "MountingHole" H 3250 2555 50  0000 L CNN
+F 2 "MountingHole:MountingHole_5.3mm_M5" H 3150 2600 50  0001 C CNN
+F 3 "~" H 3150 2600 50  0001 C CNN
+	1    3150 2600
+	1    0    0    -1  
+$EndComp
 Wire Bus Line
 	21150 10250 21850 10250
 Wire Bus Line
