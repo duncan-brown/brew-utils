@@ -91,15 +91,15 @@ F 3 "" H 4850 15350 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text Label 5750 15100 0    50   ~ 0
-BLANK
+VPRG
 Text Label 5750 15000 0    50   ~ 0
-XLAT
-Text Label 5750 14900 0    50   ~ 0
 SCLK
+Text Label 5750 14900 0    50   ~ 0
+XLAT
 Text Label 5750 14800 0    50   ~ 0
 SIG_1
 Text Label 5750 14700 0    50   ~ 0
-VPRG
+BLANK
 Text Label 4650 15000 2    50   ~ 0
 GSCLK
 Text Label 5750 14400 0    50   ~ 0
