@@ -782,7 +782,7 @@
   )
 
   (module MountingHole:MountingHole_6.4mm_M6 (layer F.Cu) (tedit 56D1B4CB) (tstamp 611FB827)
-    (at 288.29 121.92)
+    (at 286 110)
     (descr "Mounting Hole 6.4mm, no annular, M6")
     (tags "mounting hole 6.4mm no annular m6")
     (path /61A53905)
@@ -822,7 +822,7 @@
   )
 
   (module MountingHole:MountingHole_5.3mm_M5 (layer F.Cu) (tedit 56D1B4CB) (tstamp 611FB215)
-    (at 282.5 138.7)
+    (at 286 128)
     (descr "Mounting Hole 5.3mm, no annular, M5")
     (tags "mounting hole 5.3mm no annular m5")
     (path /619F085A)
