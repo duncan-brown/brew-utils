@@ -1741,7 +1741,7 @@
   )
 
   (module KITT-Footpads:Flangeless_LED (layer F.Cu) (tedit 611E6C34) (tstamp 61201EE1)
-    (at 300.600001 -19.639999)
+    (at 202.465 97.525)
     (path /612893CF)
     (fp_text reference CG30 (at 0 5.08) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
