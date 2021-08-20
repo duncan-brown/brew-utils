@@ -9,7 +9,7 @@
     (nets 1)
   )
 
-  (page A3)
+  (page A4)
   (layers
     (0 F.Cu signal)
     (31 B.Cu signal)
