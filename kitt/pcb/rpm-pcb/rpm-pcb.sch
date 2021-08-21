@@ -1559,7 +1559,7 @@ U 1 1 61289454
 P 20800 3750
 F 0 "Q5" H 21005 3796 50  0000 L CNN
 F 1 "NDP6020P" H 21005 3705 50  0000 L CNN
-F 2 "Package_TO_SOT_THT:TO-220-3_Vertical" H 21000 3675 50  0001 L CIN
+F 2 "Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown" H 21000 3675 50  0001 L CIN
 F 3 "https://www.onsemi.com/pdf/datasheet/ndp6020p-d.pdf" H 20800 3750 50  0001 L CNN
 	1    20800 3750
 	1    0    0    -1  
@@ -1595,7 +1595,7 @@ U 1 1 61289456
 P 20800 6500
 F 0 "Q6" H 21005 6546 50  0000 L CNN
 F 1 "NDP6020P" H 21005 6455 50  0000 L CNN
-F 2 "Package_TO_SOT_THT:TO-220-3_Vertical" H 21000 6425 50  0001 L CIN
+F 2 "Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown" H 21000 6425 50  0001 L CIN
 F 3 "https://www.onsemi.com/pdf/datasheet/ndp6020p-d.pdf" H 20800 6500 50  0001 L CNN
 	1    20800 6500
 	1    0    0    -1  
@@ -1778,7 +1778,7 @@ U 1 1 6128942E
 P 20800 1100
 F 0 "Q4" H 21005 1146 50  0000 L CNN
 F 1 "NDP6020P" H 21005 1055 50  0000 L CNN
-F 2 "Package_TO_SOT_THT:TO-220-3_Vertical" H 21000 1025 50  0001 L CIN
+F 2 "Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown" H 21000 1025 50  0001 L CIN
 F 3 "https://www.onsemi.com/pdf/datasheet/ndp6020p-d.pdf" H 20800 1100 50  0001 L CNN
 	1    20800 1100
 	1    0    0    -1  
