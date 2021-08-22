@@ -1990,13 +1990,13 @@ $EndComp
 $Comp
 L power:GND #PWR0144
 U 1 1 6115E27E
-P 9500 4700
-F 0 "#PWR0144" H 9500 4450 50  0001 C CNN
-F 1 "GND" H 9505 4527 50  0000 C CNN
-F 2 "" H 9500 4700 50  0001 C CNN
-F 3 "" H 9500 4700 50  0001 C CNN
-	1    9500 4700
-	1    0    0    -1  
+P 8050 4700
+F 0 "#PWR0144" H 8050 4450 50  0001 C CNN
+F 1 "GND" H 8055 4527 50  0000 C CNN
+F 2 "" H 8050 4700 50  0001 C CNN
+F 3 "" H 8050 4700 50  0001 C CNN
+	1    8050 4700
+	-1   0    0    -1  
 $EndComp
 $Comp
 L KITT-Symbols:DF3GD SYST2
@@ -2007,7 +2007,7 @@ F 1 "DF3GD" H 9628 4305 50  0000 L CNN
 F 2 "KITT-Footpads:DF3GD_Light_Bar" H 9500 4700 50  0001 C CNN
 F 3 "" H 9500 4700 50  0001 C CNN
 	1    9300 4350
-	1    0    0    -1  
+	-1   0    0    -1  
 $EndComp
 $Comp
 L KITT-Symbols:DF3GD SYST1
@@ -2018,7 +2018,7 @@ F 1 "DF3GD" H 8578 4305 50  0000 L CNN
 F 2 "KITT-Footpads:DF3GD_Light_Bar" H 8450 4700 50  0001 C CNN
 F 3 "" H 8450 4700 50  0001 C CNN
 	1    8250 4350
-	1    0    0    -1  
+	-1   0    0    -1  
 $EndComp
 $Comp
 L KITT-Symbols:DF3GD GUID2
@@ -2118,21 +2118,6 @@ Wire Wire Line
 Connection ~ 9300 3000
 Wire Wire Line
 	9300 3000 9100 3000
-Wire Wire Line
-	8050 4700 8250 4700
-Connection ~ 9500 4700
-Connection ~ 8250 4700
-Wire Wire Line
-	8250 4700 8450 4700
-Connection ~ 8450 4700
-Wire Wire Line
-	8450 4700 9100 4700
-Connection ~ 9100 4700
-Wire Wire Line
-	9100 4700 9300 4700
-Connection ~ 9300 4700
-Wire Wire Line
-	9300 4700 9500 4700
 Text Label 4650 14400 2    50   ~ 0
 LV_TX
 Text Label 4650 14500 2    50   ~ 0
@@ -4164,6 +4149,10 @@ Entry Wire Line
 	10650 1050 10750 950 
 Wire Wire Line
 	10750 950  11450 950 
+Wire Wire Line
+	9300 4700 9500 4700
+Wire Wire Line
+	8050 4700 8250 4700
 Wire Bus Line
 	11650 5050 13500 5050
 Wire Bus Line
@@ -4200,4 +4189,15 @@ Wire Bus Line
 	6700 13450 21500 13450
 Wire Bus Line
 	4400 10250 20700 10250
+Connection ~ 9300 4700
+Connection ~ 8050 4700
+Connection ~ 8250 4700
+Wire Wire Line
+	8250 4700 8450 4700
+Connection ~ 8450 4700
+Wire Wire Line
+	8450 4700 9100 4700
+Connection ~ 9100 4700
+Wire Wire Line
+	9100 4700 9300 4700
 $EndSCHEMATC
