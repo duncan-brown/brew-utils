@@ -38,7 +38,10 @@ void setup()
     tft.fontHeight(2);
     tft.setRotation(1);
     tft.fillScreen(TFT_BLACK);
-    tft.drawString("Hello world", tft.width()/4, tft.height() / 2, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
+    tft.drawString("I am the Knight", 0, 0, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
+    tft.drawString("Industries Two", 0, tft.height() / 4, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
+    tft.drawString("Thousand.", 0, 2 * tft.height() / 4, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
+    tft.drawString("KITT, if you prefer.", 0, 3 * tft.height() / 4, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
 }
 
 void loop()
