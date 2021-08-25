@@ -32,16 +32,46 @@ void espDelay(int ms) //use-> espDelay(6000);
 
 void setup()
 {
-    Serial.begin(115200);
-    Serial.println("Start");
     tft.init();
-    tft.fontHeight(2);
     tft.setRotation(1);
+    tft.setTextSize(2);
+
+
+    tft.setTextDatum(MC_DATUM);
+    tft.fillScreen(TFT_RED);
+    tft.setTextColor(TFT_BLACK, TFT_RED);
+    tft.drawString("POWER", tft.width()/2, tft.height()/2, 4);
+    sleep(1);
+    tft.fillScreen(TFT_ORANGE);
+    tft.setTextColor(TFT_BLACK, TFT_ORANGE);
+    tft.drawString("MIN RPM", tft.width()/2, tft.height()/2, 4);
+    sleep(1);
+    tft.fillScreen(TFT_YELLOW);
+    tft.setTextColor(TFT_BLACK, TFT_YELLOW);
+    tft.drawString("FUEL ON", tft.width()/2, tft.height()/2, 4);
+    sleep(1);
+    tft.fillScreen(TFT_YELLOW);
+    tft.setTextColor(TFT_BLACK, TFT_YELLOW);
+    tft.drawString("IGNITORS", tft.width()/2, tft.height()/2, 4);
+    sleep(1);
+
+    tft.setTextSize(1);
+    tft.fontHeight(4);
+    tft.setTextDatum(TL_DATUM);
     tft.fillScreen(TFT_BLACK);
-    tft.drawString("I am the Knight", 0, 0, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
-    tft.drawString("Industries Two", 0, tft.height() / 4, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
-    tft.drawString("Thousand.", 0, 2 * tft.height() / 4, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
-    tft.drawString("KITT, if you prefer.", 0, 3 * tft.height() / 4, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
+    tft.setTextColor(TFT_BLACK, TFT_YELLOW);
+    tft.drawString("AIR", 0, 0, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
+    tft.drawString("S1", 3.4*tft.width()/4, 0, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
+    sleep(1);
+    tft.drawString("OIL", 0, tft.height() / 4, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
+    tft.drawString("S2", 3.4*tft.width()/4, tft.height() / 4, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
+    sleep(1);
+    tft.setTextColor(TFT_BLACK, TFT_RED);
+    tft.drawString("P1", 0, 2 * tft.height() / 4, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
+    tft.drawString("P3", 3.4*tft.width()/4, 2* tft.height() / 4, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
+    sleep(1);
+    tft.drawString("P2", 0, 3 * tft.height() / 4, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
+    tft.drawString("P4", 3.4*tft.width()/4, 3 * tft.height() / 4, 4);  //string,start x,start y, font weight {1;2;4;6;7;8}
 }
 
 void loop()
