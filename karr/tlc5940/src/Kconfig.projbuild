@@ -109,3 +109,103 @@ menu "ST7789 Configuration"
 			Enable Display Inversion.
 
 endmenu
+
+menu "TLC5940 Configuration"
+
+	config VPRG_PIN
+		int "VPRG GPIO Pin"
+		range 0 46
+		default 27
+		help
+			GPIO number (IOxx) for TLC5940 VPRG pin.
+
+	config SIN_PIN
+		int "SIN GPIO Pin"
+		range 0 46
+		default 33
+		help
+			GPIO number (IOxx) for SPI MOSI driving TLC5940 SIN pin.
+
+	config SOUT_PIN
+		int "SOUT GPIO Pin"
+		range 0 46
+		default 38
+		help
+			GPIO number (IOxx) for SPI MISO connected to TLC5940 SOUT pin.
+
+	config SCLK_PIN
+		int "SCLK GPIO Pin"
+		range 0 46
+		default 26
+		help
+			GPIO number (IOxx) for SPI CLK connected to TLC5940 SCLK pin.
+
+	config XLAT_PIN
+		int "XLAT GPIO Pin"
+		range 0 46
+		default 25
+		help
+			GPIO number (IOxx) for TLC5940 XLAT pin.
+
+	config BLANK_PIN
+		int "BLANK GPIO Pin"
+		range 0 46
+		default 32
+		help
+			GPIO number (IOxx) for TLC5940 BLANK pin.
+
+	config DCPRG_PIN
+		int "DCPRG GPIO Pin"
+		range 0 46
+		default 37
+		help
+			GPIO number (IOxx) for TLC5940 DCPRG pin.
+
+	config GSCLK_PIN
+		int "GSCLK GPIO Pin"
+		range 0 46
+		default 12
+		help
+			GPIO number (IOxx) for TLC5940 GSCLK pin.
+
+	config COUNTER_PIN
+		int "COUNTER GPIO Pin"
+		range 0 46
+		default 13
+		help
+			GPIO number (IOxx) for gray scale clock feedback.
+			Should be connected to GSCLK pin.
+
+	config LINES_NUMBER
+		int "Number of MOSFET lines"
+		range 0 3
+		default 3
+		help
+			Number of GPIO pins to use for MOSFET line contol.
+
+	config LINE_1_PIN
+		int "MOSFET Line 1 Pin"
+		range 0 46
+		default 17
+		help
+			GPIO number (IOxx) for MOSFET 1.
+
+	config LINE_2_PIN
+		int "MOSFET Line 2 Pin"
+		range 0 46
+		default 2
+		help
+			GPIO number (IOxx) for MOSFET 2.
+
+	config LINE_3_PIN
+		int "MOSFET Line 3 Pin"
+		range 0 46
+		default 15
+		help
+			GPIO number (IOxx) for MOSFET 3.
+
+endmenu
+
+
+
+
