@@ -106,11 +106,9 @@ void ST7789(void *pvParameters)
 	FontxFile fx16G[2];
 	FontxFile fx24G[2];
 	FontxFile fx32G[2];
-	FontxFile fx32L[2];        
 	InitFontx(fx16G,"/spiffs/ILGH16XB.FNT",""); // 8x16Dot Gothic
 	InitFontx(fx24G,"/spiffs/ILGH24XB.FNT",""); // 12x24Dot Gothic
 	InitFontx(fx32G,"/spiffs/ILGH32XB.FNT",""); // 16x32Dot Gothic
-	InitFontx(fx32L,"/spiffs/LATIN32B.FNT",""); // 16x32Dot Latin
 
 	TFT_t dev;
 	spi_master_init(&dev, CONFIG_MOSI_GPIO, CONFIG_SCLK_GPIO, CONFIG_CS_GPIO, CONFIG_DC_GPIO, CONFIG_RESET_GPIO, CONFIG_BL_GPIO);
@@ -125,9 +123,6 @@ void ST7789(void *pvParameters)
 		WAIT;
 
 		ArrowTest(&dev, fx32G, CONFIG_WIDTH, CONFIG_HEIGHT);
-		WAIT;
-
-		ArrowTest(&dev, fx32L, CONFIG_WIDTH, CONFIG_HEIGHT);
 		WAIT;
 
 	} // end while
