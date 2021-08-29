@@ -1,6 +1,18 @@
-# This file was automatically generated for projects
-# without default 'CMakeLists.txt' file.
+set(srcs "main.c"
+    "st7789.c"
+    "fontx.c"
+    "decode_png.c"
+    "pngle.c"
+    )
 
-FILE(GLOB_RECURSE app_sources ${CMAKE_SOURCE_DIR}/src/*.*)
+# tjpgd library does not exist in ESP32-S2 ROM.
+if(IDF_TARGET STREQUAL "esp32")
+    list(APPEND srcs "decode_jpeg.c")
+endif()
 
-idf_component_register(SRCS ${app_sources})
+if(IDF_TARGET STREQUAL "esp32c3")
+    list(APPEND srcs "decode_jpeg.c")
+endif()
+
+idf_component_register(SRCS ${srcs}
+                    INCLUDE_DIRS ".")
