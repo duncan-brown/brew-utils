@@ -21,6 +21,7 @@
 #include "st7789.h"
 #include "fontx.h"
 #include "arrow_test.h"
+#include "tlc5940.h"
 
 #define	INTERVAL		400
 #define WAIT	vTaskDelay(INTERVAL)
@@ -52,20 +53,8 @@ void ST7789(void *pvParameters)
 	spi_master_init(&dev, CONFIG_MOSI_GPIO, CONFIG_SCLK_GPIO, CONFIG_CS_GPIO, CONFIG_DC_GPIO, CONFIG_RESET_GPIO, CONFIG_BL_GPIO);
 	lcdInit(&dev, CONFIG_WIDTH, CONFIG_HEIGHT, CONFIG_OFFSETX, CONFIG_OFFSETY);
 
-	while(1) {
+	DisplayTLCPins(&dev, fx16G, CONFIG_WIDTH, CONFIG_HEIGHT);
 
-		ArrowTest(&dev, fx16G, CONFIG_WIDTH, CONFIG_HEIGHT);
-		WAIT;
-
-		ArrowTest(&dev, fx24G, CONFIG_WIDTH, CONFIG_HEIGHT);
-		WAIT;
-
-		ArrowTest(&dev, fx32G, CONFIG_WIDTH, CONFIG_HEIGHT);
-		WAIT;
-
-	} // end while
-
-	// never reach
 	while (1) {
 		vTaskDelay(2000 / portTICK_PERIOD_MS);
 	}

@@ -112,14 +112,14 @@ endmenu
 
 menu "TLC5940 Configuration"
 
-	config VPRG_PIN
+	config TLC_VPRG_PIN
 		int "VPRG GPIO Pin"
 		range 0 46
 		default 32
 		help
 			GPIO number (IOxx) for TLC5940 VPRG pin.
 
-	config SIN_PIN
+	config TLC_SIN_PIN
 		int "SIN GPIO Pin"
 		range 0 46
 		default 13
