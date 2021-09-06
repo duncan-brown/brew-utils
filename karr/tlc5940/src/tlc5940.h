@@ -12,6 +12,12 @@
 #include <driver/pcnt.h>
 #include <driver/timer.h>
 
-void tlc5940_init(pcnt_isr_handle_t user_isr_handle, spi_device_handle_t spi);
+void tlc5940_init(void);
+
+void gs_input_data_cycle_task(void *parameters);
+
+void set_pin_value(uint8_t pin, uint16_t value);
+
+void compute_leds_values();
 
 #endif
