@@ -27,13 +27,13 @@
 #define APP_PCNT_UNIT PCNT_UNIT_0
 
 // Segment name-number
-#define SEGMENT_G_NUM 0
+#define SEGMENT_G_NUM 1
 #define SEGMENT_F_NUM 5
-#define SEGMENT_E_NUM 4
+#define SEGMENT_E_NUM 6
 #define SEGMENT_D_NUM 3
 #define SEGMENT_C_NUM 2
-#define SEGMENT_B_NUM 1
-#define SEGMENT_A_NUM 6
+#define SEGMENT_B_NUM 0
+#define SEGMENT_A_NUM 4
 
 // Led status values 0-4095
 #define LED_ON_VALUE 4095

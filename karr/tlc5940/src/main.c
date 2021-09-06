@@ -163,7 +163,7 @@ void timer_task(void *parameters)
 	segment_0 += 1;
 	if (segment_0 > 99) segment_0 = 0;
 
-	DisplaySegment0(&dev, fx16G, CONFIG_WIDTH, CONFIG_HEIGHT);
+	DisplaySegment0(&dev, fx24G, CONFIG_WIDTH, CONFIG_HEIGHT);
 
 	ESP_LOGI(TAG, "Displayed time updated: %d", segment_0);
 
