@@ -129,7 +129,7 @@ menu "TLC5940 Configuration"
 	config TLC_SOUT_PIN
 		int "SOUT GPIO Pin"
 		range 0 46
-		default 12
+		default 38
 		help
 			GPIO number (IOxx) for SPI MISO connected to TLC5940 SOUT pin.
 
@@ -171,7 +171,7 @@ menu "TLC5940 Configuration"
 	config TLC_COUNTER_PIN
 		int "COUNTER GPIO Pin"
 		range 0 46
-		default 27
+		default 37
 		help
 			GPIO number (IOxx) for gray scale clock feedback.
 			Should be connected to GSCLK pin.
