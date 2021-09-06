@@ -12,6 +12,41 @@
 #include "st7789.h"
 #include "fontx.h"
 
+extern uint16_t segment_0;
+
+TickType_t DisplaySegment0(TFT_t * dev, FontxFile *fx, int width, int height) {
+	TickType_t startTick, endTick, diffTick;
+	startTick = xTaskGetTickCount();
+
+	// get font width & height
+	uint8_t buffer[FontxGlyphBufSize];
+	uint8_t fontWidth;
+	uint8_t fontHeight;
+	GetFontx(fx, 0, buffer, &fontWidth, &fontHeight);
+	//ESP_LOGI(__FUNCTION__,"fontWidth=%d fontHeight=%d",fontWidth,fontHeight);
+	
+	uint16_t xpos;
+	uint16_t ypos;
+	const uint8_t ascii_len = 28;
+	uint8_t ascii[ascii_len];
+	uint16_t color;
+
+	lcdFillScreen(dev, BLACK);
+	lcdSetFontDirection(dev, DIRECTION90);
+	color = WHITE;
+	ypos = 0;
+    xpos = width - 1;
+
+    snprintf((char *)ascii, ascii_len, "Display updated: %d", segment_0);
+	xpos -= fontHeight + 1;
+	lcdDrawString(dev, fx, xpos, ypos, ascii, color);
+
+	endTick = xTaskGetTickCount();
+	diffTick = endTick - startTick;
+	ESP_LOGI(__FUNCTION__, "elapsed time[ms]:%d",diffTick*portTICK_RATE_MS);
+	return diffTick;
+}
+
 TickType_t DisplayTLCPins(TFT_t * dev, FontxFile *fx, int width, int height) {
 	TickType_t startTick, endTick, diffTick;
 	startTick = xTaskGetTickCount();

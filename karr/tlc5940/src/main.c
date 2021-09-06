@@ -26,6 +26,9 @@
 // Timer task
 #define TIMER_TASK_NAME "TIMER"
 #define TIMER_TASK_PRIORITY 2
+#define COUNTER_FREQ_MS 1000                                // Timer frequency in milliseconds
+#define TIMER_DIVIDER 16                                    //  Hardware timer clock divider
+#define TIMER_SCALE (TIMER_BASE_CLK / TIMER_DIVIDER / 1000) // convert counter value to milliseconds
 
 static const char *TAG = "KARR";
 
@@ -81,7 +84,7 @@ void app_main(void)
 	ESP_LOGI(TAG, "Initializing ST7789");
 	st7789_init();
 
-	DisplayTLCPins(&tft_device, fx16G, CONFIG_WIDTH, CONFIG_HEIGHT);
+	DisplayTLCPins(&dev, fx16G, CONFIG_WIDTH, CONFIG_HEIGHT);
 
 	// Initialize the TLC5940
 	tlc5940_init();
@@ -159,6 +162,10 @@ void timer_task(void *parameters)
 {
 	segment_0 += 1;
 	if (segment_0 > 99) segment_0 = 0;
+
+	DisplaySegment0(&dev, fx16G, CONFIG_WIDTH, CONFIG_HEIGHT);
+
+	ESP_LOGI(TAG, "Displayed time updated: %d", segment_0);
 
     // Finally delete the task
     vTaskDelete(NULL);

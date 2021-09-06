@@ -15,12 +15,9 @@
 #include <driver/pcnt.h>
 #include <driver/timer.h>
 
-// SPI, GSCLK and counter frequencies
+// SPI and GSCLK frequencies
 #define GS_CLOCK_FREQ 5 * 1000 * 1000
 #define SCLK_FREQ 5 * 1000 * 1000                           // SPI frequency
-#define COUNTER_FREQ_MS 1000                                // Timer frequency in milliseconds
-#define TIMER_DIVIDER 16                                    //  Hardware timer clock divider
-#define TIMER_SCALE (TIMER_BASE_CLK / TIMER_DIVIDER / 1000) // convert counter value to milliseconds
 
 // Gray scale task
 #define GS_CYCLE_TASK_NAME "GS_CYCLE"

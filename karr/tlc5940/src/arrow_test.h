@@ -9,6 +9,7 @@
 #include "st7789.h"
 #include "fontx.h"
 
+TickType_t DisplaySegment0(TFT_t * dev, FontxFile *fx, int width, int height);
 TickType_t DisplayTLCPins(TFT_t * dev, FontxFile *fx, int width, int height);
 TickType_t ArrowTest(TFT_t * dev, FontxFile *fx, int width, int height);
 
