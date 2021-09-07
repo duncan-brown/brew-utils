@@ -16,8 +16,8 @@
 #include <driver/timer.h>
 
 // SPI and GSCLK frequencies
-#define GS_CLOCK_FREQ 5 * 1000 * 1000
-#define SCLK_FREQ 5 * 1000 * 1000                           // SPI frequency
+#define GS_CLOCK_FREQ 1 * 1000 * 1000
+#define SCLK_FREQ 1 * 1000 * 1000                           // SPI frequency
 
 // Gray scale task
 #define GS_CYCLE_TASK_NAME "GS_CYCLE"

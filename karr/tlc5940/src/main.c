@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <driver/gpio.h>
-#include <driver/ledc.h>
-#include <driver/spi_master.h>
-#include <driver/pcnt.h>
-#include <driver/timer.h>
+#include "driver/gpio.h"
+#include "driver/ledc.h"
+#include "driver/spi_master.h"
+#include "driver/pcnt.h"
+#include "driver/timer.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -26,7 +26,7 @@
 // Timer task
 #define TIMER_TASK_NAME "TIMER"
 #define TIMER_TASK_PRIORITY 2
-#define COUNTER_FREQ_MS 1000                                // Timer frequency in milliseconds
+#define COUNTER_FREQ_MS 500                                 // Timer frequency in milliseconds
 #define TIMER_DIVIDER 16                                    //  Hardware timer clock divider
 #define TIMER_SCALE (TIMER_BASE_CLK / TIMER_DIVIDER / 1000) // convert counter value to milliseconds
 
