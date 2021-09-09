@@ -44,6 +44,7 @@ static void IRAM_ATTR timer_handler(void *args);
 
 // Display values
 uint16_t segment_0 = 0;
+uint16_t bar = 0;
 
 void app_main(void)
 {
@@ -161,11 +162,12 @@ static void IRAM_ATTR timer_handler(void *args)
 void timer_task(void *parameters)
 {
 	segment_0 += 1;
-	if (segment_0 > 99) segment_0 = 0;
+	if (segment_0 > 91) segment_0 = 0;
 
+    bar = segment_0 % 13;
 	DisplaySegment0(&dev, fx16G, CONFIG_WIDTH, CONFIG_HEIGHT);
 
-	ESP_LOGI(TAG, "Displayed time updated: %d", segment_0);
+	ESP_LOGI(TAG, "%d, %d", segment_0, bar);
 
     // Finally delete the task
     vTaskDelete(NULL);

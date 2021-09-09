@@ -13,6 +13,7 @@
 #include "fontx.h"
 
 extern uint16_t segment_0;
+extern uint16_t bar;
 
 TickType_t DisplaySegment0(TFT_t * dev, FontxFile *fx, int width, int height) {
 	TickType_t startTick, endTick, diffTick;
@@ -37,7 +38,7 @@ TickType_t DisplaySegment0(TFT_t * dev, FontxFile *fx, int width, int height) {
 	ypos = 0;
     xpos = width - 1;
 
-    snprintf((char *)ascii, ascii_len, "Display updated: %d", segment_0);
+    snprintf((char *)ascii, ascii_len, "%d (%d)", segment_0, bar);
 	xpos -= fontHeight + 1;
 	lcdDrawString(dev, fx, xpos, ypos, ascii, color);
 

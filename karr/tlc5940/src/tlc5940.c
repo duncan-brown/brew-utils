@@ -36,10 +36,11 @@
 #define SEGMENT_A_NUM 4
 
 // Led status values 0-4095
-#define LED_ON_VALUE 4095
+#define LED_ON_VALUE 1000
 #define LED_OFF_VALUE 0
 
 extern uint16_t segment_0;
+extern uint16_t bar;
 
 // Interrupt service routine for pcnt
 pcnt_isr_handle_t user_isr_handle = NULL;
@@ -48,7 +49,7 @@ pcnt_isr_handle_t user_isr_handle = NULL;
 spi_device_handle_t spi;
 
 // Gray scale clock data (12 bits * 16 outputs = 192 bits)
-uint8_t gs_data[24] = {0}; //startup value => led off (duty cycle 0)
+uint8_t gs_data[48] = {0}; //startup value => led off (duty cycle 0)
 
 static void IRAM_ATTR gs_clk_handler(void *args);
 
@@ -126,7 +127,7 @@ void tlc5940_init(void)
         .miso_io_num = CONFIG_TLC_SOUT_PIN,
         .quadwp_io_num = -1,
         .quadhd_io_num = -1,
-        .max_transfer_sz = 24 * 8};
+        .max_transfer_sz = 48 * 8};
 
     //1: Initialize the SPI bus
     ESP_ERROR_CHECK(spi_bus_initialize(HSPI_HOST, &bus_config, 0));
@@ -182,7 +183,7 @@ void gs_input_data_cycle_task(void *parameters)
 
     //4: Clock out the new gs value
     spi_transaction_t transaction = {
-        .length = 24 * 8,
+        .length = 48 * 8,
         .rxlength = 3 * 8,
         .tx_buffer = &gs_data,
         .user = (void *)0,
@@ -202,12 +203,12 @@ void set_pin_value(uint8_t pin, uint16_t value)
     uint8_t dataPt2 = 0;
 
     // Return if input data are not valid
-    if (pin > 15)
+    if (pin > 31)
         return;
     if (value > 4095)
         value = 4095;
 
-    pin = 15 - pin;
+    pin = 31 - pin;
     index = pin + pin / 2;
 
     // Split the data into 8 bit element and define the mask
@@ -227,9 +228,12 @@ void compute_leds_values()
     uint32_t display_value = 0;
     uint8_t digit1_value;
     uint8_t digit2_value;
+    uint8_t bar_n;
+    uint16_t green_led;
+    uint16_t red_led;
 
     // Reset the led values
-    for (uint8_t i = 0; i < 24; i++)
+    for (uint8_t i = 0; i < 48; i++)
         gs_data[i] = 0;
 
     display_value = segment_0;
@@ -301,6 +305,30 @@ void compute_leds_values()
     if (digit2_value != 0 && digit2_value != 1 && digit2_value != 7)
         set_pin_value(SEGMENT_G_NUM, LED_ON_VALUE);
 
-    set_pin_value(14, LED_ON_VALUE);
-    set_pin_value(15, LED_ON_VALUE);
+    set_pin_value(0 + 16, 1000);
+    set_pin_value(1 + 16, 1000);
+    set_pin_value(2 + 16, 1000);
+
+    if ((segment_0 % 26) < 13)
+    {
+        green_led = 4095;
+        red_led = 1500;
+    }
+    else
+    {
+        green_led = 4095 / 10;
+        red_led = 1500 / 10;
+    }
+
+    for (bar_n = 0; bar_n < 9; ++bar_n)
+    {
+        if (bar > bar_n)
+            set_pin_value(bar_n + 3 + 16, green_led);
+    }
+    for (bar_n = 9; bar_n < 13; ++bar_n)
+    {
+        if (bar > bar_n)
+            set_pin_value(bar_n + 3 + 16, red_led);
+    }
+
 }
