@@ -1,0 +1,35 @@
+#!/usr/bin/python
+
+import sys
+import numpy as np
+import datetime
+
+stdin = np.genfromtxt(sys.stdin, delimiter=',', skip_header=1, usecols=(0,1,8), dtype=[('date','datetime64[s]'),('temperature','f8'),('gravity','f8')])
+
+t_start = min(stdin['date'])
+
+new_dt = np.dtype(stdin.dtype.descr + [('days','m8[s]'), ('dt','m8[s]')])
+
+stdout = np.zeros(stdin.shape, dtype=new_dt)
+
+stdout['date'] = stdin['date']
+#stdout['gravity'] = stdin['gravity']
+stdout['gravity'] = 1.0
+stdout['temperature'] = stdin['temperature']
+stdout['days'] = stdin['date'] - t_start
+z = np.zeros(1, dtype='m8[s]')
+dt = np.diff(stdin['date'])
+stdout['dt'] = np.concatenate((z,dt), axis=1)
+
+print '"Date","Temperature","Gravity","Day",'
+
+last = 0
+for o in stdout:
+  if (last == 0) or (last > 3600):
+    last = 0
+    d = o['days'] / np.timedelta64(1, 'D')
+    t = o['date']
+    t = t.astype(datetime.datetime)
+    timestring = t.strftime("%d %b %Y %I:%M:%S %p")
+    print '"{}","{}","{}","{}",'.format(timestring, o['temperature'],o['gravity'],d)
+  last += o['dt']
