@@ -1,0 +1,46 @@
+#!/usr/bin/python
+
+import os
+import sys
+import time
+import socket
+import signal
+import sdnotify
+import RPi.GPIO as GPIO
+
+# gpio pin configuration
+power_relay=29
+
+# 
+def sigterm_handler(_signo, _stack_frame):
+    msg="PANP service on {0} exiting on SIGTERM".format(my_hostname)
+    print(msg)
+    n.notify("STATUS={0}".format(msg))
+    n.notify("STOPPING=1")
+    sys.exit(0)
+signal.signal(signal.SIGTERM, sigterm_handler)
+
+# set up the gpio system
+GPIO.setmode(GPIO.BOARD)
+
+# disable the power button by opening the relay
+GPIO.setup(power_relay, GPIO.OUT)
+GPIO.output(power_relay, 1)
+
+# allow boot to continue
+n = sdnotify.SystemdNotifier()
+n.notify("READY=1")
+
+my_hostname=socket.gethostname()
+n.notify("STATUS=PANP service running on {0}".format(my_hostname))
+
+if my_hostname == 'rpints':
+    while True:
+        time.sleep(1)
+elif my_hostname == 'brewpi':
+    while True:
+        time.sleep(1)
+else:
+    n.notify("Unknown hostname, exiting")
+    n.notify("ERRNO=1")
+    sys.exit(1)

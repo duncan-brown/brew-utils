@@ -1,0 +1,12 @@
+[Unit]
+Description=KITT Power Auto Norm Pursuit Service
+After=sysinit.target
+
+[Service]
+Environment=PYTHONUNBUFFERED=true
+ExecStart=/usr/bin/python3 /usr/local/sbin/panp.py
+Restart=no
+Type=notify
+
+[Install]
+WantedBy=sysinit.target
