@@ -7,16 +7,35 @@ import socket
 import signal
 import sdnotify
 import RPi.GPIO as GPIO
+from enum import Enum
 
 # gpio pin configuration
-power_relay=29
+power_relay = 29 # GPIO 5
 
-# 
+class PANPState(Enum):
+    AUTO = 13 # GPIO 27
+    NORM = 40 # GPIO 21
+    PURSUIT = 37 # GPIO 26
+
+class PANPHandler:
+    # current state
+    state = None
+
+    # initalize lamps on boot
+    def __init__(self):
+        for p in PANPState:
+            GPIO.setup(p.value, GPIO.OUT, initial=1)
+        state = PANPState.AUTO
+        GPIO.output(state.value,0)
+
+# set up exit signal handler for systemd
 def sigterm_handler(_signo, _stack_frame):
     msg="PANP service on {0} exiting on SIGTERM".format(my_hostname)
     print(msg)
     n.notify("STATUS={0}".format(msg))
     n.notify("STOPPING=1")
+    for p in PANPState:
+        GPIO.output(p.value, 1)
     sys.exit(0)
 signal.signal(signal.SIGTERM, sigterm_handler)
 
@@ -24,8 +43,7 @@ signal.signal(signal.SIGTERM, sigterm_handler)
 GPIO.setmode(GPIO.BOARD)
 
 # disable the power button by opening the relay
-GPIO.setup(power_relay, GPIO.OUT)
-GPIO.output(power_relay, 1)
+GPIO.setup(power_relay, GPIO.OUT, initial=1)
 
 # allow boot to continue
 n = sdnotify.SystemdNotifier()
@@ -35,6 +53,7 @@ my_hostname=socket.gethostname()
 n.notify("STATUS=PANP service running on {0}".format(my_hostname))
 
 if my_hostname == 'rpints':
+    h = PANPHandler()
     while True:
         time.sleep(1)
 elif my_hostname == 'brewpi':
