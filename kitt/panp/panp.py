@@ -9,6 +9,8 @@ import sdnotify
 import RPi.GPIO as GPIO
 from enum import Enum
 
+GPIO.cleanup()
+
 # gpio pin configuration
 power_relay = 29 # GPIO 5
 
@@ -17,16 +19,45 @@ class PANPState(Enum):
     NORM = 40 # GPIO 21
     PURSUIT = 37 # GPIO 26
 
+class PANPButton(Enum):
+    AUTO = 19 # GPIO 10
+    NORM = 21 # GPIO 9
+    PURSUIT = 26 # GPIO 7
+
 class PANPHandler:
     # current state
     state = None
+    last_push = None
 
     # initalize lamps on boot
     def __init__(self):
         for p in PANPState:
             GPIO.setup(p.value, GPIO.OUT, initial=1)
-        state = PANPState.AUTO
-        GPIO.output(state.value,0)
+        self.state = PANPState.AUTO
+        GPIO.output(self.state.value,0)
+        for p in PANPButton:
+            GPIO.setup(p.value, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.add_event_detect(p.value, GPIO.FALLING, callback=self.button, bouncetime=50)
+
+    def change_state(self, channel):
+        old_state = self.state
+        if channel is PANPButton.AUTO.value:
+            self.state = PANPState.AUTO
+        elif channel is PANPButton.NORM.value:
+            self.state = PANPState.NORM
+        elif channel is PANPButton.PURSUIT.value:
+            self.state = PANPState.PURSUIT
+        GPIO.output(old_state.value,1)
+        GPIO.output(self.state.value,0)
+
+    def button(self, channel):
+        if channel is not self.last_push:
+            time.sleep(0.05)
+            if GPIO.input(channel) == GPIO.LOW:
+                self.change_state(channel)
+                self.last_push = channel
+
+
 
 # set up exit signal handler for systemd
 def sigterm_handler(_signo, _stack_frame):
