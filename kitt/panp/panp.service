@@ -9,4 +9,5 @@ Restart=no
 Type=notify
 
 [Install]
-WantedBy=sysinit.target
+WantedBy=local-fs-pre.target
+After=dev-serial1.device dev-ttyAMA0.device
