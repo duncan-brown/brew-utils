@@ -11,14 +11,16 @@ from enum import Enum
 
 GPIO.cleanup()
 
-# gpio pin configuration
+# gpio pin configuration for rpints
 power_relay = 29 # GPIO 5
-
 dummy3_power = 31 # GPIO 6
 tacho_power = 12 # GPIO 18
 speedo_power = 11 # GPIO 17
-msgctr_power = 36 # GPIO 16
+auto_mode_out = 36 # GPIO 16
 
+# gpio pin configurations for brewpi
+msgctr_power = 36 # GPIO 16
+auto_mode_in = 31 # GPIO 6
 
 class PANPState(Enum):
     AUTO = 13 # GPIO 27
@@ -53,16 +55,19 @@ class PANPHandler:
             GPIO.output(dummy3_power, 1)
             GPIO.output(tacho_power, 1)
             GPIO.output(speedo_power, 1)
+            GPIO.output(auto_mode_out, 1)
             self.state = PANPState.AUTO
         elif channel is PANPButton.NORM.value:
             GPIO.output(dummy3_power, 0)
             GPIO.output(tacho_power, 0)
             GPIO.output(speedo_power, 0)
+            GPIO.output(auto_mode_out, 0)
             self.state = PANPState.NORM
         elif channel is PANPButton.PURSUIT.value:
             GPIO.output(dummy3_power, 0)
             GPIO.output(tacho_power, 0)
             GPIO.output(speedo_power, 0)
+            GPIO.output(auto_mode_out, 0)
             self.state = PANPState.PURSUIT
         GPIO.output(old_state.value,1)
         GPIO.output(self.state.value,0)
@@ -105,12 +110,18 @@ if my_hostname == 'rpints':
     GPIO.setup(tacho_power, GPIO.OUT, initial=1)
     GPIO.setup(speedo_power, GPIO.OUT, initial=1)
 
+    # set up output pin for brewpi
+    GPIO.setup(auto_mode_out, GPIO.OUT, initial=0)
+
     # set up the panp button handler
     h = PANPHandler()
 
 elif my_hostname == 'brewpi':
     # initailize the message center power relay
     GPIO.setup(msgctr_power, GPIO.OUT, initial=0)
+
+    # set up input pin for auto mode from rpints
+    GPIO.setup(auto_mode_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 else:
     # fail with an error
