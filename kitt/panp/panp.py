@@ -14,22 +14,30 @@ GPIO.cleanup()
 # gpio pin configuration
 power_relay = 29 # GPIO 5
 
+dummy3_power = 31 # GPIO 6
+tacho_power = 12 # GPIO 18
+speedo_power = 11 # GPIO 17
+msgctr_power = 36 # GPIO 16
+
+
 class PANPState(Enum):
     AUTO = 13 # GPIO 27
     NORM = 40 # GPIO 21
     PURSUIT = 37 # GPIO 26
+
 
 class PANPButton(Enum):
     AUTO = 19 # GPIO 10
     NORM = 21 # GPIO 9
     PURSUIT = 26 # GPIO 7
 
+
 class PANPHandler:
     # current state
     state = None
     last_push = None
 
-    # initalize lamps on boot
+    # initalize panp lamps on boot
     def __init__(self):
         for p in PANPState:
             GPIO.setup(p.value, GPIO.OUT, initial=1)
@@ -42,10 +50,19 @@ class PANPHandler:
     def change_state(self, channel):
         old_state = self.state
         if channel is PANPButton.AUTO.value:
+            GPIO.output(dummy3_power, 1)
+            GPIO.output(tacho_power, 1)
+            GPIO.output(speedo_power, 1)
             self.state = PANPState.AUTO
         elif channel is PANPButton.NORM.value:
+            GPIO.output(dummy3_power, 0)
+            GPIO.output(tacho_power, 0)
+            GPIO.output(speedo_power, 0)
             self.state = PANPState.NORM
         elif channel is PANPButton.PURSUIT.value:
+            GPIO.output(dummy3_power, 0)
+            GPIO.output(tacho_power, 0)
+            GPIO.output(speedo_power, 0)
             self.state = PANPState.PURSUIT
         GPIO.output(old_state.value,1)
         GPIO.output(self.state.value,0)
@@ -56,7 +73,6 @@ class PANPHandler:
             if GPIO.input(channel) == GPIO.LOW:
                 self.change_state(channel)
                 self.last_push = channel
-
 
 
 # set up exit signal handler for systemd
@@ -84,13 +100,24 @@ my_hostname=socket.gethostname()
 n.notify("STATUS=PANP service running on {0}".format(my_hostname))
 
 if my_hostname == 'rpints':
+    # initailize the dashboard power relays
+    GPIO.setup(dummy3_power, GPIO.OUT, initial=1)
+    GPIO.setup(tacho_power, GPIO.OUT, initial=1)
+    GPIO.setup(speedo_power, GPIO.OUT, initial=1)
+
+    # set up the panp button handler
     h = PANPHandler()
-    while True:
-        time.sleep(1)
+
 elif my_hostname == 'brewpi':
-    while True:
-        time.sleep(1)
+    # initailize the message center power relay
+    GPIO.setup(msgctr_power, GPIO.OUT, initial=0)
+
 else:
+    # fail with an error
     n.notify("Unknown hostname, exiting")
     n.notify("ERRNO=1")
     sys.exit(1)
+
+# sleep forever waiting for events
+while True:
+    time.sleep(1)
