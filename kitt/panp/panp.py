@@ -86,9 +86,18 @@ def sigterm_handler(_signo, _stack_frame):
     print(msg)
     n.notify("STATUS={0}".format(msg))
     n.notify("STOPPING=1")
-    for p in PANPState:
-        GPIO.output(p.value, 1)
+    if my_hostname == 'rpints':
+        for p in PANPState:
+            GPIO.output(p.value, 1)
+        GPIO.output(dummy3_power, 1)
+        GPIO.output(tacho_power, 1)
+        GPIO.output(speedo_power, 1)
+        GPIO.output(auto_mode_out, 0)
+    else:
+        GPIO.output(msgctr_power,0)
     sys.exit(0)
+
+# install the signal handler
 signal.signal(signal.SIGTERM, sigterm_handler)
 
 # set up the gpio system
