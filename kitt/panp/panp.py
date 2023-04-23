@@ -45,9 +45,9 @@ class PANPHandler:
     # initalize panp lamps on boot
     def __init__(self):
         for p in PANPState:
-            GPIO.setup(p.value, GPIO.OUT, initial=1)
+            GPIO.setup(p.value, GPIO.OUT, initial=0)
         self.state = PANPState.AUTO
-        GPIO.output(self.state.value,0)
+        GPIO.output(self.state.value,1)
         for p in PANPButton:
             GPIO.setup(p.value, GPIO.IN, pull_up_down=GPIO.PUD_UP)
             GPIO.add_event_detect(p.value, GPIO.FALLING, callback=self.button, bouncetime=50)
