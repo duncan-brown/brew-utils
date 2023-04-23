@@ -168,7 +168,7 @@ class BrightnessHandler:
             for dev in devs:
                 tx = serial.Serial(dev, 57600)
                 if channel_state:
-                    tx.write(str.encode('>@BD30?'))
+                    tx.write(str.encode('>@BD20?'))
                 else:
                     tx.write(str.encode('>@BDFF?'))
                 self.brightness = channel_state
