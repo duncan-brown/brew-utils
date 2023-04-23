@@ -34,6 +34,56 @@ dummy_tx_dev = '/dev/ttyAMA1'
 msg_ctr_tx_dev = '/dev/ttyAMA0'
 speedo_tx_dev = '/dev/ttyAMA1'
 
+# probe configuration from brewpi
+MASH_PROBE = "/sys/bus/w1/devices/28-012052b65be5/w1_slave"
+HLT_PROBE = "/sys/bus/w1/devices/28-0120529d8f20/w1_slave"
+
+
+def get_probe_temp(probe):
+    tempvalue_f = 0
+    try:
+        fileobj = open(probe,'r')
+        lines = fileobj.readlines()
+        fileobj.close()
+        status = lines[0][-4:-1]
+        equals_pos = lines[1].find('t=')
+        tempstr = lines[1][equals_pos+2:]
+        tempvalue_c = float(tempstr)/1000.0
+        tempvalue_f = tempvalue_c * 9.0 / 5.0 + 32.0
+    except:
+        pass
+    return tempvalue_f
+
+
+def get_probe_temp_units(probe):
+    tempvalue_f = get_probe_temp(probe)
+    tenths = int(round(tempvalue_f % 1 * 10.0, 0))
+    ones = int(tempvalue_f % 10)
+    tens = int(tempvalue_f // 10 % 10)
+    hundreds = int(tempvalue_f // 100 % 10)
+    return hundreds, tens, ones, tenths
+
+
+def brewpi_loop():
+    speedo_tx = serial.Serial ("/dev/ttyAMA1", 57600)
+
+    hundreds, tens, ones, tenths = get_probe_temp_units(HLT_PROBE)
+    msg = ">BBc{:0>2X}?".format(hundreds*10 + tens)
+    speedo_tx.write(str.encode(msg))
+    msg = '>BHd0{0}0{1}0{2}03?'.format(hundreds, tens, ones)
+    speedo_tx.write(str.encode(msg))
+
+    hundreds, tens, ones, tenths = get_probe_temp_units(MASH_PROBE)
+    n = ((hundreds*100+tens*10+ones)-110)//5
+    if ( n < 0 ): n = 0
+    msg = ">BBb{:0>2X}?".format(n)
+    speedo_tx.write(str.encode(msg))
+    msg = '>BHe0{0}0{1}0{2}0{3}01?'.format(hundreds, tens, ones, tenths)
+    speedo_tx.write(str.encode(msg))
+
+    speedo_tx.close()
+
+
 class PANPState(Enum):
     # GPIO pins for PANP lamps
     AUTO = 35    # GPIO 19
@@ -97,7 +147,6 @@ class PANPHandler:
 # set up exit signal handler for systemd
 def sigterm_handler(_signo, _stack_frame):
     msg="PANP service on {0} exiting on SIGTERM".format(my_hostname)
-    print(msg)
     n.notify("STATUS={0}".format(msg))
     n.notify("STOPPING=1")
     if my_hostname == 'rpints':
@@ -127,10 +176,8 @@ class SpeedoBrightnessHandler:
         channel_state = GPIO.input(channel)
         if channel_state is not self.speedo_brightness:
             if channel_state:
-                print("setting speedo dim")
                 speedo_tx.write(str.encode('>BBD40?'))
             else:
-                print("setting speedo bright")
                 speedo_tx.write(str.encode('>BBDFF?'))
             self.speedo_brightness = channel_state
         speedo_tx.close()
@@ -185,4 +232,7 @@ else:
 
 # sleep forever waiting for events
 while True:
+    if my_hostname == 'brewpi':
+        brewpi_loop()
+
     time.sleep(1)
