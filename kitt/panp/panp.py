@@ -122,9 +122,9 @@ n.notify("STATUS=PANP service running on {0}".format(my_hostname))
 
 if my_hostname == 'rpints':
     # initailize the dashboard power relays
-    GPIO.setup(lower_dash_power, GPIO.OUT, initial=0)
-    GPIO.setup(upper_dash_power, GPIO.OUT, initial=0)
-    GPIO.setup(sp_power, GPIO.OUT, initial=0)
+    GPIO.setup(lower_dash_power, GPIO.OUT, initial=1)
+    GPIO.setup(upper_dash_power, GPIO.OUT, initial=1)
+    GPIO.setup(sp_power, GPIO.OUT, initial=1)
 
     # set up output pin for brewpi
     GPIO.setup(pursuit_mode_out, GPIO.OUT, initial=0)
