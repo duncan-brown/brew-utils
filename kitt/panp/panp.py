@@ -26,14 +26,6 @@ normal_mode_out = 15 # GPIO 22
 msgctr_power = 36    # GPIO 16
 normal_mode_in = 15 # GPIO 22
 
-# serial configuration for rpints
-tacho_tx_dev = '/dev/ttyAMA0'
-dummy_tx_dev = '/dev/ttyAMA1'
-
-# serial configuration for brewpi
-msg_ctr_tx_dev = '/dev/ttyAMA0'
-speedo_tx_dev = '/dev/ttyAMA1'
-
 # probe configuration from brewpi
 MASH_PROBE = "/sys/bus/w1/devices/28-012052b65be5/w1_slave"
 HLT_PROBE = "/sys/bus/w1/devices/28-0120529d8f20/w1_slave"
@@ -65,7 +57,7 @@ def get_probe_temp_units(probe):
 
 
 def brewpi_loop():
-    speedo_tx = serial.Serial ("/dev/ttyAMA1", 57600)
+    speedo_tx = serial.Serial("/dev/ttyAMA1", 57600)
 
     hundreds, tens, ones, tenths = get_probe_temp_units(HLT_PROBE)
     msg = ">BBc{:0>2X}?".format(hundreds*10 + tens)
@@ -105,6 +97,7 @@ class PANPHandler:
 
     # initalize panp lamps on boot
     def __init__(self):
+        self.brightness = BrightnessHandler()
         for p in PANPState:
             GPIO.setup(p.value, GPIO.OUT, initial=0)
         self.state = PANPState.AUTO
@@ -126,12 +119,14 @@ class PANPHandler:
             GPIO.output(upper_dash_power, 0)
             GPIO.output(sp_power, 1)
             GPIO.output(normal_mode_out, 1)
+            self.brightness.set_brightness(normal_mode_out)
             self.state = PANPState.NORM
         elif channel is PANPButton.PURSUIT.value:
             GPIO.output(lower_dash_power, 0)
             GPIO.output(upper_dash_power, 0)
             GPIO.output(sp_power, 0)
             GPIO.output(normal_mode_out, 0)
+            self.brightness.set_brightness(normal_mode_out)
             self.state = PANPState.PURSUIT
         GPIO.output(old_state.value,0)
         GPIO.output(self.state.value,1)
@@ -161,26 +156,23 @@ def sigterm_handler(_signo, _stack_frame):
     GPIO.output(serial_enable,0)
     sys.exit(0)
 
-
 # send a command to dim the speedo
-class SpeedoBrightnessHandler:
+class BrightnessHandler:
     def __init__(self):
-        self.speedo_brightness = GPIO.HIGH
-        self.boot = True
+        self.brightness = GPIO.HIGH
         
-    def brightness(self, channel):
-        if self.boot:
-            time.sleep(1)
-            self.boot = False
-        speedo_tx = serial.Serial(speedo_tx_dev, 57600)
+    def set_brightness(self, channel):
+        devs = [ "/dev/ttyS0", "/dev/ttyAMA1" ]
         channel_state = GPIO.input(channel)
-        if channel_state is not self.speedo_brightness:
-            if channel_state:
-                speedo_tx.write(str.encode('>BBD40?'))
-            else:
-                speedo_tx.write(str.encode('>BBDFF?'))
-            self.speedo_brightness = channel_state
-        speedo_tx.close()
+        if channel_state is not self.brightness:
+            for dev in devs:
+                tx = serial.Serial(dev, 57600)
+                if channel_state:
+                    tx.write(str.encode('>@BD30?'))
+                else:
+                    tx.write(str.encode('>@BDFF?'))
+                self.brightness = channel_state
+                tx.close()
 
 # install the signal handler
 signal.signal(signal.SIGTERM, sigterm_handler)
@@ -221,8 +213,8 @@ elif my_hostname == 'brewpi':
     GPIO.setup(normal_mode_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
     # dim the speedo as we are in auto mode initially
-    speedo_brightness = SpeedoBrightnessHandler()
-    GPIO.add_event_detect(normal_mode_in, GPIO.BOTH, callback=speedo_brightness.brightness, bouncetime=10)
+    brightness = BrightnessHandler()
+    GPIO.add_event_detect(normal_mode_in, GPIO.BOTH, callback=brightness.set_brightness, bouncetime=10)
 
 else:
     # fail with an error
