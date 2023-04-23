@@ -15,26 +15,26 @@ GPIO.cleanup()
 serial_enable = 22 # GPIO 25
 
 # gpio pin configuration for rpints
-power_relay = 29 # GPIO 5
-dummy3_power = 31 # GPIO 6
-tacho_power = 12 # GPIO 18
-speedo_power = 11 # GPIO 17
-auto_mode_out = 36 # GPIO 16
+power_relay = 16      # GPIO 23
+lower_dash_power = 19 # GPIO 10 (MOSI)
+upper_dash_power = 12 # GPIO 18
+sp_power = 11         # GPIO 17
+pursuit_mode_out = 15 # GPIO 22
 
 # gpio pin configurations for brewpi
-msgctr_power = 36 # GPIO 16
-auto_mode_in = 31 # GPIO 6
+msgctr_power = 36    # GPIO 16
+pursuit_mode_in = 15 # GPIO 22
 
 class PANPState(Enum):
-    AUTO = 13 # GPIO 27
-    NORM = 40 # GPIO 21
-    PURSUIT = 37 # GPIO 26
+    AUTO = 35    # GPIO 19
+    NORM = 38    # GPIO 20
+    PURSUIT = 32 # GPIO 12
 
 
 class PANPButton(Enum):
-    AUTO = 19 # GPIO 10
-    NORM = 21 # GPIO 9
-    PURSUIT = 26 # GPIO 7
+    AUTO = 29    # GPIO 5
+    NORM = 31    # GPIO 6
+    PURSUIT = 36 # GPIO 16
 
 
 class PANPHandler:
@@ -55,25 +55,25 @@ class PANPHandler:
     def change_state(self, channel):
         old_state = self.state
         if channel is PANPButton.AUTO.value:
-            GPIO.output(dummy3_power, 1)
-            GPIO.output(tacho_power, 1)
-            GPIO.output(speedo_power, 1)
-            GPIO.output(auto_mode_out, 1)
+            GPIO.output(lower_dash_power, 1)
+            GPIO.output(upper_dash_power, 1)
+            GPIO.output(sp_power, 1)
+            GPIO.output(pursuit_mode_out, 0)
             self.state = PANPState.AUTO
         elif channel is PANPButton.NORM.value:
-            GPIO.output(dummy3_power, 0)
-            GPIO.output(tacho_power, 0)
-            GPIO.output(speedo_power, 0)
-            GPIO.output(auto_mode_out, 0)
+            GPIO.output(lower_dash_power, 0)
+            GPIO.output(upper_dash_power, 0)
+            GPIO.output(sp_power, 1)
+            GPIO.output(pursuit_mode_out, 0)
             self.state = PANPState.NORM
         elif channel is PANPButton.PURSUIT.value:
-            GPIO.output(dummy3_power, 0)
-            GPIO.output(tacho_power, 0)
-            GPIO.output(speedo_power, 0)
-            GPIO.output(auto_mode_out, 0)
+            GPIO.output(lower_dash_power, 0)
+            GPIO.output(upper_dash_power, 0)
+            GPIO.output(sp_power, 0)
+            GPIO.output(pursuit_mode_out, 1)
             self.state = PANPState.PURSUIT
-        GPIO.output(old_state.value,1)
-        GPIO.output(self.state.value,0)
+        GPIO.output(old_state.value,0)
+        GPIO.output(self.state.value,1)
 
     def button(self, channel):
         if channel is not self.last_push:
@@ -91,11 +91,11 @@ def sigterm_handler(_signo, _stack_frame):
     n.notify("STOPPING=1")
     if my_hostname == 'rpints':
         for p in PANPState:
-            GPIO.output(p.value, 1)
-        GPIO.output(dummy3_power, 1)
-        GPIO.output(tacho_power, 1)
-        GPIO.output(speedo_power, 1)
-        GPIO.output(auto_mode_out, 0)
+            GPIO.output(p.value, 0)
+        GPIO.output(lower_dash_power, 1)
+        GPIO.output(upper_dash_power, 1)
+        GPIO.output(sp_power, 1)
+        GPIO.output(pursuit_mode_out, 0)
     else:
         GPIO.output(msgctr_power,0)
     GPIO.output(serial_enable,0)
@@ -122,12 +122,12 @@ n.notify("STATUS=PANP service running on {0}".format(my_hostname))
 
 if my_hostname == 'rpints':
     # initailize the dashboard power relays
-    GPIO.setup(dummy3_power, GPIO.OUT, initial=1)
-    GPIO.setup(tacho_power, GPIO.OUT, initial=1)
-    GPIO.setup(speedo_power, GPIO.OUT, initial=1)
+    GPIO.setup(lower_dash_power, GPIO.OUT, initial=0)
+    GPIO.setup(upper_dash_power, GPIO.OUT, initial=0)
+    GPIO.setup(sp_power, GPIO.OUT, initial=0)
 
     # set up output pin for brewpi
-    GPIO.setup(auto_mode_out, GPIO.OUT, initial=0)
+    GPIO.setup(pursuit_mode_out, GPIO.OUT, initial=0)
 
     # set up the panp button handler
     h = PANPHandler()
@@ -137,7 +137,7 @@ elif my_hostname == 'brewpi':
     GPIO.setup(msgctr_power, GPIO.OUT, initial=0)
 
     # set up input pin for auto mode from rpints
-    GPIO.setup(auto_mode_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    GPIO.setup(pursuit_mode_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 else:
     # fail with an error
