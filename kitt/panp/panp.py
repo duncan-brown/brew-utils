@@ -5,6 +5,7 @@ import sys
 import time
 import socket
 import signal
+import serial
 import sdnotify
 import RPi.GPIO as GPIO
 from enum import Enum
@@ -19,19 +20,29 @@ power_relay = 16      # GPIO 23
 lower_dash_power = 19 # GPIO 10 (MOSI)
 upper_dash_power = 12 # GPIO 18
 sp_power = 11         # GPIO 17
-pursuit_mode_out = 15 # GPIO 22
+normal_mode_out = 15 # GPIO 22
 
 # gpio pin configurations for brewpi
 msgctr_power = 36    # GPIO 16
-pursuit_mode_in = 15 # GPIO 22
+normal_mode_in = 15 # GPIO 22
+
+# serial configuration for rpints
+tacho_tx_dev = '/dev/ttyAMA0'
+dummy_tx_dev = '/dev/ttyAMA1'
+
+# serial configuration for brewpi
+msg_ctr_tx_dev = '/dev/ttyAMA0'
+speedo_tx_dev = '/dev/ttyAMA1'
 
 class PANPState(Enum):
+    # GPIO pins for PANP lamps
     AUTO = 35    # GPIO 19
     NORM = 38    # GPIO 20
     PURSUIT = 32 # GPIO 12
 
 
 class PANPButton(Enum):
+    # GPIO pins for PANP buttons
     AUTO = 29    # GPIO 5
     NORM = 31    # GPIO 6
     PURSUIT = 36 # GPIO 16
@@ -58,19 +69,19 @@ class PANPHandler:
             GPIO.output(lower_dash_power, 1)
             GPIO.output(upper_dash_power, 1)
             GPIO.output(sp_power, 1)
-            GPIO.output(pursuit_mode_out, 0)
+            GPIO.output(normal_mode_out, 0)
             self.state = PANPState.AUTO
         elif channel is PANPButton.NORM.value:
             GPIO.output(lower_dash_power, 0)
             GPIO.output(upper_dash_power, 0)
             GPIO.output(sp_power, 1)
-            GPIO.output(pursuit_mode_out, 0)
+            GPIO.output(normal_mode_out, 1)
             self.state = PANPState.NORM
         elif channel is PANPButton.PURSUIT.value:
             GPIO.output(lower_dash_power, 0)
             GPIO.output(upper_dash_power, 0)
             GPIO.output(sp_power, 0)
-            GPIO.output(pursuit_mode_out, 1)
+            GPIO.output(normal_mode_out, 0)
             self.state = PANPState.PURSUIT
         GPIO.output(old_state.value,0)
         GPIO.output(self.state.value,1)
@@ -95,11 +106,34 @@ def sigterm_handler(_signo, _stack_frame):
         GPIO.output(lower_dash_power, 1)
         GPIO.output(upper_dash_power, 1)
         GPIO.output(sp_power, 1)
-        GPIO.output(pursuit_mode_out, 0)
+        GPIO.output(normal_mode_out, 0)
     else:
         GPIO.output(msgctr_power,0)
     GPIO.output(serial_enable,0)
     sys.exit(0)
+
+
+# send a command to dim the speedo
+class SpeedoBrightnessHandler:
+    def __init__(self):
+        self.speedo_brightness = GPIO.HIGH
+        self.boot = True
+        
+    def brightness(self, channel):
+        if self.boot:
+            time.sleep(1)
+            self.boot = False
+        speedo_tx = serial.Serial(speedo_tx_dev, 57600)
+        channel_state = GPIO.input(channel)
+        if channel_state is not self.speedo_brightness:
+            if channel_state:
+                print("setting speedo dim")
+                speedo_tx.write(str.encode('>BBD40?'))
+            else:
+                print("setting speedo bright")
+                speedo_tx.write(str.encode('>BBDFF?'))
+            self.speedo_brightness = channel_state
+        speedo_tx.close()
 
 # install the signal handler
 signal.signal(signal.SIGTERM, sigterm_handler)
@@ -127,7 +161,7 @@ if my_hostname == 'rpints':
     GPIO.setup(sp_power, GPIO.OUT, initial=1)
 
     # set up output pin for brewpi
-    GPIO.setup(pursuit_mode_out, GPIO.OUT, initial=0)
+    GPIO.setup(normal_mode_out, GPIO.OUT, initial=0)
 
     # set up the panp button handler
     h = PANPHandler()
@@ -137,7 +171,11 @@ elif my_hostname == 'brewpi':
     GPIO.setup(msgctr_power, GPIO.OUT, initial=0)
 
     # set up input pin for auto mode from rpints
-    GPIO.setup(pursuit_mode_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    GPIO.setup(normal_mode_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
+    # dim the speedo as we are in auto mode initially
+    speedo_brightness = SpeedoBrightnessHandler()
+    GPIO.add_event_detect(normal_mode_in, GPIO.BOTH, callback=speedo_brightness.brightness, bouncetime=10)
 
 else:
     # fail with an error
