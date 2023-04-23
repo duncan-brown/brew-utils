@@ -11,6 +11,9 @@ from enum import Enum
 
 GPIO.cleanup()
 
+# common gpio pins
+serial_enable = 22 # GPIO 25
+
 # gpio pin configuration for rpints
 power_relay = 29 # GPIO 5
 dummy3_power = 31 # GPIO 6
@@ -95,6 +98,7 @@ def sigterm_handler(_signo, _stack_frame):
         GPIO.output(auto_mode_out, 0)
     else:
         GPIO.output(msgctr_power,0)
+    GPIO.output(serial_enable,0)
     sys.exit(0)
 
 # install the signal handler
@@ -105,6 +109,9 @@ GPIO.setmode(GPIO.BOARD)
 
 # disable the power button by opening the relay
 GPIO.setup(power_relay, GPIO.OUT, initial=1)
+
+# enable the 3.3V to 5V serial converter
+GPIO.setup(serial_enable, GPIO.OUT, initial=1)
 
 # allow boot to continue
 n = sdnotify.SystemdNotifier()
