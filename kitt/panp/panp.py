@@ -10,7 +10,6 @@ import sdnotify
 import RPi.GPIO as GPIO
 from enum import Enum
 
-GPIO.cleanup()
 
 # common gpio pins
 serial_enable = 22 # GPIO 25
@@ -143,7 +142,6 @@ class PANPHandler:
 def sigterm_handler(_signo, _stack_frame):
     msg="PANP service on {0} exiting on SIGTERM".format(my_hostname)
     n.notify("STATUS={0}".format(msg))
-    n.notify("STOPPING=1")
     if my_hostname == 'rpints':
         for p in PANPState:
             GPIO.output(p.value, 0)
@@ -152,9 +150,11 @@ def sigterm_handler(_signo, _stack_frame):
         GPIO.output(sp_power, 1)
         GPIO.output(normal_mode_out, 0)
     else:
+        GPIO.remove_event_detect(normal_mode_in)
         GPIO.output(msgctr_power,0)
     GPIO.output(serial_enable,0)
-    sys.exit(0)
+    os.kill(os.getpid(), signal.SIGINT)
+
 
 # send a command to dim the speedo
 class BrightnessHandler:
@@ -223,8 +223,15 @@ else:
     sys.exit(1)
 
 # sleep forever waiting for events
-while True:
-    if my_hostname == 'brewpi':
-        brewpi_loop()
+try:
+    while True:
+        if my_hostname == 'brewpi':
+            brewpi_loop()
 
-    time.sleep(1)
+        time.sleep(1)
+except KeyboardInterrupt:
+    msg="PANP service on {0} exiting cleanly".format(my_hostname)
+    n.notify("STATUS={0}".format(msg))
+    n.notify("STOPPING=1")
+    sys.exit(0)
+
