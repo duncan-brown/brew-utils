@@ -6,6 +6,7 @@ import time
 import socket
 import signal
 import serial
+import _thread
 import sdnotify
 import RPi.GPIO as GPIO
 from enum import Enum
@@ -153,7 +154,7 @@ def sigterm_handler(_signo, _stack_frame):
         GPIO.remove_event_detect(normal_mode_in)
         GPIO.output(msgctr_power,0)
     GPIO.output(serial_enable,0)
-    os.kill(os.getpid(), signal.SIGINT)
+    _thread.interrupt_main(signal.SIGINT)
 
 
 # send a command to dim the speedo
