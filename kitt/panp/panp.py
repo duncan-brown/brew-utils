@@ -26,54 +26,54 @@ normal_mode_out = 15 # GPIO 22
 msgctr_power = 36    # GPIO 16
 normal_mode_in = 15 # GPIO 22
 
-# probe configuration from brewpi
-MASH_PROBE = "/sys/bus/w1/devices/28-012052b65be5/w1_slave"
-HLT_PROBE = "/sys/bus/w1/devices/28-0120529d8f20/w1_slave"
-
-
-def get_probe_temp(probe):
-    tempvalue_f = 0
-    try:
-        fileobj = open(probe,'r')
-        lines = fileobj.readlines()
-        fileobj.close()
-        status = lines[0][-4:-1]
-        equals_pos = lines[1].find('t=')
-        tempstr = lines[1][equals_pos+2:]
-        tempvalue_c = float(tempstr)/1000.0
-        tempvalue_f = tempvalue_c * 9.0 / 5.0 + 32.0
-    except:
+class TempProbe:
+    def __init__(self):
         pass
-    return tempvalue_f
+
+    def get_probe_temp(self, probe):
+        tempvalue_f = 0
+        try:
+            fileobj = open(probe,'r')
+            lines = fileobj.readlines()
+            fileobj.close()
+            status = lines[0][-4:-1]
+            equals_pos = lines[1].find('t=')
+            tempstr = lines[1][equals_pos+2:]
+            tempvalue_c = float(tempstr)/1000.0
+            tempvalue_f = tempvalue_c * 9.0 / 5.0 + 32.0
+        except:
+            pass
+        return tempvalue_f
+
+    def get_probe_temp_units(self, probe):
+        tempvalue_f = self.get_probe_temp(probe)
+        tenths = int(round(tempvalue_f % 1 * 10.0, 0))
+        ones = int(tempvalue_f % 10)
+        tens = int(tempvalue_f // 10 % 10)
+        hundreds = int(tempvalue_f // 100 % 10)
+        return hundreds, tens, ones, tenths
 
 
-def get_probe_temp_units(probe):
-    tempvalue_f = get_probe_temp(probe)
-    tenths = int(round(tempvalue_f % 1 * 10.0, 0))
-    ones = int(tempvalue_f % 10)
-    tens = int(tempvalue_f // 10 % 10)
-    hundreds = int(tempvalue_f // 100 % 10)
-    return hundreds, tens, ones, tenths
+class BrewPiLoopHandler(TempProbe):
+    def __init__(self, speedo_tx):
+        self.mash_probe = "/sys/bus/w1/devices/28-012052b65be5/w1_slave"
+        self.hlt_probe = "/sys/bus/w1/devices/28-0120529d8f20/w1_slave"
+        self.speedo_tx = speedo_tx
 
+    def loop(self):
+        hundreds, tens, ones, tenths = self.get_probe_temp_units(self.hlt_probe)
+        msg = ">BBc{:0>2X}?".format(hundreds*10 + tens)
+        self.speedo_tx.write(str.encode(msg))
+        msg = '>BHd0{0}0{1}0{2}03?'.format(hundreds, tens, ones)
+        self.speedo_tx.write(str.encode(msg))
 
-def brewpi_loop():
-    speedo_tx = serial.Serial("/dev/ttyAMA1", 57600)
-
-    hundreds, tens, ones, tenths = get_probe_temp_units(HLT_PROBE)
-    msg = ">BBc{:0>2X}?".format(hundreds*10 + tens)
-    speedo_tx.write(str.encode(msg))
-    msg = '>BHd0{0}0{1}0{2}03?'.format(hundreds, tens, ones)
-    speedo_tx.write(str.encode(msg))
-
-    hundreds, tens, ones, tenths = get_probe_temp_units(MASH_PROBE)
-    n = ((hundreds*100+tens*10+ones)-110)//5
-    if ( n < 0 ): n = 0
-    msg = ">BBb{:0>2X}?".format(n)
-    speedo_tx.write(str.encode(msg))
-    msg = '>BHe0{0}0{1}0{2}0{3}01?'.format(hundreds, tens, ones, tenths)
-    speedo_tx.write(str.encode(msg))
-
-    speedo_tx.close()
+        hundreds, tens, ones, tenths = self.get_probe_temp_units(self.mash_probe)
+        n = ((hundreds*100+tens*10+ones)-110)//5
+        if ( n < 0 ): n = 0
+        msg = ">BBb{:0>2X}?".format(n)
+        self.speedo_tx.write(str.encode(msg))
+        msg = '>BHe0{0}0{1}0{2}0{3}01?'.format(hundreds, tens, ones, tenths)
+        self.speedo_tx.write(str.encode(msg))
 
 
 class PANPState(Enum):
@@ -96,8 +96,8 @@ class PANPHandler:
     last_push = None
 
     # initalize panp lamps on boot
-    def __init__(self):
-        self.brightness = BrightnessHandler()
+    def __init__(self,tx_devs):
+        self.brightness = BrightnessHandler(tx_devs)
         for p in PANPState:
             GPIO.setup(p.value, GPIO.OUT, initial=0)
         self.state = PANPState.AUTO
@@ -159,21 +159,20 @@ def sigterm_handler(_signo, _stack_frame):
 
 # send a command to dim the speedo
 class BrightnessHandler:
-    def __init__(self):
+    def __init__(self, tx_devs):
         self.brightness = GPIO.HIGH
+        self.tx_devs = tx_devs
         
     def set_brightness(self, channel):
-        devs = [ "/dev/ttyS0", "/dev/ttyAMA1" ]
         channel_state = GPIO.input(channel)
         if channel_state is not self.brightness:
-            for dev in devs:
-                tx = serial.Serial(dev, 57600)
+            for tx in self.tx_devs:
                 if channel_state:
-                    tx.write(str.encode('>@BD20?'))
+                    msg = '>@BD20?'
                 else:
-                    tx.write(str.encode('>@BDFF?'))
+                    msg = '>@BDFF?'
+                tx.write(str.encode(msg))
                 self.brightness = channel_state
-                tx.close()
 
 # install the signal handler
 signal.signal(signal.SIGTERM, sigterm_handler)
@@ -194,6 +193,7 @@ n.notify("READY=1")
 my_hostname=socket.gethostname()
 n.notify("STATUS=PANP service running on {0}".format(my_hostname))
 
+
 if my_hostname == 'rpints':
     # initailize the dashboard power relays
     GPIO.setup(lower_dash_power, GPIO.OUT, initial=1)
@@ -203,8 +203,12 @@ if my_hostname == 'rpints':
     # set up output pin for brewpi
     GPIO.setup(normal_mode_out, GPIO.OUT, initial=0)
 
+    # open the serial ports
+    tacho_tx = serial.Serial("/dev/ttyAMA1", 57600)
+    dummy_tx = serial.Serial("/dev/ttyS0", 57600)
+
     # set up the panp button handler
-    h = PANPHandler()
+    panp_handler = PANPHandler([tacho_tx, dummy_tx])
 
 elif my_hostname == 'brewpi':
     # initailize the message center power relay
@@ -213,9 +217,14 @@ elif my_hostname == 'brewpi':
     # set up input pin for auto mode from rpints
     GPIO.setup(normal_mode_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+    # open the serial port to the speedo display
+    speedo_tx = serial.Serial("/dev/ttyAMA1", 57600)
+
     # dim the speedo as we are in auto mode initially
-    brightness = BrightnessHandler()
+    brightness = BrightnessHandler([speedo_tx])
     GPIO.add_event_detect(normal_mode_in, GPIO.BOTH, callback=brightness.set_brightness, bouncetime=10)
+
+    loop_handler = BrewPiLoopHandler(speedo_tx)
 
 else:
     # fail with an error
@@ -225,12 +234,20 @@ else:
 
 # sleep forever waiting for events
 try:
+
     while True:
         if my_hostname == 'brewpi':
-            brewpi_loop()
+            loop_handler.loop()
 
         time.sleep(1)
+
 except KeyboardInterrupt:
+    if my_hostname == 'brewpi':
+        speedo_tx.close()
+    else:
+        tacho_tx.close()
+        dummy_tx.close()
+
     msg="PANP service on {0} exiting cleanly".format(my_hostname)
     n.notify("STATUS={0}".format(msg))
     n.notify("STOPPING=1")
