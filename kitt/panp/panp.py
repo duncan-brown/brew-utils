@@ -10,6 +10,8 @@ import _thread
 import sdnotify
 import RPi.GPIO as GPIO
 from enum import Enum
+from threading import Thread
+from queue import Queue
 
 
 # common gpio pins
@@ -26,6 +28,8 @@ normal_mode_out = 15    # GPIO 22
 brewpi_power_relay = 29 # GPIO 5
 msgctr_power = 36       # GPIO 16
 normal_mode_in = 15     # GPIO 22
+
+
 
 class TempProbe:
     def __init__(self):
@@ -69,9 +73,11 @@ class RPMMode(Enum):
 
 
 class RPintsLoopHandler(TempProbe):
-    def __init__(self, tacho_tx, dummy_tx):
+    def __init__(self, tacho_tx, dummy_tx, sp_q):
         self.tacho_tx = tacho_tx
         self.dummy_tx = dummy_tx
+        self.sp_q = sp_q
+
         self.keezer_probes = [
                 "/sys/bus/w1/devices/28-012052b92541/w1_slave",
                 "/sys/bus/w1/devices/28-012058f936f3/w1_slave",
@@ -89,6 +95,7 @@ class RPintsLoopHandler(TempProbe):
         self.lager_temps = [ 0.0, 0.0, 0.0 ]
         self.keg_capacity = [ 0.0, 0.0, 0.0, 0.0, 0.0]
         self.total_capacity = 0.0
+
 
     def rpm_circle(self, temp):
         rpm_idx = [ 2.0, 4.0, 6.0, 8.0, 10.0,
@@ -111,6 +118,34 @@ class RPintsLoopHandler(TempProbe):
         return bar_vals[i]
 
     def loop(self):
+
+        # Update the mode if there was a button press
+        if self.sp_q.qsize() > 0:
+            sp_val = int(sp_q.get())
+            print("got a press {}".format(sp_val))
+            if sp_val == 0:   # TURBO BOOST
+                self.rpm_mode = RPMMode.PROBE1
+            elif sp_val == 2: # 7DLA
+                self.rpm_mode = RPMMode.PROBE2
+            elif sp_val == 4: # 8PL1
+                self.rpm_mode = RPMMode.PROBE3
+            elif sp_val == 6: # 6RM
+                self.rpm_mode = RPMMode.PROBE4
+            elif sp_val == 8: # H6
+                self.rpm_mode = RPMMode.PROBE5
+            elif sp_val == 1: # 6RM
+                self.rpm_mode = RPMMode.PROBE6
+            elif sp_val == 3: # PENG
+                self.rpm_mode = RPMMode.MAX
+            elif sp_val == 5: # AUTO ROOF R 
+                self.rpm_mode = RPMMode.MAX
+            elif sp_val == 7: # PIND
+                self.rpm_mode = RPMMode.MEDIAN
+            elif sp_val == 9: # EJECT R
+                self.rpm_mode = RPMMode.MEAN
+            else:
+                self.rpm_mode = RPMMode.MEAN
+
         for i, kp in enumerate(self.keezer_probes):
             self.keezer_temps[i] = self.get_probe_temp(kp)
         self.keezer_min = min(self.keezer_temps)
@@ -274,6 +309,25 @@ class PANPHandler:
                 self.last_push = channel
 
 
+class BrightnessHandler:
+    def __init__(self, tx_devs):
+        self.brightness = GPIO.HIGH
+        self.tx_devs = tx_devs
+        
+    def set_brightness(self, channel, force=False):
+        channel_state = GPIO.input(channel)
+        if force or (channel_state is not self.brightness):
+            for tx in self.tx_devs:
+                if channel_state:
+                    msg = '>@BD20?'
+                else:
+                    msg = '>@BDFF?'
+                for i in range(3):
+                    tx.write(str.encode(msg))
+                    time.sleep(0.01)
+                self.brightness = channel_state
+
+
 # set up exit signal handler for systemd
 def sigterm_handler(_signo, _stack_frame):
     msg="PANP service on {0} exiting on SIGTERM".format(my_hostname)
@@ -294,24 +348,14 @@ def sigterm_handler(_signo, _stack_frame):
     _thread.interrupt_main()
 
 
-# send a command to dim the speedo
-class BrightnessHandler:
-    def __init__(self, tx_devs):
-        self.brightness = GPIO.HIGH
-        self.tx_devs = tx_devs
-        
-    def set_brightness(self, channel, force=False):
-        channel_state = GPIO.input(channel)
-        if force or (channel_state is not self.brightness):
-            for tx in self.tx_devs:
-                if channel_state:
-                    msg = '>@BD20?'
-                else:
-                    msg = '>@BDFF?'
-                for i in range(3):
-                    tx.write(str.encode(msg))
-                    time.sleep(0.01)
-                self.brightness = channel_state
+# function to listen to switchpod
+def get_switchpod(rx, sp_q):
+    while True:
+        state = rx.readline()
+        data = state.decode().strip()
+        sp_q.put(data)
+        print("get_switchpod() got {}".format(data))
+
 
 # get the hostname
 my_hostname=socket.gethostname()
@@ -353,11 +397,19 @@ if my_hostname == 'rpints':
     # open the serial ports
     dummy_tx = serial.Serial("/dev/ttyAMA0", 57600)
     tacho_tx = serial.Serial("/dev/ttyAMA1", 57600)
+    sp_rx = serial.Serial("/dev/switchpod", 9600)
 
     # set up the panp button handler
     panp_handler = PANPHandler(tacho_tx, dummy_tx)
 
-    loop_handler = RPintsLoopHandler(tacho_tx, dummy_tx)
+    # create the listener for the switchpod
+    sp_q = Queue()
+    sp_t = Thread(target=get_switchpod, args=(sp_rx, sp_q,))
+    sp_t.daemon = True
+    sp_t.start()
+
+    # create the loop handler
+    loop_handler = RPintsLoopHandler(tacho_tx, dummy_tx, sp_q)
 
 elif my_hostname == 'brewpi':
     # initailize the message center power relay
