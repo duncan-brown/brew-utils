@@ -55,6 +55,102 @@ class TempProbe:
         return hundreds, tens, ones, tenths
 
 
+class RPMMode(Enum):
+    PROBE1 = 0
+    PROBE2 = 1
+    PROBE3 = 2
+    PROBE4 = 3
+    PROBE5 = 4
+    PROBE6 = 5
+    MIN = 6
+    MAX = 7
+    MEDIAN = 8
+    MEAN = 9
+
+
+class RPintsLoopHandler(TempProbe):
+    def __init__(self, tacho_tx, dummy_tx):
+        self.tacho_tx = tacho_tx
+        self.dummy_tx = dummy_tx
+        self.keezer_probes = [
+                "/sys/bus/w1/devices/28-012052b92541/w1_slave",
+                "/sys/bus/w1/devices/28-012058f936f3/w1_slave",
+                "/sys/bus/w1/devices/28-012052ba8dab/w1_slave",
+                "/sys/bus/w1/devices/28-012058fbceb5/w1_slave",
+                "/sys/bus/w1/devices/28-012058fc2851/w1_slave",
+                "/sys/bus/w1/devices/28-012052b426ca/w1_slave" ]
+        self.keezer_temps = [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]
+        self.keezer_max = 0.0
+        self.keezer_min = 0.0
+        self.keezer_mean = 0.0
+        self.keezer_median = 0.0
+        self.rpm_mode = RPMMode.MEAN
+
+        self.lager_temps = [ 0.0, 0.0, 0.0 ]
+        self.keg_capacity = [ 0.0, 0.0, 0.0, 0.0, 0.0]
+        self.total_capacity = 0.0
+
+    def rpm_circle(self, temp):
+        rpm_idx = [ 2.0, 4.0, 6.0, 8.0, 10.0,
+                12.5, 15.0, 17.5, 20.0,
+                22.5, 25.0, 27.5, 30.0,
+                33.3, 36.6, 40.0,
+                43.3, 46.6, 50.0,
+                52.5, 55.0, 57.5, 60.0,
+                62.5, 65.0, 67.5, 70.0,
+                73.3, 76.6, 80.0]
+        for i, t in enumerate(rpm_idx):
+            if temp < t: break
+        return i
+
+    def tacho_bar(self, temp):
+        bar_temps = [34.0, 37.0, 40.0, 43.0, 47.0, 51.0, 53.0, 56.0]
+        bar_vals = [0x20, 0x38, 0x54, 0x70, 0x90, 0xA8, 0xC4, 0xE0]
+        for i, t in enumerate(bar_temps):
+            if temp < t: break
+        return bar_vals[i]
+
+    def loop(self):
+        for i, kp in enumerate(self.keezer_probes):
+            self.keezer_temps[i] = self.get_probe_temp(kp)
+        self.keezer_min = min(self.keezer_temps)
+        self.keezer_max = max(self.keezer_temps)
+        self.keezer_mean = sum(self.keezer_temps) / float(len(self.keezer_temps))
+        temps = self.keezer_temps.copy()
+        n = len(temps)
+        temps.sort()
+        if n % 2 == 0:
+            median1 = temps[n//2]
+            median2 = temps[n//2 - 1]
+            self.keezer_median = (median1 + median2)/2
+        else:
+            self.keezer_median = temps[n//2]
+
+        if self.rpm_mode is RPMMode.MEAM:
+            rpm = self.keezer_mean
+        elif self.rpm_mode is RPMMode.MEDIAN:
+            rpm = self.keezer_median
+        elif self.rpm_mode is RPMMode.MIN:
+            rpm = self.keezer_min
+        elif self.rpm_mode is RPMMode.MAX:
+            rpm = self.keezer_max
+        else:
+            rpm = self.keezer_temps[self.rpm_mode.value]
+
+        # write the temperature to the tacho seven segment display
+        msg = ">ABp{:0>2X}?".format(int(round(rpm)))
+        self.tacho_tx.write(str.encode(msg))
+
+        # write the probe temps to the six bars
+        msg = ">AHh"
+        for t in self.keezer_temps:
+            msg = "{}{:0>2X}".format(msg,self.tacho_bar(t))
+
+        # write the temperature to the rpm circle
+        msg = "{}{:0>2X}?".format(msg,self.rpm_circle(rpm))
+        self.tacho_tx.write(str.encode(msg))
+
+
 class BrewPiLoopHandler(TempProbe):
     def __init__(self, speedo_tx):
         self.mash_probe = "/sys/bus/w1/devices/28-012052b65be5/w1_slave"
@@ -97,8 +193,10 @@ class PANPHandler:
     last_push = None
 
     # initalize panp lamps on boot
-    def __init__(self,tx_devs):
-        self.brightness = BrightnessHandler(tx_devs)
+    def __init__(self,tacho_tx, dummy_tx):
+        self.tacho_tx = tacho_tx
+        self.dummy_tx = dummy_tx
+        self.brightness = BrightnessHandler([tacho_tx, dummy_tx])
         for p in PANPState:
             GPIO.setup(p.value, GPIO.OUT, initial=0)
         self.state = PANPState.AUTO
@@ -106,6 +204,37 @@ class PANPHandler:
         for p in PANPButton:
             GPIO.setup(p.value, GPIO.IN, pull_up_down=GPIO.PUD_UP)
             GPIO.add_event_detect(p.value, GPIO.FALLING, callback=self.button, bouncetime=50)
+
+    def clear_display(self):
+        # clear the tacho and set to user mode
+        msg = ">AHa01010101010101?"
+        self.tacho_tx.write(str.encode(msg))
+        time.sleep(0.1)
+        msg = ">ABo01?"
+        self.tacho_tx.write(str.encode(msg))
+        time.sleep(0.1)
+        msg = ">AHh00000000000000?"
+        self.tacho_tx.write(str.encode(msg))
+        time.sleep(0.1)
+        msg = ">ABp00?"
+        self.tacho_tx.write(str.encode(msg))
+        time.sleep(0.1)
+
+        # clear the red dummy3 and set to user mode
+        msg = ">EHa010101?"
+        self.dummy_tx.write(str.encode(msg))
+        time.sleep(0.1)
+        msg = ">EHm000000?"
+        self.dummy_tx.write(str.encode(msg))
+        time.sleep(0.1)
+
+        # clear the red dummy6 and set to user mode
+        msg = ">GHa010101010101?"
+        self.dummy_tx.write(str.encode(msg))
+        time.sleep(0.1)
+        msg = ">GHm000000000000?"
+        self.dummy_tx.write(str.encode(msg))
+        time.sleep(0.1)
 
     def change_state(self, channel):
         old_state = self.state
@@ -131,6 +260,11 @@ class PANPHandler:
             self.state = PANPState.PURSUIT
         GPIO.output(old_state.value,0)
         GPIO.output(self.state.value,1)
+        if old_state is PANPState.AUTO:
+            for i in range(2,0,-1):
+                time.sleep(i)
+                self.brightness.set_brightness(normal_mode_out, True)
+                self.clear_display()
 
     def button(self, channel):
         if channel is not self.last_push:
@@ -166,9 +300,9 @@ class BrightnessHandler:
         self.brightness = GPIO.HIGH
         self.tx_devs = tx_devs
         
-    def set_brightness(self, channel):
+    def set_brightness(self, channel, force=False):
         channel_state = GPIO.input(channel)
-        if channel_state is not self.brightness:
+        if force or (channel_state is not self.brightness):
             for tx in self.tx_devs:
                 if channel_state:
                     msg = '>@BD20?'
@@ -221,7 +355,9 @@ if my_hostname == 'rpints':
     tacho_tx = serial.Serial("/dev/ttyAMA1", 57600)
 
     # set up the panp button handler
-    panp_handler = PANPHandler([tacho_tx, dummy_tx])
+    panp_handler = PANPHandler(tacho_tx, dummy_tx)
+
+    loop_handler = RPintsLoopHandler(tacho_tx, dummy_tx)
 
 elif my_hostname == 'brewpi':
     # initailize the message center power relay
@@ -249,9 +385,7 @@ else:
 try:
 
     while True:
-        if my_hostname == 'brewpi':
-            loop_handler.loop()
-
+        loop_handler.loop()
         time.sleep(1)
 
 except KeyboardInterrupt:
