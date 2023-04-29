@@ -155,7 +155,7 @@ def sigterm_handler(_signo, _stack_frame):
         GPIO.remove_event_detect(normal_mode_in)
         GPIO.output(msgctr_power,0)
     GPIO.output(serial_enable,0)
-    _thread.interrupt_main(signal.SIGINT)
+    _thread.interrupt_main()
 
 
 # send a command to dim the speedo
@@ -188,9 +188,9 @@ GPIO.setmode(GPIO.BOARD)
 
 # disable the power button by opening the relay
 if my_hostname == 'rpints':
-  GPIO.setup(power_relay_rpints, GPIO.OUT, initial=1)
+  GPIO.setup(rpints_power_relay, GPIO.OUT, initial=1)
 elif my_hostname == 'brewpi':
-  GPIO.setup(power_relay_brewpi, GPIO.OUT, initial=1)
+  GPIO.setup(brewpi_power_relay, GPIO.OUT, initial=1)
 else:
     # fail with an error
     n.notify("Unknown hostname, exiting")
