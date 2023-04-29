@@ -171,7 +171,9 @@ class BrightnessHandler:
                     msg = '>@BD20?'
                 else:
                     msg = '>@BDFF?'
-                tx.write(str.encode(msg))
+                for i in range(3):
+                    tx.write(str.encode(msg))
+                    time.sleep(0.01)
                 self.brightness = channel_state
 
 # install the signal handler
@@ -204,8 +206,8 @@ if my_hostname == 'rpints':
     GPIO.setup(normal_mode_out, GPIO.OUT, initial=0)
 
     # open the serial ports
+    dummy_tx = serial.Serial("/dev/ttyAMA0", 57600)
     tacho_tx = serial.Serial("/dev/ttyAMA1", 57600)
-    dummy_tx = serial.Serial("/dev/ttyS0", 57600)
 
     # set up the panp button handler
     panp_handler = PANPHandler([tacho_tx, dummy_tx])
