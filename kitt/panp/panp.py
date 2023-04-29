@@ -30,7 +30,6 @@ msgctr_power = 36       # GPIO 16
 normal_mode_in = 15     # GPIO 22
 
 
-
 class TempProbe:
     def __init__(self):
         pass
@@ -72,19 +71,13 @@ class RPMMode(Enum):
     MEAN = 9
 
 
-class RPintsLoopHandler(TempProbe):
-    def __init__(self, tacho_tx, dummy_tx, sp_q):
+class RPintsLoopHandler:
+    def __init__(self, tacho_tx, dummy_tx, sp_q, keezer_q):
         self.tacho_tx = tacho_tx
         self.dummy_tx = dummy_tx
         self.sp_q = sp_q
+        self.keezer_q = keezer_q
 
-        self.keezer_probes = [
-                "/sys/bus/w1/devices/28-012052b92541/w1_slave",
-                "/sys/bus/w1/devices/28-012058f936f3/w1_slave",
-                "/sys/bus/w1/devices/28-012052ba8dab/w1_slave",
-                "/sys/bus/w1/devices/28-012058fbceb5/w1_slave",
-                "/sys/bus/w1/devices/28-012058fc2851/w1_slave",
-                "/sys/bus/w1/devices/28-012052b426ca/w1_slave" ]
         self.keezer_temps = [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]
         self.keezer_max = 0.0
         self.keezer_min = 0.0
@@ -95,7 +88,6 @@ class RPintsLoopHandler(TempProbe):
         self.lager_temps = [ 0.0, 0.0, 0.0 ]
         self.keg_capacity = [ 0.0, 0.0, 0.0, 0.0, 0.0]
         self.total_capacity = 0.0
-
 
     def rpm_circle(self, temp):
         rpm_idx = [ 2.0, 4.0, 6.0, 8.0, 10.0,
@@ -118,11 +110,9 @@ class RPintsLoopHandler(TempProbe):
         return bar_vals[i]
 
     def loop(self):
-
         # Update the mode if there was a button press
         if self.sp_q.qsize() > 0:
             sp_val = int(sp_q.get())
-            print("got a press {}".format(sp_val))
             if sp_val == 0:   # TURBO BOOST
                 self.rpm_mode = RPMMode.PROBE1
             elif sp_val == 2: # 7DLA
@@ -146,8 +136,11 @@ class RPintsLoopHandler(TempProbe):
             else:
                 self.rpm_mode = RPMMode.MEAN
 
-        for i, kp in enumerate(self.keezer_probes):
-            self.keezer_temps[i] = self.get_probe_temp(kp)
+        while self.keezer_q.qsize() > 0:
+            keezer_data = self.keezer_q.get()
+            idx, temp = keezer_data.split(',')
+            self.keezer_temps[int(idx)] = float(temp)
+
         self.keezer_min = min(self.keezer_temps)
         self.keezer_max = max(self.keezer_temps)
         self.keezer_mean = sum(self.keezer_temps) / float(len(self.keezer_temps))
@@ -161,7 +154,7 @@ class RPintsLoopHandler(TempProbe):
         else:
             self.keezer_median = temps[n//2]
 
-        if self.rpm_mode is RPMMode.MEAM:
+        if self.rpm_mode is RPMMode.MEAN:
             rpm = self.keezer_mean
         elif self.rpm_mode is RPMMode.MEDIAN:
             rpm = self.keezer_median
@@ -354,7 +347,22 @@ def get_switchpod(rx, sp_q):
         state = rx.readline()
         data = state.decode().strip()
         sp_q.put(data)
-        print("get_switchpod() got {}".format(data))
+
+# function to get the keezer temperatures
+def get_keezer_temps(keezer_q):
+    t = TempProbe()
+    keezer_probes = [
+            "/sys/bus/w1/devices/28-012052b92541/w1_slave",
+            "/sys/bus/w1/devices/28-012058f936f3/w1_slave",
+            "/sys/bus/w1/devices/28-012052ba8dab/w1_slave",
+            "/sys/bus/w1/devices/28-012058fbceb5/w1_slave",
+            "/sys/bus/w1/devices/28-012058fc2851/w1_slave",
+            "/sys/bus/w1/devices/28-012052b426ca/w1_slave" ]
+    while True:
+        for i, kp in enumerate(keezer_probes):
+            temp = t.get_probe_temp(kp)
+            keezer_q.put("{},{}".format(i,temp))
+        time.sleep(1)
 
 
 # get the hostname
@@ -408,8 +416,14 @@ if my_hostname == 'rpints':
     sp_t.daemon = True
     sp_t.start()
 
+    # create the tread for the keezer probes
+    keezer_q = Queue()
+    keezer_t = Thread(target=get_keezer_temps, args=(keezer_q,))
+    keezer_t.daemon = True
+    keezer_t.start()
+
     # create the loop handler
-    loop_handler = RPintsLoopHandler(tacho_tx, dummy_tx, sp_q)
+    loop_handler = RPintsLoopHandler(tacho_tx, dummy_tx, sp_q, keezer_q)
 
 elif my_hostname == 'brewpi':
     # initailize the message center power relay
@@ -438,7 +452,7 @@ try:
 
     while True:
         loop_handler.loop()
-        time.sleep(1)
+        time.sleep(0.25)
 
 except KeyboardInterrupt:
     if my_hostname == 'brewpi':
