@@ -16,15 +16,16 @@ from enum import Enum
 serial_enable = 22 # GPIO 25
 
 # gpio pin configuration for rpints
-power_relay = 16      # GPIO 23
-lower_dash_power = 19 # GPIO 10 (MOSI)
-upper_dash_power = 12 # GPIO 18
-sp_power = 11         # GPIO 17
-normal_mode_out = 15 # GPIO 22
+rpints_power_relay = 16 # GPIO 23
+lower_dash_power = 19   # GPIO 10 (MOSI)
+upper_dash_power = 12   # GPIO 18
+sp_power = 11           # GPIO 17
+normal_mode_out = 15    # GPIO 22
 
 # gpio pin configurations for brewpi
-msgctr_power = 36    # GPIO 16
-normal_mode_in = 15 # GPIO 22
+brewpi_power_relay = 29 # GPIO 5
+msgctr_power = 36       # GPIO 16
+normal_mode_in = 15     # GPIO 22
 
 class TempProbe:
     def __init__(self):
@@ -176,6 +177,9 @@ class BrightnessHandler:
                     time.sleep(0.01)
                 self.brightness = channel_state
 
+# get the hostname
+my_hostname=socket.gethostname()
+
 # install the signal handler
 signal.signal(signal.SIGTERM, sigterm_handler)
 
@@ -183,7 +187,15 @@ signal.signal(signal.SIGTERM, sigterm_handler)
 GPIO.setmode(GPIO.BOARD)
 
 # disable the power button by opening the relay
-GPIO.setup(power_relay, GPIO.OUT, initial=1)
+if my_hostname == 'rpints':
+  GPIO.setup(power_relay_rpints, GPIO.OUT, initial=1)
+elif my_hostname == 'brewpi':
+  GPIO.setup(power_relay_brewpi, GPIO.OUT, initial=1)
+else:
+    # fail with an error
+    n.notify("Unknown hostname, exiting")
+    n.notify("ERRNO=1")
+    sys.exit(1)
 
 # enable the 3.3V to 5V serial converter
 GPIO.setup(serial_enable, GPIO.OUT, initial=1)
@@ -191,10 +203,7 @@ GPIO.setup(serial_enable, GPIO.OUT, initial=1)
 # allow boot to continue
 n = sdnotify.SystemdNotifier()
 n.notify("READY=1")
-
-my_hostname=socket.gethostname()
 n.notify("STATUS=PANP service running on {0}".format(my_hostname))
-
 
 if my_hostname == 'rpints':
     # initailize the dashboard power relays
