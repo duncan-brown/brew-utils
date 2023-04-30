@@ -26,7 +26,6 @@ normal_mode_comm = 15 # GPIO 22
 lower_dash_power = 19   # GPIO 10 (MOSI)
 upper_dash_power = 12   # GPIO 18
 sp_power = 11           # GPIO 17
-normal_mode_comm = 15    # GPIO 22
 
 # gpio pin configurations for brewpi
 msgctr_power = 36       # GPIO 16
@@ -227,9 +226,11 @@ class BrewPiLoopHandler():
         self.hot_side_temps = [0, 0] # mash, hlt
 
         # message center display text
-        self.msgctr_msg = ">CScDEG F MASH?"
-        self.msgctr_mode = MsgCtrMode.MASH_TEMP
-        self.msgctr_mode_old = MsgCtrMode.MASH_TEMP_C
+        self.msgctr_mode_old = MsgCtrMode.BREWPI_UP
+        self.msgctr_mode = MsgCtrMode.BREWPI_UP
+
+        # auto mode status
+        self.auto_mode = GPIO.HIGH
 
         # brewpi data utk1, utk2, chrn
         self.brewpi_rmx_q = brewpi_rmx_q
@@ -241,6 +242,17 @@ class BrewPiLoopHandler():
         tens = int(tempvalue_f // 10 % 10)
         hundreds = int(tempvalue_f // 100 % 10)
         return hundreds, tens, ones, tenths
+
+    def set_auto_mode(self,channel):
+        channel_state = GPIO.input(channel)
+        if channel_state is not self.auto_mode:
+            self.auto_mode = channel_state
+            if channel_state == GPIO.HIGH:
+                self.msgctr_mode = MsgCtrMode.BREWPI_UP
+                self.msgctr_msg = ">CScBREWPI UP?"
+                self.msgctr_tx.write(str.encode(self.msgctr_msg))
+                self.msgctr_mode_old = self.msgctr_mode
+                time.sleep(0.1)
 
     def loop(self):
         global run_loop
@@ -299,74 +311,76 @@ class BrewPiLoopHandler():
                 self.msgctr_mode = MsgCtrMode.MASH_TEMP
                 self.msgctr_msg = ">CScDEG F MASH?"
 
-        try:
-            if self.msgctr_mode is not self.msgctr_mode_old:
-                self.msgctr_tx.write(str.encode(self.msgctr_msg))
-                self.msgctr_mode_old = self.msgctr_mode
-                time.sleep(0.1)
+        # if we are in auto mode no one is listening
+        if self.auto_mode == GPIO.LOW:
+            try:
+                if self.msgctr_mode is not self.msgctr_mode_old:
+                    self.msgctr_tx.write(str.encode(self.msgctr_msg))
+                    self.msgctr_mode_old = self.msgctr_mode
+                    time.sleep(0.1)
 
-            # write hlt temp to upper display
-            hundreds, tens, ones, tenths = self.get_probe_temp_units(self.hot_side_temps[1])
-            msg = ">BBc{:0>2X}?".format(hundreds*10 + tens)
+                # write hlt temp to upper display
+                hundreds, tens, ones, tenths = self.get_probe_temp_units(self.hot_side_temps[1])
+                msg = ">BBc{:0>2X}?".format(hundreds*10 + tens)
 
-            self.speedo_tx.write(str.encode(msg))
-            msg = ">BHd0{0}0{1}0{2}03?".format(hundreds, tens, ones)
-            self.speedo_tx.write(str.encode(msg))
+                self.speedo_tx.write(str.encode(msg))
+                msg = ">BHd0{0}0{1}0{2}03?".format(hundreds, tens, ones)
+                self.speedo_tx.write(str.encode(msg))
 
-            dp_mode = 1
-            if (self.msgctr_mode == MsgCtrMode.MASH_TEMP):
-                value = self.hot_side_temps[0]
-                n_leds = (value-110.0)//5.0
-            elif (self.msgctr_mode == MsgCtrMode.MASH_TEMP_C):
-                value = (self.hot_side_temps[0] - 32.0) * 5.0/9.0
-                n_leds = (value-20.0)//4.0
-            elif (self.msgctr_mode == MsgCtrMode.UNITANK1_TEMP):
-                value = self.brewpi_rmx_data[0]
-                n_leds = (value-34.0)//3.0
-            elif (self.msgctr_mode == MsgCtrMode.UNITANK2_TEMP):
-                value = self.brewpi_rmx_data[2]
-                n_leds = (value-34.0)//3.0
-            elif (self.msgctr_mode == MsgCtrMode.CHRONICAL_TEMP):
-                value = self.brewpi_rmx_data[4]
-                n_leds = (value-34.0)//3.0
-            elif (self.msgctr_mode == MsgCtrMode.BREWPI_UP):
-                value = self.hot_side_temps[0]
-                n_leds = (value-45.0)//10.0
-            elif (self.msgctr_mode == MsgCtrMode.HLT_TEMP):
-                value = self.hot_side_temps[1]
-                n_leds = (value-110.0)//5.0
-            elif (self.msgctr_mode == MsgCtrMode.UNITANK1_SG):
-                dp_mode = 3
-                value = self.brewpi_rmx_data[1] * 100.0
-                n_leds = (value*10.0-1000.0)//4.0
-            elif (self.msgctr_mode == MsgCtrMode.UNITANK2_SG):
-                dp_mode = 3
-                value = self.brewpi_rmx_data[3] * 100.0
-                n_leds = (value*10.0-1000.0)//4.0
-            elif (self.msgctr_mode == MsgCtrMode.CHRONICAL_SG):
-                dp_mode = 3
-                value = self.brewpi_rmx_data[5] * 100.0
-                n_leds = (value*10.0-1000.0)//4.0
+                dp_mode = 1
+                if (self.msgctr_mode == MsgCtrMode.MASH_TEMP):
+                    value = self.hot_side_temps[0]
+                    n_leds = (value-110.0)//5.0
+                elif (self.msgctr_mode == MsgCtrMode.MASH_TEMP_C):
+                    value = (self.hot_side_temps[0] - 32.0) * 5.0/9.0
+                    n_leds = (value-20.0)//4.0
+                elif (self.msgctr_mode == MsgCtrMode.UNITANK1_TEMP):
+                    value = self.brewpi_rmx_data[0]
+                    n_leds = (value-34.0)//3.0
+                elif (self.msgctr_mode == MsgCtrMode.UNITANK2_TEMP):
+                    value = self.brewpi_rmx_data[2]
+                    n_leds = (value-34.0)//3.0
+                elif (self.msgctr_mode == MsgCtrMode.CHRONICAL_TEMP):
+                    value = self.brewpi_rmx_data[4]
+                    n_leds = (value-34.0)//3.0
+                elif (self.msgctr_mode == MsgCtrMode.BREWPI_UP):
+                    value = self.hot_side_temps[0]
+                    n_leds = (value-45.0)//10.0
+                elif (self.msgctr_mode == MsgCtrMode.HLT_TEMP):
+                    value = self.hot_side_temps[1]
+                    n_leds = (value-110.0)//5.0
+                elif (self.msgctr_mode == MsgCtrMode.UNITANK1_SG):
+                    dp_mode = 3
+                    value = self.brewpi_rmx_data[1] * 100.0
+                    n_leds = (value*10.0-1000.0)//4.0
+                elif (self.msgctr_mode == MsgCtrMode.UNITANK2_SG):
+                    dp_mode = 3
+                    value = self.brewpi_rmx_data[3] * 100.0
+                    n_leds = (value*10.0-1000.0)//4.0
+                elif (self.msgctr_mode == MsgCtrMode.CHRONICAL_SG):
+                    dp_mode = 3
+                    value = self.brewpi_rmx_data[5] * 100.0
+                    n_leds = (value*10.0-1000.0)//4.0
 
-            # update lower display leds
-            n_leds = int(math.floor(n_leds))
-            if ( n_leds < 0 ):
-                n_leds = 0
-            elif ( n_leds > 16 ):
-                n_leds = 16
-            msg = ">BBb{:0>2X}?".format(n_leds)
-            self.speedo_tx.write(str.encode(msg))
+                # update lower display leds
+                n_leds = int(math.floor(n_leds))
+                if ( n_leds < 0 ):
+                    n_leds = 0
+                elif ( n_leds > 16 ):
+                    n_leds = 16
+                msg = ">BBb{:0>2X}?".format(n_leds)
+                self.speedo_tx.write(str.encode(msg))
 
-            # update lower display digits
-            hundreds, tens, ones, tenths = self.get_probe_temp_units(value)
-            msg = ">BHe0{0}0{1}0{2}0{3}0{4}?".format(hundreds, tens, ones, tenths, dp_mode)
-            self.speedo_tx.write(str.encode(msg))
+                # update lower display digits
+                hundreds, tens, ones, tenths = self.get_probe_temp_units(value)
+                msg = ">BHe0{0}0{1}0{2}0{3}0{4}?".format(hundreds, tens, ones, tenths, dp_mode)
+                self.speedo_tx.write(str.encode(msg))
 
-        except PortNotOpenError:
-            if run_loop is True:
-                raise PortNotOpenError
-            else:
-                pass
+            except PortNotOpenError:
+                if run_loop is True:
+                    raise PortNotOpenError
+                else:
+                    pass
 
 
 class PANPHandler:
@@ -382,6 +396,8 @@ class PANPHandler:
         for p in PANPState:
             GPIO.setup(p.value, GPIO.OUT, initial=0)
         self.state = PANPState.AUTO
+        GPIO.output(auto_mode_comm, 1)
+        GPIO.output(normal_mode_comm, 0)
         GPIO.output(self.state.value,1)
         for p in PANPButton:
             GPIO.setup(p.value, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -428,6 +444,7 @@ class PANPHandler:
             GPIO.output(upper_dash_power, 1)
             GPIO.output(sp_power, 1)
             GPIO.output(normal_mode_comm, 0)
+            GPIO.output(auto_mode_comm, 1)
         elif channel is PANPButton.NORM.value:
             self.state = PANPState.NORM
             GPIO.output(old_state.value,0)
@@ -436,6 +453,7 @@ class PANPHandler:
             GPIO.output(upper_dash_power, 0)
             GPIO.output(sp_power, 1)
             GPIO.output(normal_mode_comm, 1)
+            GPIO.output(auto_mode_comm, 0)
             self.brightness.set_brightness(normal_mode_comm)
         elif channel is PANPButton.PURSUIT.value:
             self.state = PANPState.PURSUIT
@@ -445,6 +463,7 @@ class PANPHandler:
             GPIO.output(upper_dash_power, 0)
             GPIO.output(sp_power, 0)
             GPIO.output(normal_mode_comm, 0)
+            GPIO.output(auto_mode_comm, 0)
             self.brightness.set_brightness(normal_mode_comm)
         if old_state is PANPState.AUTO:
             for i in range(1,0,-1):
@@ -521,8 +540,10 @@ def sigterm_handler(_signo, _stack_frame):
         GPIO.output(upper_dash_power, 1)
         GPIO.output(sp_power, 1)
         GPIO.output(normal_mode_comm, 0)
+        GPIO.output(normal_auto_comm, 1)
     else:
         GPIO.remove_event_detect(normal_mode_comm)
+        GPIO.remove_event_detect(auto_mode_comm)
         GPIO.output(msgctr_power,0)
     GPIO.output(serial_enable,0)
     msg="PANP service on {} sending PID {} SIGINT".format(my_hostname, main_pid)
@@ -626,6 +647,7 @@ if __name__ == "__main__":
 
         # set up output pin for brewpi
         GPIO.setup(normal_mode_comm, GPIO.OUT, initial=0)
+        GPIO.setup(normal_auto_comm, GPIO.OUT, initial=0)
         GPIO.setwarnings(True)
 
         # open the serial ports
@@ -658,6 +680,7 @@ if __name__ == "__main__":
 
         # set up input pin for auto mode from rpints
         GPIO.setup(normal_mode_comm, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(normal_auto_comm, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setwarnings(True)
 
         # open the serial port to the speedo display
@@ -682,6 +705,7 @@ if __name__ == "__main__":
         brewpi_rmx_t.start()
 
         loop_handler = BrewPiLoopHandler(speedo_tx, msgctr_tx, sp_q, hot_side_q, brewpi_rmx_q)
+        GPIO.add_event_detect(normal_auto_comm, GPIO.BOTH, callback=loop_handler.set_auto_mode, bouncetime=10)
 
     else:
         # fail with an error
