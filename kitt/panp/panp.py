@@ -540,7 +540,7 @@ def sigterm_handler(_signo, _stack_frame):
         GPIO.output(upper_dash_power, 1)
         GPIO.output(sp_power, 1)
         GPIO.output(normal_mode_comm, 0)
-        GPIO.output(normal_auto_comm, 1)
+        GPIO.output(auto_mode_comm, 1)
     else:
         GPIO.remove_event_detect(normal_mode_comm)
         GPIO.remove_event_detect(auto_mode_comm)
@@ -647,7 +647,7 @@ if __name__ == "__main__":
 
         # set up output pin for brewpi
         GPIO.setup(normal_mode_comm, GPIO.OUT, initial=0)
-        GPIO.setup(normal_auto_comm, GPIO.OUT, initial=0)
+        GPIO.setup(auto_mode_comm, GPIO.OUT, initial=0)
         GPIO.setwarnings(True)
 
         # open the serial ports
@@ -680,7 +680,7 @@ if __name__ == "__main__":
 
         # set up input pin for auto mode from rpints
         GPIO.setup(normal_mode_comm, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(normal_auto_comm, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(auto_mode_comm, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setwarnings(True)
 
         # open the serial port to the speedo display
@@ -705,7 +705,7 @@ if __name__ == "__main__":
         brewpi_rmx_t.start()
 
         loop_handler = BrewPiLoopHandler(speedo_tx, msgctr_tx, sp_q, hot_side_q, brewpi_rmx_q)
-        GPIO.add_event_detect(normal_auto_comm, GPIO.BOTH, callback=loop_handler.set_auto_mode, bouncetime=10)
+        GPIO.add_event_detect(auto_mode_comm, GPIO.BOTH, callback=loop_handler.set_auto_mode, bouncetime=10)
 
     else:
         # fail with an error
