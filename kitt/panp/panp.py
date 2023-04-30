@@ -14,7 +14,6 @@ from threading import Thread
 from queue import Queue
 from serial.serialutil import PortNotOpenError
 
-
 # common gpio pins
 serial_enable = 22 # GPIO 25
 
@@ -409,19 +408,12 @@ def get_switchpod(rx, sp_q):
         sp_q.put(data)
 
 # function to get the keezer temperatures
-def get_keezer_temps(keezer_q):
+def get_temps(probes,q):
     t = TempProbe()
-    keezer_probes = [
-            "/sys/bus/w1/devices/28-012052b92541/w1_slave",
-            "/sys/bus/w1/devices/28-012058f936f3/w1_slave",
-            "/sys/bus/w1/devices/28-012052ba8dab/w1_slave",
-            "/sys/bus/w1/devices/28-012058fbceb5/w1_slave",
-            "/sys/bus/w1/devices/28-012058fc2851/w1_slave",
-            "/sys/bus/w1/devices/28-012052b426ca/w1_slave" ]
     while True:
-        for i, kp in enumerate(keezer_probes):
+        for i, kp in enumerate(probes):
             temp = t.get_probe_temp(kp)
-            keezer_q.put("{},{}".format(i,temp))
+            q.put("{},{}".format(i,temp))
         time.sleep(1)
 
 
@@ -472,8 +464,15 @@ if my_hostname == 'rpints':
     sp_t.start()
 
     # create the tread for the keezer probes
+    keezer_probes = [
+            "/sys/bus/w1/devices/28-012052b92541/w1_slave",
+            "/sys/bus/w1/devices/28-012058f936f3/w1_slave",
+            "/sys/bus/w1/devices/28-012052ba8dab/w1_slave",
+            "/sys/bus/w1/devices/28-012058fbceb5/w1_slave",
+            "/sys/bus/w1/devices/28-012058fc2851/w1_slave",
+            "/sys/bus/w1/devices/28-012052b426ca/w1_slave" ]
     keezer_q = Queue()
-    keezer_t = Thread(target=get_keezer_temps, args=(keezer_q,))
+    keezer_t = Thread(target=get_temps, args=(keezer_probes, keezer_q,))
     keezer_t.daemon = True
     keezer_t.start()
 
