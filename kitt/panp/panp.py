@@ -47,14 +47,6 @@ class TempProbe:
             pass
         return tempvalue_f
 
-    def get_probe_temp_units(self, probe):
-        tempvalue_f = self.get_probe_temp(probe)
-        tenths = int(round(tempvalue_f % 1 * 10.0, 0))
-        ones = int(tempvalue_f % 10)
-        tens = int(tempvalue_f // 10 % 10)
-        hundreds = int(tempvalue_f // 100 % 10)
-        return hundreds, tens, ones, tenths
-
 
 class RPMMode(Enum):
     PROBE1 = 0
@@ -190,33 +182,56 @@ class RPintsLoopHandler:
                 pass
 
 
-class BrewPiLoopHandler(TempProbe):
-    def __init__(self, speedo_tx):
-        self.mash_probe = "/sys/bus/w1/devices/28-012052b65be5/w1_slave"
-        self.hlt_probe = "/sys/bus/w1/devices/28-0120529d8f20/w1_slave"
+class BrewPiLoopHandler():
+    def __init__(self, speedo_tx, msgctr_tx, hot_side_q):
         self.speedo_tx = speedo_tx
+        self.msgctr_tx = msgctr_tx
+        self.hot_side_q = hot_side_q
+        self.hot_side_temps = [0, 0] # hlt, mash
+        self.update_msgctr = 201
+
+    def get_probe_temp_units(self, tempvalue_f):
+        tenths = int(round(tempvalue_f % 1 * 10.0, 0))
+        ones = int(tempvalue_f % 10)
+        tens = int(tempvalue_f // 10 % 10)
+        hundreds = int(tempvalue_f // 100 % 10)
+        return hundreds, tens, ones, tenths
 
     def loop(self):
         global run_loop
         if run_loop is False:
             return
 
+        while self.hot_side_q.qsize() > 0:
+            hot_side_data = self.hot_side_q.get()
+            idx, temp = hot_side_data.split(',')
+            self.hot_side_temps[int(idx)] = float(temp)
+
         try:
             # write hlt temp to upper display
-            hundreds, tens, ones, tenths = self.get_probe_temp_units(self.hlt_probe)
+            hundreds, tens, ones, tenths = self.get_probe_temp_units(self.hot_side_temps[0])
             msg = ">BBc{:0>2X}?".format(hundreds*10 + tens)
             self.speedo_tx.write(str.encode(msg))
-            msg = '>BHd0{0}0{1}0{2}03?'.format(hundreds, tens, ones)
+            msg = ">BHd0{0}0{1}0{2}03?".format(hundreds, tens, ones)
             self.speedo_tx.write(str.encode(msg))
 
             # write mash temp to lower display
-            hundreds, tens, ones, tenths = self.get_probe_temp_units(self.mash_probe)
+            hundreds, tens, ones, tenths = self.get_probe_temp_units(self.hot_side_temps[1])
             n = ((hundreds*100+tens*10+ones)-110)//5
             if ( n < 0 ): n = 0
             msg = ">BBb{:0>2X}?".format(n)
             self.speedo_tx.write(str.encode(msg))
-            msg = '>BHe0{0}0{1}0{2}0{3}01?'.format(hundreds, tens, ones, tenths)
+            msg = ">BHe0{0}0{1}0{2}0{3}01?".format(hundreds, tens, ones, tenths)
             self.speedo_tx.write(str.encode(msg))
+
+            self.update_msgctr += 1
+            if self.update_msgctr > 200:
+                msg = ">CScDEG F MASH?"
+                time.sleep(0.1)
+                self.msgctr_tx.write(str.encode(msg))
+                self.update_msgctr = 0
+
+
         except PortNotOpenError:
             if run_loop is True:
                 raise PortNotOpenError
@@ -352,20 +367,25 @@ def cleanup_exit():
     global speedo_tx
     global tacho_tx
     global dummy_tx
+    global msgctr_tx
     global keezer_t
+    global hot_side_t
     global sp_t
 
     msg="PANP service on {0} got KeyboardInterrupt".format(my_hostname)
     print(msg)
     n.notify("STATUS={0}".format(msg))
 
-    if my_hostname == 'rpints':
+    if my_hostname == 'brewpi':
+        hot_side_t.stop()
+    else:
         keezer_t.stop()
         sp_t.stop()
 
     time.sleep(1)
     if my_hostname == 'brewpi':
         speedo_tx.close()
+        msgctr_tx.close()
     else:
         tacho_tx.close()
         dummy_tx.close()
@@ -485,21 +505,30 @@ if my_hostname == 'rpints':
 
 elif my_hostname == 'brewpi':
     # initailize the message center power relay
+    GPIO.setwarnings(False)
     GPIO.setup(msgctr_power, GPIO.OUT, initial=0)
 
     # set up input pin for auto mode from rpints
     GPIO.setup(normal_mode_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
-    time.sleep(1)
+    GPIO.setwarnings(True)
 
     # open the serial port to the speedo display
+    msgctr_tx = serial.Serial("/dev/ttyAMA0", 57600)
     speedo_tx = serial.Serial("/dev/ttyAMA1", 57600)
 
     # dim the speedo as we are in auto mode initially
     brightness = BrightnessHandler([speedo_tx])
     GPIO.add_event_detect(normal_mode_in, GPIO.BOTH, callback=brightness.set_brightness, bouncetime=10)
 
-    loop_handler = BrewPiLoopHandler(speedo_tx)
+    hot_side_probes = [
+            "/sys/bus/w1/devices/28-012052b65be5/w1_slave",
+            "/sys/bus/w1/devices/28-0120529d8f20/w1_slave" ]
+    hot_side_q = Queue()
+    hot_side_t = Thread(target=get_temps, args=(hot_side_probes, hot_side_q,))
+    hot_side_t.daemon = True
+    hot_side_t.start()
+
+    loop_handler = BrewPiLoopHandler(speedo_tx, msgctr_tx, hot_side_q)
 
 else:
     # fail with an error
