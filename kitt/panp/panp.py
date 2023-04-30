@@ -250,9 +250,10 @@ class BrewPiLoopHandler():
             if channel_state == GPIO.HIGH:
                 self.msgctr_mode = MsgCtrMode.BREWPI_UP
                 self.msgctr_msg = ">CScBREWPI UP?"
+                time.sleep(0.25)
                 self.msgctr_tx.write(str.encode(self.msgctr_msg))
                 self.msgctr_mode_old = self.msgctr_mode
-                time.sleep(0.1)
+                time.sleep(0.25)
 
     def loop(self):
         global run_loop
