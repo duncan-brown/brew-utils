@@ -243,6 +243,17 @@ class BrewPiLoopHandler():
         hundreds = int(tempvalue_f // 100 % 10)
         return hundreds, tens, ones, tenths
 
+    def temperature_bar(self, temp):
+        bar_temps = [30.0, 34.0, 36.0, 40.0, 44.0,
+                46.0, 50.0, 52.0, 54.0, 58.0, 60.0,
+                64.0, 68.0, 70.0, 74.0, 76.0]
+        bar_vals = [0x10, 0x20, 0x30, 0x40, 0x50,
+                0x60, 0x70, 0x79, 0x88, 0x97,
+                0xA6, 0xB5, 0xC4, 0xD3, 0xE2, 0xFF]
+        for i, t in enumerate(bar_temps):
+            if temp < t: break
+        return bar_vals[i]
+
     def set_auto_mode(self,channel):
         channel_state = GPIO.input(channel)
         if channel_state is not self.auto_mode:
@@ -375,6 +386,13 @@ class BrewPiLoopHandler():
                 # update lower display digits
                 hundreds, tens, ones, tenths = self.get_probe_temp_units(value)
                 msg = ">BHe0{0}0{1}0{2}0{3}0{4}?".format(hundreds, tens, ones, tenths, dp_mode)
+                self.speedo_tx.write(str.encode(msg))
+
+                # write the fermenter temps to the green/red dummy3
+                msg = ">FHm{:0>2X}{:0>2X}{:0>2X}?".format(
+                        self.temperature_bar(self.brewpi_rmx_data[0]),
+                        self.temperature_bar(self.brewpi_rmx_data[2]),
+                        self.temperature_bar(self.brewpi_rmx_data[4]))
                 self.speedo_tx.write(str.encode(msg))
 
             except PortNotOpenError:
