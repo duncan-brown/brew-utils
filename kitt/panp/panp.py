@@ -3,6 +3,8 @@
 import os
 import sys
 import time
+import json
+import math
 import socket
 import signal
 import serial
@@ -211,15 +213,26 @@ class RPintsLoopHandler:
 
 
 class BrewPiLoopHandler():
-    def __init__(self, speedo_tx, msgctr_tx, sp_q, hot_side_q):
+    def __init__(self, speedo_tx, msgctr_tx, sp_q, hot_side_q, brewpi_rmx_q):
+        # serial communications for speedo and message center
         self.speedo_tx = speedo_tx
         self.msgctr_tx = msgctr_tx
+
+        # queue for switchpod keypresses
         self.sp_q = sp_q
+
+        # hot side temperature data
         self.hot_side_q = hot_side_q
-        self.hot_side_temps = [0, 0] # hlt, mash
+        self.hot_side_temps = [0, 0] # mash, hlt
+
+        # message center display text
         self.msgctr_msg = ">CScDEG F MASH?"
         self.msgctr_mode = MsgCtrMode.MASH_TEMP
         self.msgctr_mode_old = MsgCtrMode.MASH_TEMP_C
+
+        # brewpi data utk1, utk2, chrn
+        self.brewpi_rmx_q = brewpi_rmx_q
+        self.brewpi_rmx_data = [0.0, 0.000, 0.0, 0.000, 0.0, 0.000]
 
     def get_probe_temp_units(self, tempvalue_f):
         tenths = int(round(tempvalue_f % 1 * 10.0, 0))
@@ -233,10 +246,17 @@ class BrewPiLoopHandler():
         if run_loop is False:
             return
 
+        # get any updated temperatures from the queue
         while self.hot_side_q.qsize() > 0:
             hot_side_data = self.hot_side_q.get()
             idx, temp = hot_side_data.split(',')
             self.hot_side_temps[int(idx)] = float(temp)
+
+        # get any updated brewpi data from the queue
+        while self.brewpi_rmx_q.qsize() > 0:
+            brewpi_rmx_data = self.brewpi_rmx_q.get()
+            idx, value = brewpi_rmx_data.split(',')
+            self.brewpi_rmx_data[int(idx)] = float(value)
 
         # Update the mode if there was a button press
         while self.sp_q.qsize() > 0:
@@ -280,26 +300,65 @@ class BrewPiLoopHandler():
 
         try:
             if self.msgctr_mode is not self.msgctr_mode_old:
-                time.sleep(0.25)
-                print("sending {}".format(self.msgctr_msg))
                 self.msgctr_tx.write(str.encode(self.msgctr_msg))
                 self.msgctr_mode_old = self.msgctr_mode
-                time.sleep(0.25)
+                time.sleep(0.1)
 
             # write hlt temp to upper display
             hundreds, tens, ones, tenths = self.get_probe_temp_units(self.hot_side_temps[1])
             msg = ">BBc{:0>2X}?".format(hundreds*10 + tens)
+
             self.speedo_tx.write(str.encode(msg))
             msg = ">BHd0{0}0{1}0{2}03?".format(hundreds, tens, ones)
             self.speedo_tx.write(str.encode(msg))
 
-            # write mash temp to lower display
-            hundreds, tens, ones, tenths = self.get_probe_temp_units(self.hot_side_temps[0])
-            n = ((hundreds*100+tens*10+ones)-110)//5
-            if ( n < 0 ): n = 0
-            msg = ">BBb{:0>2X}?".format(n)
+            dp_mode = 1
+            if (self.msgctr_mode == MsgCtrMode.MASH_TEMP):
+                value = self.hot_side_temps[0]
+                n_leds = (value-110.0)//5.0
+            elif (self.msgctr_mode == MsgCtrMode.MASH_TEMP_C):
+                value = (self.hot_side_temps[0] - 32.0) * 5.0/9.0
+                n_leds = (value-20.0)//4.0
+            elif (self.msgctr_mode == MsgCtrMode.UNITANK1_TEMP):
+                value = self.brewpi_rmx_data[0]
+                n_leds = (value-34.0)//3.0
+            elif (self.msgctr_mode == MsgCtrMode.UNITANK2_TEMP):
+                value = self.brewpi_rmx_data[2]
+                n_leds = (value-34.0)//3.0
+            elif (self.msgctr_mode == MsgCtrMode.CHRONICAL_TEMP):
+                value = self.brewpi_rmx_data[4]
+                n_leds = (value-34.0)//3.0
+            elif (self.msgctr_mode == MsgCtrMode.BREWPI_UP):
+                value = self.hot_side_temps[0]
+                n_leds = (value-45.0)//10.0
+            elif (self.msgctr_mode == MsgCtrMode.HLT_TEMP):
+                value = self.hot_side_temps[1]
+                n_leds = (value-110.0)//5.0
+            elif (self.msgctr_mode == MsgCtrMode.UNITANK1_SG):
+                dp_mode = 3
+                value = self.brewpi_rmx_data[1] * 100.0
+                n_leds = (value*10.0-1000.0)//4.0
+            elif (self.msgctr_mode == MsgCtrMode.UNITANK2_SG):
+                dp_mode = 3
+                value = self.brewpi_rmx_data[3] * 100.0
+                n_leds = (value*10.0-1000.0)//4.0
+            elif (self.msgctr_mode == MsgCtrMode.CHRONICAL_SG):
+                dp_mode = 3
+                value = self.brewpi_rmx_data[5] * 100.0
+                n_leds = (value*10.0-1000.0)//4.0
+
+            # update lower display leds
+            n_leds = int(math.floor(n_leds))
+            if ( n_leds < 0 ):
+                n_leds = 0
+            elif ( n_leds > 16 ):
+                n_leds = 16
+            msg = ">BBb{:0>2X}?".format(n_leds)
             self.speedo_tx.write(str.encode(msg))
-            msg = ">BHe0{0}0{1}0{2}0{3}01?".format(hundreds, tens, ones, tenths)
+
+            # update lower display digits
+            hundreds, tens, ones, tenths = self.get_probe_temp_units(value)
+            msg = ">BHe0{0}0{1}0{2}0{3}0{4}?".format(hundreds, tens, ones, tenths, dp_mode)
             self.speedo_tx.write(str.encode(msg))
 
         except PortNotOpenError:
@@ -425,14 +484,12 @@ def cleanup_exit():
     global tacho_tx
     global dummy_tx
     global msgctr_tx
-    global keezer_t
-    global hot_side_t
-    global sp_t
 
     msg="PANP service on {0} got KeyboardInterrupt".format(my_hostname)
     print(msg)
     n.notify("STATUS={0}".format(msg))
 
+    # close all the serial ports
     time.sleep(1)
     sp_rx.close()
     if my_hostname == 'brewpi':
@@ -493,6 +550,31 @@ def get_temps(probes,q):
             temp = t.get_probe_temp(kp)
             q.put("{},{}".format(i,temp))
         time.sleep(1)
+
+
+def get_brewpi_rmx_data(q):
+    while True:
+        for i, fermenter in enumerate(["unitank-1", "unitank-2", "chronical"]):
+            for j, msg in enumerate(["lcd", "statusText"]):
+                try:
+                    time.sleep(1)
+                    s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+                    s.connect('/home/brewpi/{}/KITTSOCKET'.format(fermenter))
+                    s.sendall(msg.encode())
+                    s.settimeout(2)
+                    if j == 0:
+                        data = json.loads(s.recv(4096).decode())[1].split()[1]
+                    else:
+                        data = json.loads(s.recv(4096).decode())["0"]["Tilt SG: "]
+                    s.close()
+                except:
+                    data = 0.0
+                    try:
+                        s.close()
+                    except:
+                        pass
+                q.put("{},{}".format(i*2+j,data))
+        time.sleep(60)
 
 
 if __name__ == "__main__":
@@ -584,7 +666,12 @@ if __name__ == "__main__":
         hot_side_t.daemon = True
         hot_side_t.start()
 
-        loop_handler = BrewPiLoopHandler(speedo_tx, msgctr_tx, sp_q, hot_side_q)
+        brewpi_rmx_q = Queue()
+        brewpi_rmx_t = Thread(target=get_brewpi_rmx_data, args=(brewpi_rmx_q,))
+        brewpi_rmx_t.daemon = True
+        brewpi_rmx_t.start()
+
+        loop_handler = BrewPiLoopHandler(speedo_tx, msgctr_tx, sp_q, hot_side_q, brewpi_rmx_q)
 
     else:
         # fail with an error
@@ -595,7 +682,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     # sleep forever waiting for events
-    time.sleep(5)
+    time.sleep(10)
     run_loop=True
     try:
         while run_loop:
