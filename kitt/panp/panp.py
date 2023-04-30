@@ -290,27 +290,31 @@ class PANPHandler:
     def change_state(self, channel):
         old_state = self.state
         if channel is PANPButton.AUTO.value:
+            self.state = PANPState.AUTO
+            GPIO.output(old_state.value,0)
+            GPIO.output(self.state.value,1)
             GPIO.output(lower_dash_power, 1)
             GPIO.output(upper_dash_power, 1)
             GPIO.output(sp_power, 1)
             GPIO.output(normal_mode_out, 0)
-            self.state = PANPState.AUTO
         elif channel is PANPButton.NORM.value:
+            self.state = PANPState.NORM
+            GPIO.output(old_state.value,0)
+            GPIO.output(self.state.value,1)
             GPIO.output(lower_dash_power, 0)
             GPIO.output(upper_dash_power, 0)
             GPIO.output(sp_power, 1)
             GPIO.output(normal_mode_out, 1)
             self.brightness.set_brightness(normal_mode_out)
-            self.state = PANPState.NORM
         elif channel is PANPButton.PURSUIT.value:
+            self.state = PANPState.PURSUIT
+            GPIO.output(old_state.value,0)
+            GPIO.output(self.state.value,1)
             GPIO.output(lower_dash_power, 0)
             GPIO.output(upper_dash_power, 0)
             GPIO.output(sp_power, 0)
             GPIO.output(normal_mode_out, 0)
             self.brightness.set_brightness(normal_mode_out)
-            self.state = PANPState.PURSUIT
-        GPIO.output(old_state.value,0)
-        GPIO.output(self.state.value,1)
         if old_state is PANPState.AUTO:
             for i in range(1,0,-1):
                 time.sleep(i)
@@ -440,14 +444,14 @@ n.notify("STATUS={}".format(msg))
 
 if my_hostname == 'rpints':
     # initailize the dashboard power relays
+    GPIO.setwarnings(False)
     GPIO.setup(lower_dash_power, GPIO.OUT, initial=1)
     GPIO.setup(upper_dash_power, GPIO.OUT, initial=1)
     GPIO.setup(sp_power, GPIO.OUT, initial=1)
 
     # set up output pin for brewpi
     GPIO.setup(normal_mode_out, GPIO.OUT, initial=0)
-
-    time.sleep(1)
+    GPIO.setwarnings(True)
 
     # open the serial ports
     dummy_tx = serial.Serial("/dev/ttyAMA0", 57600)
