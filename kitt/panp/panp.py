@@ -312,7 +312,7 @@ class PANPHandler:
         GPIO.output(old_state.value,0)
         GPIO.output(self.state.value,1)
         if old_state is PANPState.AUTO:
-            for i in range(2,0,-1):
+            for i in range(1,0,-1):
                 time.sleep(i)
                 self.brightness.set_brightness(normal_mode_out, True)
                 self.clear_display()
