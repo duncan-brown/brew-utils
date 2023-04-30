@@ -343,8 +343,9 @@ class BrightnessHandler:
                     msg = '>@BDFF?'
                 for i in range(3):
                     tx.write(str.encode(msg))
-                    time.sleep(0.01)
+                    time.sleep(0.25)
                 self.brightness = channel_state
+
 
 def cleanup_exit():
     global speedo_tx
