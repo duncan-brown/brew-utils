@@ -1,0 +1,12 @@
+# copy to /usr/local/lib/systemd/system
+# enable with systemctl preset panp.path
+
+[Unit]
+Description=KITT Power Auto Norm Pursuit Service
+
+[Path]
+PathExists=/dev/switchpod /dev/ttyAMA0 /dev/ttyAMA1
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,12 @@
+[Unit]
+Description=Open RPints Power Relay
+After=sysinit.target
+ 
+[Service]
+ExecStart=/usr/bin/raspi-gpio set 23 op pn dh
+RemainAfterExit=true
+Type=oneshot
+
+[Install]
+WantedBy=local-fs-pre.target
+

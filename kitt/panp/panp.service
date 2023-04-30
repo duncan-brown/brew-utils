@@ -1,13 +1,10 @@
+# copy to /usr/local/lib/systemd/system
+
 [Unit]
 Description=KITT Power Auto Norm Pursuit Service
-After=sysinit.target
 
 [Service]
 Environment=PYTHONUNBUFFERED=true
 ExecStart=/usr/bin/python3 /usr/local/sbin/panp.py
 Restart=no
 Type=notify
-
-[Install]
-WantedBy=local-fs-pre.target
-After=dev-serial1.device dev-ttyAMA0.device

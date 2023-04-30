@@ -19,14 +19,12 @@ from serial.serialutil import PortNotOpenError
 serial_enable = 22 # GPIO 25
 
 # gpio pin configuration for rpints
-rpints_power_relay = 16 # GPIO 23
 lower_dash_power = 19   # GPIO 10 (MOSI)
 upper_dash_power = 12   # GPIO 18
 sp_power = 11           # GPIO 17
 normal_mode_out = 15    # GPIO 22
 
 # gpio pin configurations for brewpi
-brewpi_power_relay = 29 # GPIO 5
 msgctr_power = 36       # GPIO 16
 normal_mode_in = 15     # GPIO 22
 
@@ -435,19 +433,6 @@ signal.signal(signal.SIGTERM, sigterm_handler)
 
 # set up the gpio system
 GPIO.setmode(GPIO.BOARD)
-
-# disable the power button by opening the relay
-if my_hostname == 'rpints':
-  GPIO.setup(rpints_power_relay, GPIO.OUT, initial=1)
-elif my_hostname == 'brewpi':
-  GPIO.setup(brewpi_power_relay, GPIO.OUT, initial=1)
-else:
-    # fail with an error
-    msg = "Unknown hostname, exiting"
-    print(msg)
-    n.notify("STATUS={}".format(msg))
-    n.notify("ERRNO=1")
-    sys.exit(1)
 
 # enable the 3.3V to 5V serial converter
 GPIO.setup(serial_enable, GPIO.OUT, initial=1)
