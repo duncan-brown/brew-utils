@@ -117,7 +117,10 @@ class RPintsLoopHandler:
 
         # Update the mode if there was a button press
         if self.sp_q.qsize() > 0:
-            sp_val = int(sp_q.get())
+            try:
+                sp_val = int(sp_q.get())
+            except:
+                sp_val = None
             if sp_val == 0:   # TURBO BOOST
                 self.rpm_mode = RPMMode.PROBE1
             elif sp_val == 2: # 7DLA
@@ -133,7 +136,7 @@ class RPintsLoopHandler:
             elif sp_val == 3: # PENG
                 self.rpm_mode = RPMMode.MAX
             elif sp_val == 5: # AUTO ROOF R 
-                self.rpm_mode = RPMMode.MAX
+                self.rpm_mode = RPMMode.MIN
             elif sp_val == 7: # PIND
                 self.rpm_mode = RPMMode.MEDIAN
             elif sp_val == 9: # EJECT R
