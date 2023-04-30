@@ -12,6 +12,7 @@ import RPi.GPIO as GPIO
 from enum import Enum
 from threading import Thread
 from queue import Queue
+from serial.serialutil import PortNotOpenError
 
 
 # common gpio pins
@@ -97,7 +98,7 @@ class RPintsLoopHandler:
                 43.3, 46.6, 50.0,
                 52.5, 55.0, 57.5, 60.0,
                 62.5, 65.0, 67.5, 70.0,
-                73.3, 76.6, 80.0]
+                72.5, 75.0, 77.5, 80.0]
         for i, t in enumerate(rpm_idx):
             if temp < t: break
         return i
@@ -110,6 +111,10 @@ class RPintsLoopHandler:
         return bar_vals[i]
 
     def loop(self):
+        global run_loop
+        if run_loop is False:
+            return
+
         # Update the mode if there was a button press
         if self.sp_q.qsize() > 0:
             sp_val = int(sp_q.get())
@@ -165,18 +170,24 @@ class RPintsLoopHandler:
         else:
             rpm = self.keezer_temps[self.rpm_mode.value]
 
-        # write the temperature to the tacho seven segment display
-        msg = ">ABp{:0>2X}?".format(int(round(rpm)))
-        self.tacho_tx.write(str.encode(msg))
+        try:
+            # write the temperature to the tacho seven segment display
+            msg = ">ABp{:0>2X}?".format(int(round(rpm)))
+            self.tacho_tx.write(str.encode(msg))
 
-        # write the probe temps to the six bars
-        msg = ">AHh"
-        for t in self.keezer_temps:
-            msg = "{}{:0>2X}".format(msg,self.tacho_bar(t))
+            # write the probe temps to the six bars
+            msg = ">AHh"
+            for t in self.keezer_temps:
+                msg = "{}{:0>2X}".format(msg,self.tacho_bar(t))
 
-        # write the temperature to the rpm circle
-        msg = "{}{:0>2X}?".format(msg,self.rpm_circle(rpm))
-        self.tacho_tx.write(str.encode(msg))
+            # write the temperature to the rpm circle
+            msg = "{}{:0>2X}?".format(msg,self.rpm_circle(rpm))
+            self.tacho_tx.write(str.encode(msg))
+        except PortNotOpenError:
+            if run_loop is True:
+                raise PortNotOpenError
+            else:
+                pass
 
 
 class BrewPiLoopHandler(TempProbe):
@@ -186,19 +197,31 @@ class BrewPiLoopHandler(TempProbe):
         self.speedo_tx = speedo_tx
 
     def loop(self):
-        hundreds, tens, ones, tenths = self.get_probe_temp_units(self.hlt_probe)
-        msg = ">BBc{:0>2X}?".format(hundreds*10 + tens)
-        self.speedo_tx.write(str.encode(msg))
-        msg = '>BHd0{0}0{1}0{2}03?'.format(hundreds, tens, ones)
-        self.speedo_tx.write(str.encode(msg))
+        global run_loop
+        if run_loop is False:
+            return
 
-        hundreds, tens, ones, tenths = self.get_probe_temp_units(self.mash_probe)
-        n = ((hundreds*100+tens*10+ones)-110)//5
-        if ( n < 0 ): n = 0
-        msg = ">BBb{:0>2X}?".format(n)
-        self.speedo_tx.write(str.encode(msg))
-        msg = '>BHe0{0}0{1}0{2}0{3}01?'.format(hundreds, tens, ones, tenths)
-        self.speedo_tx.write(str.encode(msg))
+        try:
+            # write hlt temp to upper display
+            hundreds, tens, ones, tenths = self.get_probe_temp_units(self.hlt_probe)
+            msg = ">BBc{:0>2X}?".format(hundreds*10 + tens)
+            self.speedo_tx.write(str.encode(msg))
+            msg = '>BHd0{0}0{1}0{2}03?'.format(hundreds, tens, ones)
+            self.speedo_tx.write(str.encode(msg))
+
+            # write mash temp to lower display
+            hundreds, tens, ones, tenths = self.get_probe_temp_units(self.mash_probe)
+            n = ((hundreds*100+tens*10+ones)-110)//5
+            if ( n < 0 ): n = 0
+            msg = ">BBb{:0>2X}?".format(n)
+            self.speedo_tx.write(str.encode(msg))
+            msg = '>BHe0{0}0{1}0{2}0{3}01?'.format(hundreds, tens, ones, tenths)
+            self.speedo_tx.write(str.encode(msg))
+        except PortNotOpenError:
+            if run_loop is True:
+                raise PortNotOpenError
+            else:
+                pass
 
 
 class PANPState(Enum):
@@ -320,10 +343,41 @@ class BrightnessHandler:
                     time.sleep(0.01)
                 self.brightness = channel_state
 
+def cleanup_exit():
+    global speedo_tx
+    global tacho_tx
+    global dummy_tx
+    global keezer_t
+    global sp_t
+
+    msg="PANP service on {0} got KeyboardInterrupt".format(my_hostname)
+    print(msg)
+    n.notify("STATUS={0}".format(msg))
+
+    if my_hostname == 'rpints':
+        keezer_t.stop()
+        sp_t.stop()
+
+    time.sleep(1)
+    if my_hostname == 'brewpi':
+        speedo_tx.close()
+    else:
+        tacho_tx.close()
+        dummy_tx.close()
+
+    msg="PANP service on {0} exiting cleanly".format(my_hostname)
+    print(msg)
+    n.notify("STATUS={0}".format(msg))
+    n.notify("STOPPING=1")
+    sys.exit(0)
 
 # set up exit signal handler for systemd
 def sigterm_handler(_signo, _stack_frame):
-    msg="PANP service on {0} exiting on SIGTERM".format(my_hostname)
+    global main_pid
+    global run_loop
+    run_loop = False
+    msg="PANP service PID {} on {} got SIGTERM".format(os.getpid(), my_hostname)
+    print(msg)
     n.notify("STATUS={0}".format(msg))
     if my_hostname == 'rpints':
         for p in PANPState:
@@ -336,9 +390,13 @@ def sigterm_handler(_signo, _stack_frame):
         GPIO.remove_event_detect(normal_mode_in)
         GPIO.output(msgctr_power,0)
     GPIO.output(serial_enable,0)
-    msg="PANP service on {0} sending main thread SIGINT".format(my_hostname)
+    msg="PANP service on {} sending PID {} SIGINT".format(my_hostname, main_pid)
+    print(msg)
     n.notify("STATUS={0}".format(msg))
-    _thread.interrupt_main()
+    try:
+        os.kill(main_pid, signal.SIGINT)
+    except KeyboardInterrupt:
+        cleanup_exit()
 
 
 # function to listen to switchpod
@@ -381,17 +439,23 @@ elif my_hostname == 'brewpi':
   GPIO.setup(brewpi_power_relay, GPIO.OUT, initial=1)
 else:
     # fail with an error
-    n.notify("Unknown hostname, exiting")
+    msg = "Unknown hostname, exiting"
+    print(msg)
+    n.notify("STATUS={}".format(msg))
     n.notify("ERRNO=1")
     sys.exit(1)
 
 # enable the 3.3V to 5V serial converter
 GPIO.setup(serial_enable, GPIO.OUT, initial=1)
 
+main_pid = os.getpid()
+
 # allow boot to continue
 n = sdnotify.SystemdNotifier()
 n.notify("READY=1")
-n.notify("STATUS=PANP service running on {0}".format(my_hostname))
+msg = "PANP service PID {} running on {}".format(main_pid, my_hostname)
+print(msg)
+n.notify("STATUS={}".format(msg))
 
 if my_hostname == 'rpints':
     # initailize the dashboard power relays
@@ -443,26 +507,18 @@ elif my_hostname == 'brewpi':
 
 else:
     # fail with an error
-    n.notify("Unknown hostname, exiting")
+    msg = "Unknown hostname, exiting"
+    print(msg)
+    n.notify("STATUS={}".format(msg))
     n.notify("ERRNO=1")
     sys.exit(1)
 
 # sleep forever waiting for events
+run_loop=True
 try:
-
-    while True:
+    while run_loop:
         loop_handler.loop()
         time.sleep(0.25)
 
 except KeyboardInterrupt:
-    if my_hostname == 'brewpi':
-        speedo_tx.close()
-    else:
-        tacho_tx.close()
-        dummy_tx.close()
-
-    msg="PANP service on {0} exiting cleanly".format(my_hostname)
-    n.notify("STATUS={0}".format(msg))
-    n.notify("STOPPING=1")
-    sys.exit(0)
-
+    cleanup_exit()
