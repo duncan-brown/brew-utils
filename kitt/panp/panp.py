@@ -455,6 +455,8 @@ if my_hostname == 'rpints':
     # set up output pin for brewpi
     GPIO.setup(normal_mode_out, GPIO.OUT, initial=0)
 
+    time.sleep(1)
+
     # open the serial ports
     dummy_tx = serial.Serial("/dev/ttyAMA0", 57600)
     tacho_tx = serial.Serial("/dev/ttyAMA1", 57600)
@@ -484,6 +486,8 @@ elif my_hostname == 'brewpi':
 
     # set up input pin for auto mode from rpints
     GPIO.setup(normal_mode_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
+    time.sleep(1)
 
     # open the serial port to the speedo display
     speedo_tx = serial.Serial("/dev/ttyAMA1", 57600)
