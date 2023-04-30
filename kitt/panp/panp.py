@@ -717,7 +717,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     # sleep forever waiting for events
-    time.sleep(10)
+    time.sleep(3)
     msg = "PANP service PID {} on {} entering main loop".format(main_pid, my_hostname)
     print(msg)
     n.notify("STATUS={}".format(msg))
