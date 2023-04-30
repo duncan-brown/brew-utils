@@ -475,7 +475,7 @@ class BrightnessHandler:
                     msg = '>@BDFF?'
                 for i in range(3):
                     tx.write(str.encode(msg))
-                    time.sleep(0.25)
+                    time.sleep(0.1)
                 self.brightness = channel_state
 
 
