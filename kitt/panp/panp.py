@@ -18,17 +18,18 @@ from serial.serialutil import PortNotOpenError
 
 
 # common gpio pins
-serial_enable = 22 # GPIO 25
+serial_enable = 22    # GPIO 25
+auto_mode_comm = 26   # GPIO 7 (CE1)
+normal_mode_comm = 15 # GPIO 22
 
 # gpio pin configuration for rpints
 lower_dash_power = 19   # GPIO 10 (MOSI)
 upper_dash_power = 12   # GPIO 18
 sp_power = 11           # GPIO 17
-normal_mode_out = 15    # GPIO 22
+normal_mode_comm = 15    # GPIO 22
 
 # gpio pin configurations for brewpi
 msgctr_power = 36       # GPIO 16
-normal_mode_in = 15     # GPIO 22
 
 
 class PANPState(Enum):
@@ -426,7 +427,7 @@ class PANPHandler:
             GPIO.output(lower_dash_power, 1)
             GPIO.output(upper_dash_power, 1)
             GPIO.output(sp_power, 1)
-            GPIO.output(normal_mode_out, 0)
+            GPIO.output(normal_mode_comm, 0)
         elif channel is PANPButton.NORM.value:
             self.state = PANPState.NORM
             GPIO.output(old_state.value,0)
@@ -434,8 +435,8 @@ class PANPHandler:
             GPIO.output(lower_dash_power, 0)
             GPIO.output(upper_dash_power, 0)
             GPIO.output(sp_power, 1)
-            GPIO.output(normal_mode_out, 1)
-            self.brightness.set_brightness(normal_mode_out)
+            GPIO.output(normal_mode_comm, 1)
+            self.brightness.set_brightness(normal_mode_comm)
         elif channel is PANPButton.PURSUIT.value:
             self.state = PANPState.PURSUIT
             GPIO.output(old_state.value,0)
@@ -443,12 +444,12 @@ class PANPHandler:
             GPIO.output(lower_dash_power, 0)
             GPIO.output(upper_dash_power, 0)
             GPIO.output(sp_power, 0)
-            GPIO.output(normal_mode_out, 0)
-            self.brightness.set_brightness(normal_mode_out)
+            GPIO.output(normal_mode_comm, 0)
+            self.brightness.set_brightness(normal_mode_comm)
         if old_state is PANPState.AUTO:
             for i in range(1,0,-1):
                 time.sleep(i)
-                self.brightness.set_brightness(normal_mode_out, True)
+                self.brightness.set_brightness(normal_mode_comm, True)
                 self.clear_display()
 
     def button(self, channel):
@@ -520,9 +521,9 @@ def sigterm_handler(_signo, _stack_frame):
         GPIO.output(lower_dash_power, 1)
         GPIO.output(upper_dash_power, 1)
         GPIO.output(sp_power, 1)
-        GPIO.output(normal_mode_out, 0)
+        GPIO.output(normal_mode_comm, 0)
     else:
-        GPIO.remove_event_detect(normal_mode_in)
+        GPIO.remove_event_detect(normal_mode_comm)
         GPIO.output(msgctr_power,0)
     GPIO.output(serial_enable,0)
     msg="PANP service on {} sending PID {} SIGINT".format(my_hostname, main_pid)
@@ -615,7 +616,7 @@ if __name__ == "__main__":
         GPIO.setup(sp_power, GPIO.OUT, initial=1)
 
         # set up output pin for brewpi
-        GPIO.setup(normal_mode_out, GPIO.OUT, initial=0)
+        GPIO.setup(normal_mode_comm, GPIO.OUT, initial=0)
         GPIO.setwarnings(True)
 
         # open the serial ports
@@ -647,7 +648,7 @@ if __name__ == "__main__":
         GPIO.setup(msgctr_power, GPIO.OUT, initial=0)
 
         # set up input pin for auto mode from rpints
-        GPIO.setup(normal_mode_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(normal_mode_comm, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setwarnings(True)
 
         # open the serial port to the speedo display
@@ -656,7 +657,7 @@ if __name__ == "__main__":
 
         # dim the speedo as we are in auto mode initially
         brightness = BrightnessHandler([speedo_tx])
-        GPIO.add_event_detect(normal_mode_in, GPIO.BOTH, callback=brightness.set_brightness, bouncetime=10)
+        GPIO.add_event_detect(normal_mode_comm, GPIO.BOTH, callback=brightness.set_brightness, bouncetime=10)
 
         hot_side_probes = [
                 "/sys/bus/w1/devices/28-012052b65be5/w1_slave",
