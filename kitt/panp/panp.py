@@ -492,7 +492,6 @@ def cleanup_exit():
 
     # close all the serial ports
     time.sleep(1)
-    sp_rx.close()
     if my_hostname == 'brewpi':
         speedo_tx.close()
         msgctr_tx.close()
@@ -536,20 +535,31 @@ def sigterm_handler(_signo, _stack_frame):
 
 
 # function to listen to switchpod
-def get_switchpod(rx, sp_q):
+def get_switchpod(sp_q):
+    path = "/dev/switchpod"
+    while os.access(path, os.R_OK) is False:
+        time.sleep(1)
+    rx = serial.Serial("/dev/switchpod", 9600, timeout=None)
     while True:
-        state = rx.readline()
-        data = state.decode().strip()
-        sp_q.put(data)
+        try:
+            state = rx.read(2)
+            data = state.decode().strip()
+            if data:
+                sp_q.put(data)
+        except:
+            pass
 
 
 # function to get the temperatures from one-wire probes
 def get_temps(probes,q):
     t = TempProbe()
     while True:
-        for i, kp in enumerate(probes):
-            temp = t.get_probe_temp(kp)
-            q.put("{},{}".format(i,temp))
+        try:
+            for i, kp in enumerate(probes):
+                temp = t.get_probe_temp(kp)
+                q.put("{},{}".format(i,temp))
+        except:
+            pass
         time.sleep(1)
 
 
@@ -602,9 +612,8 @@ if __name__ == "__main__":
     n.notify("STATUS={}".format(msg))
 
     # create the listener for the switchpod
-    sp_rx = serial.Serial("/dev/switchpod", 9600)
     sp_q = Queue()
-    sp_t = Thread(target=get_switchpod, args=(sp_rx, sp_q,))
+    sp_t = Thread(target=get_switchpod, args=(sp_q,))
     sp_t.daemon = True
     sp_t.start()
 
@@ -684,6 +693,9 @@ if __name__ == "__main__":
 
     # sleep forever waiting for events
     time.sleep(10)
+    msg = "PANP service PID {} on {} entering main loop".format(main_pid, my_hostname)
+    print(msg)
+    n.notify("STATUS={}".format(msg))
     run_loop=True
     try:
         while run_loop:
