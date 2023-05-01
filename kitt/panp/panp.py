@@ -404,9 +404,11 @@ class BrewPiLoopHandler():
                 # write hlt temp to upper display
                 hundreds, tens, ones, tenths = self.get_probe_temp_units(round(self.hot_side_temps[1]))
                 msg = ">BBc{:0>2X}?".format(hundreds*10 + tens)
-
+                time.sleep(0.1)
                 self.speedo_tx.write(str.encode(msg))
+
                 msg = ">BHd0{0}0{1}0{2}03?".format(hundreds, tens, ones)
+                time.sleep(0.1)
                 self.speedo_tx.write(str.encode(msg))
 
                 dp_mode = 1
