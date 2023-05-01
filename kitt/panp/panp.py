@@ -15,6 +15,7 @@ from enum import Enum
 from threading import Thread
 from queue import Queue
 from serial.serialutil import PortNotOpenError
+import mysql.connector as database
 
 
 # common gpio pins
@@ -105,9 +106,13 @@ class RPintsLoopHandler:
         self.keezer_median = 0.0
         self.rpm_mode = RPMMode.MEAN
 
+        self.database_clicks = 0
+        self.connection = None
+        self.cursor = None
+
         self.lager_temps = [ 0.0, 0.0, 0.0 ]
-        self.keg_capacity = [ 0.0, 0.0, 0.0, 0.0, 0.0]
         self.total_capacity = 0.0
+        self.keg_capacity = [ 0.0, 0.0, 0.0, 0.0, 0.0 ]
 
     def rpm_circle(self, temp):
         rpm_idx = [ 2.0, 4.0, 6.0, 8.0, 10.0,
@@ -129,10 +134,56 @@ class RPintsLoopHandler:
             if temp < t: break
         return bar_vals[i]
 
+    def keg_bar(self, vol):
+        bar_vols = [4.1, 12.3, 16.4, 24.6, 32.8,
+                36.9, 45.1, 49.9, 53.3, 61.5, 65.6,
+                73.8, 82.0, 86.1, 94.3, 98.0, 99.9]
+        bar_vals = [0x00, 0x10, 0x20, 0x30, 0x40, 0x50,
+                0x60, 0x70, 0x79, 0x88, 0x97,
+                0xA6, 0xB5, 0xC4, 0xD3, 0xE2, 0xFF]
+        for i, v in enumerate(bar_vols):
+            if vol < v: break
+        return bar_vals[i]
+
+    def open_database(self):
+        self.connection = database.connect(user="RaspberryPints",
+                password="RaspberryPints",
+                host="localhost",
+                database="raspberrypints")
+
+    def close_database(self):
+        self.connection.close()
+
     def loop(self):
         global run_loop
         if run_loop is False:
             return
+
+        # get the keg volumes from the rpints database
+        if self.database_clicks == 0:
+            try:
+                self.open_database()
+                self.cursor = self.connection.cursor()
+                self.cursor.execute("SELECT id, startAmount, remainAmount FROM vwGetActiveTaps")
+                for (idx, start, remain) in self.cursor:
+                    idx = int(idx) - 1
+                    if start < 0.0001 or remain < 0.0001:
+                        self.keg_capacity[idx] = 0.0
+                    else:
+                        self.keg_capacity[idx] = float(remain)/float(start)*100.0
+                self.database_close()
+            except:
+                pass
+            self.database_clicks = 1
+        elif self.database_clicks > 9:
+            self.database_clicks = 0
+        else:
+            self.database_clicks += 1
+
+        self.total_capacity = 0
+        for v in self.keg_capacity:
+            self.total_capacity += v
+        self.total_capacity = self.total_capacity / 5.0
 
         # Update the mode if there was a button press
         while self.sp_q.qsize() > 0:
@@ -195,6 +246,7 @@ class RPintsLoopHandler:
         try:
             # write the temperature to the tacho seven segment display
             msg = ">ABp{:0>2X}?".format(int(round(rpm)))
+            time.sleep(0.1)
             self.tacho_tx.write(str.encode(msg))
 
             # write the probe temps to the six bars
@@ -204,7 +256,25 @@ class RPintsLoopHandler:
 
             # write the temperature to the rpm circle
             msg = "{}{:0>2X}?".format(msg,self.rpm_circle(rpm))
+            time.sleep(0.1)
             self.tacho_tx.write(str.encode(msg))
+
+            # write the lager temps, total capacity, keg 1, and keg 2 to dummy6
+            msg = ">GHm000000{:0>2X}{:0>2X}{:0>2X}?".format(
+                    self.keg_bar(self.total_capacity),
+                    self.keg_bar(self.keg_capacity[0]),
+                    self.keg_bar(self.keg_capacity[1]))
+            time.sleep(0.1)
+            self.dummy_tx.write(str.encode(msg))
+
+            # write the keg 3, keg 4, and keg 5 to the red dummy3
+            msg = ">EHm{:0>2X}{:0>2X}{:0>2X}?".format(
+                    self.keg_bar(self.keg_capacity[2]),
+                    self.keg_bar(self.keg_capacity[3]),
+                    self.keg_bar(self.keg_capacity[4]))
+            time.sleep(0.1)
+            self.dummy_tx.write(str.encode(msg))
+
         except PortNotOpenError:
             if run_loop is True:
                 raise PortNotOpenError
