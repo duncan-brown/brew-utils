@@ -283,7 +283,7 @@ class RPintsLoopHandler:
 
 
 class BrewPiLoopHandler():
-    def __init__(self, speedo_tx, msgctr_tx, sp_q, hot_side_q, brewpi_rmx_q):
+    def __init__(self, speedo_tx, msgctr_tx, sp_q, hot_side_q, brewpi_rmx_temp_sg_q, brewpi_rmx_state_q):
         # serial communications for speedo and message center
         self.speedo_tx = speedo_tx
         self.msgctr_tx = msgctr_tx
@@ -303,8 +303,11 @@ class BrewPiLoopHandler():
         self.auto_mode = GPIO.HIGH
 
         # brewpi data utk1, utk2, chrn
-        self.brewpi_rmx_q = brewpi_rmx_q
+        self.brewpi_rmx_temp_sg_q = brewpi_rmx_temp_sg_q
         self.brewpi_rmx_data = [0.0, 0.000, 0.0, 0.000, 0.0, 0.000]
+        self.brewpi_rmx_state_q = brewpi_rmx_state_q
+        self.brewpi_rmx_state = ["UP", "UP", "UP"]
+        self.brewpi_rmx_state_change = False
 
     def get_probe_temp_units(self, tempvalue_f):
         tenths = int(round(tempvalue_f % 1 * 10.0, 0))
@@ -330,11 +333,11 @@ class BrewPiLoopHandler():
             self.auto_mode = channel_state
             if channel_state == GPIO.HIGH:
                 self.msgctr_mode = MsgCtrMode.BREWPI_UP
-                self.msgctr_msg = ">CScBREWPI UP?"
-                time.sleep(0.25)
-                self.msgctr_tx.write(str.encode(self.msgctr_msg))
                 self.msgctr_mode_old = self.msgctr_mode
-                time.sleep(0.25)
+                self.msgctr_tx.write(str.encode(">CBa01?"))
+                time.sleep(0.1)
+                self.msgctr_tx.write(str.encode(">CBa00?"))
+                time.sleep(0.1)
 
     def loop(self):
         global run_loop
@@ -348,10 +351,43 @@ class BrewPiLoopHandler():
             self.hot_side_temps[int(idx)] = float(temp)
 
         # get any updated brewpi data from the queue
-        while self.brewpi_rmx_q.qsize() > 0:
-            brewpi_rmx_data = self.brewpi_rmx_q.get()
+        while self.brewpi_rmx_temp_sg_q.qsize() > 0:
+            brewpi_rmx_data = self.brewpi_rmx_temp_sg_q.get()
             idx, value = brewpi_rmx_data.split(',')
             self.brewpi_rmx_data[int(idx)] = float(value)
+
+        # get the fermenter states for the changing message
+        while self.brewpi_rmx_state_q.qsize() > 0:
+            brewpi_rmx_state = self.brewpi_rmx_state_q.get()
+            idx, value = brewpi_rmx_state.split(',')
+            idx = int(idx)
+            if (value == "Idling") or (value == "Idle"):
+                value = "IDLE"
+            elif (value == "Waiting") or (value == "Wait"):
+                value = "WAIT"
+            elif value == "Cooling":
+                value = "COOL"
+            elif value == "Heating":
+                value = "HEAT"
+            else:
+                value = "DOWN"
+            print("got {} for fermenter {} in queue".format(value,idx))
+            if self.brewpi_rmx_state[idx] != value:
+                self.brewpi_rmx_state[idx] = value
+                self.brewpi_state_change = True
+                msg = ">CSbBREWPI UP|UTK 1 {}|UTK 2 {}|CHRNL {}~?".format(
+                        self.brewpi_rmx_state[0],
+                        self.brewpi_rmx_state[1],
+                        self.brewpi_rmx_state[2])
+
+        # if the state changes, update the display
+        time.sleep(0.25)
+        if self.brewpi_state_change is True:
+            print("updating msg ctr {}".format(msg))
+            self.msgctr_tx.write(str.encode(msg))
+            self.brewpi_state_change = False
+            print("done updating msg ctr {}".format(msg))
+        time.sleep(0.25)
 
         # Update the mode if there was a button press
         while self.sp_q.qsize() > 0:
@@ -385,7 +421,7 @@ class BrewPiLoopHandler():
                 self.msgctr_msg = ">CScSG CHRN?"
             elif sp_val == 8: # EJECT L
                 self.msgctr_mode = MsgCtrMode.BREWPI_UP
-                self.msgctr_msg = ">CScBREWPI UP?"
+                self.msgctr_msg = ">CBa01?"
             elif sp_val == 9: # H6
                 self.msgctr_mode = MsgCtrMode.HLT_TEMP
                 self.msgctr_msg = ">CScDEG F HLT?"
@@ -397,9 +433,11 @@ class BrewPiLoopHandler():
         if self.auto_mode == GPIO.LOW:
             try:
                 if self.msgctr_mode is not self.msgctr_mode_old:
-                    self.msgctr_tx.write(str.encode(self.msgctr_msg))
-                    self.msgctr_mode_old = self.msgctr_mode
+                    self.msgctr_tx.write(str.encode(">CBa00?"))
                     time.sleep(0.1)
+                    self.msgctr_tx.write(str.encode(self.msgctr_msg))
+                    time.sleep(0.1)
+                    self.msgctr_mode_old = self.msgctr_mode
 
                 # write hlt temp to upper display
                 hundreds, tens, ones, tenths = self.get_probe_temp_units(round(self.hot_side_temps[1]))
@@ -675,29 +713,39 @@ def get_temps(probes,q):
         time.sleep(1)
 
 
-def get_brewpi_rmx_data(q):
+def get_brewpi_rmx_data(t_sg_q, state_q):
     while True:
         for i, fermenter in enumerate(["unitank-1", "unitank-2", "chronical"]):
             for j, msg in enumerate(["lcd", "statusText"]):
                 try:
-                    time.sleep(1)
                     s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
                     s.connect('/home/brewpi/{}/KITTSOCKET'.format(fermenter))
                     s.sendall(msg.encode())
                     s.settimeout(2)
                     if j == 0:
-                        data = json.loads(s.recv(4096).decode())[1].split()[1]
+                        try:
+                            ss = s.recv(4096).decode()
+                            lcd = json.loads(ss)
+                            data = lcd[1].split()[1]
+                            state = lcd[3].split()[0]
+                        except:
+                            state = "DOWN"
+                        state_q.put("{},{}".format(i, state))
                     else:
-                        data = json.loads(s.recv(4096).decode())["0"]["Tilt SG: "]
+                        try:
+                            data = json.loads(s.recv(4096).decode())["0"]["Tilt SG: "]
+                        except:
+                            data = 0.0
                     s.close()
                 except:
-                    data = 0.0
+                    if j == 0:
+                        state_q.put("{},{}".format(i, "DOWN"))
                     try:
                         s.close()
                     except:
                         pass
-                q.put("{},{}".format(i*2+j,data))
-        time.sleep(60)
+                t_sg_q.put("{},{}".format(i*2+j, data))
+        time.sleep(10)
 
 
 if __name__ == "__main__":
@@ -790,12 +838,13 @@ if __name__ == "__main__":
         hot_side_t.daemon = True
         hot_side_t.start()
 
-        brewpi_rmx_q = Queue()
-        brewpi_rmx_t = Thread(target=get_brewpi_rmx_data, args=(brewpi_rmx_q,))
+        brewpi_rmx_temp_sg_q = Queue()
+        brewpi_rmx_state_q = Queue()
+        brewpi_rmx_t = Thread(target=get_brewpi_rmx_data, args=(brewpi_rmx_temp_sg_q, brewpi_rmx_state_q,))
         brewpi_rmx_t.daemon = True
         brewpi_rmx_t.start()
 
-        loop_handler = BrewPiLoopHandler(speedo_tx, msgctr_tx, sp_q, hot_side_q, brewpi_rmx_q)
+        loop_handler = BrewPiLoopHandler(speedo_tx, msgctr_tx, sp_q, hot_side_q, brewpi_rmx_temp_sg_q, brewpi_rmx_state_q)
         GPIO.add_event_detect(auto_mode_comm, GPIO.BOTH, callback=loop_handler.set_auto_mode, bouncetime=10)
 
     else:
