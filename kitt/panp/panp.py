@@ -371,7 +371,6 @@ class BrewPiLoopHandler():
                 value = "HEAT"
             else:
                 value = "DOWN"
-            print("got {} for fermenter {} in queue".format(value,idx))
             if self.brewpi_rmx_state[idx] != value:
                 self.brewpi_rmx_state[idx] = value
                 self.brewpi_state_change = True
@@ -381,13 +380,11 @@ class BrewPiLoopHandler():
                         self.brewpi_rmx_state[2])
 
         # if the state changes, update the display
-        time.sleep(0.25)
+        time.sleep(0.1)
         if self.brewpi_state_change is True:
-            print("updating msg ctr {}".format(msg))
             self.msgctr_tx.write(str.encode(msg))
             self.brewpi_state_change = False
-            print("done updating msg ctr {}".format(msg))
-        time.sleep(0.25)
+        time.sleep(0.1)
 
         # Update the mode if there was a button press
         while self.sp_q.qsize() > 0:
@@ -717,6 +714,8 @@ def get_brewpi_rmx_data(t_sg_q, state_q):
     while True:
         for i, fermenter in enumerate(["unitank-1", "unitank-2", "chronical"]):
             for j, msg in enumerate(["lcd", "statusText"]):
+                data = 0.0
+                state = "DOWN"
                 try:
                     s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
                     s.connect('/home/brewpi/{}/KITTSOCKET'.format(fermenter))
@@ -729,13 +728,13 @@ def get_brewpi_rmx_data(t_sg_q, state_q):
                             data = lcd[1].split()[1]
                             state = lcd[3].split()[0]
                         except:
-                            state = "DOWN"
+                            pass
                         state_q.put("{},{}".format(i, state))
                     else:
                         try:
                             data = json.loads(s.recv(4096).decode())["0"]["Tilt SG: "]
                         except:
-                            data = 0.0
+                            pass
                     s.close()
                 except:
                     if j == 0:
