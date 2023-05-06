@@ -93,11 +93,12 @@ class TempProbe:
 
 
 class RPintsLoopHandler:
-    def __init__(self, tacho_tx, dummy_tx, sp_q, keezer_q):
+    def __init__(self, tacho_tx, dummy_tx, sp_q, keezer_q, lager_q):
         self.tacho_tx = tacho_tx
         self.dummy_tx = dummy_tx
         self.sp_q = sp_q
         self.keezer_q = keezer_q
+        self.lager_q = lager_q
 
         self.keezer_temps = [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]
         self.keezer_max = 0.0
@@ -143,6 +144,17 @@ class RPintsLoopHandler:
                 0xA6, 0xB5, 0xC4, 0xD3, 0xE2, 0xFF]
         for i, v in enumerate(bar_vols):
             if vol < v: break
+        return bar_vals[i]
+
+    def lager_bar(self, temp):
+        bar_temps = [23.5, 24.0, 25.0, 26.5, 27.5,
+                28.0, 29.0, 29.5, 30.0, 30.5,
+                31.0, 31.5, 32.5, 33.5, 34.0, 35.0, 35.5]
+        bar_vals = [0x00, 0x10, 0x20, 0x30, 0x40, 0x50,
+                0x60, 0x70, 0x79, 0x88, 0x97,
+                0xA6, 0xB5, 0xC4, 0xD3, 0xE2, 0xFF]
+        for i, t in enumerate(bar_temps):
+            if temp < t: break
         return bar_vals[i]
 
     def open_database(self):
@@ -232,6 +244,11 @@ class RPintsLoopHandler:
         else:
             self.keezer_median = temps[n//2]
 
+        while self.lager_q.qsize() > 0:
+            lager_data = self.lager_q.get()
+            idx, temp = lager_data.split(',')
+            self.lager_temps[int(idx)] = float(temp)
+
         if self.rpm_mode is RPMMode.MEAN:
             rpm = self.keezer_mean
         elif self.rpm_mode is RPMMode.MEDIAN:
@@ -260,7 +277,10 @@ class RPintsLoopHandler:
             self.tacho_tx.write(str.encode(msg))
 
             # write the lager temps, total capacity, keg 1, and keg 2 to dummy6
-            msg = ">GHm000000{:0>2X}{:0>2X}{:0>2X}?".format(
+            msg = ">GHm{:0>2X}{:0>2X}{:0>2X}{:0>2X}{:0>2X}{:0>2X}?".format(
+                    self.lager_bar(self.lager_temps[0]),
+                    self.lager_bar(self.lager_temps[1]),
+                    self.lager_bar(self.lager_temps[2]),
                     self.keg_bar(self.total_capacity),
                     self.keg_bar(self.keg_capacity[0]),
                     self.keg_bar(self.keg_capacity[1]))
@@ -808,8 +828,18 @@ if __name__ == "__main__":
         keezer_t.daemon = True
         keezer_t.start()
 
+        # create the thread for the lager fridge probes
+        lager_probes = [
+                '/sys/bus/w1/devices/28-3c01b556f6d0/w1_slave',
+                '/sys/bus/w1/devices/28-3c01b556e543/w1_slave',
+                '/sys/bus/w1/devices/28-3ce80457395a/w1_slave' ]
+        lager_q = Queue()
+        lager_t = Thread(target=get_temps, args=(lager_probes, lager_q,))
+        lager_t.daemon = True
+        lager_t.start()
+
         # create the loop handler
-        loop_handler = RPintsLoopHandler(tacho_tx, dummy_tx, sp_q, keezer_q)
+        loop_handler = RPintsLoopHandler(tacho_tx, dummy_tx, sp_q, keezer_q, lager_q)
 
     elif my_hostname == 'brewpi':
         # initailize the message center power relay
