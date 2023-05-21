@@ -831,7 +831,7 @@ if __name__ == "__main__":
         # create the thread for the lager fridge probes
         lager_probes = [
                 '/sys/bus/w1/devices/28-3c01b556f6d0/w1_slave',
-                '/sys/bus/w1/devices/28-3c01b556e543/w1_slave',
+                '/sys/bus/w1/devices/28-3cdd04574813/w1_slave',
                 '/sys/bus/w1/devices/28-3ce80457395a/w1_slave' ]
         lager_q = Queue()
         lager_t = Thread(target=get_temps, args=(lager_probes, lager_q,))
