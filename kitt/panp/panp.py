@@ -764,7 +764,7 @@ def get_brewpi_rmx_data(t_sg_q, state_q):
                     except:
                         pass
                 t_sg_q.put("{},{}".format(i*2+j, data))
-        time.sleep(360)
+        time.sleep(60)
 
 
 if __name__ == "__main__":
