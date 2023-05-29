@@ -24,9 +24,15 @@ auto_mode_comm = 26   # GPIO 7 (CE1)
 normal_mode_comm = 15 # GPIO 22
 
 # gpio pin configuration for rpints
-lower_dash_power = 19   # GPIO 10 (MOSI)
-upper_dash_power = 12   # GPIO 18
-sp_power = 11           # GPIO 17
+lower_dash_power = 19     # GPIO 10 (MOSI)
+upper_dash_power = 12     # GPIO 18
+sp_power = 11             # GPIO 17
+flowmeter = [0,0,0,0,0]   # create array
+flowmeter[0] = 3          # GPIO 2 (SCL)
+flowmeter[1] = 5          # GPIO 3 (SDA)
+flowmeter[2] = 40         # GPIO 21
+flowmeter[3] = 13         # GPIO 27
+flowmeter[4] = 33         # GPIO 13
 
 # gpio pin configurations for brewpi
 msgctr_power = 36       # GPIO 16
@@ -802,6 +808,10 @@ if __name__ == "__main__":
         GPIO.setup(lower_dash_power, GPIO.OUT, initial=1)
         GPIO.setup(upper_dash_power, GPIO.OUT, initial=1)
         GPIO.setup(sp_power, GPIO.OUT, initial=1)
+
+        # set the flowmeter relays
+        for f in flowmeter:
+            GPIO.setup(f, GPIO.OUT, initial=0)
 
         # set up output pin for brewpi
         GPIO.setup(normal_mode_comm, GPIO.OUT, initial=0)
