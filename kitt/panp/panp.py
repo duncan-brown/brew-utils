@@ -53,9 +53,9 @@ class RPMMode(Enum):
     PROBE4 = 3
     PROBE5 = 4
     PROBE6 = 5
-    MIN = 6
-    MAX = 7
-    MEDIAN = 8
+    LAGER1 = 6
+    LAGER2 = 7
+    LAGER3 = 8
     MEAN = 9
 
 
@@ -129,7 +129,7 @@ class RPintsLoopHandler:
         return i
 
     def tacho_bar(self, temp):
-        bar_temps = [34.0, 37.0, 40.0, 43.0, 47.0, 51.0, 53.0, 56.0]
+        bar_temps = [30.0, 33.0, 36.0, 39.0, 43.0, 47.0, 48.0, 51.0]
         bar_vals = [0x20, 0x38, 0x54, 0x70, 0x90, 0xA8, 0xC4, 0xE0]
         for i, t in enumerate(bar_temps):
             if temp < t: break
@@ -216,11 +216,11 @@ class RPintsLoopHandler:
             elif sp_val == 1: # 6RM
                 self.rpm_mode = RPMMode.PROBE6
             elif sp_val == 3: # PENG
-                self.rpm_mode = RPMMode.MAX
+                self.rpm_mode = RPMMode.LAGER1
             elif sp_val == 5: # AUTO ROOF R 
-                self.rpm_mode = RPMMode.MIN
+                self.rpm_mode = RPMMode.LAGER2
             elif sp_val == 7: # PIND
-                self.rpm_mode = RPMMode.MEDIAN
+                self.rpm_mode = RPMMode.LAGER3
             elif sp_val == 9: # EJECT R
                 self.rpm_mode = RPMMode.MEAN
             else:
@@ -251,12 +251,12 @@ class RPintsLoopHandler:
 
         if self.rpm_mode is RPMMode.MEAN:
             rpm = self.keezer_mean
-        elif self.rpm_mode is RPMMode.MEDIAN:
-            rpm = self.keezer_median
-        elif self.rpm_mode is RPMMode.MIN:
-            rpm = self.keezer_min
-        elif self.rpm_mode is RPMMode.MAX:
-            rpm = self.keezer_max
+        elif self.rpm_mode is RPMMode.LAGER1:
+            rpm = self.lager_temps[0]
+        elif self.rpm_mode is RPMMode.LAGER2:
+            rpm = self.lager_temps[1]
+        elif self.rpm_mode is RPMMode.LAGER3:
+            rpm = self.lager_temps[3]
         else:
             rpm = self.keezer_temps[self.rpm_mode.value]
 
