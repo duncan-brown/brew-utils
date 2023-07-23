@@ -262,7 +262,7 @@ class RPintsLoopHandler:
         elif self.rpm_mode is RPMMode.LAGER2:
             rpm = self.lager_temps[1]
         elif self.rpm_mode is RPMMode.LAGER3:
-            rpm = self.lager_temps[3]
+            rpm = self.lager_temps[2]
         else:
             rpm = self.keezer_temps[self.rpm_mode.value]
 
