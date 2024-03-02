@@ -27,15 +27,15 @@ normal_mode_comm = 15 # GPIO 22
 lower_dash_power = 19     # GPIO 10 (MOSI)
 upper_dash_power = 12     # GPIO 18
 sp_power = 11             # GPIO 17
-flowmeter = [0,0,0,0,0]   # create array
-flowmeter[0] = 3          # GPIO 2 (SCL)
-flowmeter[1] = 5          # GPIO 3 (SDA)
-flowmeter[2] = 40         # GPIO 21
-flowmeter[3] = 13         # GPIO 27
-flowmeter[4] = 33         # GPIO 13
 
 # gpio pin configurations for brewpi
 msgctr_power = 36       # GPIO 16
+flowmeter = [0,0,0,0,0]   # create array
+flowmeter[0] = 3          # GPIO 2 (SCL)
+flowmeter[1] = 5          # GPIO 3 (SDA)
+flowmeter[2] = 13         # GPIO 27
+flowmeter[3] = 40         # GPIO 21
+flowmeter[4] = 33         # GPIO 13
 
 
 class PANPState(Enum):
@@ -76,6 +76,7 @@ class MsgCtrMode(Enum):
     CHRONICAL_SG = 7
     BREWPI_UP = 8
     MASH_TEMP_C = 9
+    FLOWMETER = 10
 
 
 class TempProbe:
@@ -325,6 +326,13 @@ class BrewPiLoopHandler():
         self.msgctr_mode_old = MsgCtrMode.BREWPI_UP
         self.msgctr_mode = MsgCtrMode.BREWPI_UP
 
+        # flow meter relay status
+        self.flowmeter_relay = [GPIO.LOW,
+                GPIO.LOW,
+                GPIO.LOW,
+                GPIO.LOW,
+                GPIO.LOW ]
+
         # auto mode status
         self.auto_mode = GPIO.HIGH
 
@@ -334,6 +342,17 @@ class BrewPiLoopHandler():
         self.brewpi_rmx_state_q = brewpi_rmx_state_q
         self.brewpi_rmx_state = ["UP", "UP", "UP"]
         self.brewpi_rmx_state_change = False
+
+    def toggle_flowmeter_relay(self, f):
+        if self.flowmeter_relay_state == GPIO.LOW:
+            self.flowmeter_relay_state = GPIO.HIGH
+            flow_msg = "online"
+        else:
+            self.flowmeter_relay_state = GPIO.LOW
+            flow_msg = "offline"
+        GPIO.output(flowmeter[f], self.flowmeter_relay_state)
+        self.msgctr_mode = MsgCtrMode.FLOWMETER
+        self.msgctr_msg = ">CScTAP {} {}?".format(f+1, flow_msg)
 
     def get_probe_temp_units(self, tempvalue_f):
         tenths = int(round(tempvalue_f % 1 * 10.0, 0))
@@ -421,33 +440,28 @@ class BrewPiLoopHandler():
             if sp_val == 0:   # SILENT MODE
                 self.msgctr_mode = MsgCtrMode.MASH_TEMP
                 self.msgctr_msg = ">CScDEG F MASH?"
-            elif sp_val == 1: # LASER
-                self.msgctr_mode = MsgCtrMode.MASH_TEMP_C
-                self.msgctr_msg = ">CScDEG C MASH?"
             elif sp_val == 2: # TEAR GAS
-                self.msgctr_mode = MsgCtrMode.UNITANK1_TEMP
-                self.msgctr_msg = ">CScDEG F UTK1?"
-            elif sp_val == 3: # X-RAY
-                self.msgctr_mode = MsgCtrMode.UNITANK1_SG
-                self.msgctr_msg = ">CScSG UTK1?"
-            elif sp_val == 4: # AUTO ROOF L
-                self.msgctr_mode = MsgCtrMode.UNITANK2_TEMP
-                self.msgctr_msg = ">CScDEG F UTK2?"
-            elif sp_val == 5: # GRPLG. HOOK
-                self.msgctr_mode = MsgCtrMode.UNITANK2_SG
-                self.msgctr_msg = ">CScSG UTK2?"
-            elif sp_val == 6: # MICRO-JAM
-                self.msgctr_mode = MsgCtrMode.CHRONICAL_TEMP
-                self.msgctr_msg = ">CScDEG F CHRN?"
-            elif sp_val == 7: # SMOKE RELEASE
-                self.msgctr_mode = MsgCtrMode.CHRONICAL_SG
-                self.msgctr_msg = ">CScSG CHRN?"
-            elif sp_val == 8: # EJECT L
-                self.msgctr_mode = MsgCtrMode.BREWPI_UP
-                self.msgctr_msg = ">CBa01?"
-            elif sp_val == 9: # H6
                 self.msgctr_mode = MsgCtrMode.HLT_TEMP
                 self.msgctr_msg = ">CScDEG F HLT?"
+            elif sp_val == 4: # AUTO ROOF L
+                self.msgctr_mode = MsgCtrMode.UNITANK1_TEMP
+                self.msgctr_msg = ">CScDEG F UTK1?"
+            elif sp_val == 6: # MICRO-JAM
+                self.msgctr_mode = MsgCtrMode.UNITANK2_TEMP
+                self.msgctr_msg = ">CScDEG F UTK2?"
+            elif sp_val == 8: # EJECT L
+                self.msgctr_mode = MsgCtrMode.CHRONICAL_TEMP
+                self.msgctr_msg = ">CScDEG F CHRN?"
+            elif sp_val == 1: # LASER
+                toggle_flowmeter_relay(0)
+            elif sp_val == 3: # PAUX
+                toggle_flowmeter_relay(1)
+            elif sp_val == 5: # GRPLG. HOOK
+                toggle_flowmeter_relay(2)
+            elif sp_val == 7: # SMOKE RELEASE
+                toggle_flowmeter_relay(3)
+            elif sp_val == 9: # H6
+                toggle_flowmeter_relay(4)
             else:
                 self.msgctr_mode = MsgCtrMode.MASH_TEMP
                 self.msgctr_msg = ">CScDEG F MASH?"
@@ -809,10 +823,6 @@ if __name__ == "__main__":
         GPIO.setup(upper_dash_power, GPIO.OUT, initial=1)
         GPIO.setup(sp_power, GPIO.OUT, initial=1)
 
-        # set the flowmeter relays
-        for f in flowmeter:
-            GPIO.setup(f, GPIO.OUT, initial=0)
-
         # set up output pin for brewpi
         GPIO.setup(normal_mode_comm, GPIO.OUT, initial=0)
         GPIO.setup(auto_mode_comm, GPIO.OUT, initial=0)
@@ -860,6 +870,10 @@ if __name__ == "__main__":
         GPIO.setup(normal_mode_comm, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(auto_mode_comm, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setwarnings(True)
+
+        # set the flowmeter relays
+        for f in flowmeter:
+            GPIO.setup(f, GPIO.OUT, initial=0)
 
         # open the serial port to the speedo display
         msgctr_tx = serial.Serial("/dev/ttyAMA0", 57600)
