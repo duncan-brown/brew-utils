@@ -79,6 +79,12 @@ class MsgCtrMode(Enum):
     FLOWMETER = 10
 
 
+class LeftSPMode(Enum):
+    # GPIO pins for PANP lamps
+    TEMP = 0
+    SG = 1
+
+
 class TempProbe:
     def __init__(self):
         pass
@@ -324,10 +330,20 @@ class BrewPiLoopHandler():
 
         # message center display text
         self.msgctr_mode_old = MsgCtrMode.BREWPI_UP
-        self.msgctr_mode = MsgCtrMode.BREWPI_UP
+        self.msgctr_mode = MsgCtrMode.MASH_TEMP
+        self.msgctr_msg = ">CScDEG F MASH?"
+        self.msgctr_auto = ">CSbBREWPI UP|BREWPI UP~?"
+        time.sleep(0.1)
+        self.msgctr_tx.write(str.encode(self.msgctr_auto))
+        time.sleep(0.1)
+
+        # left switchpod buttons
+        self.switchpod_tank_mode = [LeftSPMode.TEMP,
+                LeftSPMode.TEMP,
+                LeftSPMode.TEMP]
 
         # flow meter relay status
-        self.flowmeter_relay = [GPIO.LOW,
+        self.flowmeter_relay_state = [GPIO.LOW,
                 GPIO.LOW,
                 GPIO.LOW,
                 GPIO.LOW,
@@ -344,15 +360,29 @@ class BrewPiLoopHandler():
         self.brewpi_rmx_state_change = False
 
     def toggle_flowmeter_relay(self, f):
-        if self.flowmeter_relay_state == GPIO.LOW:
-            self.flowmeter_relay_state = GPIO.HIGH
-            flow_msg = "online"
+        if self.flowmeter_relay_state[f] == GPIO.LOW:
+            self.flowmeter_relay_state[f] = GPIO.HIGH
+            flow_msg = "on"
         else:
-            self.flowmeter_relay_state = GPIO.LOW
-            flow_msg = "offline"
-        GPIO.output(flowmeter[f], self.flowmeter_relay_state)
-        self.msgctr_mode = MsgCtrMode.FLOWMETER
-        self.msgctr_msg = ">CScTAP {} {}?".format(f+1, flow_msg)
+            self.flowmeter_relay_state[f] = GPIO.LOW
+            flow_msg = "off"
+        GPIO.output(flowmeter[f], self.flowmeter_relay_state[f])
+        msgctr_msg = ">CScFLOW {} {}?".format(f+1, flow_msg)
+        self.msgctr_tx.write(str.encode(">CBa00?"))
+        time.sleep(0.1)
+        self.msgctr_tx.write(str.encode(msgctr_msg))
+        time.sleep(1)
+        self.msgctr_mode_old = MsgCtrMode.FLOWMETER
+        flow_stat_msg = ""
+        for n, flow_stat in enumerate(self.flowmeter_relay_state):
+            if flow_stat == GPIO.HIGH:
+                flow_stat_msg += "F{}".format(n+1)
+            else:
+                flow_stat_msg += "  "
+        if flow_stat_msg.isspace():
+            self.msgctr_auto = ">CSbBREWPI UP|BREWPI UP~?"
+        else:
+            self.msgctr_auto = ">CSbBREWPI UP|{}~?".format(flow_stat_msg)
 
     def get_probe_temp_units(self, tempvalue_f):
         tenths = int(round(tempvalue_f % 1 * 10.0, 0))
@@ -379,6 +409,8 @@ class BrewPiLoopHandler():
             if channel_state == GPIO.HIGH:
                 self.msgctr_mode = MsgCtrMode.BREWPI_UP
                 self.msgctr_mode_old = self.msgctr_mode
+                self.msgctr_tx.write(str.encode(self.msgctr_auto))
+                time.sleep(0.1)
                 self.msgctr_tx.write(str.encode(">CBa01?"))
                 time.sleep(0.1)
                 self.msgctr_tx.write(str.encode(">CBa00?"))
@@ -402,34 +434,34 @@ class BrewPiLoopHandler():
             self.brewpi_rmx_data[int(idx)] = float(value)
 
         # get the fermenter states for the changing message
-        while self.brewpi_rmx_state_q.qsize() > 0:
-            brewpi_rmx_state = self.brewpi_rmx_state_q.get()
-            idx, value = brewpi_rmx_state.split(',')
-            idx = int(idx)
-            if (value == "Idling") or (value == "Idle"):
-                value = "IDLE"
-            elif (value == "Waiting") or (value == "Wait"):
-                value = "WAIT"
-            elif value == "Cooling":
-                value = "COOL"
-            elif value == "Heating":
-                value = "HEAT"
-            else:
-                value = "DOWN"
-            if self.brewpi_rmx_state[idx] != value:
-                self.brewpi_rmx_state[idx] = value
-                self.brewpi_state_change = True
-                msg = ">CSbBREWPI UP|UTK 1 {}|UTK 2 {}|CHRNL {}~?".format(
-                        self.brewpi_rmx_state[0],
-                        self.brewpi_rmx_state[1],
-                        self.brewpi_rmx_state[2])
+        #while self.brewpi_rmx_state_q.qsize() > 0:
+        #    brewpi_rmx_state = self.brewpi_rmx_state_q.get()
+        #    idx, value = brewpi_rmx_state.split(',')
+        #    idx = int(idx)
+        #    if (value == "Idling") or (value == "Idle"):
+        #        value = "IDLE"
+        #    elif (value == "Waiting") or (value == "Wait"):
+        #        value = "WAIT"
+        #    elif value == "Cooling":
+        #        value = "COOL"
+        #    elif value == "Heating":
+        #        value = "HEAT"
+        #    else:
+        #        value = "DOWN"
+        #    if self.brewpi_rmx_state[idx] != value:
+        #        self.brewpi_rmx_state[idx] = value
+        #        self.brewpi_state_change = True
+        #        msg = ">CSbBREWPI UP|UTK 1 {}|UTK 2 {}|CHRNL {}~?".format(
+        #                self.brewpi_rmx_state[0],
+        #                self.brewpi_rmx_state[1],
+        #                self.brewpi_rmx_state[2])
 
         # if the state changes, update the display
-        time.sleep(0.1)
-        if self.brewpi_state_change is True:
-            self.msgctr_tx.write(str.encode(msg))
-            self.brewpi_state_change = False
-        time.sleep(0.1)
+        #time.sleep(0.1)
+        #if self.brewpi_state_change is True:
+        #    self.msgctr_tx.write(str.encode(msg))
+        #    self.brewpi_state_change = False
+        #time.sleep(0.1)
 
         # Update the mode if there was a button press
         while self.sp_q.qsize() > 0:
@@ -444,24 +476,42 @@ class BrewPiLoopHandler():
                 self.msgctr_mode = MsgCtrMode.HLT_TEMP
                 self.msgctr_msg = ">CScDEG F HLT?"
             elif sp_val == 4: # AUTO ROOF L
-                self.msgctr_mode = MsgCtrMode.UNITANK1_TEMP
-                self.msgctr_msg = ">CScDEG F UTK1?"
+                if self.switchpod_tank_mode[0] == LeftSPMode.TEMP:
+                    self.switchpod_tank_mode[0] = LeftSPMode.SG
+                    self.msgctr_mode = MsgCtrMode.UNITANK1_TEMP
+                    self.msgctr_msg = ">CScDEG F UTK1?"
+                else:
+                    self.switchpod_tank_mode[0] = LeftSPMode.TEMP
+                    self.msgctr_mode = MsgCtrMode.UNITANK1_SG
+                    self.msgctr_msg = ">CScSG UTK1?"
             elif sp_val == 6: # MICRO-JAM
-                self.msgctr_mode = MsgCtrMode.UNITANK2_TEMP
-                self.msgctr_msg = ">CScDEG F UTK2?"
+                if self.switchpod_tank_mode[1] == LeftSPMode.TEMP:
+                    self.switchpod_tank_mode[1] = LeftSPMode.SG
+                    self.msgctr_mode = MsgCtrMode.UNITANK2_TEMP
+                    self.msgctr_msg = ">CScDEG F UTK2?"
+                else:
+                    self.switchpod_tank_mode[1] = LeftSPMode.TEMP
+                    self.msgctr_mode = MsgCtrMode.UNITANK2_SG
+                    self.msgctr_msg = ">CScSG UTK2?"
             elif sp_val == 8: # EJECT L
-                self.msgctr_mode = MsgCtrMode.CHRONICAL_TEMP
-                self.msgctr_msg = ">CScDEG F CHRN?"
+                if self.switchpod_tank_mode[2] == LeftSPMode.TEMP:
+                    self.switchpod_tank_mode[2] = LeftSPMode.SG
+                    self.msgctr_mode = MsgCtrMode.CHRONICAL_TEMP
+                    self.msgctr_msg = ">CScDEG F CHRN?"
+                else:
+                    self.switchpod_tank_mode[2] = LeftSPMode.TEMP
+                    self.msgctr_mode = MsgCtrMode.CHRONICAL_SG
+                    self.msgctr_msg = ">CScSG CHRN?"
             elif sp_val == 1: # LASER
-                toggle_flowmeter_relay(0)
+                self.toggle_flowmeter_relay(0)
             elif sp_val == 3: # PAUX
-                toggle_flowmeter_relay(1)
+                self.toggle_flowmeter_relay(1)
             elif sp_val == 5: # GRPLG. HOOK
-                toggle_flowmeter_relay(2)
+                self.toggle_flowmeter_relay(2)
             elif sp_val == 7: # SMOKE RELEASE
-                toggle_flowmeter_relay(3)
+                self.toggle_flowmeter_relay(3)
             elif sp_val == 9: # H6
-                toggle_flowmeter_relay(4)
+                self.toggle_flowmeter_relay(4)
             else:
                 self.msgctr_mode = MsgCtrMode.MASH_TEMP
                 self.msgctr_msg = ">CScDEG F MASH?"
@@ -542,6 +592,19 @@ class BrewPiLoopHandler():
                         self.temperature_bar(self.brewpi_rmx_data[4]))
                 self.speedo_tx.write(str.encode(msg))
 
+            except PortNotOpenError:
+                if run_loop is True:
+                    raise PortNotOpenError
+                else:
+                    pass
+
+        else:
+            try:
+                time.sleep(0.1)
+                self.msgctr_tx.write(str.encode(self.msgctr_auto))
+                time.sleep(0.1)
+                self.msgctr_tx.write(str.encode(">CBa01?"))
+                time.sleep(0.1)
             except PortNotOpenError:
                 if run_loop is True:
                     raise PortNotOpenError
@@ -769,7 +832,7 @@ def get_brewpi_rmx_data(t_sg_q, state_q):
                             state = lcd[3].split()[0]
                         except:
                             pass
-                        state_q.put("{},{}".format(i, state))
+                        #state_q.put("{},{}".format(i, state))
                     else:
                         try:
                             data = json.loads(s.recv(4096).decode())["0"]["Tilt SG: "]
