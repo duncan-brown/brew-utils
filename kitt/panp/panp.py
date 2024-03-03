@@ -213,7 +213,7 @@ class RPintsLoopHandler:
         # Update the mode if there was a button press
         while self.sp_q.qsize() > 0:
             try:
-                sp_val = int(sp_q.get())
+                sp_val = sp_q.get()
             except:
                 sp_val = None
             if sp_val == 0:   # TURBO BOOST
@@ -466,7 +466,7 @@ class BrewPiLoopHandler():
         # Update the mode if there was a button press
         while self.sp_q.qsize() > 0:
             try:
-                sp_val = int(sp_q.get())
+                sp_val = sp_q.get()
             except:
                 sp_val = None
             if sp_val == 0:   # SILENT MODE
@@ -794,8 +794,21 @@ def get_switchpod(sp_q):
         try:
             state = rx.read(2)
             data = state.decode().strip()
-            if data:
-                sp_q.put(data)
+            try:
+                d = int(data)
+                if d is not None:
+                    sp_q.put(d)
+                else:
+                    raise ValueError
+            except:
+                rx.close()
+                time.sleep(2)
+                del rx
+                rx = serial.Serial("/dev/switchpod", 9600, timeout=None)
+                time.sleep(1)
+                msg = "PANP service PID {} on {} restarted switchpod i/o".format(main_pid, my_hostname)
+                print(msg)
+                n.notify("STATUS={}".format(msg))
         except:
             pass
 
