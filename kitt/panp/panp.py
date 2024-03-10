@@ -718,12 +718,13 @@ class BrightnessHandler:
         if force or (channel_state is not self.brightness):
             for tx in self.tx_devs:
                 if channel_state:
-                    msg = '>@BD20?'
+                    msg = ['>ABD60?', '>BBD60?', '>EBD10?', '>FBD10?', '>GBD10?']
                 else:
-                    msg = '>@BDFF?'
+                    msg = ['>ABDFF?', '>BBDFF?', '>EBD40?', '>FBD40?', '>GBD40?']
                 for i in range(3):
-                    tx.write(str.encode(msg))
-                    time.sleep(0.1)
+                    for m in msg:
+                        tx.write(str.encode(m))
+                        time.sleep(0.1)
                 self.brightness = channel_state
 
 
