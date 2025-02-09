@@ -956,8 +956,18 @@ if __name__ == "__main__":
         msgctr_tx = serial.Serial("/dev/ttyAMA0", 57600)
         speedo_tx = serial.Serial("/dev/ttyAMA1", 57600)
 
+        # clear the red/green dummy3 and set to user mode
+        time.sleep(0.1)
+        msg = ">FHa010101?"
+        speedo_tx.write(str.encode(msg))
+        time.sleep(0.1)
+        msg = ">FHm000000?"
+        speedo_tx.write(str.encode(msg))
+        time.sleep(0.1)
+
         # dim the speedo as we are in auto mode initially
         brightness = BrightnessHandler([speedo_tx])
+        brightness.set_brightness(normal_mode_comm, True)
         GPIO.add_event_detect(normal_mode_comm, GPIO.BOTH, callback=brightness.set_brightness, bouncetime=10)
 
         hot_side_probes = [
