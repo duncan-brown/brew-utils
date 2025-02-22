@@ -957,13 +957,14 @@ if __name__ == "__main__":
         speedo_tx = serial.Serial("/dev/ttyAMA1", 57600)
 
         # clear the red/green dummy3 and set to user mode
-        time.sleep(0.1)
-        msg = ">FHa010101?"
-        speedo_tx.write(str.encode(msg))
-        time.sleep(0.1)
-        msg = ">FHm000000?"
-        speedo_tx.write(str.encode(msg))
-        time.sleep(0.1)
+        for i in range(1,0,-1):
+          time.sleep(i)
+          msg = ">FHa010101?"
+          speedo_tx.write(str.encode(msg))
+          time.sleep(0.1)
+          msg = ">FHm000000?"
+          speedo_tx.write(str.encode(msg))
+          time.sleep(0.1)
 
         # dim the speedo as we are in auto mode initially
         brightness = BrightnessHandler([speedo_tx])
