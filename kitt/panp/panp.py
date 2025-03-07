@@ -16,6 +16,7 @@ from threading import Thread
 from queue import Queue
 from serial.serialutil import PortNotOpenError
 import mysql.connector as database
+from inspect import currentframe, getframeinfo
 
 
 # common gpio pins
@@ -403,7 +404,13 @@ class BrewPiLoopHandler():
         return bar_vals[i]
 
     def set_auto_mode(self,channel):
+        time.sleep(0.1)
+        channel_state_tmp = GPIO.input(channel)
+        time.sleep(0.1)
         channel_state = GPIO.input(channel)
+        if channel_state_tmp is not channel_state:
+          time.sleep(0.5)
+          channel_state = GPIO.input(channel)
         if channel_state is not self.auto_mode:
             self.auto_mode = channel_state
             if channel_state == GPIO.HIGH:
@@ -415,6 +422,10 @@ class BrewPiLoopHandler():
                 time.sleep(0.1)
                 self.msgctr_tx.write(str.encode(">CBa00?"))
                 time.sleep(0.1)
+            else:
+                self.msgctr_tx.write(str.encode(">CBa00?"))
+                time.sleep(0.1)
+                self.msgctr_tx.write(str.encode(self.msgctr_msg))
 
     def loop(self):
         global run_loop
@@ -578,18 +589,24 @@ class BrewPiLoopHandler():
                 elif ( n_leds > 16 ):
                     n_leds = 16
                 msg = ">BBb{:0>2X}?".format(n_leds)
+                time.sleep(0.1)
                 self.speedo_tx.write(str.encode(msg))
 
                 # update lower display digits
                 hundreds, tens, ones, tenths = self.get_probe_temp_units(value)
                 msg = ">BHe0{0}0{1}0{2}0{3}0{4}?".format(hundreds, tens, ones, tenths, dp_mode)
+                time.sleep(0.1)
                 self.speedo_tx.write(str.encode(msg))
 
                 # write the fermenter temps to the green/red dummy3
+                msg = ">FHa010101?"
+                time.sleep(0.1)
+                self.speedo_tx.write(str.encode(msg))
                 msg = ">FHm{:0>2X}{:0>2X}{:0>2X}?".format(
                         self.temperature_bar(self.brewpi_rmx_data[0]),
                         self.temperature_bar(self.brewpi_rmx_data[2]),
                         self.temperature_bar(self.brewpi_rmx_data[4]))
+                time.sleep(0.1)
                 self.speedo_tx.write(str.encode(msg))
 
             except PortNotOpenError:
@@ -967,9 +984,9 @@ if __name__ == "__main__":
           time.sleep(0.1)
 
         # dim the speedo as we are in auto mode initially
-        brightness = BrightnessHandler([speedo_tx])
+        brightness = BrightnessHandler([speedo_tx,speedo_tx])
         brightness.set_brightness(normal_mode_comm, True)
-        GPIO.add_event_detect(normal_mode_comm, GPIO.BOTH, callback=brightness.set_brightness, bouncetime=10)
+        GPIO.add_event_detect(normal_mode_comm, GPIO.BOTH, callback=brightness.set_brightness, bouncetime=50)
 
         hot_side_probes = [
                 "/sys/bus/w1/devices/28-012052b65be5/w1_slave",
@@ -986,7 +1003,7 @@ if __name__ == "__main__":
         brewpi_rmx_t.start()
 
         loop_handler = BrewPiLoopHandler(speedo_tx, msgctr_tx, sp_q, hot_side_q, brewpi_rmx_temp_sg_q, brewpi_rmx_state_q)
-        GPIO.add_event_detect(auto_mode_comm, GPIO.BOTH, callback=loop_handler.set_auto_mode, bouncetime=10)
+        GPIO.add_event_detect(auto_mode_comm, GPIO.BOTH, callback=loop_handler.set_auto_mode, bouncetime=50)
 
     else:
         # fail with an error
