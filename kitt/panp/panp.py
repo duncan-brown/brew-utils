@@ -393,7 +393,7 @@ class BrewPiLoopHandler():
         return hundreds, tens, ones, tenths
 
     def temperature_bar(self, temp):
-        bar_temps = [30.0, 34.0, 36.0, 40.0, 44.0,
+        bar_temps = [30.0, 34.0, 37.0, 41.0, 44.0,
                 46.0, 50.0, 52.0, 54.0, 58.0, 60.0,
                 64.0, 68.0, 70.0, 74.0, 76.0]
         bar_vals = [0x10, 0x20, 0x30, 0x40, 0x50,
