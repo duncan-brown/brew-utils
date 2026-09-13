@@ -44,9 +44,20 @@ There is a full build write-up, with photos of what every gauge means, at
 | Path | Status | Description |
 | --- | --- | --- |
 | [`kitt/`](kitt/) | **in service** | The current system. `panp/panp.py` drives the whole dashboard; `switchpod/` is the Arduino firmware for the dash keypads. See [kitt/README.md](kitt/README.md) for how it works, and [kitt/DASHBOARD.md](kitt/DASHBOARD.md) for what each gauge means. |
-| `karr/` | prototype, shelved | An attempt to rebuild the dash electronics from scratch with ESP32s and TLC5940 LED drivers, rather than buying them. Includes a KiCad board, gerbers and a [block diagram](karr/design/block-diagram.png) of the intended design. Abandoned once the ideegeniali boards arrived. |
-| `pi-temp-display/` | superseded | The predecessor to the KITT dash: seven-segment LED displays multiplexed with pigpio, showing mash temperature and keezer min/max. |
 | `brewpitosmith` | utility | Converts a BrewPi Remix beer log into a CSV that BeerSmith 3 will import, thinned to one row an hour. |
+| `images/` | reference | Photographs of the switch pods and a high-resolution scan of the season 2 dash. |
+
+Two earlier efforts have been archived out of the tree. Each is tagged, so the
+whole thing comes back with one command:
+
+| Tag | What it was |
+| --- | --- |
+| `karr-prototype` | An attempt to rebuild the dash electronics from scratch — four ESP32s driving daisy-chained TLC5940 drivers, with a KiCad board and gerbers. Shelved in 2023 when the ideegeniali boards arrived; never ran the brewery. |
+| `pi-temp-display-final` | The predecessor to the KITT dash: seven-segment LEDs multiplexed with pigpio, showing mash temperature and keezer min/max. |
+
+```bash
+git checkout karr-prototype -- karr/
+```
 
 ## Credits
 

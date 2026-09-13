@@ -1,3 +1,0 @@
-(fp_lib_table
-  (lib (name "Keg Cop - Main")(type KiCad)(uri "$(KIPRJMOD)/Keg Cop - Main.pretty")(options "")(descr ""))
-)

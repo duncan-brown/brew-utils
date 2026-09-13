@@ -16,11 +16,21 @@ https://www.homebrewtalk.com/threads/brewery-dashboard.726917/
 | --- | --- | --- |
 | `kitt/panp/` | **live** | The production system. `panp.py` + systemd units. |
 | `kitt/switchpod/` | live | Arduino Uno firmware for the resistive keypads. |
-| `karr/` | dormant prototype | Abandoned ESP32 + TLC5940 reimplementation. |
-| `pi-temp-display/` | superseded | The 7-segment predecessor to the KITT dash. |
 | `brewpitosmith` | utility | BrewPi Remix beer log → BeerSmith 3 CSV. |
+| `images/` | reference | Switch pod photographs, season 2 dash scan. |
 
 Only `kitt/` is worth changing unless asked otherwise.
+
+Two dead efforts were archived out of the tree and live on tags only: an ESP32
++ TLC5940 rebuild of the dash electronics (`karr-prototype`) and the 7-segment
+display that preceded the KITT dash (`pi-temp-display-final`). They were removed
+because they described hardware that never ran, and kept being mistaken for
+documentation of the live system. **Do not restore either one into the working
+tree to answer a question** — read it at the tag instead:
+
+```bash
+git show karr-prototype:karr/tlc5940/src/main.c
+```
 
 ## The important thing about panp.py
 
@@ -166,8 +176,6 @@ belong; the two `power-relay-*.service` files do not.
   copy-paste from the rpints unit, cosmetic only.
 - The fermenter-state message-center code in `BrewPiLoopHandler.loop` is
   commented out (see the `brewpi_rmx_state_q` block); the queue is still fed.
-- `karr/tlc5940` creates a FreeRTOS task directly from a timer ISR, which is not
-  ISR-safe. It is prototype code and does not run in production.
 
 ## Git
 

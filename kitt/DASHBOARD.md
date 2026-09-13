@@ -52,11 +52,9 @@ watch the keezer stratify across the six.
 
 The probe-to-bar correspondence is positional — `panp.py` sends the six probes
 in the order they appear in `keezer_probes`, and the board lights bars 1–6 in
-its own fixed order. The mockup in
-[`karr/design/rpm-labels.png`](../karr/design/rpm-labels.png) assumes that runs
-down the left column and then down the right, as the table above does. If a
-probe ever shows up on the wrong bar, reorder `keezer_probes` rather than the
-serial message.
+its own fixed order. The table above assumes that order runs down the left
+column and then down the right. If a probe ever shows up on the wrong bar,
+reorder `keezer_probes` rather than the serial message.
 
 ## Dummy6 (G)
 
@@ -166,11 +164,17 @@ probe 6, the orange one in the left column is probe 4.
 The left column selects a display; the right column switches relays. Both pods
 have an `H6`, on opposite sides and in different colours.
 
-## Not this
+## Provenance
 
-[`karr/design/`](../karr/design/) also contains mockups
-(`mph-labels.png`, `rpm-labels.png`, `lower-labels.png`) with brewery labels
-drawn over the gauges. Those belong to the shelved ESP32 rebuild and assign
-things differently — `MPH` as unitank temperature, the tacho bars as kegs 1–5
-plus the line. They are a design sketch, not a description of the running
-system. This file is.
+Everything above describes what `panp.py` actually sends, read off the code and
+checked against the panel scan.
+
+An abandoned ESP32 rebuild of the dash electronics once lived in `karr/`,
+including mockups that relabelled these gauges *differently* — `MPH` as unitank
+temperature, the tacho bars as kegs 1–5 plus the line. It was never built, and
+it has been removed to stop those sketches being mistaken for this. It is
+recoverable if ever needed:
+
+```bash
+git checkout karr-prototype -- karr/
+```
