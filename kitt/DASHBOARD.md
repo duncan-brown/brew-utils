@@ -4,8 +4,8 @@ The dash carries KITT's original season 2 labels — inlet temperature, hydrauli
 system stress, propagation delay. None of them mean what they say. This is the
 decoder ring.
 
-The reference image is [`karr/design/s2-dash.png`](../karr/design/s2-dash.png),
-a high-resolution scan of the season 2 panel that this hardware reproduces.
+The reference image is [`images/s2-dash.png`](../images/s2-dash.png), a
+high-resolution scan of the season 2 panel that this hardware reproduces.
 
 Letters in parentheses are the board's serial address — see
 [README.md](README.md) for the protocol and [`panp/panp.py`](panp/panp.py) for
