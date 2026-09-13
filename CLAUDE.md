@@ -58,10 +58,10 @@ not public — consult it before guessing rather than reverse-engineering from
 limited to what maintaining this code actually requires.
 
 **The PDF does not document the tacho and speedo registers this code uses.**
-Those tables are blank in v8 because the registers did not exist yet — they were
-added to Paolo's firmware in 2023 to drive those displays from the host. For
-anything on boards `A` or `B`, read `tacho/src/parser.ino` and
-`speedo/src/parser.ino`; the PDF is only authoritative for `C`, `E`, `F` and `G`.
+Those tables are blank in v8 because the feature did not exist — the stock
+firmware could not set those displays at all, and the registers were added to it
+in 2023 so the host could. For anything on boards `A` or `B`, the board firmware
+in the private repo is the only authority; the PDF covers `C`, `E`, `F` and `G`.
 
 Displays are slaves on two 57600-baud buses (`/dev/ttyAMA0`, `/dev/ttyAMA1`),
 polled by the Pi as master. A master packet is five parts:
@@ -129,43 +129,38 @@ messages without it. Do not "clean up" those sleeps.
 ### Every board writes its settings to EEPROM
 
 This is the sharpest edge in the whole system, because the damage is silent and
-cumulative. Each board keeps a `Conf` block in EEPROM and re-saves it from a
-`store()` that rewrites the lot. `EEPROMex::updateByte` skips bytes that have
-not changed, which is the only reason any of this is survivable — so the rule
-is: **a message whose payload changes must not reach a setter that calls
-`store()`.**
+cumulative. The boards save their settings to EEPROM, and some of them do it on
+every write that changes a displayed value. Bytes that do not change are not
+re-written, which is the only reason any of this is survivable — so the rule
+is: **do not repeatedly send a message whose payload changes.**
 
 - **Message centre.** Auto mode re-sends the whole `>CSb` list every iteration.
   Safe only because the text is constant. If you ever make it vary — a clock, a
   countdown, live temperatures — you will write EEPROM a few times a second and
   wear the board out. Use `>CSc` for anything that changes.
-- **Dummy3 / dummy6.** Paolo deliberately left `store()` out of
-  `setBarsUsrValue`, so bar values alone are free. But a *mode* write (`>?Ha`)
-  calls `setBarsFunc`, which does call `store()`, and that persists the bar
-  values as a side effect. So mode writes must be occasional — see
-  `dummy3_user_mode` in `BrewPiLoopHandler`, which re-asserts the mode once per
-  dash power-up instead of once per pass.
-- **Tacho and speedo.** The 2023 firmware extensions call `store()` from
-  *every* value setter, including `setLowerVal`, whose tenths digit changes on
-  nearly every update. **This is an outstanding hardware problem, not a
-  hypothetical one** — roughly one EEPROM write per second while the dash is
-  lit. It needs fixing in the firmware (drop `store()` from the value setters,
-  as the dummy does); nothing on the Pi side can avoid it, because the values
-  genuinely change.
+- **Dummy3 / dummy6.** Bar *values* are free; a bar *mode* write (`>?Ha`) is
+  not, and it persists the current values as a side effect. So mode writes must
+  be occasional — see `dummy3_user_mode` in `BrewPiLoopHandler`, which
+  re-asserts the mode once per dash power-up instead of once per pass.
+- **Tacho and speedo.** Every value write saves, including the speedo's lower
+  display, whose tenths digit changes on nearly every update. **This is an
+  outstanding hardware problem, not a hypothetical one** — roughly one EEPROM
+  write per second while the dash is lit. It has to be fixed in the firmware;
+  nothing on the Pi side can avoid it, because the values genuinely change.
 
-The memory being worn is **inside the ATmega328**, which sits in a socket —
-`EEPROMex` is a wrapper over the AVR's own EEPROM, and the boards carry no
-external EEPROM. So a worn-out board is repaired by swapping a DIP chip, not by
-reworking the board, and the soldered parts (TLC5925 sinks, TD62783, the
-displays) store nothing and are never at risk. Worth knowing that the speedo
-*does* have an FM25040 FRAM fitted, with effectively unlimited write endurance
-— but it belongs to `odo.ino` for the odometer, and `Conf` does not use it.
+The memory being worn is **inside the ATmega328**, which sits in a socket, and
+the boards carry no external EEPROM. So a worn-out board is repaired by swapping
+a DIP chip, not by reworking the board, and the soldered parts store nothing and
+are never at risk.
 
 There is a second-order cost. An EEPROM write blocks the AVR for about 3.3 ms,
-and `parser.ino` must run every 11.1 ms at 57600 baud or the 64-byte UART
-buffer overflows. Several changed bytes in one message will overrun that and
-drop characters mid-packet. The `time.sleep(0.1)` before every serial write is
-very likely paying for this.
+and at 57600 baud the 64-byte UART buffer overflows in 11.1 ms, so several
+changed bytes in one message can drop characters mid-packet. The
+`time.sleep(0.1)` before every serial write is very likely paying for this.
+
+Specifics — which call saves and which does not — are in the board firmware in
+the private repo. **Keep them there:** that source is confidential to Paolo,
+and the commitment covers fragments of it as well as the whole.
 
 ## Conventions to preserve
 

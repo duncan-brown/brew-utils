@@ -111,12 +111,16 @@ tuned.
 
 The protocol is Paolo Sancono's and the full specification comes with the
 boards — but note that the tacho and speedo registers this code writes are
-**not in that specification**. The shipped firmware could only set those
-displays from the car's own inputs, so in 2023 they were added to Paolo's
-parser: user-value registers for the tacho's bars and seven-segment, and for
-the speedo's two bargraphs and both digit groups. Paolo has the modified
-firmware and is free to ship it. When one of these commands needs checking, the
-board's `parser.ino` is the authority, not the protocol PDF.
+**not in that specification**. The shipped firmware could not set those displays
+from a host at all, so in 2023 the commands were added to it: user-value
+registers for the tacho's bars and seven-segment, and for the speedo's two
+bargraphs and both digit groups. Paolo holds that modified firmware and is free
+to ship it. When one of these commands needs checking, the board firmware is the
+authority, not the protocol PDF.
+
+That firmware is confidential to Paolo and is not in this repo. Keep it that
+way: describing what a command *does* is fine, quoting or paraphrasing his
+source is not.
 
 Two things worth knowing before editing the serial code:
 
