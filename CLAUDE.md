@@ -41,27 +41,81 @@ the GPIO pin constants at the top) is shared by both.
 
 ## The KITT serial protocol
 
-Displays sit on two 57600-baud serial buses (`/dev/ttyAMA0`, `/dev/ttyAMA1`),
-addressed by a letter. Messages are `>` + device letter + command + hex payload
-+ `?`.
+Paolo Sancono's "KITT GLU" protocol. The spec (`kitt-protocol-v8.pdf`) and the
+board firmware live alongside this repo at `~/projects/ideegeniali`, which is
+not public — consult it before guessing rather than reverse-engineering from
+`panp.py`. The protocol itself is fine to describe; keep what lands *here*
+limited to what maintaining this code actually requires.
+
+Displays are slaves on two 57600-baud buses (`/dev/ttyAMA0`, `/dev/ttyAMA1`),
+polled by the Pi as master. A master packet is five parts:
+
+```
+>  A  B  p  3C  ?
+│  │  │  │  │   └─ end of message
+│  │  │  │  └───── payload, hex byte pairs
+│  │  │  └──────── register  (which value on that board)
+│  │  └─────────── command   (B = write byte, H = write hex seq, S = write string)
+│  └────────────── destination board
+└───────────────── start of message
+```
+
+The third character is the **register, not part of the command** — `B` and `H`
+mean the same thing on every board, and the register selects what gets set.
+Slaves reply `<`…`!`, though `panp.py` never reads replies.
 
 | Letter | Display | On host |
 | --- | --- | --- |
-| `A` | tacho (RPM digits, 6 bars, RPM circle) | rpints, `tacho_tx` |
+| `A` | tacho (RPM digits + 7 bars, the 7th being the RPM circle) | rpints, `tacho_tx` |
 | `B` | speedo (MPH digits, lower multifunction) | brewpi, `speedo_tx` |
 | `C` | message center (text) | brewpi, `msgctr_tx` |
 | `E` | red dummy3 (kegs 3–5) | rpints, `dummy_tx` |
 | `F` | red/green dummy3 (fermenter temps) | brewpi, `speedo_tx` |
 | `G` | dummy6 (lager temps, capacity) | rpints, `dummy_tx` |
 
-Observed commands: `Ha`/`Hm`/`Hh` set bar-graph modes and values, `Bp`/`Bb`/`Bc`
-and `Hd`/`He` set digits and LED counts, `Sb`/`Sc` set scrolling and static
-message-center text, `Ba00`/`Ba01` switch the message center between user and
-auto text, `BD` sets brightness. Payload bytes are two-hex-digit values, so
-formatting is always `"{:0>2X}"`.
+Every string `panp.py` sends, and what the firmware does with it:
+
+| Sent | Meaning |
+| --- | --- |
+| `>ABp{v}?` | tacho 7-seg value, and switches it to user mode |
+| `>ABo01?` | tacho 7-seg mode 01 (show user value) |
+| `>AHh{7 bytes}?` | user values for the tacho's **7** bars (6 keezer probes + RPM circle) |
+| `>AHa{7 bytes}?` | modes for those 7 bars — `01` = show user value |
+| `>BBc{v}?` / `>BBb{v}?` | speedo upper (speed) and lower (fuel) LED bargraphs |
+| `>BHd{4 bytes}?` | speedo upper 4 digits |
+| `>BHe{5 bytes}?` | speedo lower 5 digits — 5th is decimal-point position |
+| `>E/F/GHm{n bytes}?` | dummy bar user values (3 bytes for E/F, 6 for G) |
+| `>E/F/GHa{n bytes}?` | dummy bar modes — `00` light-play, `01` user value, `02` voltmeter |
+| `>{board}BD{v}?` | master brightness, `00` full dim to `FF` full bright |
+| `>CSc{text}?` | message center: flash text now, not stored |
+| `>CSb{a\|b\|c}~?` | message center: overwrite the user message list (in EEPROM) |
+| `>CBa{v}?` | message center: PC-override timeout, in **tenths of a second** |
+
+Three things that are easy to get wrong:
+
+- **`>CBa00?` does not mean "off".** It sets the override timeout to zero,
+  i.e. *never expires*, so text sent with `Sc` stays up forever. `>CBa01?` sets
+  a 0.1 s timeout, so the override lapses immediately and the board falls back
+  to cycling its own message list. That is how `panp.py` switches the message
+  center between a static caption and the auto rotation.
+- **Hex writes must have an exact payload length** or the firmware silently
+  ignores them: 4 byte-pairs for `BHd`, 5 for `BHe`, and at most one per bar for
+  the bar registers. Adding a digit does nothing rather than erroring.
+- **Writing bar values by `H` does not set the mode**, so the `Ha` mode write is
+  genuinely required alongside `Hm`/`Hh`. (Per-bar *byte* writes do set mode
+  automatically, which is why the two paths look inconsistent.)
+
+Payload bytes are always two hex digits, hence the `"{:0>2X}"` formatting.
 
 **Every serial write is preceded by `time.sleep(0.1)`.** The displays drop
 messages without it. Do not "clean up" those sleeps.
+
+In Auto mode the loop re-sends the whole `>CSb` list every iteration. That is
+safe only because the firmware stores it with EEPROMex's `updateByte`, which
+skips bytes that are unchanged. **If you ever make that message vary per
+iteration (a clock, a countdown, live temperatures), you will be writing EEPROM
+a few times a second and will wear the message center out.** Use `>CSc` for
+anything that changes.
 
 ## Conventions to preserve
 
