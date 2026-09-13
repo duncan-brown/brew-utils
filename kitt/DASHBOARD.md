@@ -16,7 +16,7 @@ the code.
 | KITT label | Brewery value |
 | --- | --- |
 | `MPH`, 3 digits | **HLT temperature**, °F, rounded to whole degrees |
-| bargraph above `MPH` | the same HLT temperature, 2 °F per LED |
+| bargraph above `MPH` | the same HLT temperature — 20 LEDs, one per 10 °F |
 | `000.0`, 4 digits | **the selected value** — whatever the left switch pod last chose |
 | 16-LED bargraph above it | the same selected value, scaled to its own range |
 | `GUIDANCE`, `SYST. RDY` | unused |
@@ -30,13 +30,13 @@ bargraph uses, both depend on the left switch pod:
 | mash tun temperature | 110 °F upward, 5 °F per LED | `000.0` |
 | HLT temperature | 110 °F upward, 5 °F per LED | `000.0` |
 | unitank 1, unitank 2 or chronical temperature | 34 °F upward, 3 °F per LED | `000.0` |
-| any of those three gravities | 1.000 upward, 0.0004 per LED | `0.000` |
+| any of those three gravities | 1.000 upward, 0.004 per LED | `0.000` |
 
 ## Tacho cluster (A)
 
 | KITT label | Brewery value |
 | --- | --- |
-| `kRPM`, 2 digits | **the selected keezer or lager temperature**, °F |
+| `kRPM`, 2 digits | **the selected keezer or lager temperature**, °F — anything over 99 shows `HI` |
 | the RPM arc | the same value again, as a sweep from 2 °F to 80 °F |
 | `INLET TEMP` | keezer probe 1 |
 | `MASS FLOW LBS` | keezer probe 2 |
