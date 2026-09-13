@@ -18,7 +18,7 @@ https://www.homebrewtalk.com/threads/brewery-dashboard.726917/
 | `kitt/switchpod/` | live | Arduino Uno firmware for the resistive keypads. |
 | `karr/` | dormant prototype | Abandoned ESP32 + TLC5940 reimplementation. |
 | `pi-temp-display/` | superseded | The 7-segment predecessor to the KITT dash. |
-| `stattosmith`, `brewpitosmith` | legacy | One-shot CSV converters, **Python 2**. |
+| `brewpitosmith` | utility | BrewPi Remix beer log → BeerSmith 3 CSV. |
 
 Only `kitt/` is worth changing unless asked otherwise.
 
@@ -156,8 +156,6 @@ belong; the two `power-relay-*.service` files do not.
 
 ## Known rough edges
 
-- `stattosmith` and `brewpitosmith` are Python 2 (`print` statement) with a
-  `#!/usr/bin/python` shebang; they will not run as-is on a current system.
 - `power-relay-brewpi.service` is described as "Open RPints Power Relay" —
   copy-paste from the rpints unit, cosmetic only.
 - The fermenter-state message-center code in `BrewPiLoopHandler.loop` is

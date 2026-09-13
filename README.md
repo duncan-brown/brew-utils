@@ -46,7 +46,7 @@ There is a full build write-up, with photos of what every gauge means, at
 | [`kitt/`](kitt/) | **in service** | The current system. `panp/panp.py` drives the whole dashboard; `switchpod/` is the Arduino firmware for the dash keypads. See [kitt/README.md](kitt/README.md) for how it works, and [kitt/DASHBOARD.md](kitt/DASHBOARD.md) for what each gauge means. |
 | `karr/` | prototype, shelved | An attempt to rebuild the dash electronics from scratch with ESP32s and TLC5940 LED drivers, rather than buying them. Includes a KiCad board, gerbers and a [block diagram](karr/design/block-diagram.png) of the intended design. Abandoned once the ideegeniali boards arrived. |
 | `pi-temp-display/` | superseded | The predecessor to the KITT dash: seven-segment LED displays multiplexed with pigpio, showing mash temperature and keezer min/max. |
-| `stattosmith`, `brewpitosmith` | legacy | Convert Brewer's Friend and BrewPi logs into CSV that BeerSmith will import. Written for Python 2. |
+| `brewpitosmith` | utility | Converts a BrewPi Remix beer log into a CSV that BeerSmith 3 will import, thinned to one row an hour. |
 
 ## Credits
 

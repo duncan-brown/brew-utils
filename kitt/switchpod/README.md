@@ -74,25 +74,35 @@ twentieth:
 if ((aCapo % 20) == 0) Serial.println();
 ```
 
-Arduino's bare `Serial.println()` writes `\r\n`, so that adds two more bytes to
-the stream. The reader on the Pi takes a fixed two bytes per press, so the pair
-stays aligned — but every twentieth press it consumes `"\r\n"` on its own,
-`strip()` reduces that to an empty string, and `int("")` raises.
+Arduino's bare `Serial.println()` writes `\r\n`, so every twentieth press puts
+an extra empty line on the wire. It is there to keep a serial monitor readable,
+and for a long time it cost nothing: the original reader on the Pi was
 
-`get_switchpod()` catches it, closes the port, waits, reopens, and logs
-`restarted switchpod i/o`. So roughly every twenty presses the pod goes deaf for
-about three seconds and then carries on. This is the mechanism behind the
-`restart switchpod on error` commit: that error handler is not covering for
-flaky hardware, it is covering for this line of firmware.
+```python
+data = state.decode().strip()
+if data:
+    sp_q.put(data)
+```
 
-Two ways to be rid of it, neither yet applied:
+which quietly dropped the empty line.
 
-- drop the `aCapo % 20` line and reflash, or
-- read line-wise on the Pi (`rx.readline()`) instead of `rx.read(2)`, which
-  tolerates stray newlines whatever their length.
+The `restart switchpod on error` commit (March 2024) replaced that with a parse
+and a reopen, so that unreadable input would re-establish the port instead of
+being ignored. That was aimed at genuine flakiness on the wire — but it also
+removed the `if data:` guard, and from then on the routine twentieth-press
+newline parsed as an empty string, raised, and triggered a full close-and-reopen
+cycle. The pod went deaf for about three seconds every twenty presses.
 
-The second is the safer of the two, because it does not depend on every Arduino
-in the brewery carrying the same firmware build.
+Both behaviours are wanted, so `get_switchpod()` now does both: it skips empty
+lines and still reopens the port on anything it genuinely cannot parse.
+
+It also reads with `readline()` rather than a fixed two bytes. That matters for
+the flaky case specifically. With fixed-size reads, one stray byte shifts the
+framing permanently — every later read straddles two presses and yields
+nonsense until something triggers a reopen. Reading line-wise resynchronises at
+the very next newline, so a glitch costs one keypress instead of the whole
+stream. If you ever see garbage that does *not* recover, suspect a burst with no
+newline in it at all, which will sit in `readline()` until one arrives.
 
 ## Building
 

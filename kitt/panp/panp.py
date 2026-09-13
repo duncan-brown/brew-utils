@@ -814,14 +814,14 @@ def get_switchpod(sp_q):
     rx = serial.Serial("/dev/switchpod", 9600, timeout=None)
     while True:
         try:
-            state = rx.read(2)
+            state = rx.readline()
             data = state.decode().strip()
+            if not data:
+                # the switchpod firmware emits a bare newline on every
+                # twentieth press; it is not an error, so just skip it
+                continue
             try:
-                d = int(data)
-                if d is not None:
-                    sp_q.put(d)
-                else:
-                    raise ValueError
+                sp_q.put(int(data))
             except:
                 rx.close()
                 time.sleep(2)

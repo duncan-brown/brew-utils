@@ -1,35 +1,82 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
+"""Convert a BrewPi Remix beer log into a CSV that BeerSmith 3 can import.
+
+    brewpitosmith < unitank-1-2024-03-03.csv > fermentation.csv
+
+BrewPi Remix logs a row every few seconds, which is far more detail than
+BeerSmith wants, so rows are thinned to one an hour.
+
+The log it reads looks like this, with a "SEP=," semaphore for Excel on the
+first line and the column names on the second:
+
+    SEP=,
+    Timestamp,Beer Temp,Beer Set,Beer Annot,Chamber Temp,...,Room Temp,State
+    2024-03-03 12:18:29,68.1,68.0,"",67.5,67.0,"",70.2,Idling
+
+Both leading lines are skipped by inspection rather than by counting, so a log
+that has been trimmed or concatenated still reads correctly. The annotation
+columns are quoted and can themselves contain commas, so the file has to be
+read as real CSV rather than split on the delimiter.
+"""
+
+import csv
 import sys
-import numpy as np
 import datetime
 
-stdin = np.genfromtxt(sys.stdin, delimiter=',', skip_header=1, usecols=(0,1,8), dtype=[('date','datetime64[s]'),('temperature','f8'),('gravity','f8')])
+# Columns in the BrewPi Remix beer log
+COL_TIMESTAMP = 0
+COL_BEER_TEMP = 1
 
-t_start = min(stdin['date'])
+# BeerSmith wants a gravity column. A plain BrewPi Remix log has no gravity in
+# it — column 8 is the controller State, not a reading — so send a constant and
+# let BeerSmith plot temperature alone. With a Tilt configured, BrewPi appends
+# per-colour Temp and SG columns to each row; point this at the SG column to
+# graph real gravity instead.
+GRAVITY = 1.0
 
-new_dt = np.dtype(stdin.dtype.descr + [('days','m8[s]'), ('dt','m8[s]')])
+# Thin the log to one row per this many seconds
+SAMPLE_SECONDS = 3600
 
-stdout = np.zeros(stdin.shape, dtype=new_dt)
+LOG_TIMESTAMP = "%Y-%m-%d %H:%M:%S"
+BEERSMITH_TIMESTAMP = "%d %b %Y %I:%M:%S %p"
 
-stdout['date'] = stdin['date']
-#stdout['gravity'] = stdin['gravity']
-stdout['gravity'] = 1.0
-stdout['temperature'] = stdin['temperature']
-stdout['days'] = stdin['date'] - t_start
-z = np.zeros(1, dtype='m8[s]')
-dt = np.diff(stdin['date'])
-stdout['dt'] = np.concatenate((z,dt), axis=1)
 
-print '"Date","Temperature","Gravity","Day",'
+def read_log(stream):
+    """Yield (timestamp, beer temperature) for each readable row."""
+    for fields in csv.reader(stream):
+        if len(fields) <= COL_BEER_TEMP:
+            continue
+        stamp = fields[COL_TIMESTAMP].strip()
+        if not stamp or stamp.startswith("SEP=") or stamp == "Timestamp":
+            continue
+        try:
+            when = datetime.datetime.strptime(stamp, LOG_TIMESTAMP)
+            temperature = float(fields[COL_BEER_TEMP])
+        except ValueError:
+            # a partial row, or a header from a concatenated log
+            continue
+        yield when, temperature
 
-last = 0
-for o in stdout:
-  if (last == 0) or (last > 3600):
-    last = 0
-    d = o['days'] / np.timedelta64(1, 'D')
-    t = o['date']
-    t = t.astype(datetime.datetime)
-    timestring = t.strftime("%d %b %Y %I:%M:%S %p")
-    print '"{}","{}","{}","{}",'.format(timestring, o['temperature'],o['gravity'],d)
-  last += o['dt']
+
+def main():
+    rows = sorted(read_log(sys.stdin))
+    if not rows:
+        sys.exit("brewpitosmith: no readable rows on stdin")
+
+    start = rows[0][0]
+    emitted = None
+
+    print('"Date","Temperature","Gravity","Day",')
+    for when, temperature in rows:
+        if emitted is not None:
+            if (when - emitted).total_seconds() < SAMPLE_SECONDS:
+                continue
+        emitted = when
+        day = (when - start).total_seconds() / 86400.0
+        print('"{}","{}","{}","{}",'.format(
+            when.strftime(BEERSMITH_TIMESTAMP), temperature, GRAVITY, day))
+
+
+if __name__ == "__main__":
+    main()
