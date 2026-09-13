@@ -112,7 +112,21 @@ ones.
 | `POWER` | not software — a relay held closed while both Pis are up, so the dash cannot be cut without halting them first |
 | `AUTO` | dash off, message center still lit |
 | `NORM` | dash on, dimmed |
-| `PURSUIT` | dash on, full brightness |
+| `PURSUIT` | dash on, full brightness — and the bench light comes on |
+
+Pursuit also switches the Hue bench light over the workbench to full brightness
+and a neutral white, so there is enough light to read small print on things;
+Norm and Auto switch it off again, as does halting the Pis. It is driven
+straight from the bridge's own API rather than through HomeKit, but the bridge
+is what Home talks to, so Home follows along.
+
+This is optional. `panp.py` reads the bridge address, key and light id from
+`/usr/local/etc/panp-hue.json`, which is not in this repository because that key
+grants full control of the bridge. With no config file nothing happens at all,
+which is the case on `brewpi`. `systemctl status panp` says which of the two it
+found. The brightness and colour temperature live in that file too — `mirek`
+runs 153 for the coldest white to 500 for the warmest — so the bench light can
+be tuned without editing code.
 
 Pressing one of these on the rpints Pi also signals the brewpi Pi over GPIO, so
 both halves of the dash change together.
