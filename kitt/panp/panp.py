@@ -451,8 +451,15 @@ class BrewPiLoopHandler():
         # get any updated brewpi data from the queue
         while self.brewpi_rmx_temp_sg_q.qsize() > 0:
             brewpi_rmx_data = self.brewpi_rmx_temp_sg_q.get()
-            idx, value = brewpi_rmx_data.split(',')
-            self.brewpi_rmx_data[int(idx)] = float(value)
+            try:
+                idx, value = brewpi_rmx_data.split(',')
+                self.brewpi_rmx_data[int(idx)] = float(value)
+            except (ValueError, IndexError):
+                # brewpi puts "--.-" on its lcd for a probe it cannot read,
+                # which is not a float. keep the last good value: letting this
+                # raise would leave the loop and stop the service, and the
+                # unit does not restart
+                pass
 
         # get the fermenter states for the changing message
         #while self.brewpi_rmx_state_q.qsize() > 0:
