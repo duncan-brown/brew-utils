@@ -142,11 +142,13 @@ is: **do not repeatedly send a message whose payload changes.**
   not, and it persists the current values as a side effect. So mode writes must
   be occasional — see `dummy3_user_mode` in `BrewPiLoopHandler`, which
   re-asserts the mode once per dash power-up instead of once per pass.
-- **Tacho and speedo.** Every value write saves, including the speedo's lower
-  display, whose tenths digit changes on nearly every update. **This is an
-  outstanding hardware problem, not a hypothetical one** — roughly one EEPROM
-  write per second while the dash is lit. It has to be fixed in the firmware;
-  nothing on the Pi side can avoid it, because the values genuinely change.
+- **Tacho and speedo.** Every value write used to save, including the speedo's
+  lower display, whose tenths digit changes on nearly every update — roughly one
+  EEPROM write per second with the dash lit. Fixed in the board firmware in
+  September 2026 by holding displayed values in RAM; nothing on the Pi side
+  could have avoided it, because those values genuinely change. **The fix only
+  applies to a board once its ATmega has been reflashed**, so check that before
+  assuming a board is safe.
 
 The memory being worn is **inside the ATmega328**, which sits in a socket, and
 the boards carry no external EEPROM. So a worn-out board is repaired by swapping
