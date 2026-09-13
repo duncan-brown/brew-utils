@@ -47,6 +47,12 @@ not public — consult it before guessing rather than reverse-engineering from
 `panp.py`. The protocol itself is fine to describe; keep what lands *here*
 limited to what maintaining this code actually requires.
 
+**The PDF does not document the tacho and speedo registers this code uses.**
+Those tables are blank in v8 because the registers did not exist yet — they were
+added to Paolo's firmware in 2023 to drive those displays from the host. For
+anything on boards `A` or `B`, read `tacho/src/parser.ino` and
+`speedo/src/parser.ino`; the PDF is only authoritative for `C`, `E`, `F` and `G`.
+
 Displays are slaves on two 57600-baud buses (`/dev/ttyAMA0`, `/dev/ttyAMA1`),
 polled by the Pi as master. A master packet is five parts:
 

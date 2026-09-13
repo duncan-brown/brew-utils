@@ -109,7 +109,14 @@ so `>ABp3C?` means "tacho, write byte, register p (the seven-segment value),
 bargraph steps by walking a list of thresholds, which is where the dash gets
 tuned.
 
-The protocol is Paolo Sancono's; the full specification comes with the boards.
+The protocol is Paolo Sancono's and the full specification comes with the
+boards — but note that the tacho and speedo registers this code writes are
+**not in that specification**. The shipped firmware could only set those
+displays from the car's own inputs, so in 2023 they were added to Paolo's
+parser: user-value registers for the tacho's bars and seven-segment, and for
+the speedo's two bargraphs and both digit groups. Paolo has the modified
+firmware and is free to ship it. When one of these commands needs checking, the
+board's `parser.ino` is the authority, not the protocol PDF.
 
 Two things worth knowing before editing the serial code:
 
