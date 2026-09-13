@@ -827,30 +827,33 @@ def sigterm_handler(_signo, _stack_frame):
 # function to listen to switchpod
 def get_switchpod(sp_q):
     path = "/dev/switchpod"
-    while os.access(path, os.R_OK) is False:
-        time.sleep(1)
-    rx = serial.Serial("/dev/switchpod", 9600, timeout=None)
+    rx = None
     while True:
         try:
+            if rx is None:
+                while os.access(path, os.R_OK) is False:
+                    time.sleep(1)
+                rx = serial.Serial(path, 9600, timeout=None)
             state = rx.readline()
             data = state.decode().strip()
             if not data:
                 # switchpod firmware before 2026-09 wrapped the line every
                 # twentieth press; harmless, so skip instead of erroring
                 continue
-            try:
-                sp_q.put(int(data))
-            except:
-                rx.close()
-                time.sleep(2)
-                del rx
-                rx = serial.Serial("/dev/switchpod", 9600, timeout=None)
-                time.sleep(1)
-                msg = "PANP service PID {} on {} restarted switchpod i/o".format(main_pid, my_hostname)
-                print(msg)
-                n.notify("STATUS={}".format(msg))
+            sp_q.put(int(data))
         except:
-            pass
+            # either the input did not parse or the adapter went away. drop
+            # the port and pick it up from scratch, waiting for it to exist.
+            # the sleep matters: without it a missing device spins the cpu
+            try:
+                rx.close()
+            except:
+                pass
+            rx = None
+            time.sleep(2)
+            msg = "PANP service PID {} on {} restarting switchpod i/o".format(main_pid, my_hostname)
+            print(msg)
+            n.notify("STATUS={}".format(msg))
 
 
 # function to get the temperatures from one-wire probes
