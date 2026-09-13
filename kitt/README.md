@@ -5,8 +5,13 @@ The software that drives the KITT dashboard. Two pieces:
 - [`panp/panp.py`](panp/panp.py) — the daemon that runs on both Raspberry Pis
   and puts brewery data onto the dash gauges.
 - [`switchpod/`](switchpod/) — Arduino firmware that reads the dash keypads.
+  How a pod reaches the Pi is in [switchpod/README.md](switchpod/README.md).
 
 PANP stands for Power / Auto / Norm / Pursuit, the four buttons on the dash.
+
+This file is about how the software works. For what each gauge on the dash
+means — KITT's labels against the brewery values behind them — see
+[DASHBOARD.md](DASHBOARD.md).
 
 ## One script, two Pis
 
@@ -70,33 +75,19 @@ first. That is `power-relay-*.service` (closes the relay at boot) and
 
 ## Switch pod buttons
 
-Each switch pod is a resistive keypad read by an Arduino, which prints a digit
-0–9 over serial. `panp.py` reads them from `/dev/switchpod`.
+Each switch pod is a resistive keypad read by an Arduino, which prints a
+position 0–9 over serial; `panp.py` reads them from `/dev/switchpod` in
+`get_switchpod()` and queues them for the loop handler.
 
-The **right** pod (`rpints`) chooses what the RPM digits and circle display:
+Even positions are the pod's left column, odd positions the right — which is
+why each handler treats `sp_val` 0/2/4/6/8 as one family and 1/3/5/7/9 as
+another. The **right** pod (`rpints`) selects which temperature the tacho digits
+show; the **left** pod (`brewpi`) selects what the lower speedo display shows
+and toggles the flow meter relays. Toggling a flow meter flashes `FLOW n on` on
+the message center for a second, then restores the normal caption.
 
-| Button | Shows |
-| --- | --- |
-| Turbo Boost, 7DLA, 8PL1, 6RM, H6, 6RM | keezer probe 1–6 |
-| PENG, Auto Roof R, PIND | lager keg 1–3 |
-| Eject R | mean of the six keezer probes |
-
-The six keezer bargraphs always show all six probes regardless of this setting.
-
-The **left** pod (`brewpi`) chooses what the lower multi-function display shows,
-and toggles the flow meter relays:
-
-| Button | Action |
-| --- | --- |
-| Silent Mode | mash tun temperature |
-| Tear Gas | HLT temperature |
-| Auto Roof L | unitank 1 — press again to swap temperature/gravity |
-| Micro-Jam | unitank 2 — likewise |
-| Eject L | chronical — likewise |
-| Laser, PAUX, Grplg. Hook, Smoke Release, H6 | toggle flow meter 1–5 |
-
-Toggling a flow meter flashes `FLOW n on` on the message center for a second,
-then restores the normal caption.
+Full button-by-button tables, with photographs of both pods, are in
+[DASHBOARD.md](DASHBOARD.md).
 
 ## Talking to the dash
 
