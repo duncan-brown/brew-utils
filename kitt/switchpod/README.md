@@ -8,10 +8,17 @@ pod on `rpints`, the left pod on `brewpi`. Which buttons do what is in
 
 ## How a pod is read
 
-A pod is ten buttons wired as a **resistive ladder** on a single analog pin
-(`A0`). Each button taps a different point in the chain, so pressing one
-produces a distinct voltage and the whole pod costs one ADC channel instead of
-ten digital inputs.
+A pod is ten buttons wired as a **resistive ladder** brought out on a single
+signal wire. Each button switches a different resistor — 1k, 1k2, 1k5, 1k8,
+2k2, 2k7, 3k3, 3k9, 4k7, 5k6 — so pressing one produces a distinct voltage and
+the whole pod costs one ADC channel instead of ten digital inputs.
+
+Wiring is three conductors: the pod's `SGN` to an analog pin, ground common
+between pod and Arduino, and a **pull-up resistor from `SGN` to +5V** (to 3V3
+instead on a 3.3V board). Paolo's recommendation is 3k3, sitting in the middle
+of the ladder's span for the best noise margin. With nothing pressed the pin
+floats up to the rail and reads about 1023; each button pulls it down to its own
+level.
 
 `readSwitchpod()` reads the ADC and bins the result:
 
@@ -40,7 +47,11 @@ right, 2 is second left, and so on. That is why `panp.py` handles `sp_val` 0, 2,
 do different jobs.
 
 If a button reads as its neighbour, the fix is to re-measure and adjust the
-thresholds in `values[]` rather than to change anything on the Pi.
+thresholds in `values[]` rather than to change anything on the Pi. Paolo's
+calibration method: print `analogRead()` continuously, press each button in
+turn, note the ten values, sort them, and set each threshold at the midpoint
+between neighbours. The values in the sketch came from that exercise on these
+pods and are not universal — a different pull-up moves all ten.
 
 ## Debounce and repeat
 
@@ -65,18 +76,25 @@ position as a single ASCII digit followed by a newline:
 included in this repo), reads **two bytes at a time**, strips the newline, and
 pushes the integer onto a queue for the loop handler to act on.
 
-## The every-twentieth-press hiccup
+## The every-twentieth-press dropout, and why it took three changes
 
-`processaTasto()` counts presses and emits an extra blank line on each
-twentieth:
+Worth reading before touching either side, because no one change here was wrong
+on its own.
+
+Paolo's example sketch separates keys with a **space** and wraps the line every
+twentieth key, so a serial monitor stays readable:
 
 ```cpp
-if ((aCapo % 20) == 0) Serial.println();
+Serial.print(key);
+Serial.print(" ");                        // "0 3 7 2 ..."
+if ((aCapo % 20) == 0) Serial.println();  // wrap every 20 keys
 ```
 
-Arduino's bare `Serial.println()` writes `\r\n`, so every twentieth press puts
-an extra empty line on the wire. It is there to keep a serial monitor readable,
-and for a long time it cost nothing: the original reader on the Pi was
+**Change one:** this sketch made the separator `"\n"` so each key arrives on its
+own line for parsing. At that moment the wrap stopped being a wrap and became a
+stray empty line — a bare `Serial.println()` writes `\r\n`.
+
+It still cost nothing, because the original reader on the Pi was
 
 ```python
 data = state.decode().strip()
@@ -86,23 +104,30 @@ if data:
 
 which quietly dropped the empty line.
 
-The `restart switchpod on error` commit (March 2024) replaced that with a parse
-and a reopen, so that unreadable input would re-establish the port instead of
-being ignored. That was aimed at genuine flakiness on the wire — but it also
-removed the `if data:` guard, and from then on the routine twentieth-press
-newline parsed as an empty string, raised, and triggered a full close-and-reopen
-cycle. The pod went deaf for about three seconds every twenty presses.
+**Change two:** the `restart switchpod on error` commit (March 2024) replaced
+that with a parse and a reopen, so unreadable input would re-establish the port
+instead of being ignored. That was aimed at genuine flakiness on the wire — but
+it also removed the `if data:` guard. From then on the routine twentieth-press
+newline parsed as an empty string, raised, and triggered a full
+close-and-reopen. The pod went deaf for about three seconds every twenty
+presses, for two years.
 
-Both behaviours are wanted, so `get_switchpod()` now does both: it skips empty
-lines and still reopens the port on anything it genuinely cannot parse.
+**Change three**, the fix, is on both sides:
 
-It also reads with `readline()` rather than a fixed two bytes. That matters for
-the flaky case specifically. With fixed-size reads, one stray byte shifts the
-framing permanently — every later read straddles two presses and yields
-nonsense until something triggers a reopen. Reading line-wise resynchronises at
-the very next newline, so a glitch costs one keypress instead of the whole
-stream. If you ever see garbage that does *not* recover, suspect a burst with no
-newline in it at all, which will sit in `readline()` until one arrives.
+- The firmware no longer emits the wrap. One key, one line, nothing else.
+- `get_switchpod()` skips empty lines *and* still reopens the port on anything
+  it genuinely cannot parse, so the flaky-wire recovery survives.
+
+The Pi also reads with `readline()` rather than a fixed two bytes, which matters
+for the flaky case specifically. With fixed-size reads one stray byte shifts the
+framing permanently — every later read straddles two presses and yields nonsense
+until something triggers a reopen, so a single glitch looks like total failure.
+Reading line-wise resynchronises at the next newline, so a glitch costs one
+keypress. If you ever see garbage that does *not* recover, suspect a burst with
+no newline in it at all, which will sit in `readline()` until one arrives.
+
+Keeping the host-side skip after fixing the firmware is deliberate: an Arduino
+that has not been reflashed, or one flashed from an older checkout, still works.
 
 ## Building
 
@@ -112,5 +137,9 @@ PlatformIO, targeting an Arduino Uno:
 pio run -t upload
 ```
 
-The pods came from ideegeniali with the dash; this sketch is Paolo's key-reading
-code adapted to report over serial.
+The pods came from ideegeniali with the dash, and this sketch is Paolo's
+key-reading code with two changes. His original reads **two** pods from one
+Arduino — `A0` and `A1`, reporting 0–19 with the right-hand pod offset by ten.
+Here each pod has its own Arduino reading `A0` alone and reporting 0–9, because
+the two pods are wired to different Raspberry Pis. The other change is the
+separator, described above.
