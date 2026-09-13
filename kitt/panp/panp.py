@@ -817,8 +817,8 @@ def get_switchpod(sp_q):
             state = rx.readline()
             data = state.decode().strip()
             if not data:
-                # the switchpod firmware emits a bare newline on every
-                # twentieth press; it is not an error, so just skip it
+                # switchpod firmware before 2026-09 wrapped the line every
+                # twentieth press; harmless, so skip instead of erroring
                 continue
             try:
                 sp_q.put(int(data))

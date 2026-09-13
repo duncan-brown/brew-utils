@@ -34,13 +34,13 @@ void setup() {
 
 int n=0;
 bool stoProcessando = false;
-int aCapo = 0;
 
+// One key per line, nothing else. Paolo's original separated keys with a space
+// and wrapped the line every twentieth key; with a newline as the separator
+// that wrap became a stray empty line, which the host then had to cope with.
 void processaTasto(int key) {
-  aCapo++;
   Serial.print(key);
   Serial.print("\n");
-  if ((aCapo % 20) == 0) Serial.println();
 }
 
 void loop() {
