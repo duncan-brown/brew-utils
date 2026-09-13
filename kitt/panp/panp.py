@@ -197,9 +197,13 @@ class RPintsLoopHandler:
                         self.keg_capacity[idx] = 0.0
                     else:
                         self.keg_capacity[idx] = float(remain)/float(start)*100.0
-                self.database_close()
             except:
                 pass
+            finally:
+                try:
+                    self.close_database()
+                except:
+                    pass
             self.database_clicks = 1
         elif self.database_clicks > 9:
             self.database_clicks = 0
@@ -214,7 +218,7 @@ class RPintsLoopHandler:
         # Update the mode if there was a button press
         while self.sp_q.qsize() > 0:
             try:
-                sp_val = sp_q.get()
+                sp_val = self.sp_q.get()
             except:
                 sp_val = None
             if sp_val == 0:   # TURBO BOOST
@@ -477,7 +481,7 @@ class BrewPiLoopHandler():
         # Update the mode if there was a button press
         while self.sp_q.qsize() > 0:
             try:
-                sp_val = sp_q.get()
+                sp_val = self.sp_q.get()
             except:
                 sp_val = None
             if sp_val == 0:   # SILENT MODE
