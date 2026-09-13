@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import os
+import ssl
 import sys
 import time
 import json
@@ -8,6 +9,7 @@ import math
 import socket
 import signal
 import serial
+import urllib.request
 import _thread
 import sdnotify
 import RPi.GPIO as GPIO
@@ -37,6 +39,9 @@ flowmeter[1] = 5          # GPIO 3 (SDA)
 flowmeter[2] = 13         # GPIO 27
 flowmeter[3] = 40         # GPIO 21
 flowmeter[4] = 33         # GPIO 13
+
+# bench light over the hue bridge, set up on rpints if it is configured
+hue = None
 
 
 class PANPState(Enum):
@@ -657,13 +662,17 @@ class PANPHandler:
     last_push = None
 
     # initalize panp lamps on boot
-    def __init__(self,tacho_tx, dummy_tx):
+    def __init__(self,tacho_tx, dummy_tx, hue=None):
         self.tacho_tx = tacho_tx
         self.dummy_tx = dummy_tx
+        self.hue = hue
         self.brightness = BrightnessHandler([tacho_tx, dummy_tx])
         for p in PANPState:
             GPIO.setup(p.value, GPIO.OUT, initial=0)
         self.state = PANPState.AUTO
+        # we come up in auto, so the bench light starts off
+        if self.hue is not None:
+            self.hue.set(False)
         GPIO.output(auto_mode_comm, 1)
         GPIO.output(normal_mode_comm, 0)
         GPIO.output(self.state.value,1)
@@ -733,6 +742,10 @@ class PANPHandler:
             GPIO.output(normal_mode_comm, 0)
             GPIO.output(auto_mode_comm, 0)
             self.brightness.set_brightness(normal_mode_comm)
+        # the bench light follows pursuit. queued, so the sleeps below and a
+        # bridge in another room cannot delay the dash responding to the button
+        if self.hue is not None:
+            self.hue.set(self.state is PANPState.PURSUIT)
         if old_state is PANPState.AUTO:
             for i in range(1,0,-1):
                 time.sleep(i)
@@ -745,6 +758,84 @@ class PANPHandler:
             if GPIO.input(channel) == GPIO.LOW:
                 self.change_state(channel)
                 self.last_push = channel
+
+
+class HueLight:
+    """The bench light, switched on by pursuit mode so there is enough light
+    to read small print at the workbench.
+
+    Configured from a json file holding the bridge address, an application key,
+    the light's v2 resource id, and optionally the brightness and colour
+    temperature to use. That file is deliberately not in this repository: the
+    key is a credential and grants full control of everything on the bridge.
+    With no config file this class does nothing at all, which is what happens
+    on brewpi and on any machine with no bridge to talk to.
+
+    The bridge is in another part of the building, so nothing here is allowed
+    to hold up the dash: requests go onto a queue and a thread does the talking.
+    """
+
+    def __init__(self, path="/usr/local/etc/panp-hue.json"):
+        self.cfg = None
+        self.q = Queue()
+        try:
+            with open(path) as f:
+                cfg = json.load(f)
+            self.url = "https://{}/clip/v2/resource/light/{}".format(
+                    cfg["bridge"], cfg["light"])
+            self.key = cfg["key"]
+            # full brightness and a neutral white by default. both are in the
+            # config file so the bench light can be tuned without editing code
+            self.brightness = float(cfg.get("brightness", 100.0))
+            self.mirek = int(cfg.get("mirek", 200))
+            # the bridge serves a self signed certificate, so there is nothing
+            # to verify it against
+            self.ctx = ssl.create_default_context()
+            self.ctx.check_hostname = False
+            self.ctx.verify_mode = ssl.CERT_NONE
+            self.cfg = cfg
+        except:
+            pass
+
+    def configured(self):
+        return self.cfg is not None
+
+    def set(self, on):
+        """Ask for a state change and return at once."""
+        if self.cfg is not None:
+            self.q.put(on)
+
+    def put(self, on, timeout=5):
+        """Send a state to the bridge. Blocks, so keep it off the dash path."""
+        if self.cfg is None:
+            return
+        if on:
+            body = {"on": {"on": True},
+                    "dimming": {"brightness": self.brightness},
+                    "color_temperature": {"mirek": self.mirek}}
+        else:
+            body = {"on": {"on": False}}
+        try:
+            req = urllib.request.Request(self.url,
+                    data=json.dumps(body).encode(),
+                    method="PUT",
+                    headers={"hue-application-key": self.key,
+                             "Content-Type": "application/json"})
+            urllib.request.urlopen(req, timeout=timeout, context=self.ctx).read()
+        except:
+            # a bridge that is slow, unreachable or switched off is not a
+            # reason for the brewery dashboard to notice anything
+            pass
+
+    def loop(self):
+        while True:
+            on = self.q.get()
+            # only the most recent request matters. if several piled up while
+            # the bridge was slow, drop the stale ones rather than replaying
+            # a burst of panp presses at it
+            while self.q.qsize() > 0:
+                on = self.q.get()
+            self.put(on)
 
 
 class BrightnessHandler:
@@ -805,6 +896,10 @@ def sigterm_handler(_signo, _stack_frame):
     if my_hostname == 'rpints':
         for p in PANPState:
             GPIO.output(p.value, 0)
+        # the lamps are going out, so the bench light goes with them. sent
+        # here rather than queued: the worker thread will not outlive us
+        if hue is not None:
+            hue.put(False, 2)
         GPIO.output(lower_dash_power, 1)
         GPIO.output(upper_dash_power, 1)
         GPIO.output(sp_power, 1)
@@ -951,8 +1046,20 @@ if __name__ == "__main__":
         dummy_tx = serial.Serial("/dev/ttyAMA0", 57600)
         tacho_tx = serial.Serial("/dev/ttyAMA1", 57600)
 
+        # the bench light, if a bridge is configured on this machine
+        hue = HueLight()
+        if hue.configured():
+            hue_t = Thread(target=hue.loop)
+            hue_t.daemon = True
+            hue_t.start()
+            msg = "PANP service PID {} on {} has a bench light".format(main_pid, my_hostname)
+        else:
+            msg = "PANP service PID {} on {} has no bench light configured".format(main_pid, my_hostname)
+        print(msg)
+        n.notify("STATUS={}".format(msg))
+
         # set up the panp button handler
-        panp_handler = PANPHandler(tacho_tx, dummy_tx)
+        panp_handler = PANPHandler(tacho_tx, dummy_tx, hue)
 
         # create the tread for the keezer probes
         keezer_probes = [
