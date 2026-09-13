@@ -126,12 +126,46 @@ Payload bytes are always two hex digits, hence the `"{:0>2X}"` formatting.
 **Every serial write is preceded by `time.sleep(0.1)`.** The displays drop
 messages without it. Do not "clean up" those sleeps.
 
-In Auto mode the loop re-sends the whole `>CSb` list every iteration. That is
-safe only because the firmware stores it with EEPROMex's `updateByte`, which
-skips bytes that are unchanged. **If you ever make that message vary per
-iteration (a clock, a countdown, live temperatures), you will be writing EEPROM
-a few times a second and will wear the message center out.** Use `>CSc` for
-anything that changes.
+### Every board writes its settings to EEPROM
+
+This is the sharpest edge in the whole system, because the damage is silent and
+cumulative. Each board keeps a `Conf` block in EEPROM and re-saves it from a
+`store()` that rewrites the lot. `EEPROMex::updateByte` skips bytes that have
+not changed, which is the only reason any of this is survivable — so the rule
+is: **a message whose payload changes must not reach a setter that calls
+`store()`.**
+
+- **Message centre.** Auto mode re-sends the whole `>CSb` list every iteration.
+  Safe only because the text is constant. If you ever make it vary — a clock, a
+  countdown, live temperatures — you will write EEPROM a few times a second and
+  wear the board out. Use `>CSc` for anything that changes.
+- **Dummy3 / dummy6.** Paolo deliberately left `store()` out of
+  `setBarsUsrValue`, so bar values alone are free. But a *mode* write (`>?Ha`)
+  calls `setBarsFunc`, which does call `store()`, and that persists the bar
+  values as a side effect. So mode writes must be occasional — see
+  `dummy3_user_mode` in `BrewPiLoopHandler`, which re-asserts the mode once per
+  dash power-up instead of once per pass.
+- **Tacho and speedo.** The 2023 firmware extensions call `store()` from
+  *every* value setter, including `setLowerVal`, whose tenths digit changes on
+  nearly every update. **This is an outstanding hardware problem, not a
+  hypothetical one** — roughly one EEPROM write per second while the dash is
+  lit. It needs fixing in the firmware (drop `store()` from the value setters,
+  as the dummy does); nothing on the Pi side can avoid it, because the values
+  genuinely change.
+
+The memory being worn is **inside the ATmega328**, which sits in a socket —
+`EEPROMex` is a wrapper over the AVR's own EEPROM, and the boards carry no
+external EEPROM. So a worn-out board is repaired by swapping a DIP chip, not by
+reworking the board, and the soldered parts (TLC5925 sinks, TD62783, the
+displays) store nothing and are never at risk. Worth knowing that the speedo
+*does* have an FM25040 FRAM fitted, with effectively unlimited write endurance
+— but it belongs to `odo.ino` for the odometer, and `Conf` does not use it.
+
+There is a second-order cost. An EEPROM write blocks the AVR for about 3.3 ms,
+and `parser.ino` must run every 11.1 ms at 57600 baud or the 64-byte UART
+buffer overflows. Several changed bytes in one message will overrun that and
+drop characters mid-packet. The `time.sleep(0.1)` before every serial write is
+very likely paying for this.
 
 ## Conventions to preserve
 

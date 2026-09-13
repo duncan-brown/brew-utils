@@ -357,6 +357,12 @@ class BrewPiLoopHandler():
         # auto mode status
         self.auto_mode = GPIO.HIGH
 
+        # the red/green dummy3 is unpowered in auto mode, so its bars are put
+        # back into user-value mode once each time the dash comes up rather
+        # than on every pass: the mode write persists to the board's eeprom,
+        # and that eeprom save also rewrites the bar values
+        self.dummy3_user_mode = False
+
         # brewpi data utk1, utk2, chrn
         self.brewpi_rmx_temp_sg_q = brewpi_rmx_temp_sg_q
         self.brewpi_rmx_data = [0.0, 0.000, 0.0, 0.000, 0.0, 0.000]
@@ -603,9 +609,11 @@ class BrewPiLoopHandler():
                 self.speedo_tx.write(str.encode(msg))
 
                 # write the fermenter temps to the green/red dummy3
-                msg = ">FHa010101?"
-                time.sleep(0.1)
-                self.speedo_tx.write(str.encode(msg))
+                if self.dummy3_user_mode is False:
+                    msg = ">FHa010101?"
+                    time.sleep(0.1)
+                    self.speedo_tx.write(str.encode(msg))
+                    self.dummy3_user_mode = True
                 msg = ">FHm{:0>2X}{:0>2X}{:0>2X}?".format(
                         self.temperature_bar(self.brewpi_rmx_data[0]),
                         self.temperature_bar(self.brewpi_rmx_data[2]),
@@ -620,6 +628,9 @@ class BrewPiLoopHandler():
                     pass
 
         else:
+            # the dash is powered down, so the dummy3 will need its mode set
+            # again when it comes back
+            self.dummy3_user_mode = False
             try:
                 time.sleep(0.1)
                 self.msgctr_tx.write(str.encode(self.msgctr_auto))
