@@ -129,3 +129,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Scratch space: reference material that is not ours to publish, working
+# files, anything pulled in to read rather than to keep
+tmp/
