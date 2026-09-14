@@ -51,8 +51,8 @@ should be on screen, and writes it out. Queue entries are `"index,value"`
 strings, split and cast on arrival.
 
 The database is polled less often than everything else: `RPintsLoopHandler`
-keeps a `database_clicks` counter and only queries RaspberryPints on every tenth
-pass.
+keeps a `database_clicks` counter and only queries RaspberryPints once every
+eleven passes (the counter runs 0–10, and only 0 queries).
 
 ## The PANP modes
 
@@ -142,10 +142,14 @@ sudo install -m 755 panp/power-off-<host>.sh /lib/systemd/system-shutdown/
 sudo systemctl enable panp.path power-relay-<host>.service
 ```
 
-`panp.path` starts the service only once `/dev/switchpod`, `/dev/ttyAMA0` and
-`/dev/ttyAMA1` all exist, so the daemon never comes up before its hardware. The
-service is `Type=notify` and reports progress through sdnotify, so
-`systemctl status panp` shows what it is doing.
+`panp.path` lists `/dev/switchpod`, `/dev/ttyAMA0` and `/dev/ttyAMA1`. Note
+that systemd fires a path unit when **any** of its conditions is met, not all
+of them, and the two UARTs exist from early boot — so in practice the service
+starts as soon as the UARTs appear, whether or not the switch pod adapter is
+there yet. That is harmless: `get_switchpod()` waits for `/dev/switchpod` to
+appear and reopens it if it goes away. The service is `Type=notify` and
+reports progress through sdnotify, so `systemctl status panp` shows what it is
+doing.
 
 Requires Python 3 with `pyserial`, `sdnotify`, `RPi.GPIO` and
 `mysql-connector-python`. The switch pod's serial adapter needs to appear as
@@ -157,8 +161,16 @@ Requires Python 3 with `pyserial`, `sdnotify`, `RPi.GPIO` and
   every pass, but no switch pod button currently selects them — only the
   individual probes, the lagers and the mean are reachable.
 - The code that cycled fermenter status (`IDLE`/`COOL`/`HEAT`) on the message
-  center is commented out, though the queue feeding it is still filled. In Auto
-  the message center shows `BREWPI UP` instead.
+  center is commented out. The queue that fed it, `brewpi_rmx_state_q`, is
+  still written to — only with `DOWN`, once a minute per fermenter whose
+  `KITTSOCKET` cannot be reached — and nothing drains it, so it grows for as
+  long as a fermenter is offline. In Auto the message center shows
+  `BREWPI UP` instead.
+- After leaving Auto, `BrewPiLoopHandler` keeps `msgctr_mode` at `BREWPI_UP`
+  (set on entering Auto) but re-sends the caption that was selected before
+  Auto. Until a left-pod button is pressed, the lower display shows mash
+  temperature on the `BREWPI_UP` scale while the caption may say something
+  else, for example `SG UTK1`.
 - Exception handling is deliberately broad. This is an unattended daemon with
   `Restart=no`; a probe that fails to read or a database that is down must not
   take the dashboard down with it.

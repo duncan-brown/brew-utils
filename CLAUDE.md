@@ -105,7 +105,7 @@ Every string `panp.py` sends, and what the firmware does with it:
 | `>BHd{4 bytes}?` | speedo upper 4 digits |
 | `>BHe{5 bytes}?` | speedo lower 5 digits — 5th is decimal-point position |
 | `>E/F/GHm{n bytes}?` | dummy bar user values (3 bytes for E/F, 6 for G) |
-| `>E/F/GHa{n bytes}?` | dummy bar modes — `00` light-play, `01` user value, `02` voltmeter |
+| `>E/F/GHa{n bytes}?` | dummy bar modes — `00` light-play, `01` user value, `02` voltmeter, `03` fill-and-empty light-play |
 | `>{board}BD{v}?` | master brightness, `00` full dim to `FF` full bright |
 | `>CSc{text}?` | message center: flash text now, not stored |
 | `>CSb{a\|b\|c}~?` | message center: overwrite the user message list (in EEPROM) |
@@ -188,8 +188,9 @@ the commitment covers fragments of it as well as the whole.
 ## Verifying changes
 
 There is no build, no test suite, and no dependency manifest. The runtime
-imports (`RPi.GPIO`, `serial`, `sdnotify`, `mysql.connector`, `pigpio`) only
-exist on the Pis, so **the code cannot be imported or run on a dev machine.**
+imports (`RPi.GPIO`, `serial`, `sdnotify`, `mysql.connector`) only exist on
+the Pis, so **the code cannot be imported or run on a dev machine.** (`pigpio`
+belonged to the archived 7-segment display and is not imported any more.)
 
 What you can do locally:
 
@@ -210,7 +211,20 @@ belong; the two `power-relay-*.service` files do not.
 - `power-relay-brewpi.service` is described as "Open RPints Power Relay" —
   copy-paste from the rpints unit, cosmetic only.
 - The fermenter-state message-center code in `BrewPiLoopHandler.loop` is
-  commented out (see the `brewpi_rmx_state_q` block); the queue is still fed.
+  commented out (see the `brewpi_rmx_state_q` block). The queue is still fed
+  with `DOWN` whenever a `KITTSOCKET` connect fails, and nothing drains it.
+- `panp.path` fires when **any** of its three `PathExists=` conditions holds,
+  not all of them. The switch pod thread copes with the adapter being absent,
+  so this is cosmetic, but do not describe the unit as waiting for all three.
+- Leaving Auto on `brewpi` leaves `msgctr_mode` at `BREWPI_UP` while
+  re-sending the previously selected caption, so caption and value can
+  disagree until the next left-pod press. See kitt/README.md "Notes".
+- `BrewPiLoopHandler.set_auto_mode` and `BrightnessHandler.set_brightness`
+  run on the RPi.GPIO callback thread and write to the same serial ports as
+  `loop()` on the main thread, with no lock. The same is true of
+  `PANPHandler.change_state` on `rpints`. Interleaved bytes produce a packet
+  the board discards, which the next pass repairs, so it shows up only as a
+  flicker at mode changes.
 
 ## Git
 

@@ -73,8 +73,10 @@ position as a single ASCII digit followed by a newline:
 ```
 
 `panp.py` opens the adapter as `/dev/switchpod` (a udev rule maps it; not
-included in this repo), reads **two bytes at a time**, strips the newline, and
-pushes the integer onto a queue for the loop handler to act on.
+included in this repo), reads a line at a time with `readline()`, strips the
+newline, and pushes the integer onto a queue for the loop handler to act on.
+(It used to read a fixed two bytes; the section below explains why that
+changed.)
 
 ## The every-twentieth-press dropout, and why it took three changes
 

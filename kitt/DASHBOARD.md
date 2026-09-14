@@ -122,9 +122,10 @@ index 0–30 while its sibling functions return hex levels. Don't "tidy" it to
 match the others.
 
 Note also that `tacho_bar` starts at step 1, not 0 — those six bars never go
-fully dark, while an empty keg on `keg_bar` does. And the tacho sweeps to a new
-value a step at a time where the dummy bars jump straight to it; that is the
-boards behaving differently, not the Pi.
+fully dark, while an empty keg on `keg_bar` does. And the tacho animates where
+the dummy bars do not: a tacho bar or the RPM arc jumps straight up to a higher
+value but falls to a lower one a step at a time, while the dummy bars jump in
+both directions. That is the boards behaving differently, not the Pi.
 
 ## Tacho cluster (A)
 
@@ -161,7 +162,7 @@ reorder `keezer_probes` rather than the serial message.
 | `COMPRESSOR TEMP °F` | lager keg 1 temperature |
 | `HYD SYST STRESS PSI` | lager keg 2 temperature |
 | `VOLTS DC` | lager keg 3 temperature |
-| `CAPACITY STATUS` | **total beer on tap** — `E` is dry, `FULL` is four 5 gal kegs plus the 2.5 gal cask |
+| `CAPACITY STATUS` | **total beer on tap** — the average of the five kegs' remaining percentages, so `E` is every keg dry and `FULL` is every keg full. It is not volume-weighted: the 2.5 gal cask counts the same as a 5 gal keg |
 | `PROPAGATION DELAY HRS` | keg 1 remaining |
 | `ACCESS` | keg 2 remaining |
 
