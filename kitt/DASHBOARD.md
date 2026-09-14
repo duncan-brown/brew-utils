@@ -81,7 +81,7 @@ fall. "Green means the keezer is at serving temperature" is a property of the
 list, not something the software colours in. Retuning the dash means moving
 those thresholds so the colour changes at the temperature you care about.
 
-The layouts differ by board, and they were chosen to suit what each one shows:
+The layouts differ by board, and they are what KITT's dash has:
 
 | Bars | Layout, left to right | Reads as |
 | --- | --- | --- |
@@ -91,12 +91,26 @@ The layouts differ by board, and they were chosen to suit what each one shows:
 | dummy6 bottom 3, keg volumes | all red | just more or less |
 | dummy3 `E` ×3, keg volumes | all red | just more or less |
 
-**Every temperature is on red/green hardware and every volume is on all-red
-hardware.** That is why one dummy3 was bought "all red" and the other "red
-green": a temperature has a good range and a bad range on either side of it, so
-the colour carries meaning, while a keg just has more or less beer in it. The
-keezer bars are the exception with red at one end only — a keezer that is too
-*cold* is not a problem worth a warning.
+**None of that was chosen for the brewery.** The colour layout is KITT's — the
+boards reproduce the season 2 dash, so which bars are red and which are
+red/green was fixed by the show long before any of this. Both dummy3 variants
+exist because the car has one of each.
+
+The design went the other way round: the brewery was mapped onto the dash it
+found. The counts happen to line up almost exactly —
+
+| The dash has | The brewery has |
+| --- | --- |
+| 6 tacho bars | 6 serving keezer probes |
+| 3 red/green bars on dummy6 | 3 kegs in the lagering keezer |
+| 3 red/green bars on dummy3 `F` | 3 fermenters |
+| 6 all-red bars across dummy6 and `E` | 5 serving kegs, plus a total |
+
+— and the assignment was then chosen so the things with a good and a bad range
+landed on the bars that show colour, and the volumes landed on the ones that
+don't. The keezer probes on the tacho get red at the warm end only, which suits
+them, but that is the tacho's layout being convenient rather than anything
+anyone picked.
 
 (The two red-green-red figures are ±1 segment. Each row is two 12-segment
 packages and the green band spans the join, so the boundary is hard to sample
