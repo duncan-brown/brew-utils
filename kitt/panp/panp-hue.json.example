@@ -1,0 +1,7 @@
+{
+  "bridge": "10.0.1.16",
+  "light": "f50f8309-9115-4d2a-9686-2f6f11027b65",
+  "key": "PUT_YOUR_BRIDGE_APPLICATION_KEY_HERE",
+  "brightness": 100,
+  "mirek": 300
+}

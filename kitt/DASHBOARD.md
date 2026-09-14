@@ -122,11 +122,11 @@ is what Home talks to, so Home follows along.
 
 This is optional. `panp.py` reads the bridge address, key and light id from
 `/usr/local/etc/panp-hue.json`, which is not in this repository because that key
-grants full control of the bridge. With no config file nothing happens at all,
-which is the case on `brewpi`. `systemctl status panp` says which of the two it
-found. The brightness and colour temperature live in that file too — `mirek`
-runs 153 for the coldest white to 500 for the warmest — so the bench light can
-be tuned without editing code.
+grants full control of everything on the bridge. With no config file nothing
+happens at all, which is the case on `brewpi`. `systemctl status panp` says
+which of the two it found. See
+[panp/panp-hue.json.example](panp/panp-hue.json.example) for the shape and
+[panp/README.md](panp/README.md) to set one up.
 
 Pressing one of these on the rpints Pi also signals the brewpi Pi over GPIO, so
 both halves of the dash change together.
