@@ -75,12 +75,32 @@ against the hardware.
 Two consequences worth holding on to.
 
 **The red/green split is physical.** The coloured segments are fixed in the bar
-hardware, so many green and then red. The host only ever says *light this many*;
-whether that lands in green or in red is decided entirely by where the numbers
-in those threshold lists fall. "Green means the keezer is at serving
-temperature" is a property of the list, not something the software colours in.
-Retuning the dash means moving those thresholds so the colour change happens at
-the temperature you care about.
+hardware. The host only ever says *light this many*; whether that lands in green
+or in red is decided entirely by where the numbers in those threshold lists
+fall. "Green means the keezer is at serving temperature" is a property of the
+list, not something the software colours in. Retuning the dash means moving
+those thresholds so the colour changes at the temperature you care about.
+
+The layouts differ by board, and they were chosen to suit what each one shows:
+
+| Bars | Layout, left to right | Reads as |
+| --- | --- | --- |
+| tacho probe ×6 | 8 green, 4 red | too warm at the top end only |
+| dummy6 top 3, lager temps | 12 red, 8 green, 4 red | too cold, ideal, too warm |
+| dummy3 `F` ×3, fermenter temps | 4 red, 16 green, 4 red | too cold, ideal, too warm |
+| dummy6 bottom 3, keg volumes | all red | just more or less |
+| dummy3 `E` ×3, keg volumes | all red | just more or less |
+
+**Every temperature is on red/green hardware and every volume is on all-red
+hardware.** That is why one dummy3 was bought "all red" and the other "red
+green": a temperature has a good range and a bad range on either side of it, so
+the colour carries meaning, while a keg just has more or less beer in it. The
+keezer bars are the exception with red at one end only — a keezer that is too
+*cold* is not a problem worth a warning.
+
+(The two red-green-red figures are ±1 segment. Each row is two 12-segment
+packages and the green band spans the join, so the boundary is hard to sample
+exactly. The all-red rows and the tacho's 8/4 split are exact.)
 
 **The RPM circle is the exception.** Every other bar takes a scaled byte; the
 circle takes its step number directly, which is why `rpm_circle` returns a plain
