@@ -51,11 +51,15 @@ the GPIO pin constants at the top) is shared by both.
 
 ## The KITT serial protocol
 
-Paolo Sancono's "KITT GLU" protocol. The spec (`kitt-protocol-v8.pdf`) and the
-board firmware live alongside this repo at `~/projects/ideegeniali`, which is
-not public — consult it before guessing rather than reverse-engineering from
-`panp.py`. The protocol itself is fine to describe; keep what lands *here*
-limited to what maintaining this code actually requires.
+Paolo Sancono's "KITT GLU" protocol. The spec, the board firmware and the
+schematics live alongside this repo at `~/projects/ideegeniali`, which is not
+public.
+
+**Start with `~/projects/ideegeniali/README.md`.** It is the reference for the
+protocol, the boards and their firmware, and it opens with what may and may not
+be repeated outside that repo. Read it before answering any question about how a
+board behaves, rather than guessing or reverse-engineering from `panp.py` — and
+before writing anything here that describes the firmware.
 
 **The PDF does not document the tacho and speedo registers this code uses.**
 Those tables are blank in v8 because the feature did not exist — the stock
@@ -160,9 +164,9 @@ and at 57600 baud the 64-byte UART buffer overflows in 11.1 ms, so several
 changed bytes in one message can drop characters mid-packet. The
 `time.sleep(0.1)` before every serial write is very likely paying for this.
 
-Specifics — which call saves and which does not — are in the board firmware in
-the private repo. **Keep them there:** that source is confidential to Paolo,
-and the commitment covers fragments of it as well as the whole.
+Specifics — which call saves and which does not — are documented in the private
+repo's README. **Keep them there:** that source is confidential to Paolo, and
+the commitment covers fragments of it as well as the whole.
 
 ## Conventions to preserve
 
