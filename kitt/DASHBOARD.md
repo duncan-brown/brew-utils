@@ -37,6 +37,47 @@ bargraph uses, both depend on the left switch pod:
 | unitank 1, unitank 2 or chronical temperature | 34 °F upward, 3 °F per LED | `000.0` |
 | any of those three gravities | 1.000 upward, 0.004 per LED | `0.000` |
 
+## How the bargraphs work
+
+This applies to the tacho and the three dummy boards. The speedo is different —
+its two LED lines take a direct count of LEDs to light.
+
+**None of these bars are addressable LED by LED.** For each one the Pi sends a
+single byte, and the board turns that into a *fill level*: it lights that many
+segments from the left and leaves the rest dark. There is no way to light an
+arbitrary pattern, and no way to ask for a colour.
+
+The resolutions differ, and the threshold tables in `panp.py` exist to match
+them — each list is a set of byte values picked so consecutive entries land on
+consecutive fill steps:
+
+| Bars | Steps | Table in `panp.py` |
+| --- | --- | --- |
+| tacho probe bars | 8 | `tacho_bar` — 8 values, landing on steps 1–8 |
+| tacho RPM circle | 30 | `rpm_circle` — returns the step number itself |
+| fermenter bars (`F`) | 16 | `temperature_bar` — 16 values, steps 1–16 |
+| lager and keg bars (`E`, `G`) | 16 | `lager_bar`, `keg_bar` — 17 values, steps 0–16 |
+
+Two consequences worth holding on to.
+
+**The red/green split is physical.** The coloured segments are fixed in the bar
+hardware, so many green and then red. The host only ever says *light this many*;
+whether that lands in green or in red is decided entirely by where the numbers
+in those threshold lists fall. "Green means the keezer is at serving
+temperature" is a property of the list, not something the software colours in.
+Retuning the dash means moving those thresholds so the colour change happens at
+the temperature you care about.
+
+**The RPM circle is the exception.** Every other bar takes a scaled byte; the
+circle takes its step number directly, which is why `rpm_circle` returns a plain
+index 0–30 while its sibling functions return hex levels. Don't "tidy" it to
+match the others.
+
+Note also that `tacho_bar` starts at step 1, not 0 — those six bars never go
+fully dark, while an empty keg on `keg_bar` does. And the tacho sweeps to a new
+value a step at a time where the dummy bars jump straight to it; that is the
+boards behaving differently, not the Pi.
+
 ## Tacho cluster (A)
 
 ![Tacho cluster](../images/dash-tacho.png)
@@ -53,9 +94,9 @@ bargraph uses, both depend on the left switch pod:
 | `MAIN OIL PRESS` | keezer probe 6 |
 
 The six bargraphs always show all six keezer probes, whatever the digits are
-set to. Each bar spans 30 °F to 51 °F: solidly green is a keezer at serving
-temperature, red at the top end is too warm. Because the fan is off you can
-watch the keezer stratify across the six.
+set to. Each spans 30 °F to 51 °F across its 8 steps, so solidly green is a
+keezer at serving temperature and red at the top end is too warm. Because the
+fan is off you can watch the keezer stratify across the six.
 
 The probe-to-bar correspondence is positional — `panp.py` sends the six probes
 in the order they appear in `keezer_probes`, and the board lights bars 1–6 in
