@@ -10,6 +10,11 @@ actually puts behind them. The crops come from
 [`images/s2-dash.png`](../images/s2-dash.png), a high-resolution scan of the
 season 2 panel this hardware reproduces.
 
+That scan is artwork, not a photograph, and it has at least one error: it draws
+**15** LEDs on the line above the multifunction display where the real board has
+**16**. Every other count in it checks out against the hardware. Don't count
+LEDs off the scan without checking them.
+
 Letters in parentheses are the board's serial address — see
 [README.md](README.md) for the protocol and [`panp/panp.py`](panp/panp.py) for
 the code.
@@ -51,12 +56,21 @@ The resolutions differ, and the threshold tables in `panp.py` exist to match
 them — each list is a set of byte values picked so consecutive entries land on
 consecutive fill steps:
 
-| Bars | Steps | Table in `panp.py` |
-| --- | --- | --- |
-| tacho probe bars | 8 | `tacho_bar` — 8 values, landing on steps 1–8 |
-| tacho RPM circle | 30 | `rpm_circle` — returns the step number itself |
-| fermenter bars (`F`) | 16 | `temperature_bar` — 16 values, steps 1–16 |
-| lager and keg bars (`E`, `G`) | 16 | `lager_bar`, `keg_bar` — 17 values, steps 0–16 |
+| Bars | LEDs | Steps | Table in `panp.py` |
+| --- | --- | --- | --- |
+| tacho probe bars | 12 | 8 | `tacho_bar` — 8 values, landing on steps 1–8 |
+| tacho RPM arc | 30 | 30 | `rpm_circle` — returns the step number itself |
+| fermenter bars (`F`) | 24 | 16 | `temperature_bar` — 16 values, steps 1–16 |
+| lager and keg bars (`E`, `G`) | 24 | 16 | `lager_bar`, `keg_bar` — 17 values, steps 0–16 |
+
+**The bars have more segments than steps** — 12 against 8, and 24 against 16,
+exactly three to two in both cases. So one step moves the bar by a segment and a
+half on average, and the visible resolution is coarser than the bar looks. Only
+the RPM arc is one LED per step, which is why its value is a raw index.
+
+For completeness, the speedo's two LED lines are one LED per count: **20** above
+`MPH` and **16** above the multifunction display. All these counts were checked
+against the hardware.
 
 Two consequences worth holding on to.
 
