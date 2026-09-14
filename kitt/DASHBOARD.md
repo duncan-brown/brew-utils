@@ -4,14 +4,19 @@ The dash carries KITT's original season 2 labels — inlet temperature, hydrauli
 system stress, propagation delay. None of them mean what they say. This is the
 decoder ring.
 
-The reference image is [`images/s2-dash.png`](../images/s2-dash.png), a
-high-resolution scan of the season 2 panel that this hardware reproduces.
+Each section below shows the panel as KITT has it — the labels are set in
+Eurostyle Extended, the typeface the show used — beside what the brewery
+actually puts behind them. The crops come from
+[`images/s2-dash.png`](../images/s2-dash.png), a high-resolution scan of the
+season 2 panel this hardware reproduces.
 
 Letters in parentheses are the board's serial address — see
 [README.md](README.md) for the protocol and [`panp/panp.py`](panp/panp.py) for
 the code.
 
 ## Speedo cluster (B)
+
+![Speedo cluster](../images/dash-speedo.png)
 
 | KITT label | Brewery value |
 | --- | --- |
@@ -33,6 +38,8 @@ bargraph uses, both depend on the left switch pod:
 | any of those three gravities | 1.000 upward, 0.004 per LED | `0.000` |
 
 ## Tacho cluster (A)
+
+![Tacho cluster](../images/dash-tacho.png)
 
 | KITT label | Brewery value |
 | --- | --- |
@@ -58,6 +65,8 @@ reorder `keezer_probes` rather than the serial message.
 
 ## Dummy6 (G)
 
+![Dummy6](../images/dash-dummy6.png)
+
 | KITT label | Brewery value |
 | --- | --- |
 | `COMPRESSOR TEMP °F` | lager keg 1 temperature |
@@ -74,6 +83,11 @@ all red, which suits a volume.
 `CAPACITY STATUS` keeping its own name is the one honest label on the dash.
 
 ## Dummy3 left, all red (E)
+
+The two dummy3 boards sit side by side — all-red `E` on the left, red/green `F`
+on the right.
+
+![Both dummy3 boards](../images/dash-dummy3.png)
 
 | KITT label | Brewery value |
 | --- | --- |
@@ -114,6 +128,9 @@ ones.
 | `NORM` | dash on, dimmed |
 | `PURSUIT` | dash on, full brightness — and the bench light comes on |
 
+Pressing one of these on the rpints Pi also signals the brewpi Pi over GPIO, so
+both halves of the dash change together.
+
 Pursuit also switches the Hue bench light over the workbench to full brightness
 and a neutral white, so there is enough light to read small print on things;
 Norm and Auto switch it off again, as does halting the Pis. It is driven
@@ -128,9 +145,6 @@ which of the two it found. See
 [panp/panp-hue.json.example](panp/panp-hue.json.example) for the shape and
 [panp/README.md](panp/README.md) to set one up.
 
-Pressing one of these on the rpints Pi also signals the brewpi Pi over GPIO, so
-both halves of the dash change together.
-
 ## Switch pods
 
 Swapping the button legends is a Knight Rider tradition, so these differ from
@@ -140,7 +154,7 @@ odd positions the right column. See [switchpod/README.md](switchpod/README.md).
 
 ### Right pod — picks what the tacho shows
 
-![Right switch pod](../images/IMG_4888.jpeg)
+![Right switch pod](../images/switchpod-right.jpg)
 
 | Button | Pos | Shows on `kRPM` and the arc |
 | --- | --- | --- |
@@ -160,7 +174,7 @@ probe 6, the orange one in the left column is probe 4.
 
 ### Left pod — picks what the speedo and message center show
 
-![Left switch pod](../images/IMG_4887.jpeg)
+![Left switch pod](../images/switchpod-left.jpg)
 
 | Button | Pos | Action |
 | --- | --- | --- |
