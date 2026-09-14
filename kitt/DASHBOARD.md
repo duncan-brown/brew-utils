@@ -181,8 +181,13 @@ starting volume, refreshed every tenth pass of the loop.
 | `MI / GALLONS` | unitank 2 temperature |
 | `RANGE ESTIMATES` | chronical temperature |
 
-Each bar spans 30 °F to 76 °F, so a fermenter holding its setpoint sits in the
-green and a crash or a runaway shows as red.
+Each bar spans 30 °F to 76 °F, with the green band running from roughly 34 °F
+to 70 °F, so a fermenter holding its setpoint sits in the green while a crash or
+a runaway shows as red at one end or the other.
+
+The 70 °F top of the green is deliberate, not a rounding: none of the recipes
+brewed here ferment above it, so anything warmer really is a fault. Don't widen
+that band to match a general-purpose ale range.
 
 ## Message center (C)
 
