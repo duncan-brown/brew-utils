@@ -313,11 +313,11 @@ def drain(q):
 class Bus:
     """One serial bus to the dash.
 
-    The main loop and the GPIO callback thread both write to a bus, so writes
-    are serialised: two packets may follow one another but never interleave.
-    Every write should still be preceded by a `time.sleep(SERIAL_GAP)`, which
-    is what stops the boards dropping messages; that is left visible at the
-    call sites rather than hidden here.
+    Every packet is preceded by a pause of SERIAL_GAP, without which the boards
+    drop messages. The main loop and the GPIO callback thread both write to a
+    bus, so the pause and the write happen under a lock: two packets can
+    neither interleave nor arrive closer together than the gap, whichever
+    threads they come from.
     """
 
     def __init__(self, device):
@@ -326,6 +326,7 @@ class Bus:
 
     def write(self, msg):
         with self.lock:
+            time.sleep(SERIAL_GAP)
             self.port.write(msg.encode())
 
     def close(self):
@@ -577,7 +578,6 @@ class BrightnessHandler:
                 for _ in range(BRIGHTNESS_REPEATS):
                     for m in msgs:
                         bus.write(m)
-                        time.sleep(SERIAL_GAP)
                 self.brightness = channel_state
 
 
@@ -639,7 +639,6 @@ class PANPHandler:
                     ">GHm000000000000?"]:    # and dark
             bus = self.tacho if msg[1] == 'A' else self.dummy
             bus.write(msg)
-            time.sleep(SERIAL_GAP)
 
     def change_state(self, channel):
         old_state = self.state
@@ -765,16 +764,13 @@ class RPintsLoopHandler:
 
         try:
             # the selected temperature on the tacho digits
-            time.sleep(SERIAL_GAP)
             self.tacho.write(f">ABp{int(round(rpm)):02X}?")
 
             # the six probes on the six bars, and the selected temperature on the arc
             bars = "".join(f"{tacho_bar(t):02X}" for t in self.keezer_temps)
-            time.sleep(SERIAL_GAP)
             self.tacho.write(f">AHh{bars}{rpm_circle(rpm):02X}?")
 
             # lager temps, total capacity, keg 1 and keg 2 on dummy6
-            time.sleep(SERIAL_GAP)
             self.dummy.write(">GHm{:02X}{:02X}{:02X}{:02X}{:02X}{:02X}?".format(
                 lager_bar(self.lager_temps[0]),
                 lager_bar(self.lager_temps[1]),
@@ -784,7 +780,6 @@ class RPintsLoopHandler:
                 keg_bar(self.keg_capacity[1])))
 
             # kegs 3, 4 and 5 on the red dummy3
-            time.sleep(SERIAL_GAP)
             self.dummy.write(">EHm{:02X}{:02X}{:02X}?".format(
                 keg_bar(self.keg_capacity[2]),
                 keg_bar(self.keg_capacity[3]),
@@ -840,9 +835,7 @@ class BrewPiLoopHandler:
 
     def start(self):
         """Put the message centre into its idle rotation."""
-        time.sleep(SERIAL_GAP)
         self.msgctr.write(self.msgctr_auto)
-        time.sleep(SERIAL_GAP)
 
     def toggle_flowmeter_relay(self, f):
         if self.flowmeter_relay_state[f] == GPIO.LOW:
@@ -854,7 +847,6 @@ class BrewPiLoopHandler:
         GPIO.output(FLOWMETER[f], self.flowmeter_relay_state[f])
         # flash the change on the message centre for a second
         self.msgctr.write(">CBa00?")
-        time.sleep(SERIAL_GAP)
         self.msgctr.write(f">CScFLOW {f + 1} {flow_msg}?")
         time.sleep(1)
         # and make the next pass restore the caption
@@ -883,15 +875,11 @@ class BrewPiLoopHandler:
                 self.msgctr_mode = MsgCtrMode.BREWPI_UP
                 self.msgctr_mode_old = self.msgctr_mode
                 self.msgctr.write(self.msgctr_auto)
-                time.sleep(SERIAL_GAP)
                 self.msgctr.write(">CBa01?")
-                time.sleep(SERIAL_GAP)
                 self.msgctr.write(">CBa00?")
-                time.sleep(SERIAL_GAP)
             else:
                 # the dash is lighting up: caption the lower display
                 self.msgctr.write(">CBa00?")
-                time.sleep(SERIAL_GAP)
                 self.msgctr.write(self.msgctr_msg)
 
     def press(self, sp_val):
@@ -938,16 +926,12 @@ class BrewPiLoopHandler:
             try:
                 if self.msgctr_mode is not self.msgctr_mode_old:
                     self.msgctr.write(">CBa00?")
-                    time.sleep(SERIAL_GAP)
                     self.msgctr.write(self.msgctr_msg)
-                    time.sleep(SERIAL_GAP)
                     self.msgctr_mode_old = self.msgctr_mode
 
                 # hlt temperature on the upper display and its led line
                 hundreds, tens, ones, tenths = temperature_digits(round(self.hot_side_temps[1]))
-                time.sleep(SERIAL_GAP)
                 self.speedo.write(f">BBc{hundreds * 10 + tens:02X}?")
-                time.sleep(SERIAL_GAP)
                 self.speedo.write(f">BHd0{hundreds}0{tens}0{ones}03?")
 
                 # the selected value on the lower display and its led line
@@ -955,18 +939,14 @@ class BrewPiLoopHandler:
                 value = source(self)
                 n_leds = int(math.floor(leds(value)))
                 n_leds = max(0, min(16, n_leds))
-                time.sleep(SERIAL_GAP)
                 self.speedo.write(f">BBb{n_leds:02X}?")
                 hundreds, tens, ones, tenths = temperature_digits(value)
-                time.sleep(SERIAL_GAP)
                 self.speedo.write(f">BHe0{hundreds}0{tens}0{ones}0{tenths}0{dp_mode}?")
 
                 # fermenter temperatures on the red/green dummy3
                 if self.dummy3_user_mode is False:
-                    time.sleep(SERIAL_GAP)
                     self.speedo.write(">FHa010101?")
                     self.dummy3_user_mode = True
-                time.sleep(SERIAL_GAP)
                 self.speedo.write(">FHm{:02X}{:02X}{:02X}?".format(
                     temperature_bar(self.brewpi_rmx_data[0]),
                     temperature_bar(self.brewpi_rmx_data[2]),
@@ -982,11 +962,8 @@ class BrewPiLoopHandler:
             # own rotation, which is constant text and so safe to re-send
             self.dummy3_user_mode = False
             try:
-                time.sleep(SERIAL_GAP)
                 self.msgctr.write(self.msgctr_auto)
-                time.sleep(SERIAL_GAP)
                 self.msgctr.write(">CBa01?")
-                time.sleep(SERIAL_GAP)
             except PortNotOpenError:
                 if self.service.running:
                     raise
@@ -1069,9 +1046,7 @@ def setup_brewpi(service, sp_q):
     # clear the red/green dummy3 and set to user mode
     time.sleep(1)
     speedo.write(">FHa010101?")
-    time.sleep(SERIAL_GAP)
     speedo.write(">FHm000000?")
-    time.sleep(SERIAL_GAP)
 
     # dim the speedo as we are in auto mode initially. the bus is listed twice,
     # so every brightness message goes out six times rather than three; that
