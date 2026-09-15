@@ -12,8 +12,8 @@ season 2 panel this hardware reproduces.
 
 That scan is artwork, not a photograph, and it has at least one error: it draws
 **15** LEDs on the line above the multifunction display where the real board has
-**16**. Every other count in it checks out against the hardware. Don't count
-LEDs off the scan without checking them.
+**16**. Every count and colour below was taken from the hardware, not the scan.
+Don't count LEDs off the scan without checking them.
 
 Letters in parentheses are the board's serial address — see
 [README.md](README.md) for the protocol and [`panp/panp.py`](panp/panp.py) for
@@ -26,9 +26,9 @@ the code.
 | KITT label | Brewery value |
 | --- | --- |
 | `MPH`, 3 digits | **HLT temperature**, °F, rounded to whole degrees |
-| bargraph above `MPH` | the same HLT temperature — 20 LEDs, one per 10 °F |
+| bargraph above `MPH` | the same HLT temperature — 20 LEDs on 16 addressable steps of 10 °F, so full at 160 °F; four of the steps light two LEDs at once |
 | `000.0`, 4 digits | **the selected value** — whatever the left switch pod last chose |
-| 16-LED bargraph above it | the same selected value, scaled to its own range |
+| 16-LED bargraph above it | the same selected value, scaled to its own range, one LED per step |
 | `GUIDANCE`, `SYST. RDY` | unused |
 | alphanumeric row | the message center — see below |
 
@@ -56,21 +56,26 @@ The resolutions differ, and the threshold tables in `panp.py` exist to match
 them — each list is a set of byte values picked so consecutive entries land on
 consecutive fill steps:
 
-| Bars | LEDs | Steps | Table in `panp.py` |
+| Bars | Segments | Steps | Table in `panp.py` |
 | --- | --- | --- | --- |
 | tacho probe bars | 12 | 8 | `tacho_bar` — 8 values, landing on steps 1–8 |
-| tacho RPM arc | 30 | 30 | `rpm_circle` — returns the step number itself |
+| tacho RPM arc | 30 LEDs | 30 | `rpm_circle` — returns the step number itself |
 | fermenter bars (`F`) | 24 | 16 | `temperature_bar` — 16 values, steps 1–16 |
 | lager and keg bars (`E`, `G`) | 24 | 16 | `lager_bar`, `keg_bar` — 17 values, steps 0–16 |
 
-**The bars have more segments than steps** — 12 against 8, and 24 against 16,
-exactly three to two in both cases. So one step moves the bar by a segment and a
-half on average, and the visible resolution is coarser than the bar looks. Only
-the RPM arc is one LED per step, which is why its value is a raw index.
+**The building block is a 12-segment bar-graph part.** Each tacho bar is one of
+them, driven with 8 steps. Each dummy row is **two** of them side by side, 24
+segments, driven with 16 steps. So on every bar there are three segments for
+every two steps: one step moves the bar by a segment and a half on average, and
+the visible resolution is coarser than the bar looks. Only the RPM arc is one
+LED per step, which is why its value is a raw index.
 
-For completeness, the speedo's two LED lines are one LED per count: **20** above
-`MPH` and **16** above the multifunction display. All these counts were checked
-against the hardware.
+The speedo's two LED lines are round LEDs rather than bar-graph parts: **20**
+above `MPH` and **16** above the multifunction display. Both are 16 addressable
+steps; the 20-LED line lights two LEDs together on four of them. The Pi sends
+each a step count, and `panp.py`'s scales are written for 16 steps. Note that
+the physical LED count and the addressable count are different numbers on this
+dash; the private repo records which is which for every board.
 
 Two consequences worth holding on to.
 
@@ -81,15 +86,22 @@ fall. "Green means the keezer is at serving temperature" is a property of the
 list, not something the software colours in. Retuning the dash means moving
 those thresholds so the colour changes at the temperature you care about.
 
-The layouts differ by board, and they are what KITT's dash has:
+There are only two kinds of 12-segment part — all red, or 8 green then 4 red —
+and the layouts come from how they are placed, counted on the hardware:
 
 | Bars | Layout, left to right | Reads as |
 | --- | --- | --- |
-| tacho probe ×6 | 8 green, 4 red | too warm at the top end only |
-| dummy6 top 3, lager temps | 12 red, 8 green, 4 red | too cold, ideal, too warm |
-| dummy3 `F` ×3, fermenter temps | 4 red, 16 green, 4 red | too cold, ideal, too warm |
-| dummy6 bottom 3, keg volumes | all red | just more or less |
-| dummy3 `E` ×3, keg volumes | all red | just more or less |
+| tacho probe ×6 | `ggggggggrrrr` | too warm at the top end only |
+| dummy6 top 3, lager temps | `rrrrrrrrrrrr ggggggggrrrr` | too cold, ideal, too warm |
+| dummy3 `F` ×3, fermenter temps | `rrrrgggggggg ggggggggrrrr` | too cold, ideal, too warm |
+| dummy6 bottom 3, keg volumes | `rrrrrrrrrrrr rrrrrrrrrrrr` | just more or less |
+| dummy3 `E` ×3, keg volumes | `rrrrrrrrrrrr rrrrrrrrrrrr` | just more or less |
+
+On `F` the left-hand part is the same green/red part as the right-hand one,
+mounted upside down, which is how the row comes to be red at both ends with
+sixteen green in the middle. On dummy6 the left-hand part is an all-red one, so
+the green band sits in the right half only. The green and red are separate
+LEDs, not a bicolour part.
 
 **None of that was chosen for the brewery.** The colour layout is KITT's — the
 boards reproduce the season 2 dash, so which bars are red and which are
@@ -111,10 +123,6 @@ landed on the bars that show colour, and the volumes landed on the ones that
 don't. The keezer probes on the tacho get red at the warm end only, which suits
 them, but that is the tacho's layout being convenient rather than anything
 anyone picked.
-
-(The two red-green-red figures are ±1 segment. Each row is two 12-segment
-packages and the green band spans the join, so the boundary is hard to sample
-exactly. The all-red rows and the tacho's 8/4 split are exact.)
 
 **The RPM circle is the exception.** Every other bar takes a scaled byte; the
 circle takes its step number directly, which is why `rpm_circle` returns a plain
@@ -166,9 +174,12 @@ reorder `keezer_probes` rather than the serial message.
 | `PROPAGATION DELAY HRS` | keg 1 remaining |
 | `ACCESS` | keg 2 remaining |
 
-The top three are the red/green bars, which suits a lagering temperature: one
-green segment is 30 °F, half-degree steps up from there. The bottom three are
-all red, which suits a volume.
+The top three are the red/green rows, which suits a lagering temperature:
+`lager_bar` runs from dark below 23.5 °F to full at 35.5 °F in roughly
+half-degree steps. The left twelve segments are red, so the bar is red until
+about step 8, roughly 30 °F, then climbs through the eight green segments and
+into the four red ones at the top. The bottom three are all red, which suits a
+volume.
 
 `CAPACITY STATUS` keeping its own name is the one honest label on the dash.
 
@@ -196,13 +207,16 @@ starting volume, refreshed every tenth pass of the loop.
 | `MI / GALLONS` | unitank 2 temperature |
 | `RANGE ESTIMATES` | chronical temperature |
 
-Each bar spans 30 °F to 76 °F, with the green band running from roughly 34 °F
-to 70 °F, so a fermenter holding its setpoint sits in the green while a crash or
-a runaway shows as red at one end or the other.
+Each row spans 30 °F to 76 °F across `temperature_bar`'s 16 steps, with four
+red segments at each end and sixteen green between, so the green band runs from
+roughly 34 °F to 70 °F. A fermenter holding its setpoint sits in the green while
+a crash or a runaway shows as red at one end or the other.
 
 The 70 °F top of the green is deliberate, not a rounding: none of the recipes
 brewed here ferment above it, so anything warmer really is a fault. Don't widen
-that band to match a general-purpose ale range.
+that band to match a general-purpose ale range. The exact step at which each
+colour boundary lights depends on how the board's 16 steps are shared out over
+24 segments, so check on the bench before moving a threshold by one entry.
 
 ## Message center (C)
 
