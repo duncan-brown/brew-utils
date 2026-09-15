@@ -156,10 +156,10 @@ keezer at serving temperature and red at the top end is too warm. Because the
 fan is off you can watch the keezer stratify across the six.
 
 The probe-to-bar correspondence is positional — `panp.py` sends the six probes
-in the order they appear in `keezer_probes`, and the board lights bars 1–6 in
+in the order they appear in `KEEZER_PROBES`, and the board lights bars 1–6 in
 its own fixed order. The table above assumes that order runs down the left
 column and then down the right. If a probe ever shows up on the wrong bar,
-reorder `keezer_probes` rather than the serial message.
+reorder `KEEZER_PROBES` rather than the serial message.
 
 ## Dummy6 (G)
 
