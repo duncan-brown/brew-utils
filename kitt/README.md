@@ -125,8 +125,9 @@ source is not.
 
 Two things worth knowing before editing the serial code:
 
-- **Every write is preceded by `time.sleep(0.1)`.** Without the gap the boards
-  drop messages.
+- **Every write is preceded by a 0.1 s gap.** Without it the boards drop
+  messages. The gap lives in `Bus.write`, along with a lock, so every write
+  gets it and two threads cannot interleave packets on one port.
 - **Hex payloads must be exactly the right length** — four byte pairs for the
   speedo's upper digits, five for the lower, one per bar for the bargraphs.
   A payload of the wrong length is ignored silently rather than rejected.

@@ -129,11 +129,14 @@ Three things that are easy to get wrong:
 
 Payload bytes are always two hex digits, hence the `"{:0>2X}"` formatting.
 
-**Every serial write is preceded by `time.sleep(SERIAL_GAP)`.** The displays
-drop messages without it. Do not "clean up" those sleeps. Writes go through
-`Bus.write`, which holds a per-port lock so the GPIO callback thread and the
-main loop cannot interleave two packets; the sleep is deliberately left at the
-call site rather than hidden in the bus, so that it stays visible.
+**Every serial write is preceded by a `SERIAL_GAP` pause.** The displays drop
+messages without it. All writes go through `Bus.write`, which takes the
+port's lock, sleeps `SERIAL_GAP`, then writes; so no call site needs its own
+sleep, and two packets from different threads (the GPIO callback thread and
+the main loop) can neither interleave nor arrive closer together than the
+gap. Do not write to a port any other way. The remaining explicit sleeps in
+the display code are the deliberate one-second pauses: the flow-meter flash,
+and settling the boards after the dash powers up.
 
 ### Every board writes its settings to EEPROM
 
