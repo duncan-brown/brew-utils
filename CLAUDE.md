@@ -46,8 +46,10 @@ One ~1000-line script runs on **both** Pis and branches on
   flowmeter relays. Drives the speedo and message center via
   `BrewPiLoopHandler`. Receives mode changes from `rpints` as GPIO input.
 
-Anything hostname-independent (`BrightnessHandler`, `TempProbe`, `get_temps`,
-the GPIO pin constants at the top) is shared by both.
+Anything hostname-independent (`Service`, `Bus`, `BrightnessHandler`,
+`read_probe_f`, `get_temps`, the pin and cadence constants at the top) is
+shared by both. `main()` builds the per-host objects in `setup_rpints` and
+`setup_brewpi`; there are no module-level globals to chase.
 
 ## The KITT serial protocol
 
@@ -127,8 +129,11 @@ Three things that are easy to get wrong:
 
 Payload bytes are always two hex digits, hence the `"{:0>2X}"` formatting.
 
-**Every serial write is preceded by `time.sleep(0.1)`.** The displays drop
-messages without it. Do not "clean up" those sleeps.
+**Every serial write is preceded by `time.sleep(SERIAL_GAP)`.** The displays
+drop messages without it. Do not "clean up" those sleeps. Writes go through
+`Bus.write`, which holds a per-port lock so the GPIO callback thread and the
+main loop cannot interleave two packets; the sleep is deliberately left at the
+call site rather than hidden in the bus, so that it stays visible.
 
 ### Every board writes its settings to EEPROM
 
@@ -170,20 +175,29 @@ the commitment covers fragments of it as well as the whole.
 
 ## Conventions to preserve
 
-- **Bare `except: pass` is deliberate.** This is an unattended daemon behind
-  `Restart=no`; a probe read failing or the database being down must not kill
-  the loop. Don't convert them to narrow handlers without asking.
-- `PortNotOpenError` is re-raised only when `run_loop` is still true, so that
-  shutdown races stay quiet. Keep that pattern in new display code.
-- Temperature-to-bar mapping is done with parallel threshold/value lists and
-  `for i, t in enumerate(...): if temp < t: break`. Falling off the end clamps
-  to the top value on purpose. Tuning the dash means editing those lists
-  (`tacho_bar`, `lager_bar`, `keg_bar`, `temperature_bar`, `rpm_circle`) — most
-  recent commits are exactly that.
+- **Broad `except Exception: pass` is deliberate.** This is an unattended
+  daemon behind `Restart=no`; a probe read failing or the database being down
+  must not kill the loop. Don't convert them to narrow handlers without asking,
+  and don't widen them back to a bare `except:`, which would also swallow the
+  `SystemExit` that shutdown relies on.
+- `PortNotOpenError` is re-raised only while `service.running` is true, so
+  that shutdown races stay quiet. Keep that pattern in new display code.
+- Temperature-to-bar mapping is done with parallel threshold/value lists at
+  module level (`TACHO_BAR_TEMPS`, `LAGER_BAR_TEMPS`, `KEG_BAR_VOLS`,
+  `TEMPERATURE_BAR_TEMPS`, `RPM_CIRCLE_TEMPS`) walked by one `step()` helper:
+  `for i, t in enumerate(...): if value < t: break`. Falling off the end
+  clamps to the top value on purpose. Tuning the dash means editing those
+  lists — most recent commits are exactly that. The lookup functions keep
+  their old names (`tacho_bar`, `lager_bar`, `keg_bar`, `temperature_bar`,
+  `rpm_circle`).
 - systemd integration is `Type=notify` via sdnotify. New long-running work
-  should `n.notify("STATUS=...")` alongside its `print`.
-- Background work is a daemon `Thread` feeding a `Queue`, drained
-  non-destructively at the top of `loop()` with `while q.qsize() > 0`.
+  should report through `service.status(...)`, which prints and notifies.
+- Background work is a daemon `Thread` feeding a `Queue` of `(index, value)`
+  tuples, drained non-destructively at the top of `loop()` with `drain(q)`,
+  which is the `while q.qsize() > 0` idiom in one place.
+- Button and mode dispatch is table-driven (`RIGHT_POD`, `LEFT_POD_*`,
+  `LOWER_DISPLAY`, `PANP_OUTPUTS`). The tables mirror the button tables in
+  kitt/DASHBOARD.md; change both together.
 
 ## Verifying changes
 
@@ -210,21 +224,21 @@ belong; the two `power-relay-*.service` files do not.
 
 - `power-relay-brewpi.service` is described as "Open RPints Power Relay" —
   copy-paste from the rpints unit, cosmetic only.
-- The fermenter-state message-center code in `BrewPiLoopHandler.loop` is
-  commented out (see the `brewpi_rmx_state_q` block). The queue is still fed
-  with `DOWN` whenever a `KITTSOCKET` connect fails, and nothing drains it.
+- The fermenter-state message-center feature (`IDLE`/`COOL`/`HEAT` in the
+  rotation) was commented out for years and its never-drained queue was
+  removed in the cleanup. The old code is in git history:
+  `git show 9f49075:kitt/panp/panp.py`, around the `brewpi_rmx_state_q`
+  block.
 - `panp.path` fires when **any** of its three `PathExists=` conditions holds,
   not all of them. The switch pod thread copes with the adapter being absent,
   so this is cosmetic, but do not describe the unit as waiting for all three.
 - Leaving Auto on `brewpi` leaves `msgctr_mode` at `BREWPI_UP` while
   re-sending the previously selected caption, so caption and value can
   disagree until the next left-pod press. See kitt/README.md "Notes".
-- `BrewPiLoopHandler.set_auto_mode` and `BrightnessHandler.set_brightness`
-  run on the RPi.GPIO callback thread and write to the same serial ports as
-  `loop()` on the main thread, with no lock. The same is true of
-  `PANPHandler.change_state` on `rpints`. Interleaved bytes produce a packet
-  the board discards, which the next pass repairs, so it shows up only as a
-  flicker at mode changes.
+- On `brewpi` the brightness handler is built with the speedo bus listed
+  twice, so every brightness message goes out six times rather than three.
+  Kept as is because halving it changes the write count on a bus known to
+  drop messages; it is marked in `setup_brewpi`.
 
 ## Git
 

@@ -26,8 +26,10 @@ startup from `socket.gethostname()`. Anything else exits with an error.
 | Owns | PANP buttons and lamps, dash power relays | flow meter relays |
 | Mode GPIO | output (tells `brewpi` the mode) | input (follows `rpints`) |
 
-Shared between them: `TempProbe` and the `get_temps` thread, `BrightnessHandler`,
-the pin constants at the top of the file, and the systemd lifecycle.
+Shared between them: `read_probe_f` and the `get_temps` thread,
+`BrightnessHandler`, `Bus` (one locked serial port), `Service` (systemd
+notification and shutdown), and the pin constants at the top of the file.
+`main()` calls `setup_rpints` or `setup_brewpi` and then runs the loop.
 
 ## Structure
 
@@ -46,13 +48,12 @@ through a `Queue`. The main loop never blocks on I/O.
                                                     every 0.25 s
 ```
 
-Each `loop()` call drains its queues with `while q.qsize() > 0`, recomputes what
-should be on screen, and writes it out. Queue entries are `"index,value"`
-strings, split and cast on arrival.
+Each `loop()` call drains its queues with `drain(q)`, recomputes what should
+be on screen, and writes it out. Queue entries are `(index, value)` tuples.
 
 The database is polled less often than everything else: `RPintsLoopHandler`
-keeps a `database_clicks` counter and only queries RaspberryPints once every
-eleven passes (the counter runs 0–10, and only 0 queries).
+counts passes and only queries RaspberryPints once every `DATABASE_EVERY`
+passes, which is eleven.
 
 ## The PANP modes
 
@@ -161,11 +162,9 @@ Requires Python 3 with `pyserial`, `sdnotify`, `RPi.GPIO` and
   every pass, but no switch pod button currently selects them — only the
   individual probes, the lagers and the mean are reachable.
 - The code that cycled fermenter status (`IDLE`/`COOL`/`HEAT`) on the message
-  center is commented out. The queue that fed it, `brewpi_rmx_state_q`, is
-  still written to — only with `DOWN`, once a minute per fermenter whose
-  `KITTSOCKET` cannot be reached — and nothing drains it, so it grows for as
-  long as a fermenter is offline. In Auto the message center shows
-  `BREWPI UP` instead.
+  center was commented out for years and has been removed, along with the
+  queue that fed it. In Auto the message center shows `BREWPI UP` instead.
+  The old code is in git history at `9f49075`.
 - After leaving Auto, `BrewPiLoopHandler` keeps `msgctr_mode` at `BREWPI_UP`
   (set on entering Auto) but re-sends the caption that was selected before
   Auto. Until a left-pod button is pressed, the lower display shows mash
