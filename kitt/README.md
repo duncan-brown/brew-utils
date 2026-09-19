@@ -207,11 +207,10 @@ Requires Python 3 with `pyserial`, `sdnotify`, `RPi.GPIO` and
   center was commented out for years and has been removed, along with the
   queue that fed it. In Auto the message center shows `BREWPI UP` instead.
   The old code is in git history at `9f49075`.
-- After leaving Auto, `BrewPiLoopHandler` keeps `msgctr_mode` at `BREWPI_UP`
-  (set on entering Auto) but re-sends the caption that was selected before
-  Auto. Until a left-pod button is pressed, the lower display shows mash
-  temperature on the `BREWPI_UP` scale while the caption may say something
-  else, for example `SG UTK1`.
+- Entering Auto puts the lower display into `BREWPI_UP` mode and remembers
+  what was selected; leaving Auto restores it, so the caption and the value
+  under it agree. A left-pod press while the dash is dark takes effect
+  instead when it comes back.
 - Exception handling is deliberately broad. This is an unattended daemon with
   `Restart=no`; a probe that fails to read or a database that is down must not
   take the dashboard down with it.

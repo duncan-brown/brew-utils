@@ -812,6 +812,7 @@ class BrewPiLoopHandler:
         # shown while the dash is dark
         self.msgctr_mode_old = MsgCtrMode.BREWPI_UP
         self.msgctr_mode = MsgCtrMode.MASH_TEMP
+        self.msgctr_mode_saved = self.msgctr_mode
         self.msgctr_msg = ">CScDEG F MASH?"
         self.msgctr_auto = MSGCTR_IDLE
 
@@ -871,14 +872,21 @@ class BrewPiLoopHandler:
         if channel_state != self.auto_mode:
             self.auto_mode = channel_state
             if channel_state == GPIO.HIGH:
-                # the dash is going dark: hand the message centre back to its rotation
+                # the dash is going dark: hand the message centre back to its
+                # rotation, remembering what was selected so it can come back
+                self.msgctr_mode_saved = self.msgctr_mode
                 self.msgctr_mode = MsgCtrMode.BREWPI_UP
                 self.msgctr_mode_old = self.msgctr_mode
                 self.msgctr.write(self.msgctr_auto)
                 self.msgctr.write(">CBa01?")
                 self.msgctr.write(">CBa00?")
             else:
-                # the dash is lighting up: caption the lower display
+                # the dash is lighting up: put back the selection from before
+                # auto, unless a button was pressed while it was dark, so the
+                # lower display and its caption agree
+                if self.msgctr_mode is MsgCtrMode.BREWPI_UP:
+                    self.msgctr_mode = self.msgctr_mode_saved
+                self.msgctr_mode_old = self.msgctr_mode
                 self.msgctr.write(">CBa00?")
                 self.msgctr.write(self.msgctr_msg)
 

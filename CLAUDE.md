@@ -237,9 +237,6 @@ belong; the two `power-relay-*.service` files do not.
 - `panp.path` fires when **any** of its three `PathExists=` conditions holds,
   not all of them. The switch pod thread copes with the adapter being absent,
   so this is cosmetic, but do not describe the unit as waiting for all three.
-- Leaving Auto on `brewpi` leaves `msgctr_mode` at `BREWPI_UP` while
-  re-sending the previously selected caption, so caption and value can
-  disagree until the next left-pod press. See kitt/README.md "Notes".
 - On `brewpi` the brightness handler is built with the speedo bus listed
   twice, so every brightness message goes out six times rather than three.
   Kept as is because halving it changes the write count on a bus known to
