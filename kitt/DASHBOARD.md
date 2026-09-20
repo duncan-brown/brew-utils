@@ -6,14 +6,17 @@ decoder ring.
 
 Each section below shows the panel as KITT has it — the labels are set in
 Eurostyle Extended, the typeface the show used — beside what the brewery
-actually puts behind them. The crops come from
-[`images/s2-dash.png`](../images/s2-dash.png), a high-resolution scan of the
-season 2 panel this hardware reproduces.
+actually puts behind them. The photographs are of this dash, taken in
+September 2026 with `panp.py` stopped and every bar, LED and segment driven
+full from a script, at Norm brightness so the camera did not saturate. They
+are a truthful reference for LED counts and colours.
 
-That scan is artwork, not a photograph, and it has at least one error: it draws
-**15** LEDs on the line above the multifunction display where the real board has
-**16**. Every count and colour below was taken from the hardware, not the scan.
-Don't count LEDs off the scan without checking them.
+[`images/s2-dash.png`](../images/s2-dash.png) is a high-resolution scan of
+the season 2 panel artwork this hardware reproduces. It is useful for the
+labels, but it is artwork rather than a photograph and has at least one error:
+it draws **15** LEDs on the line above the multifunction display where the
+real board has **16**. Don't count LEDs off the scan; count them off the
+photographs or the hardware.
 
 Letters in parentheses are the board's serial address — see
 [README.md](README.md) for the protocol and [`panp/panp.py`](panp/panp.py) for
@@ -21,7 +24,7 @@ the code.
 
 ## Speedo cluster (B)
 
-![Speedo cluster](../images/dash-speedo.png)
+![Speedo cluster, every segment lit, with the message centre beside the lower display](../images/dash-speedo.jpg)
 
 | KITT label | Brewery value |
 | --- | --- |
@@ -137,11 +140,11 @@ both directions. That is the boards behaving differently, not the Pi.
 
 ## Tacho cluster (A)
 
-![Tacho cluster](../images/dash-tacho.png)
+![Tacho cluster, every segment lit](../images/dash-tacho.jpg)
 
 | KITT label | Brewery value |
 | --- | --- |
-| `kRPM`, 2 digits | **the selected keezer or lager temperature**, °F — anything over 99 shows `HI` |
+| `RPM`, 2 digits | **the selected keezer or lager temperature**, °F — anything over 99 shows `HI` |
 | the RPM arc | the same value again, as a sweep from 2 °F to 80 °F |
 | `INLET TEMP` | keezer probe 1 |
 | `MASS FLOW LBS` | keezer probe 2 |
@@ -163,7 +166,7 @@ reorder `KEEZER_PROBES` rather than the serial message.
 
 ## Dummy6 (G)
 
-![Dummy6](../images/dash-dummy6.png)
+![Dummy6, every bar full](../images/dash-dummy6.jpg)
 
 | KITT label | Brewery value |
 | --- | --- |
@@ -188,7 +191,7 @@ volume.
 The two dummy3 boards sit side by side — all-red `E` on the left, red/green `F`
 on the right.
 
-![Both dummy3 boards](../images/dash-dummy3.png)
+![Both dummy3 boards, every bar full](../images/dash-dummy3.jpg)
 
 | KITT label | Brewery value |
 | --- | --- |
@@ -230,6 +233,8 @@ ones.
 
 ## PANP
 
+![The four PANP keys, all lit](../images/dash-panp.jpg)
+
 | Button | Effect |
 | --- | --- |
 | `POWER` | not software — toggles a latching relay on the whole 12 V supply, but each Pi holds an interlock open while it is up, so the button does nothing until both Pis have halted |
@@ -265,7 +270,7 @@ odd positions the right column. See [switchpod/README.md](switchpod/README.md).
 
 ![Right switch pod](../images/switchpod-right.jpg)
 
-| Button | Pos | Shows on `kRPM` and the arc |
+| Button | Pos | Shows on `RPM` and the arc |
 | --- | --- | --- |
 | `TURBO BOOST` | 0 | keezer probe 1 |
 | `7 DLA` | 2 | keezer probe 2 |

@@ -17,7 +17,7 @@ https://www.homebrewtalk.com/threads/brewery-dashboard.726917/
 | `kitt/panp/` | **live** | The production system. `panp.py`, its systemd units, and a README on setting up the Hue bench light. |
 | `kitt/switchpod/` | live | Arduino Uno firmware for the resistive keypads. |
 | `brewpitosmith` | utility | BrewPi Remix beer log → BeerSmith 3 CSV. |
-| `images/` | reference | Switch pod photographs, season 2 dash scan, and the `hw-*` photos of the bench, supply box and control panel used by `HARDWARE.md`. |
+| `images/` | reference | The `dash-*.jpg` photographs of the lit dash used by `kitt/DASHBOARD.md`, switch pod photographs, the season 2 dash scan, and the `hw-*` photos of the bench, supply box and control panel used by `HARDWARE.md`. |
 | `HARDWARE.md` | reference | The physical system, walked with the owner: power, fusing, every relay and barrier strip, pin tables for both Pis, all six Arduinos, the fermenter and glycol side. Its "Still to confirm" list is the only part not yet checked. |
 | `schematics/` | reference | KiCad schematics of the wiring, **generated** by `schematics/ksheets.py` via `schematics/kicadgen.py` — edit the Python, not the `.kicad_sch`. Rendered SVGs are `images/schematic-*.svg`. Needs `kicad-cli` (KiCad 10 is installed in /Applications) to export and ERC-check. |
 
