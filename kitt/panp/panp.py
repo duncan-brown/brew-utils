@@ -923,9 +923,13 @@ class BrewPiLoopHandler:
                 # lower display and its caption agree
                 if self.msgctr_mode is MsgCtrMode.BREWPI_UP:
                     self.msgctr_mode = self.msgctr_mode_saved
-                self.msgctr_mode_old = self.msgctr_mode
-                self.msgctr.write(">CBa00?")
-                self.msgctr.write(self.msgctr_msg)
+                # the caption is not sent from here. the main loop may be
+                # part way through a dark pass, and its trailing override-off
+                # packet would land after a caption sent now and lapse it back
+                # to the rotation (seen on the dash). marking the caption as
+                # stale makes the loop send it on its first lit pass, after
+                # its own dark writes, in order on one thread
+                self.msgctr_mode_old = None
 
     def press(self, sp_val):
         """Act on a left switch pod position."""

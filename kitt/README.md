@@ -214,7 +214,10 @@ Requires Python 3 with `pyserial`, `sdnotify`, `RPi.GPIO` and
 - Entering Auto puts the lower display into `BREWPI_UP` mode and remembers
   what was selected; leaving Auto restores it, so the caption and the value
   under it agree. A left-pod press while the dash is dark takes effect
-  instead when it comes back.
+  instead when it comes back. The caption itself is always written by the
+  main loop, never by the GPIO callback: the loop may still be finishing a
+  dark pass, and its trailing override-off packet would lapse a caption sent
+  from the callback straight back to the rotation.
 - Exception handling is deliberately broad. This is an unattended daemon with
   `Restart=no`; a probe that fails to read or a database that is down must not
   take the dashboard down with it.
