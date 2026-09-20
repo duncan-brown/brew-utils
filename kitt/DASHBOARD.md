@@ -232,10 +232,10 @@ ones.
 
 | Button | Effect |
 | --- | --- |
-| `POWER` | not software — a relay held closed while both Pis are up, so the dash cannot be cut without halting them first |
+| `POWER` | not software — toggles a latching relay on the whole 12 V supply, but each Pi holds an interlock open while it is up, so the button does nothing until both Pis have halted |
 | `AUTO` | dash off, message center still lit |
 | `NORM` | dash on, dimmed |
-| `PURSUIT` | dash on, full brightness — and the bench light comes on |
+| `PURSUIT` | dash on, full brightness — the switch pod lamps and the bench light come on too |
 
 Pressing one of these on the rpints Pi also signals the brewpi Pi over GPIO, so
 both halves of the dash change together.

@@ -63,15 +63,17 @@ lines that `brewpi` watches, so both Pis change behaviour together.
 | --- | --- | --- |
 | **Auto** | off (relays cut power to upper and lower dash) | stays on, showing `BREWPI UP` and flow meter status |
 | **Norm** | on, dimmed | captions the lower display |
-| **Pursuit** | on, full brightness | captions the lower display |
+| **Pursuit** | on, full brightness, switch pod lamps lit | captions the lower display |
 
 Leaving Auto clears every display and re-sends brightness, because the boards
 were unpowered and have lost their state.
 
-The Power button is not software at all: it is a relay held closed by each Pi
-while it is up, so the dash cannot be switched off without halting both Pis
-first. That is `power-relay-*.service` (closes the relay at boot) and
-`power-off-*.sh` (drops it during shutdown).
+The Power button is not software at all. It triggers a latching relay that
+switches the whole 12 V supply, and each Pi holds an interlock relay *open*
+while it is up, taking the button out of the circuit — so nothing can be
+switched off without halting both Pis first. That is `power-relay-*.service`
+(opens the interlock at boot) and `power-off-*.sh` (releases it during
+shutdown). The wiring is in [../HARDWARE.md](../HARDWARE.md#the-power-button).
 
 ## Switch pod buttons
 
@@ -129,6 +131,45 @@ Two things worth knowing before editing the serial code:
 - **Hex payloads must be exactly the right length** — four byte pairs for the
   speedo's upper digits, five for the lower, one per bar for the bargraphs.
   A payload of the wrong length is ignored silently rather than rejected.
+
+## The BrewPi side
+
+The fermenter temperatures and Tilt gravities come from three BrewPi Remix
+instances on `brewpi`, in `/home/brewpi/{unitank-1,unitank-2,chronical}/`.
+`get_brewpi_rmx_data()` asks each one `lcd` and `statusText` every 60 seconds
+over a Unix socket called `KITTSOCKET` in the instance directory.
+
+Stock BrewPi Remix has no such socket. It listens on one, `BEERSOCKET`, for its
+own PHP front end. `KITTSOCKET` comes from the **`kitt` branch** of
+[duncan-brown/brewpi-script-rmx](https://github.com/duncan-brown/brewpi-script-rmx),
+commit `7e0e500` "open a second socket for kitt" (April 2023) and two
+follow-ups, and that branch is what the Pi runs. The change:
+
+- pulls the socket setup into a helper and calls it twice, so `KITTSOCKET` is
+  created next to `BEERSOCKET` with the same `brewpi:www-data` ownership and
+  `0660` mode;
+- makes the main loop **alternate** between accepting on the PHP socket and the
+  KITT socket, one per pass, so neither client can starve the other. Whichever
+  connects is served by the same command handler, so the dash could ask for
+  anything the web UI can;
+- halves the socket timeout from 0.5 s to 0.25 s so the controller is still
+  polled as often with two accepts sharing the loop, and replaces the
+  `raise socket.timeout` trick for "go and do serial now" with an explicit
+  `SerialExpected` exception.
+
+A separate socket rather than sharing `BEERSOCKET` keeps the dash's polling
+from ever queueing behind the web UI's, and vice versa.
+
+**Known state, September 2026.** The `kitt` branch forked from `main` in 2021
+and is ten commits behind it. In particular it lacks `9aabb93` "expire the
+correct tilt color" (2022), which sets the colour from the config before
+clearing a stale TiltBridge reading; without it that code path uses an
+undefined name. On the Pi, `unitank-2`'s copy of `brewpi.py` carries an
+uncommitted `color = 'Green'` at that point — the same fix done by hand for its
+own Tilt — and `unitank-1` has a commented-out `# color = 'Blue'`. The clean fix
+is to merge `main` into `kitt`, or cherry-pick `9aabb93`, redeploy all three
+instances and drop the local edits. Until then, anyone reinstalling from either
+branch as-is gets different behaviour from what is running.
 
 ## Installation
 

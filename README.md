@@ -12,6 +12,8 @@ captions whatever the multi-function display is currently showing.
 
 There is a full build write-up, with photos of what every gauge means, at
 [Brewery Dashboard on HomebrewTalk](https://www.homebrewtalk.com/threads/brewery-dashboard.726917/).
+The physical side — power supply, relays, probes, which wire goes to which pin
+on which Pi — is in [HARDWARE.md](HARDWARE.md).
 
 ## How it fits together
 
@@ -45,7 +47,7 @@ There is a full build write-up, with photos of what every gauge means, at
 | --- | --- | --- |
 | [`kitt/`](kitt/) | **in service** | The current system. `panp/panp.py` drives the whole dashboard; `switchpod/` is the Arduino firmware for the dash keypads. See [kitt/README.md](kitt/README.md) for how it works, and [kitt/DASHBOARD.md](kitt/DASHBOARD.md) for what each gauge means. |
 | `brewpitosmith` | utility | Converts a BrewPi Remix beer log into a CSV that BeerSmith 3 will import, thinned to one row an hour. |
-| `images/` | reference | Photographs of the switch pods and a high-resolution scan of the season 2 dash. |
+| `images/` | reference | Photographs of the switch pods, the season 2 dash scan, and the `hw-*` photographs of the bench, supply box and control panel that [HARDWARE.md](HARDWARE.md) refers to. |
 
 Two earlier efforts have been archived out of the tree. Each is tagged, so the
 whole thing comes back with one command:

@@ -17,7 +17,8 @@ https://www.homebrewtalk.com/threads/brewery-dashboard.726917/
 | `kitt/panp/` | **live** | The production system. `panp.py` + systemd units. |
 | `kitt/switchpod/` | live | Arduino Uno firmware for the resistive keypads. |
 | `brewpitosmith` | utility | BrewPi Remix beer log → BeerSmith 3 CSV. |
-| `images/` | reference | Switch pod photographs, season 2 dash scan. |
+| `images/` | reference | Switch pod photographs, season 2 dash scan, and the `hw-*` photos of the bench, supply box and control panel used by `HARDWARE.md`. |
+| `HARDWARE.md` | reference | The physical system, walked with the owner: power, fusing, every relay and barrier strip, pin tables for both Pis, all six Arduinos, the fermenter and glycol side. Its "Still to confirm" list is the only part not yet checked. |
 
 Only `kitt/` is worth changing unless asked otherwise.
 
@@ -225,6 +226,10 @@ belong; the two `power-relay-*.service` files do not.
   `PANPHandler.change_state` on `rpints`. Interleaved bytes produce a packet
   the board discards, which the next pass repairs, so it shows up only as a
   flicker at mode changes.
+- `KITTSOCKET` exists only on the `kitt` branch of the brewpi-script-rmx fork,
+  which the Pi runs and which is ten commits behind that fork's `main`. It lacks
+  main's 2022 tilt-colour-expiry fix; unitank-2 has that fix hand-patched and
+  uncommitted on the Pi. See "The BrewPi side" in `kitt/README.md`.
 
 ## Git
 
