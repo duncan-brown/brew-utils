@@ -29,9 +29,9 @@ the code.
 | KITT label | Brewery value |
 | --- | --- |
 | `MPH`, 3 digits | **HLT temperature**, °F, rounded to whole degrees |
-| bargraph above `MPH` | the same HLT temperature — 20 LEDs on 16 addressable steps of 10 °F, so full at 160 °F; four of the steps light two LEDs at once |
+| bargraph above `MPH` | the same HLT temperature — 20 LEDs on 19 addressable steps of 10 °F, one step lighting two LEDs, so 160 °F lights 17 and the line is full at 190 °F |
 | `000.0`, 4 digits | **the selected value** — whatever the left switch pod last chose |
-| 16-LED bargraph above it | the same selected value, scaled to its own range, one LED per step |
+| 16-LED bargraph above it | the same selected value, scaled to its own range — 16 LEDs on 13 addressable steps, three steps lighting two LEDs; the board clamps anything above 13, so the line is full from step 13 of the 16 the scales are written for |
 | `GUIDANCE`, `SYST. RDY` | unused |
 | alphanumeric row | the message center — see below |
 
@@ -74,11 +74,16 @@ the visible resolution is coarser than the bar looks. Only the RPM arc is one
 LED per step, which is why its value is a raw index.
 
 The speedo's two LED lines are round LEDs rather than bar-graph parts: **20**
-above `MPH` and **16** above the multifunction display. Both are 16 addressable
-steps; the 20-LED line lights two LEDs together on four of them. The Pi sends
-each a step count, and `panp.py`'s scales are written for 16 steps. Note that
-the physical LED count and the addressable count are different numbers on this
-dash; the private repo records which is which for every board.
+above `MPH` and **16** above the multifunction display. The `MPH` line is 19
+addressable steps, one of which lights two LEDs; the multifunction line is 13
+steps, three of which light two LEDs. That was measured on the board in
+September 2026 by sending step counts with `panp.py` stopped: 16 and 8 lit 17
+and 10, and 19 and 13 filled both lines exactly. The Pi sends each line a step
+count and the board clamps it to the line's maximum, and `panp.py`'s scales are
+written for 16 steps, so the multifunction line reaches full three steps
+early. Note that the physical LED count and the addressable count are
+different numbers on this dash; the private repo records which is which for
+every board.
 
 Two consequences worth holding on to.
 
