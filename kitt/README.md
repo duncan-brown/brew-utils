@@ -27,7 +27,8 @@ startup from `socket.gethostname()`. Anything else exits with an error.
 | Mode GPIO | output (tells `brewpi` the mode) | input (follows `rpints`) |
 
 Shared between them: `read_probe_f` and the `get_temps` thread,
-`BrightnessHandler`, `Bus` (one locked serial port), `Service` (systemd
+`BrightnessHandler`, `Bus` and `Wire` (the serial ports and the gate that
+paces writes to them), `Service` (systemd
 notification and shutdown), and the pin constants at the top of the file.
 `main()` calls `setup_rpints` or `setup_brewpi` and then runs the loop.
 
@@ -127,9 +128,12 @@ source is not.
 
 Two things worth knowing before editing the serial code:
 
-- **Every write is preceded by a 0.1 s gap.** Without it the boards drop
-  messages. The gap lives in `Bus.write`, along with a lock, so every write
-  gets it and two threads cannot interleave packets on one port.
+- **Every write is preceded by a 0.1 s gap, and a Pi sends one packet at a
+  time across both of its buses.** Without the gap the boards drop messages;
+  and the two buses share a level shifter that corrupts a packet on one when
+  the other is transmitting. Both rules live in `Bus.write`, which takes a
+  first-come-first-served turn on the shared `Wire`, so every write gets the
+  gap and a burst from one thread cannot starve the other.
 - **Hex payloads must be exactly the right length** — four byte pairs for the
   speedo's upper digits, five for the lower, one per bar for the bargraphs.
   A payload of the wrong length is ignored silently rather than rejected.

@@ -310,22 +310,50 @@ def drain(q):
         yield q.get()
 
 
-class Bus:
-    """One serial bus to the dash.
+class Wire:
+    """Hands out turns to transmit to the dash, first come first served.
 
-    Every packet is preceded by a pause of SERIAL_GAP, without which the boards
-    drop messages. The main loop and the GPIO callback thread both write to a
-    bus, so the pause and the write happen under a lock: two packets can
-    neither interleave nor arrive closer together than the gap, whichever
-    threads they come from.
+    One of these is shared by both buses on a Pi, and every packet on either
+    bus takes a turn and waits SERIAL_GAP before going out. That buys two
+    things. The boards drop packets that follow another on the same bus by
+    less than the gap. And the two buses are neighbouring channels of one
+    level shifter on long cable runs, so a packet on one is corrupted when the
+    other is transmitting at the same instant; with a single gate that cannot
+    happen.
+
+    Turns are served in the order they were asked for. A plain lock lets the
+    thread that just released it take it straight back, so a burst of writes
+    from the GPIO callback thread would hold the main loop off the bus for
+    seconds; with tickets the two interleave packet by packet.
     """
 
-    def __init__(self, device):
+    def __init__(self):
+        self.cond = threading.Condition()
+        self.next_ticket = 0
+        self.serving = 0
+
+    def __enter__(self):
+        with self.cond:
+            ticket = self.next_ticket
+            self.next_ticket += 1
+            while self.serving != ticket:
+                self.cond.wait()
+
+    def __exit__(self, *exc):
+        with self.cond:
+            self.serving += 1
+            self.cond.notify_all()
+
+
+class Bus:
+    """One serial bus to the dash. All writes go through the shared Wire."""
+
+    def __init__(self, device, wire):
         self.port = serial.Serial(device, BAUD)
-        self.lock = threading.Lock()
+        self.wire = wire
 
     def write(self, msg):
-        with self.lock:
+        with self.wire:
             time.sleep(SERIAL_GAP)
             self.port.write(msg.encode())
 
@@ -341,6 +369,7 @@ class Service:
         self.pid = os.getpid()
         self.notifier = sdnotify.SystemdNotifier()
         self.running = False
+        self.wire = Wire()
         self.buses = []
         self.teardown = None
         # objects whose bound methods are GPIO callbacks; kept so they stay alive
@@ -351,7 +380,7 @@ class Service:
         self.notifier.notify(f"STATUS={msg}")
 
     def open_bus(self, device):
-        bus = Bus(device)
+        bus = Bus(device, self.wire)
         self.buses.append(bus)
         return bus
 

@@ -131,14 +131,24 @@ Three things that are easy to get wrong:
 
 Payload bytes are always two hex digits, hence the `"{:0>2X}"` formatting.
 
-**Every serial write is preceded by a `SERIAL_GAP` pause.** The displays drop
-messages without it. All writes go through `Bus.write`, which takes the
-port's lock, sleeps `SERIAL_GAP`, then writes; so no call site needs its own
-sleep, and two packets from different threads (the GPIO callback thread and
-the main loop) can neither interleave nor arrive closer together than the
-gap. Do not write to a port any other way. The remaining explicit sleeps in
-the display code are the deliberate one-second pauses: the flow-meter flash,
-and settling the boards after the dash powers up.
+**Every serial write is preceded by a `SERIAL_GAP` pause, and only one packet
+is ever in flight on a Pi.** The displays drop messages sent closer together
+than the gap on one bus. Worse, a Pi's two buses are adjacent channels of one
+TXS0108E level shifter on long cable runs, and a packet on one bus is
+corrupted when the other bus is transmitting at the same instant. All writes
+go through `Bus.write`, which takes a turn on the `Wire` shared by both buses,
+sleeps `SERIAL_GAP`, then writes. Turns are first come first served (a ticket
+queue, not a plain lock), so a burst from the GPIO callback thread cannot
+hold the main loop off the bus. No call site needs its own sleep. Do not
+write to a port any other way. The remaining explicit sleeps in the display
+code are the deliberate one-second pauses: the flow-meter flash, and settling
+the boards after the dash powers up.
+
+This was learnt the hard way. A version with one lock per port, sleeping
+inside it, lined the two threads up so that they wrote to both buses within a
+millisecond of each other at every thread handover, which is exactly when the
+one-shot tacho mode packet goes out after Auto. The tacho bars came up frozen
+or still in play mode on every Auto exit. Never sleep inside a per-port lock.
 
 ### Every board writes its settings to EEPROM
 
