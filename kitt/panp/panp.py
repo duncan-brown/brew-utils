@@ -113,18 +113,13 @@ FERMENTERS = ["unitank-1", "unitank-2", "chronical"]
 # Display modes
 # ---------------------------------------------------------------------------
 
-class RPMMode(Enum):
+class TachoView(Enum):
     """What the tacho digits and arc show."""
-    PROBE1 = 0
-    PROBE2 = 1
-    PROBE3 = 2
-    PROBE4 = 3
-    PROBE5 = 4
-    PROBE6 = 5
-    LAGER1 = 6
-    LAGER2 = 7
-    LAGER3 = 8
-    MEAN = 9
+    MEAN = 0          # mean of the six serving keezer probes
+    KEG_TEMP = 1      # the selected keg's keezer probe
+    KEG_LITRES = 2    # the selected keg: litres left on the digits, percent full on the arc
+    KEG_GALLONS = 3   # the same keg, gallons to a tenth on the digits
+    LAGER_TEMP = 4    # the selected lager probe
 
 
 class MsgCtrMode(Enum):
@@ -148,19 +143,37 @@ class TankDisplay(Enum):
     SG = 1
 
 
-# right switch pod: position -> what the tacho shows. anything else means the mean
-RIGHT_POD = {
-    0: RPMMode.PROBE1,    # TURBO BOOST
-    2: RPMMode.PROBE2,    # 7 DLA
-    4: RPMMode.PROBE3,    # 8 PL1
-    6: RPMMode.PROBE4,    # 6 RM (orange)
-    8: RPMMode.PROBE5,    # H6
-    1: RPMMode.PROBE6,    # 6 RM (white)
-    3: RPMMode.LAGER1,    # P ENG
-    5: RPMMode.LAGER2,    # AUTO ROOF R
-    7: RPMMode.LAGER3,    # P IND
-    9: RPMMode.MEAN,      # EJECT R
+# right switch pod, left column: position -> keg 1-5 as an index. keg n sits on
+# keezer probe n. each press steps the tacho through that keg's views, in
+# KEG_VIEWS order, and the press after the last goes back to the mean
+RIGHT_POD_KEGS = {
+    0: 0,   # TURBO BOOST
+    2: 1,   # 7 DLA
+    4: 2,   # 8 PL1
+    6: 3,   # 6 RM (orange)
+    8: 4,   # H6
 }
+KEG_VIEWS = [TachoView.KEG_TEMP, TachoView.KEG_LITRES, TachoView.KEG_GALLONS]
+
+# right switch pod, right column: position -> lager probe as an index. one
+# press shows it, the next goes back to the mean
+RIGHT_POD_LAGERS = {
+    1: 0,   # 6 RM (white)
+    3: 1,   # P ENG
+    5: 2,   # AUTO ROOF R
+}
+
+# right switch pod, right column: the brewery room lights over the hue bridge
+RIGHT_POD_LIGHTS_ON = 7    # P IND
+RIGHT_POD_LIGHTS_OFF = 9   # EJECT R
+
+# each tap's keg when full, in US gallons: four kegs and, on tap 5, the 2.5
+# gallon cask on the beer engine. RaspberryPints reports volumes in gallons
+KEG_GALLONS = [5.0, 5.0, 5.0, 5.0, 2.5]
+LITRES_PER_GALLON = 3.78541
+
+# the arc shows a keg's percent full, and is full from this percentage up
+ARC_FULL_PERCENT = 80.0
 
 # left switch pod, left column: position -> a fixed caption
 LEFT_POD_CAPTIONS = {
@@ -280,6 +293,20 @@ def step(value, thresholds):
 
 def rpm_circle(temp):
     return step(temp, RPM_CIRCLE_TEMPS)
+
+
+def arc_percent(percent):
+    """Arc steps for a keg's percent full: dark at empty, all 30 from ARC_FULL_PERCENT up."""
+    steps = int(percent / ARC_FULL_PERCENT * len(RPM_CIRCLE_TEMPS[:-1]))
+    return max(0, min(len(RPM_CIRCLE_TEMPS[:-1]), steps))
+
+
+def digit_byte(value):
+    """A value for the tacho's two digits as a register byte; over 99 the board shows HI.
+
+    Rounds halves up, so 1.25 gallons reads 1.3 rather than Python's 1.2.
+    """
+    return max(0, min(255, int(math.floor(value + 0.5))))
 
 
 def tacho_bar(temp):
@@ -536,15 +563,18 @@ def get_brewpi_rmx_data(q):
 # ---------------------------------------------------------------------------
 
 class HueLight:
-    """The bench light, switched on by pursuit mode so there is enough light
-    to read small print at the workbench.
+    """The Hue lights the dash controls: the bench light, switched on by
+    pursuit mode so there is enough light to read small print at the
+    workbench, and the brewery room lights, switched by two right pod keys.
 
-    Configured from a json file holding the bridge address, an application key,
-    the light's v2 resource id, and optionally the brightness and colour
-    temperature to use. That file is deliberately not in this repository: the
-    key is a credential and grants full control of everything on the bridge.
-    With no config file this class does nothing at all, which is what happens
-    on brewpi and on any machine with no bridge to talk to.
+    Configured from a json file holding the bridge address, an application
+    key, the bench light's v2 resource id with optionally the brightness and
+    colour temperature to use, and under "room" the ids of the room lights
+    and the brightness to switch them on at. That file is deliberately not in
+    this repository: the key is a credential and grants full control of
+    everything on the bridge. With no config file this class does nothing at
+    all, which is what happens on brewpi and on any machine with no bridge
+    to talk to.
 
     The bridge is in another part of the building, so nothing here is allowed
     to hold up the dash: requests go onto a queue and a thread does the talking.
@@ -553,16 +583,20 @@ class HueLight:
     def __init__(self, path="/usr/local/etc/panp-hue.json"):
         self.cfg = None
         self.q = Queue()
+        self.room_lights = []
         try:
             with open(path) as f:
                 cfg = json.load(f)
-            self.url = "https://{}/clip/v2/resource/light/{}".format(
-                cfg["bridge"], cfg["light"])
+            self.bridge = cfg["bridge"]
+            self.bench = cfg["light"]
             self.key = cfg["key"]
             # full brightness and a neutral white by default. both are in the
             # config file so the bench light can be tuned without editing code
             self.brightness = float(cfg.get("brightness", 100.0))
             self.mirek = int(cfg.get("mirek", 200))
+            room = cfg.get("room", {})
+            self.room_lights = list(room.get("lights", []))
+            self.room_brightness = float(room.get("brightness", 100.0))
             # the bridge serves a self signed certificate, so there is nothing
             # to verify it against
             self.ctx = ssl.create_default_context()
@@ -576,22 +610,19 @@ class HueLight:
         return self.cfg is not None
 
     def set(self, on):
-        """Ask for a state change and return at once."""
+        """Ask for the bench light to change and return at once."""
         if self.cfg is not None:
-            self.q.put(on)
+            self.q.put(("bench", on))
 
-    def put(self, on, timeout=5):
-        """Send a state to the bridge. Blocks, so keep it off the dash path."""
-        if self.cfg is None:
-            return
-        if on:
-            body = {"on": {"on": True},
-                    "dimming": {"brightness": self.brightness},
-                    "color_temperature": {"mirek": self.mirek}}
-        else:
-            body = {"on": {"on": False}}
+    def room(self, on):
+        """Ask for the room lights to change and return at once."""
+        if self.cfg is not None and self.room_lights:
+            self.q.put(("room", on))
+
+    def _put(self, light, body, timeout):
+        url = "https://{}/clip/v2/resource/light/{}".format(self.bridge, light)
         try:
-            req = urllib.request.Request(self.url,
+            req = urllib.request.Request(url,
                                          data=json.dumps(body).encode(),
                                          method="PUT",
                                          headers={"hue-application-key": self.key,
@@ -602,15 +633,44 @@ class HueLight:
             # reason for the brewery dashboard to notice anything
             pass
 
+    def put(self, on, timeout=5):
+        """Send the bench light a state. Blocks, so keep it off the dash path."""
+        if self.cfg is None:
+            return
+        if on:
+            body = {"on": {"on": True},
+                    "dimming": {"brightness": self.brightness},
+                    "color_temperature": {"mirek": self.mirek}}
+        else:
+            body = {"on": {"on": False}}
+        self._put(self.bench, body, timeout)
+
+    def put_room(self, on, timeout=5):
+        """Send every room light a state, one request each. Blocks."""
+        if self.cfg is None:
+            return
+        if on:
+            body = {"on": {"on": True}, "dimming": {"brightness": self.room_brightness}}
+        else:
+            body = {"on": {"on": False}}
+        for light in self.room_lights:
+            self._put(light, body, timeout)
+
     def loop(self):
         while True:
-            on = self.q.get()
-            # only the most recent request matters. if several piled up while
-            # the bridge was slow, drop the stale ones rather than replaying
-            # a burst of panp presses at it
+            target, on = self.q.get()
+            # only the most recent request for each target matters. if several
+            # piled up while the bridge was slow, drop the stale ones rather
+            # than replaying a burst of presses at it
+            latest = {target: on}
             while self.q.qsize() > 0:
-                on = self.q.get()
-            self.put(on)
+                target, on = self.q.get()
+                latest[target] = on
+            for target, on in latest.items():
+                if target == "bench":
+                    self.put(on)
+                else:
+                    self.put_room(on)
 
 
 # ---------------------------------------------------------------------------
@@ -668,10 +728,12 @@ BUTTON_STATE = {
 class PANPHandler:
     """The Auto / Norm / Pursuit buttons and lamps, and what they switch."""
 
-    def __init__(self, tacho, dummy, hue):
+    def __init__(self, tacho, dummy, hue, on_wake):
         self.tacho = tacho
         self.dummy = dummy
         self.hue = hue
+        # called when the dash comes back from auto, so the loop can reset what it shows
+        self.on_wake = on_wake
         self.brightness = BrightnessHandler([tacho, dummy])
         self.last_push = None
         for p in PANPState:
@@ -723,7 +785,9 @@ class PANPHandler:
         # bridge in another room cannot delay the dash responding to the button
         self.hue.set(self.state is PANPState.PURSUIT)
         if old_state is PANPState.AUTO:
-            # the boards were unpowered and have lost their state
+            # the boards were unpowered and have lost their state, and the
+            # tacho starts over from the mean
+            self.on_wake()
             time.sleep(1)
             self.brightness.set_brightness(NORMAL_MODE_COMM, True)
             self.clear_display()
@@ -739,10 +803,11 @@ class PANPHandler:
 class RPintsLoopHandler:
     """One pass of the rpints side: keezer and lager probes, keg volumes, tacho and dummies."""
 
-    def __init__(self, service, tacho, dummy, sp_q, keezer_q, lager_q):
+    def __init__(self, service, tacho, dummy, hue, sp_q, keezer_q, lager_q):
         self.service = service
         self.tacho = tacho
         self.dummy = dummy
+        self.hue = hue
         self.sp_q = sp_q
         self.keezer_q = keezer_q
         self.lager_q = lager_q
@@ -753,17 +818,26 @@ class RPintsLoopHandler:
         self.keezer_min = 0.0
         self.keezer_mean = 0.0
         self.keezer_median = 0.0
-        self.rpm_mode = RPMMode.MEAN
+
+        # what the tacho shows, which pod position put it there, and which
+        # keg or lager probe it is about
+        self.view = TachoView.MEAN
+        self.view_key = None
+        self.view_keg = 0
+        self.view_lager = 0
+        # set from the panp button callback when the dash comes back from auto
+        self.wake = False
 
         self.passes = 0
         self.connection = None
 
         self.lager_temps = [0.0] * len(LAGER_PROBES)
         self.total_capacity = 0.0
-        self.keg_capacity = [0.0, 0.0, 0.0, 0.0, 0.0]
+        self.keg_capacity = [0.0] * len(KEG_GALLONS)   # percent of each keg's starting volume
+        self.keg_remaining = [0.0] * len(KEG_GALLONS)  # gallons left in each keg
 
     def read_keg_volumes(self):
-        """Refresh keg_capacity from RaspberryPints, as a percentage of each keg's start."""
+        """Refresh keg_capacity and keg_remaining from RaspberryPints."""
         try:
             self.connection = database.connect(user="RaspberryPints",
                                                password="RaspberryPints",
@@ -775,8 +849,10 @@ class RPintsLoopHandler:
                 idx = int(idx) - 1
                 if start < 0.0001 or remain < 0.0001:
                     self.keg_capacity[idx] = 0.0
+                    self.keg_remaining[idx] = 0.0
                 else:
                     self.keg_capacity[idx] = float(remain) / float(start) * 100.0
+                    self.keg_remaining[idx] = float(remain)
         except Exception:
             pass
         finally:
@@ -787,17 +863,54 @@ class RPintsLoopHandler:
             except Exception:
                 pass
 
-    def selected_temperature(self):
-        """The temperature the right switch pod has put on the tacho digits."""
-        if self.rpm_mode is RPMMode.MEAN:
-            return self.keezer_mean
-        if self.rpm_mode is RPMMode.LAGER1:
-            return self.lager_temps[0]
-        if self.rpm_mode is RPMMode.LAGER2:
-            return self.lager_temps[1]
-        if self.rpm_mode is RPMMode.LAGER3:
-            return self.lager_temps[2]
-        return self.keezer_temps[self.rpm_mode.value]
+    def show_mean(self):
+        """Put the tacho back on the mean at the next pass. Safe from another thread."""
+        self.wake = True
+
+    def press(self, pos):
+        """Act on a right switch pod position."""
+        if pos in RIGHT_POD_KEGS:
+            if self.view_key == pos and self.view in KEG_VIEWS:
+                # same key again: the next view of this keg, or the mean after the last
+                i = KEG_VIEWS.index(self.view) + 1
+                if i < len(KEG_VIEWS):
+                    self.view = KEG_VIEWS[i]
+                else:
+                    self.view, self.view_key = TachoView.MEAN, None
+            else:
+                self.view_key = pos
+                self.view_keg = RIGHT_POD_KEGS[pos]
+                self.view = KEG_VIEWS[0]
+        elif pos in RIGHT_POD_LAGERS:
+            if self.view_key == pos and self.view is TachoView.LAGER_TEMP:
+                self.view, self.view_key = TachoView.MEAN, None
+            else:
+                self.view_key = pos
+                self.view_lager = RIGHT_POD_LAGERS[pos]
+                self.view = TachoView.LAGER_TEMP
+        elif pos == RIGHT_POD_LIGHTS_ON:
+            self.hue.room(True)
+        elif pos == RIGHT_POD_LIGHTS_OFF:
+            self.hue.room(False)
+
+    def tacho_reading(self):
+        """What the tacho shows this pass: the digits' value, where the decimal
+        point goes (0 none, 1 after the first digit), and the arc's step count."""
+        if self.view is TachoView.KEG_TEMP:
+            t = self.keezer_temps[self.view_keg]
+            return digit_byte(t), 0, rpm_circle(t)
+        if self.view is TachoView.LAGER_TEMP:
+            t = self.lager_temps[self.view_lager]
+            return digit_byte(t), 0, rpm_circle(t)
+        if self.view in (TachoView.KEG_LITRES, TachoView.KEG_GALLONS):
+            gallons = self.keg_remaining[self.view_keg]
+            arc = arc_percent(gallons / KEG_GALLONS[self.view_keg] * 100.0)
+            if self.view is TachoView.KEG_LITRES:
+                return digit_byte(gallons * LITRES_PER_GALLON), 0, arc
+            # tenths of a gallon with the point after the first digit: 2.7
+            return digit_byte(gallons * 10.0), 1, arc
+        t = self.keezer_mean
+        return digit_byte(t), 0, rpm_circle(t)
 
     def loop(self):
         if not self.service.running:
@@ -811,8 +924,14 @@ class RPintsLoopHandler:
         # total beer on tap is the mean of the five percentages, not a volume
         self.total_capacity = sum(self.keg_capacity) / len(self.keg_capacity)
 
+        # the dash coming back from auto starts the tacho over from the mean,
+        # before any press queued while it was dark
+        if self.wake:
+            self.wake = False
+            self.view, self.view_key = TachoView.MEAN, None
+
         for sp_val in drain(self.sp_q):
-            self.rpm_mode = RIGHT_POD.get(sp_val, RPMMode.MEAN)
+            self.press(sp_val)
 
         for idx, temp in drain(self.keezer_q):
             self.keezer_temps[idx] = temp
@@ -824,15 +943,18 @@ class RPintsLoopHandler:
         for idx, temp in drain(self.lager_q):
             self.lager_temps[idx] = temp
 
-        rpm = self.selected_temperature()
+        digits, point, arc = self.tacho_reading()
 
         try:
-            # the selected temperature on the tacho digits
-            self.tacho.write(f">ABp{int(round(rpm)):02X}?")
+            # the selected reading on the tacho digits, with its decimal point.
+            # the point register is firmware 8eb06b4 and later; older tacho
+            # firmware ignores it and shows the digits without the point
+            self.tacho.write(f">ABq{point:02X}?")
+            self.tacho.write(f">ABp{digits:02X}?")
 
-            # the six probes on the six bars, and the selected temperature on the arc
+            # the six probes on the six bars, and the selected reading on the arc
             bars = "".join(f"{tacho_bar(t):02X}" for t in self.keezer_temps)
-            self.tacho.write(f">AHh{bars}{rpm_circle(rpm):02X}?")
+            self.tacho.write(f">AHh{bars}{arc:02X}?")
 
             # lager temps, total capacity, keg 1 and keg 2 on dummy6
             self.dummy.write(">GHm{:02X}{:02X}{:02X}{:02X}{:02X}{:02X}?".format(
@@ -1073,21 +1195,23 @@ def setup_rpints(service, sp_q):
     dummy = service.open_bus("/dev/ttyAMA0", "EG")   # red dummy3, dummy6
     tacho = service.open_bus("/dev/ttyAMA1", "A")
 
-    # the bench light, if a bridge is configured on this machine
+    # the bench light and the room lights, if a bridge is configured on this machine
     hue = HueLight()
     if hue.configured():
         start_thread(hue.loop)
-        service.status(f"PANP service PID {service.pid} on {service.hostname} has a bench light")
+        service.status(f"PANP service PID {service.pid} on {service.hostname} has a bench light "
+                       f"and {len(hue.room_lights)} room lights")
     else:
         service.status(f"PANP service PID {service.pid} on {service.hostname} "
                        "has no bench light configured")
-
-    service.handlers.append(PANPHandler(tacho, dummy, hue))
 
     keezer_q = Queue()
     start_thread(get_temps, KEEZER_PROBES, keezer_q)
     lager_q = Queue()
     start_thread(get_temps, LAGER_PROBES, lager_q)
+
+    loop_handler = RPintsLoopHandler(service, tacho, dummy, hue, sp_q, keezer_q, lager_q)
+    service.handlers.append(PANPHandler(tacho, dummy, hue, loop_handler.show_mean))
 
     def teardown():
         for p in PANPState:
@@ -1102,7 +1226,7 @@ def setup_rpints(service, sp_q):
         GPIO.output(AUTO_MODE_COMM, 1)
     service.teardown = teardown
 
-    return RPintsLoopHandler(service, tacho, dummy, sp_q, keezer_q, lager_q)
+    return loop_handler
 
 
 def setup_brewpi(service, sp_q):

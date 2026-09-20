@@ -3,5 +3,22 @@
   "light": "f50f8309-9115-4d2a-9686-2f6f11027b65",
   "key": "PUT_YOUR_BRIDGE_APPLICATION_KEY_HERE",
   "brightness": 100,
-  "mirek": 300
+  "mirek": 300,
+  "room": {
+    "brightness": 100,
+    "lights": [
+      "0dd1d1b9-86d9-4232-b29e-5517f1ce2063",
+      "23edba6e-9afc-4855-8012-faa919fde3f6",
+      "b81767e5-85f4-475e-b294-fc4feb08d5ec",
+      "344b96a6-d308-40ce-9ba0-85bce6e0cb0b",
+      "8042011e-22de-4e56-b96a-ad126f4812bf",
+      "76551d4f-fbd3-4868-9ef9-906ca6cd0b1d",
+      "131db6bc-aef7-41ed-afc6-8acd4a600a85",
+      "75c19b51-3e54-4f15-8eb5-dc2d70bb63ab",
+      "c93f39b3-b0fa-443f-b740-97cd363b12b1",
+      "5cc5faec-f0dd-4873-8d4b-7388dcffeee7",
+      "d64f4161-2a57-41ec-976b-60671a04929d",
+      "b6e345c5-03a1-492c-8143-7039624114f4"
+    ]
+  }
 }

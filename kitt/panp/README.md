@@ -1,10 +1,17 @@
-# Bench light over the Hue bridge
+# Hue lights over the bridge
 
-Pursuit switches the Hue light strip over the brewery workbench on at full
-brightness and a chosen white, so there is enough light to read small print;
-Norm and Auto switch it off, as does halting the Pis. The strip is on the
-house's Hue bridge, in another part of the building, and `rpints` drives it
-over WiFi.
+`rpints` drives two things on the house's Hue bridge, which is in another
+part of the building, over WiFi:
+
+- **The bench light.** Pursuit switches the Hue light over the brewery
+  workbench on at full brightness and a chosen white, so there is enough
+  light to read small print; Norm and Auto switch it off, as does halting the
+  Pis.
+- **The room lights.** `P IND` on the right switch pod turns the brewery's
+  room lights on at a set brightness and `EJECT R` turns them off. Which
+  lights are in that set is a list in the config file; the bench light and
+  the motion-sensor lightstrip are deliberately not in it. See "Room lights"
+  below.
 
 It is optional. `panp.py` looks for `/usr/local/etc/panp-hue.json` and does
 nothing at all if it is absent, which is the case on `brewpi`. Nothing needs
@@ -99,3 +106,26 @@ startup**, so restart the service after changing it. And note that `panp.py`
 sets brightness and colour temperature explicitly on every Pursuit press, so
 adjusting that light by hand in the Hue app will not survive the next press —
 the config wins.
+
+## Room lights
+
+The `room` block lists the lights the two right-pod keys switch, by v2 id
+from the same listing as above, and the brightness to switch them on at:
+
+```json
+"room": {
+  "brightness": 100,
+  "lights": ["0dd1d1b9-...", "23edba6e-...", "..."]
+}
+```
+
+Each key press sends one request per light from the worker thread, so a dozen
+lights take a second or so to all change and the dash never waits. Only the
+on/off state and brightness are sent; colour temperature is left as the Hue
+app or a scene last set it. If several presses pile up while the bridge is
+slow, only the last one is sent. Leaving the block out disables the two keys
+and they do nothing.
+
+Rooms and zones would let one request switch a whole group, but the brewery
+room on the bridge also contains the bench light and the lightstrip, which
+must not follow these keys, so the lights are listed individually.

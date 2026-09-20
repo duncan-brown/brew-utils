@@ -42,12 +42,12 @@ One ~1000-line script runs on **both** Pis and branches on
 - **`rpints`** — owns the PANP buttons/lamps, dash power relays, and the GPIO
   lines that signal mode to the other Pi. Reads 6 keezer + 3 lager DS18B20s and
   the RaspberryPints MySQL database. Drives the tacho and the two dummy
-  displays via `RPintsLoopHandler`. Also switches the **Hue light strip over
-  the workbench** on in Pursuit and off in Norm and Auto (`HueLight`, over
-  the Hue bridge's v2 API from a worker thread). That is configured by
-  `/usr/local/etc/panp-hue.json`, which is not in the repo because it holds
-  the bridge key; with no file the class does nothing, which is how `brewpi`
-  runs. Setup is in `kitt/panp/README.md`.
+  displays via `RPintsLoopHandler`. Also talks to the **Hue bridge**
+  (`HueLight`, v2 API from a worker thread): the bench light over the
+  workbench follows Pursuit, and two right-pod keys switch the twelve brewery
+  room lights on and off. Configured by `/usr/local/etc/panp-hue.json`, which
+  is not in the repo because it holds the bridge key; with no file the class
+  does nothing, which is how `brewpi` runs. Setup is in `kitt/panp/README.md`.
 - **`brewpi`** — reads mash/HLT probes, polls three BrewPi Remix instances over
   their `KITTSOCKET` unix sockets for temperature and Tilt SG, toggles the five
   flowmeter relays. Drives the speedo and message center via
@@ -107,6 +107,7 @@ Every string `panp.py` sends, and what the firmware does with it:
 | Sent | Meaning |
 | --- | --- |
 | `>ABp{v}?` | tacho 7-seg value, and switches it to user mode |
+| `>ABq{v}?` | tacho 7-seg decimal point: `00` none, `01` after the first digit (so `27` reads `2.7`). Firmware `8eb06b4` and later, fitted September 2026; older firmware ignores it. In user mode that firmware also drops a leading zero when there is no point |
 | `>ABo01?` | tacho 7-seg mode 01 (show user value) |
 | `>AHh{7 bytes}?` | user values for the tacho's **7** bars (6 keezer probes + RPM circle) |
 | `>AHa{7 bytes}?` | modes for those 7 bars — `01` = show user value |

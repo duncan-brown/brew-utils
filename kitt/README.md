@@ -23,7 +23,7 @@ startup from `socket.gethostname()`. Anything else exits with an error.
 | Loop class | `RPintsLoopHandler` | `BrewPiLoopHandler` |
 | Reads | 6 keezer + 3 lager probes, RaspberryPints MySQL | mash + HLT probes, 3 BrewPi Remix instances |
 | Drives | tacho, red dummy3, dummy6 | speedo, message center, red/green dummy3 |
-| Owns | PANP buttons and lamps, dash power relays, the Hue bench light | flow meter relays |
+| Owns | PANP buttons and lamps, dash power relays, the Hue bench and room lights | flow meter relays |
 | Mode GPIO | output (tells `brewpi` the mode) | input (follows `rpints`) |
 
 Shared between them: `read_probe_f` and the `get_temps` thread,
@@ -52,10 +52,11 @@ through a `Queue`. The main loop never blocks on I/O.
 Each `loop()` call drains its queues with `drain(q)`, recomputes what should
 be on screen, and writes it out. Queue entries are `(index, value)` tuples.
 
-The bench light runs the other way round: `PANPHandler` queues an on or off
-request from the button callback, and the `HueLight.loop()` thread talks to
-the Hue bridge, which is in another part of the building. A slow or absent
-bridge can therefore never hold up the dash.
+The Hue lights run the other way round: `PANPHandler` queues an on or off
+request for the bench light from the button callback, the loop handler
+queues one for the room lights when a right-pod key asks, and the
+`HueLight.loop()` thread talks to the Hue bridge, which is in another part of
+the building. A slow or absent bridge can therefore never hold up the dash.
 
 The database is polled less often than everything else: `RPintsLoopHandler`
 counts passes and only queries RaspberryPints once every `DATABASE_EVERY`
@@ -77,12 +78,14 @@ were unpowered and have lost their state.
 
 Pursuit also switches on the Hue light strip over the brewery workbench, at
 full brightness and a chosen white, so there is enough light to read small
-print; Norm and Auto switch it off, as does halting the Pis. `rpints` talks to
-the Hue bridge's v2 API directly, from a worker thread. It is optional and is
-configured by `/usr/local/etc/panp-hue.json`, which is not in this repository
-because it holds the bridge's application key; without the file nothing
-happens, which is the case on `brewpi`. Setting it up, including getting a
-key from the bridge and choosing the colour temperature, is in
+print; Norm and Auto switch it off, as does halting the Pis. Two keys on the
+right switch pod, `P IND` and `EJECT R`, switch the brewery's room lights on
+and off the same way. `rpints` talks to the Hue bridge's v2 API directly, from
+a worker thread. It is optional and is configured by
+`/usr/local/etc/panp-hue.json`, which is not in this repository because it
+holds the bridge's application key; without the file nothing happens, which
+is the case on `brewpi`. Setting it up, including getting a key from the
+bridge, choosing the colour temperature and listing the room lights, is in
 [panp/README.md](panp/README.md).
 
 The Power button is not software at all. It triggers a latching relay that
@@ -100,8 +103,12 @@ position 0–9 over serial; `panp.py` reads them from `/dev/switchpod` in
 
 Even positions are the pod's left column, odd positions the right — which is
 why each handler treats `sp_val` 0/2/4/6/8 as one family and 1/3/5/7/9 as
-another. The **right** pod (`rpints`) selects which temperature the tacho digits
-show; the **left** pod (`brewpi`) selects what the lower speedo display shows
+another. The **right** pod (`rpints`) drives the tacho digits and arc: its
+left column is one key per keg, stepping through the keg's probe temperature,
+litres left and gallons left before returning to the keezer mean, its right
+column shows the three lager probes, and its last two keys switch the brewery
+room lights over the Hue bridge. Coming up from Auto resets the tacho to the
+mean. The **left** pod (`brewpi`) selects what the lower speedo display shows
 and toggles the flow meter relays. Toggling a flow meter flashes `FLOW n on` on
 the message center for a second, then restores the normal caption.
 

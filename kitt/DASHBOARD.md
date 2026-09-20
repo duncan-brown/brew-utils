@@ -149,8 +149,8 @@ both directions. That is the boards behaving differently, not the Pi.
 
 | KITT label | Brewery value |
 | --- | --- |
-| `RPM`, 2 digits | **the selected keezer or lager temperature**, °F — anything over 99 shows `HI` |
-| the RPM arc | the same value again, as a sweep from 2 °F to 80 °F |
+| `RPM`, 2 digits | **whatever the right pod selected**: a keezer or lager temperature in °F, or a keg's litres left, or its gallons left to a tenth with the decimal point — anything over 99 shows `HI` |
+| the RPM arc | the same temperature as a sweep from 2 °F to 80 °F, or for a keg its percent full, all 30 LEDs from 80 % up |
 | `INLET TEMP` | keezer probe 1 |
 | `MASS FLOW LBS` | keezer probe 2 |
 | `FUEL FLOW GPH` | keezer probe 3 |
@@ -271,25 +271,46 @@ the panel scan. The pods are wired as a resistive ladder read by an Arduino,
 which reports a position 0–9; even positions are the left column top to bottom,
 odd positions the right column. See [switchpod/README.md](switchpod/README.md).
 
-### Right pod — picks what the tacho shows
+### Right pod — picks what the tacho shows, and switches the room lights
 
 ![Right switch pod](../images/switchpod-right.jpg)
 
-| Button | Pos | Shows on `RPM` and the arc |
-| --- | --- | --- |
-| `TURBO BOOST` | 0 | keezer probe 1 |
-| `7 DLA` | 2 | keezer probe 2 |
-| `8 PL1` | 4 | keezer probe 3 |
-| `6 RM` (orange) | 6 | keezer probe 4 |
-| `H6` | 8 | keezer probe 5 |
-| `6 RM` (white) | 1 | keezer probe 6 |
-| `P ENG` | 3 | lager keg 1 |
-| `AUTO ROOF R` | 5 | lager keg 2 |
-| `P IND` | 7 | lager keg 3 |
-| `EJECT R` | 9 | mean of the six keezer probes |
+The tacho starts on the **mean of the six keezer probes** whenever the dash
+comes up from Auto. The left column is one button per keg, tap 1 to tap 5;
+each press steps that keg through three views and a fourth press returns to
+the mean. Pressing a different button starts that button's sequence from its
+first view.
 
-There are two `6 RM` buttons; the white one at the top of the right column is
-probe 6, the orange one in the left column is probe 4.
+| Button | Pos | Keg | Press 1 | Press 2 | Press 3 |
+| --- | --- | --- | --- | --- | --- |
+| `TURBO BOOST` | 0 | 1 | | | |
+| `7 DLA` | 2 | 2 | probe temperature °F on the digits, | litres left on the digits, | gallons left to a tenth on the digits, |
+| `8 PL1` | 4 | 3 | the same on the arc's 2–80 °F sweep | percent full on the arc | percent full on the arc |
+| `6 RM` (orange) | 6 | 4 | | | |
+| `H6` | 8 | 5 | | | |
+
+Keg n sits on keezer probe n; probe 6 at the bottom of the keezer belongs to
+no keg and only counts toward the mean. Percent full is the RaspberryPints
+remaining volume over the keg's size — 5 US gallons, except tap 5 which is the
+2.5 gallon cask on the beer engine — and the arc is full from 80 % up. Volumes
+refresh from the database every eleven passes, about seven seconds, so the
+numbers lag a pour by that much. A tap with no keg shows 0.
+
+| Button | Pos | Press 1 | Press 2 |
+| --- | --- | --- | --- |
+| `6 RM` (white) | 1 | lager probe 1, digits and arc | back to the mean |
+| `P ENG` | 3 | lager probe 2 | back to the mean |
+| `AUTO ROOF R` | 5 | lager probe 3 | back to the mean |
+| `P IND` | 7 | brewery room lights **on** at 100 % | |
+| `EJECT R` | 9 | brewery room lights **off** | |
+
+`P IND` and `EJECT R` do not touch the tacho. They switch the twelve room
+lights listed in `/usr/local/etc/panp-hue.json` over the Hue bridge — the
+bench light, which follows Pursuit, and the motion-sensor lightstrip are not
+among them. See [panp/README.md](panp/README.md).
+
+There are two `6 RM` buttons; the orange one in the left column is keg 4, the
+white one at the top of the right column is lager probe 1.
 
 ### Left pod — picks what the speedo and message center show
 
