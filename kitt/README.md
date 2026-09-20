@@ -104,8 +104,8 @@ position 0–9 over serial; `panp.py` reads them from `/dev/switchpod` in
 Even positions are the pod's left column, odd positions the right — which is
 why each handler treats `sp_val` 0/2/4/6/8 as one family and 1/3/5/7/9 as
 another. The **right** pod (`rpints`) drives the tacho digits and arc: its
-left column is one key per keg, stepping through the keg's probe temperature,
-litres left and gallons left before returning to the keezer mean, its right
+left column is one key per keg, showing the imperial pints left and then the
+US gallons left before returning to the keezer mean, its right
 column shows the three lager probes, and its last two keys switch the brewery
 room lights over the Hue bridge. Coming up from Auto resets the tacho to the
 mean. The **left** pod (`brewpi`) selects what the lower speedo display shows

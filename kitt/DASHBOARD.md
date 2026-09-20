@@ -149,7 +149,7 @@ both directions. That is the boards behaving differently, not the Pi.
 
 | KITT label | Brewery value |
 | --- | --- |
-| `RPM`, 2 digits | **whatever the right pod selected**: a keezer or lager temperature in °F, or a keg's litres left, or its gallons left to a tenth with the decimal point — anything over 99 shows `HI` |
+| `RPM`, 2 digits | **whatever the right pod selected**: the keezer mean or a lager temperature in °F, or a keg's imperial pints left, or its US gallons left to a tenth with the decimal point — anything over 99 shows `HI` |
 | the RPM arc | the same temperature as a sweep from 2 °F to 80 °F, or for a keg its percent full, all 30 LEDs from 80 % up |
 | `INLET TEMP` | keezer probe 1 |
 | `MASS FLOW LBS` | keezer probe 2 |
@@ -277,24 +277,29 @@ odd positions the right column. See [switchpod/README.md](switchpod/README.md).
 
 The tacho starts on the **mean of the six keezer probes** whenever the dash
 comes up from Auto. The left column is one button per keg, tap 1 to tap 5;
-each press steps that keg through three views and a fourth press returns to
-the mean. Pressing a different button starts that button's sequence from its
-first view.
+the first press shows how much is left, the second the same in gallons, and
+the third returns to the mean. Pressing a different button starts that
+button's sequence from its first view.
 
-| Button | Pos | Keg | Press 1 | Press 2 | Press 3 |
-| --- | --- | --- | --- | --- | --- |
-| `TURBO BOOST` | 0 | 1 | | | |
-| `7 DLA` | 2 | 2 | probe temperature °F on the digits, | litres left on the digits, | gallons left to a tenth on the digits, |
-| `8 PL1` | 4 | 3 | the same on the arc's 2–80 °F sweep | percent full on the arc | percent full on the arc |
-| `6 RM` (orange) | 6 | 4 | | | |
-| `H6` | 8 | 5 | | | |
+| Button | Pos | Keg | Press 1 | Press 2 |
+| --- | --- | --- | --- | --- |
+| `TURBO BOOST` | 0 | 1 | | |
+| `7 DLA` | 2 | 2 | **imperial pints** left on the digits, | **US gallons** left to a tenth on the digits, |
+| `8 PL1` | 4 | 3 | percent full on the arc | percent full on the arc |
+| `6 RM` (orange) | 6 | 4 | | |
+| `H6` | 8 | 5 | | |
 
-Keg n sits on keezer probe n; probe 6 at the bottom of the keezer belongs to
-no keg and only counts toward the mean. Percent full is the RaspberryPints
-remaining volume over the keg's size — 5 US gallons, except tap 5 which is the
-2.5 gallon cask on the beer engine — and the arc is full from 80 % up. Volumes
-refresh from the database every eleven passes, about seven seconds, so the
-numbers lag a pour by that much. A tap with no keg shows 0.
+Pints is a count of whole pints still pourable, rounded down, at 6.66 imperial
+pints to the US gallon — a full 5 gallon keg is 33. Percent full is the
+RaspberryPints remaining volume over the keg's size — 5 US gallons, except tap
+5 which is the 2.5 gallon cask on the beer engine — and the arc is full from
+80 % up. Volumes refresh from the database every eleven passes, about seven
+seconds, so the numbers lag a pour by that much. A tap with no keg shows 0.
+
+The individual probe temperatures are deliberately not offered here: the
+keezer's airflow keeps them equal, and the six bars show at a glance when one
+is not, such as a keg just put in at lagering temperature or a warm corner
+from a failed fan.
 
 | Button | Pos | Press 1 | Press 2 |
 | --- | --- | --- | --- |

@@ -116,10 +116,9 @@ FERMENTERS = ["unitank-1", "unitank-2", "chronical"]
 class TachoView(Enum):
     """What the tacho digits and arc show."""
     MEAN = 0          # mean of the six serving keezer probes
-    KEG_TEMP = 1      # the selected keg's keezer probe
-    KEG_LITRES = 2    # the selected keg: litres left on the digits, percent full on the arc
-    KEG_GALLONS = 3   # the same keg, gallons to a tenth on the digits
-    LAGER_TEMP = 4    # the selected lager probe
+    KEG_PINTS = 1     # the selected keg: imperial pints left on the digits, percent full on the arc
+    KEG_GALLONS = 2   # the same keg, US gallons to a tenth on the digits
+    LAGER_TEMP = 3    # the selected lager probe
 
 
 class MsgCtrMode(Enum):
@@ -143,9 +142,11 @@ class TankDisplay(Enum):
     SG = 1
 
 
-# right switch pod, left column: position -> keg 1-5 as an index. keg n sits on
-# keezer probe n. each press steps the tacho through that keg's views, in
-# KEG_VIEWS order, and the press after the last goes back to the mean
+# right switch pod, left column: position -> keg 1-5 as an index. each press
+# steps the tacho through that keg's views, in KEG_VIEWS order, and the press
+# after the last goes back to the mean. the probes' own temperatures are not
+# offered: the keezer's airflow keeps them equal, and the six bars show any
+# one that is not
 RIGHT_POD_KEGS = {
     0: 0,   # TURBO BOOST
     2: 1,   # 7 DLA
@@ -153,7 +154,7 @@ RIGHT_POD_KEGS = {
     6: 3,   # 6 RM (orange)
     8: 4,   # H6
 }
-KEG_VIEWS = [TachoView.KEG_TEMP, TachoView.KEG_LITRES, TachoView.KEG_GALLONS]
+KEG_VIEWS = [TachoView.KEG_PINTS, TachoView.KEG_GALLONS]
 
 # right switch pod, right column: position -> lager probe as an index. one
 # press shows it, the next goes back to the mean
@@ -170,7 +171,8 @@ RIGHT_POD_LIGHTS_OFF = 9   # EJECT R
 # each tap's keg when full, in US gallons: four kegs and, on tap 5, the 2.5
 # gallon cask on the beer engine. RaspberryPints reports volumes in gallons
 KEG_GALLONS = [5.0, 5.0, 5.0, 5.0, 2.5]
-LITRES_PER_GALLON = 3.78541
+# imperial pints in a US gallon: 3785.411784 ml over 568.26125 ml
+PINTS_PER_GALLON = 3785.411784 / 568.26125
 
 # the arc shows a keg's percent full, and is full from this percentage up
 ARC_FULL_PERCENT = 80.0
@@ -896,17 +898,15 @@ class RPintsLoopHandler:
     def tacho_reading(self):
         """What the tacho shows this pass: the digits' value, where the decimal
         point goes (0 none, 1 after the first digit), and the arc's step count."""
-        if self.view is TachoView.KEG_TEMP:
-            t = self.keezer_temps[self.view_keg]
-            return digit_byte(t), 0, rpm_circle(t)
         if self.view is TachoView.LAGER_TEMP:
             t = self.lager_temps[self.view_lager]
             return digit_byte(t), 0, rpm_circle(t)
-        if self.view in (TachoView.KEG_LITRES, TachoView.KEG_GALLONS):
+        if self.view in KEG_VIEWS:
             gallons = self.keg_remaining[self.view_keg]
             arc = arc_percent(gallons / KEG_GALLONS[self.view_keg] * 100.0)
-            if self.view is TachoView.KEG_LITRES:
-                return digit_byte(gallons * LITRES_PER_GALLON), 0, arc
+            if self.view is TachoView.KEG_PINTS:
+                # whole pints that can still be poured, so rounded down
+                return digit_byte(math.floor(gallons * PINTS_PER_GALLON)), 0, arc
             # tenths of a gallon with the point after the first digit: 2.7
             return digit_byte(gallons * 10.0), 1, arc
         t = self.keezer_mean
