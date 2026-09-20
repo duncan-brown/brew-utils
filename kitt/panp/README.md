@@ -3,10 +3,12 @@
 `rpints` drives two things on the house's Hue bridge, which is in another
 part of the building, over WiFi:
 
-- **The bench light.** Pursuit switches the Hue light over the brewery
+- **The bench light.** Pursuit switches the Hue lightstrip over the brewery
   workbench on at full brightness and a chosen white, so there is enough
   light to read small print; Norm and Auto switch it off, as does halting the
-  Pis.
+  Pis. On the bridge it is named "Brewery Bench Light". Do not confuse it with
+  "Brewery Lightstrip", a second strip round the back of the workbench that
+  HomeKit and a Hue motion sensor look after and `panp.py` never touches.
 - **The room lights.** `P IND` on the right switch pod turns the brewery's
   room lights on at a set brightness and `EJECT R` turns them off. Which
   lights are in that set is a list in the config file; the bench light and
