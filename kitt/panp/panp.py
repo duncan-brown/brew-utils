@@ -73,6 +73,7 @@ LOOP_PERIOD = 0.25        # seconds between passes of the main loop
 STARTUP_SETTLE = 3        # seconds for the threads to start before the first pass
 DATABASE_EVERY = 11       # passes between RaspberryPints queries
 PROBE_PERIOD = 1          # seconds between one-wire probe reads
+PROBE_MISSES = 10         # failed reads in a row before a probe is shown as 0.0
 BREWPI_PERIOD = 60        # seconds between BrewPi Remix polls
 SWITCHPOD_RETRY = 2       # seconds before reopening a switchpod that went away
 BRIGHTNESS_REPEATS = 3    # a brightness message is sent this many times
@@ -414,26 +415,46 @@ class Service:
 # ---------------------------------------------------------------------------
 
 def read_probe_f(path):
-    """Temperature of a one-wire probe in degrees F, or 0.0 if it cannot be read."""
-    tempvalue_f = 0.0
+    """Temperature of a one-wire probe in degrees F, or None if it cannot be read.
+
+    The kernel reports the CRC of the reading on the first line; a reading
+    that failed its CRC is treated as no reading.
+    """
     try:
         with open(path, 'r') as fileobj:
             lines = fileobj.readlines()
+        if 'YES' not in lines[0]:
+            return None
         equals_pos = lines[1].find('t=')
         tempstr = lines[1][equals_pos + 2:]
         tempvalue_c = float(tempstr) / 1000.0
-        tempvalue_f = tempvalue_c * 9.0 / 5.0 + 32.0
+        return tempvalue_c * 9.0 / 5.0 + 32.0
     except Exception:
-        pass
-    return tempvalue_f
+        return None
 
 
 def get_temps(probes, q):
-    """Queue (index, temperature) for each probe, once a second."""
+    """Queue (index, temperature) for each probe, once a second.
+
+    A read that fails is skipped, so the display keeps the last good value:
+    the one-wire line hiccups for a second now and then and every probe on it
+    comes back empty together, which used to paint zeros across the dash. A
+    probe that fails PROBE_MISSES reads in a row is reported as 0.0, so one
+    that has really gone still shows.
+    """
+    misses = [0] * len(probes)
     while True:
         try:
             for i, path in enumerate(probes):
-                q.put((i, read_probe_f(path)))
+                temp = read_probe_f(path)
+                if temp is None:
+                    misses[i] += 1
+                    if misses[i] < PROBE_MISSES:
+                        continue
+                    temp = 0.0
+                else:
+                    misses[i] = 0
+                q.put((i, temp))
         except Exception:
             pass
         time.sleep(PROBE_PERIOD)

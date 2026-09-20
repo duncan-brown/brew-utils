@@ -218,6 +218,11 @@ Requires Python 3 with `pyserial`, `sdnotify`, `RPi.GPIO` and
   main loop, never by the GPIO callback: the loop may still be finishing a
   dark pass, and its trailing override-off packet would lapse a caption sent
   from the callback straight back to the rotation.
+- A one-wire read that fails, or fails its CRC, is skipped and the display
+  keeps the last good value. The hot-side line hiccups for a second every so
+  often and both probes on it come back empty together, which used to paint
+  `000` on the speedo. After ten failures in a row the probe is shown as 0.0
+  so a probe that has really gone is still visible.
 - Exception handling is deliberately broad. This is an unattended daemon with
   `Restart=no`; a probe that fails to read or a database that is down must not
   take the dashboard down with it.
