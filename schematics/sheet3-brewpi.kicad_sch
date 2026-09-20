@@ -1,0 +1,2135 @@
+(kicad_sch
+	(version 20250114)
+	(generator "brew-utils")
+	(generator_version "1")
+	(uuid "4c06d13b-d1e8-499c-9a67-f9c4cd230927")
+	(paper "A3")
+	(title_block
+		(title "brew-utils sheet 3 — brewpi and the fermenters")
+		(rev "1")
+		(company "brew-utils")
+	)
+	(lib_symbols
+		(symbol "brew:RPi4_brewpi_HAT"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "PI"
+						(at 0 22.86 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "RPi4_brewpi_HAT"
+						(at 0 -22.86 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "RPi4_brewpi_HAT_0_1"
+						(rectangle
+							(start -6.35 21.59)
+							(end 6.35 -21.59)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "RPi4_brewpi_HAT_1_1"
+						(pin passive line
+							(at 8.89 19.05 180)
+							(length 2.54)
+							(name "IO2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 16.51 180)
+							(length 2.54)
+							(name "IO3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 13.97 180)
+							(length 2.54)
+							(name "IO27"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 11.43 180)
+							(length 2.54)
+							(name "IO21"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 8.89 180)
+							(length 2.54)
+							(name "IO13"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "5"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 6.35 180)
+							(length 2.54)
+							(name "IO16"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "6"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 3.81 180)
+							(length 2.54)
+							(name "IO5"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "7"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 1.27 180)
+							(length 2.54)
+							(name "IO7"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "8"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 -1.27 180)
+							(length 2.54)
+							(name "IO22"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "9"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 -3.81 180)
+							(length 2.54)
+							(name "IO4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "10"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 -6.35 180)
+							(length 2.54)
+							(name "TXD"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "11"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 -8.89 180)
+							(length 2.54)
+							(name "CE0"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "12"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 -11.43 180)
+							(length 2.54)
+							(name "IO25"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "13"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 -13.97 180)
+							(length 2.54)
+							(name "5V"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "14"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 -16.51 180)
+							(length 2.54)
+							(name "3V3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "15"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 -19.05 180)
+							(length 2.54)
+							(name "GND"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "16"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+		(symbol "brew:TXS0108E"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "U"
+						(at 0 8.89 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "TXS0108E"
+						(at 0 -8.89 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "TXS0108E_0_1"
+						(rectangle
+							(start -7.62 7.62)
+							(end 7.62 -7.62)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "TXS0108E_1_1"
+						(pin passive line
+							(at -10.16 5.08 0)
+							(length 2.54)
+							(name "VA"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -10.16 2.54 0)
+							(length 2.54)
+							(name "A6"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -10.16 0 0)
+							(length 2.54)
+							(name "A7"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -10.16 -2.54 0)
+							(length 2.54)
+							(name "OE"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -10.16 -5.08 0)
+							(length 2.54)
+							(name "GND"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "5"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 10.16 2.54 180)
+							(length 2.54)
+							(name "VB"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "6"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 10.16 0 180)
+							(length 2.54)
+							(name "B6"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "7"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 10.16 -2.54 180)
+							(length 2.54)
+							(name "B7"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "8"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+		(symbol "brew:Uno_Switchpod"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "A"
+						(at 0 5.08 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "Uno_Switchpod"
+						(at 0 -5.08 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "Uno_Switchpod_0_1"
+						(rectangle
+							(start -7.62 3.81)
+							(end 7.62 -3.81)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "Uno_Switchpod_1_1"
+						(pin passive line
+							(at -10.16 0 0)
+							(length 2.54)
+							(name "A0"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 10.16 1.27 180)
+							(length 2.54)
+							(name "5V"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 10.16 -1.27 180)
+							(length 2.54)
+							(name "GND"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+		(symbol "brew:Switch_Pod_Ladder"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "SP"
+						(at 0 7.62 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "Switch_Pod_Ladder"
+						(at 0 -7.62 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "Switch_Pod_Ladder_0_1"
+						(rectangle
+							(start -6.35 6.35)
+							(end 6.35 -6.35)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "Switch_Pod_Ladder_1_1"
+						(pin passive line
+							(at 8.89 3.81 180)
+							(length 2.54)
+							(name "SGN"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 1.27 180)
+							(length 2.54)
+							(name "GND"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 -1.27 180)
+							(length 2.54)
+							(name "+12V"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 -3.81 180)
+							(length 2.54)
+							(name "0V"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+		(symbol "Device:R"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(in_pos_files yes)
+					(duplicate_pin_numbers_are_jumpers no)
+					(property "Reference" "R"
+						(at 2.032 0 90)
+						(show_name no)
+						(do_not_autoplace no)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "R"
+						(at 0 0 90)
+						(show_name no)
+						(do_not_autoplace no)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at -1.778 0 90)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Description" "Resistor"
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "ki_keywords" "R res resistor"
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "ki_fp_filters" "R_*"
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(symbol "R_0_1"
+						(rectangle
+							(start -1.016 -2.54)
+							(end 1.016 2.54)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type none)
+							)
+						)
+					)
+					(symbol "R_1_1"
+						(pin passive line
+							(at 0 3.81 270)
+							(length 1.27)
+							(name ""
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 0 -3.81 90)
+							(length 1.27)
+							(name ""
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+						)
+					)
+					(embedded_fonts no)
+				)
+		(symbol "brew:Relay_Module_6ch_5V"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "K"
+						(at 0 19.05 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "Relay_Module_6ch_5V"
+						(at 0 -19.05 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "Relay_Module_6ch_5V_0_1"
+						(rectangle
+							(start -8.89 17.78)
+							(end 8.89 -17.78)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "Relay_Module_6ch_5V_1_1"
+						(pin passive line
+							(at -11.43 8.89 0)
+							(length 2.54)
+							(name "IN1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -11.43 6.35 0)
+							(length 2.54)
+							(name "IN2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -11.43 3.81 0)
+							(length 2.54)
+							(name "IN3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -11.43 1.27 0)
+							(length 2.54)
+							(name "IN4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -11.43 -1.27 0)
+							(length 2.54)
+							(name "IN5"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "5"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -11.43 -3.81 0)
+							(length 2.54)
+							(name "IN6"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "6"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -11.43 -6.35 0)
+							(length 2.54)
+							(name "VCC"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "7"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -11.43 -8.89 0)
+							(length 2.54)
+							(name "GND"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "8"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 11.43 13.97 180)
+							(length 2.54)
+							(name "COM1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "9"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 11.43 11.43 180)
+							(length 2.54)
+							(name "NO1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "10"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 11.43 8.89 180)
+							(length 2.54)
+							(name "COM2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "11"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 11.43 6.35 180)
+							(length 2.54)
+							(name "NO2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "12"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 11.43 3.81 180)
+							(length 2.54)
+							(name "COM3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "13"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 11.43 1.27 180)
+							(length 2.54)
+							(name "NO3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "14"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 11.43 -1.27 180)
+							(length 2.54)
+							(name "COM4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "15"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 11.43 -3.81 180)
+							(length 2.54)
+							(name "NO4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "16"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 11.43 -6.35 180)
+							(length 2.54)
+							(name "COM5"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "17"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 11.43 -8.89 180)
+							(length 2.54)
+							(name "NO5"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "18"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 11.43 -11.43 180)
+							(length 2.54)
+							(name "COM6"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "19"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 11.43 -13.97 180)
+							(length 2.54)
+							(name "NO6"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "20"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+		(symbol "brew:Uno_BrewPi"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "A"
+						(at 0 6.35 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "Uno_BrewPi"
+						(at 0 -6.35 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "Uno_BrewPi_0_1"
+						(rectangle
+							(start -7.62 5.08)
+							(end 7.62 -5.08)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "Uno_BrewPi_1_1"
+						(pin passive line
+							(at -10.16 2.54 0)
+							(length 2.54)
+							(name "A0"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -10.16 0 0)
+							(length 2.54)
+							(name "5V"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -10.16 -2.54 0)
+							(length 2.54)
+							(name "GND"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 10.16 1.27 180)
+							(length 2.54)
+							(name "D5"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 10.16 -1.27 180)
+							(length 2.54)
+							(name "D6"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "5"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+		(symbol "brew:DS18B20_bus"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "T"
+						(at 0 6.35 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "DS18B20_bus"
+						(at 0 -6.35 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "DS18B20_bus_0_1"
+						(rectangle
+							(start -6.35 5.08)
+							(end 6.35 -5.08)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "DS18B20_bus_1_1"
+						(pin passive line
+							(at 8.89 2.54 180)
+							(length 2.54)
+							(name "VDD"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 0 180)
+							(length 2.54)
+							(name "DQ"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 8.89 -2.54 180)
+							(length 2.54)
+							(name "GND"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+		(symbol "brew:FTSs_heating_pad_12V"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "H"
+						(at 0 5.08 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "FTSs_heating_pad_12V"
+						(at 0 -5.08 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "FTSs_heating_pad_12V_0_1"
+						(rectangle
+							(start -6.35 3.81)
+							(end 6.35 -3.81)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "FTSs_heating_pad_12V_1_1"
+						(pin passive line
+							(at -8.89 1.27 0)
+							(length 2.54)
+							(name "+"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -8.89 -1.27 0)
+							(length 2.54)
+							(name "-"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+		(symbol "brew:Penguin_XL_pump_24V"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "M"
+						(at 0 5.08 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "Penguin_XL_pump_24V"
+						(at 0 -5.08 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "Penguin_XL_pump_24V_0_1"
+						(rectangle
+							(start -6.35 3.81)
+							(end 6.35 -3.81)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "Penguin_XL_pump_24V_1_1"
+						(pin passive line
+							(at -8.89 1.27 0)
+							(length 2.54)
+							(name "+"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -8.89 -1.27 0)
+							(length 2.54)
+							(name "-"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+	)
+	(text "Sheet 3 — brewpi: relay drives, mode lines, hot-side probes, serial to the message centre and speedo, the left switch pod, and the three BrewPi Remix controllers with their heaters and glycol pumps." (exclude_from_sim no) (at 10.16 10.16 0) (effects (font (size 1.6 1.6)) (justify left top)) (uuid "d45da6bb-b744-4283-86f0-1ff220b3da62"))
+	(text "H1_FEED–H3_FEED and +24V come from sheet 1; the 8-way relay inputs and the 4-ch IN4 land on sheet 2." (exclude_from_sim no) (at 10.16 15.24 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid "5508561d-4bba-4fa2-9b55-9df4572672b2"))
+	(symbol (lib_id "brew:RPi4_brewpi_HAT") (at 38.1 114.3 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "5e011e56-88ce-429d-b874-c3e1d54fa1ea") (property "Reference" "PI2" (at 38.1 90.81 0) (effects (font (size 1.27 1.27)))) (property "Value" "brewpi · Raspberry Pi 4 · 10.0.1.32 · GeeekPi HAT" (at 38.1 137.79 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 38.1 114.3 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 38.1 114.3 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "6472336a-90b0-45a0-9641-1212da440616")) (pin "2" (uuid "b104a55b-0c34-4cf4-b344-3f76da7ceef4")) (pin "3" (uuid "a478dbe6-c1da-46e2-b158-fe3a5cdddd5f")) (pin "4" (uuid "3cf7b5cb-3f08-491d-a066-156861783c73")) (pin "5" (uuid "3ef965ae-1ae4-4127-84a9-4c48da3f7ef7")) (pin "6" (uuid "ea68b430-d830-459d-94cc-7cb58b4c7956")) (pin "7" (uuid "377fce3c-a0ee-469e-8c9a-8420017262eb")) (pin "8" (uuid "72c6db65-437a-478a-9bdc-5d71364ff3b2")) (pin "9" (uuid "5a8e6cbf-a0c1-46af-a2f2-d456f0e914ac")) (pin "10" (uuid "fc109be3-e23d-4fe0-b9f8-eed2ba7a24f0")) (pin "11" (uuid "fb424333-a43e-4a15-98af-a78a0796b6f8")) (pin "12" (uuid "0ef75d56-f47e-413f-938f-066b2e0f5ef5")) (pin "13" (uuid "dd811547-f527-4fa3-ab8d-745541edac29")) (pin "14" (uuid "c9dc91d2-d13c-4587-8107-f57020064bfe")) (pin "15" (uuid "32f19e3b-aa2c-4cc7-96e4-9ae7e3d46956")) (pin "16" (uuid "11ccc934-9d55-4f79-8dba-2885c51c00a1")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "PI2") (unit 1)))))
+	(wire (pts (xy 46.99 95.25) (xy 54.61 95.25)) (stroke (width 0) (type default)) (uuid "67257b42-c2b6-49ac-922b-609a66c60632"))
+	(global_label "BREWPI_IO2" (shape bidirectional) (at 54.61 95.25 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d88a8efa-c8e7-4b18-90f1-77eee30d7209") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "flow meter 1 relay IN1 (sheet 2), active high" (exclude_from_sim no) (at 74.93 94.234 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "78760dff-2507-438e-83ee-9d1fd68a7ac2"))
+	(wire (pts (xy 46.99 97.79) (xy 54.61 97.79)) (stroke (width 0) (type default)) (uuid "54d42119-7a9b-4926-9acb-195885653d8e"))
+	(global_label "BREWPI_IO3" (shape bidirectional) (at 54.61 97.79 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "328ba681-b826-4c2a-9272-d7bfd30d1698") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "flow meter 2 relay IN2" (exclude_from_sim no) (at 74.93 96.774 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "09580a3b-719f-4337-bb80-d7adacfc62a0"))
+	(wire (pts (xy 46.99 100.33) (xy 54.61 100.33)) (stroke (width 0) (type default)) (uuid "08f10146-d7d8-4d12-b73f-f04548065d80"))
+	(global_label "BREWPI_IO27" (shape bidirectional) (at 54.61 100.33 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "74bb6659-9b5b-4b49-a481-51b0d180e950") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "flow meter 3 relay IN3" (exclude_from_sim no) (at 74.93 99.314 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "c9914763-65cd-4e2c-a8f3-d45c311e1746"))
+	(wire (pts (xy 46.99 102.87) (xy 54.61 102.87)) (stroke (width 0) (type default)) (uuid "c67884d2-f024-4ef8-b936-4d470de0848c"))
+	(global_label "BREWPI_IO21" (shape bidirectional) (at 54.61 102.87 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "0ca1cd37-0aad-4707-ac46-c5fc76a4fce6") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "flow meter 4 relay IN4" (exclude_from_sim no) (at 74.93 101.854 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "870a1e19-5d2d-4141-a663-56294ca04b5b"))
+	(wire (pts (xy 46.99 105.41) (xy 54.61 105.41)) (stroke (width 0) (type default)) (uuid "aeba62da-a9fd-4b72-b57c-e9a21ebf6b8a"))
+	(global_label "BREWPI_IO13" (shape bidirectional) (at 54.61 105.41 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "5645dff6-56ed-48b4-8472-a07422f8fc53") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "flow meter 5 relay IN5" (exclude_from_sim no) (at 74.93 104.394 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "ce490bee-b1b0-4b40-ba05-338e486c0060"))
+	(wire (pts (xy 46.99 107.95) (xy 54.61 107.95)) (stroke (width 0) (type default)) (uuid "62cdc4a5-d32a-4457-a36e-8aace582aa21"))
+	(global_label "BREWPI_IO16" (shape bidirectional) (at 54.61 107.95 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "37ee9329-a874-4b42-a0de-8d921b25198b") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "message centre power, 4-ch IN4 (sheet 2); held low = on" (exclude_from_sim no) (at 74.93 106.934 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "46b0b14d-b5c6-4f62-bb1c-12939cb17395"))
+	(wire (pts (xy 46.99 110.49) (xy 54.61 110.49)) (stroke (width 0) (type default)) (uuid "a6dcc015-2b3a-41f5-b966-deb5185a800c"))
+	(global_label "BREWPI_IO5" (shape bidirectional) (at 54.61 110.49 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "ab26c460-159f-43ec-97ff-397f0149421e") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "interlock relay K3 IN (sheet 1); power-relay-brewpi.service" (exclude_from_sim no) (at 74.93 109.474 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "13ad59a3-4f25-49f0-a5e4-f9ff8c01b739"))
+	(wire (pts (xy 46.99 113.03) (xy 54.61 113.03)) (stroke (width 0) (type default)) (uuid "d05d51d4-a188-4e55-97d4-30c553365e52"))
+	(global_label "MODE_AUTO" (shape bidirectional) (at 54.61 113.03 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "fa8a0fed-7d2c-4841-bd33-7b7b61a3e84e") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "from rpints; input with pull-down" (exclude_from_sim no) (at 74.93 112.014 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "daa77af1-adbc-4e14-abe1-5c097a97a1d7"))
+	(wire (pts (xy 46.99 115.57) (xy 54.61 115.57)) (stroke (width 0) (type default)) (uuid "aba89e39-e09a-4c2f-bff9-3d63329a276e"))
+	(global_label "MODE_NORM" (shape bidirectional) (at 54.61 115.57 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "1084e313-8340-422c-8810-4af2d851ff1c") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "from rpints; input with pull-down" (exclude_from_sim no) (at 74.93 114.554 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "b426526c-9cba-4a9a-b089-b6aeb01dc06e"))
+	(wire (pts (xy 46.99 118.11) (xy 54.61 118.11)) (stroke (width 0) (type default)) (uuid "326c40d1-602f-468f-83bf-421cf920db2c"))
+	(global_label "HOT_1W" (shape bidirectional) (at 54.61 118.11 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "24449a1f-33ef-4728-a4e0-ab4c216f143d") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "mash and HLT probes via 12-way strip 10 (sheet 2)" (exclude_from_sim no) (at 74.93 117.094 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "2af584c9-3bc3-4d23-9156-7a4480297c08"))
+	(wire (pts (xy 46.99 125.73) (xy 54.61 125.73)) (stroke (width 0) (type default)) (uuid "ecb8f3dc-a21d-4e1b-a4ee-33d752d5e869"))
+	(global_label "BREWPI_OE" (shape bidirectional) (at 54.61 125.73 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "7a828e01-3116-4114-82dc-21650c384f88") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 46.99 128.27) (xy 54.61 128.27)) (stroke (width 0) (type default)) (uuid "d9de701b-7d4a-4436-aac0-55674f022a15"))
+	(global_label "BREWPI_5V" (shape bidirectional) (at 54.61 128.27 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "fb22ef6c-dd87-48a9-b523-4ec547507b5f") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 46.99 130.81) (xy 54.61 130.81)) (stroke (width 0) (type default)) (uuid "ead54cd0-1d93-44ec-a6ae-7566b9b8a253"))
+	(global_label "BREWPI_3V3" (shape bidirectional) (at 54.61 130.81 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "b501c681-cf82-43bc-9b4c-48588fe3b36f") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 46.99 133.35) (xy 54.61 133.35)) (stroke (width 0) (type default)) (uuid "9eb7b644-a0a9-4739-affc-1eecf29225fc"))
+	(global_label "BREWPI_GND" (shape bidirectional) (at 54.61 133.35 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "68040a88-63e7-49fb-93bb-9e1345780a37") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(symbol (lib_id "brew:TXS0108E") (at 101.6 190.5 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "3947ebfa-b40e-4b0b-9b6d-03ac233e24db") (property "Reference" "U3" (at 101.6 180.98 0) (effects (font (size 1.27 1.27)))) (property "Value" "TXS0108E (left-hand shifter)" (at 101.6 200.02 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 101.6 190.5 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 101.6 190.5 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "6481b21a-31a8-4d85-a991-3d20c047a8d0")) (pin "2" (uuid "3f508649-6cb8-4a06-b090-bca5598afd0a")) (pin "3" (uuid "7021c02c-6c26-4bde-926c-5e09021b22c3")) (pin "4" (uuid "24ba683b-5d89-4dc9-a603-9e43ef16e44e")) (pin "5" (uuid "445da566-6beb-4949-88ee-5dbffa68ece5")) (pin "6" (uuid "3de05dc0-c6bf-47d9-98fd-b85c0b2d336f")) (pin "7" (uuid "37ac2ae4-92f7-4473-ad03-e126c7748000")) (pin "8" (uuid "73e1ac6f-6242-4604-b996-ff02f4f18788")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "U3") (unit 1)))))
+	(wire (pts (xy 46.99 123.19) (xy 78.74 123.19)) (stroke (width 0) (type default)) (uuid "2966fd66-110f-44d0-9044-aca867078624"))
+	(wire (pts (xy 78.74 123.19) (xy 78.74 187.96)) (stroke (width 0) (type default)) (uuid "6e496de1-9479-4d86-9fd8-9488ad6ce688"))
+	(wire (pts (xy 78.74 187.96) (xy 91.44 187.96)) (stroke (width 0) (type default)) (uuid "c1847617-237f-4ee6-92f5-3f76ca8b43c9"))
+	(wire (pts (xy 46.99 120.65) (xy 81.28 120.65)) (stroke (width 0) (type default)) (uuid "831878ae-2602-4b96-b40c-88b8a2446591"))
+	(wire (pts (xy 81.28 120.65) (xy 81.28 190.5)) (stroke (width 0) (type default)) (uuid "95de2d6b-98ba-4b14-9a84-95068c228b85"))
+	(wire (pts (xy 81.28 190.5) (xy 91.44 190.5)) (stroke (width 0) (type default)) (uuid "0edc8dce-c5c6-468d-a983-48e0e3408852"))
+	(wire (pts (xy 91.44 193.04) (xy 83.82 193.04)) (stroke (width 0) (type default)) (uuid "7f53acd5-d6d9-4375-b729-2b518459a8af"))
+	(global_label "BREWPI_OE" (shape bidirectional) (at 83.82 193.04 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "c93e18fd-d17d-4273-a9df-ed222ab9645c") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 91.44 185.42) (xy 83.82 185.42)) (stroke (width 0) (type default)) (uuid "f16c9c8d-30e6-4a61-9222-83146535a58a"))
+	(global_label "BREWPI_3V3" (shape bidirectional) (at 83.82 185.42 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "04444c56-be1d-4407-b530-d9a055486f22") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 91.44 195.58) (xy 83.82 195.58)) (stroke (width 0) (type default)) (uuid "176f626f-f5d2-426b-bded-f6337b4b9928"))
+	(global_label "BREWPI_GND" (shape bidirectional) (at 83.82 195.58 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "b139de87-8976-4eb7-9872-185a0d564ac2") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 111.76 187.96) (xy 119.38 187.96)) (stroke (width 0) (type default)) (uuid "8d06bd64-e09d-4265-a74e-272577ce923c"))
+	(global_label "BREWPI_5V" (shape bidirectional) (at 119.38 187.96 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "68203e3e-4e45-4a51-9fa3-bec3c0feed1a") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 111.76 190.5) (xy 119.38 190.5)) (stroke (width 0) (type default)) (uuid "d25abf9b-451a-46a9-a2a3-e1e0b3bc94f0"))
+	(global_label "BREWPI_SPEEDO_TX" (shape bidirectional) (at 119.38 190.5 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d6eba64a-8cf2-4c99-9bea-fc2f3bdf1b05") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "ttyAMA1 (CE0, blue) → 12-way strip 5 → speedo B → dummy3 F" (exclude_from_sim no) (at 142.24 189.484 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "6b3e0802-5602-48b8-ad4e-231947f28a46"))
+	(wire (pts (xy 111.76 193.04) (xy 119.38 193.04)) (stroke (width 0) (type default)) (uuid "fa2a422d-71d0-48b8-897b-357af116d1e0"))
+	(global_label "BREWPI_MSGCTR_TX" (shape bidirectional) (at 119.38 193.04 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "ebf4d1f8-1968-4fdd-9d88-418e90e8e11f") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "ttyAMA0 (TXD, yellow) → 12-way strip 4 → message centre C" (exclude_from_sim no) (at 142.24 192.024 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "9ed67236-79e3-4bc0-a29b-e90c60f02be8"))
+	(symbol (lib_id "brew:Uno_Switchpod") (at 116.84 254 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "e394fb55-a018-48bf-916f-6a46e40fbdf8") (property "Reference" "A3" (at 116.84 248.29 0) (effects (font (size 1.27 1.27)))) (property "Value" "Arduino Uno · /dev/switchpod · left pod" (at 116.84 259.71 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 116.84 254 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 116.84 254 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "a05255ec-3d01-4d65-8acb-76a0e84aad21")) (pin "2" (uuid "b32dfdcc-f0dc-4130-b1cc-eb9e52653f1d")) (pin "3" (uuid "4e77aefe-0630-409f-8115-b0b48831a833")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "A3") (unit 1)))))
+	(symbol (lib_id "brew:Switch_Pod_Ladder") (at 66.04 254 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "774d7340-770d-4c9a-b981-d895477234c5") (property "Reference" "SP2" (at 66.04 245.75 0) (effects (font (size 1.27 1.27)))) (property "Value" "left switch pod, resistive ladder" (at 66.04 262.25 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 66.04 254 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 66.04 254 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "ccfc74b0-8dff-430a-8b3a-80937b03c837")) (pin "2" (uuid "ce1d6e9b-6c64-45ee-afc2-30bf46153f52")) (pin "3" (uuid "ddcb9c0c-1b75-439f-bfbb-910a0a4cfb77")) (pin "4" (uuid "6c9f2199-dfa3-42cf-bf46-6ec686fe3721")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "SP2") (unit 1)))))
+	(wire (pts (xy 74.93 250.19) (xy 91.44 250.19)) (stroke (width 0) (type default)) (uuid "3bae194b-2115-4439-becc-5da9cec8f29e"))
+	(wire (pts (xy 91.44 250.19) (xy 91.44 254)) (stroke (width 0) (type default)) (uuid "e6a186ca-0802-4f0e-96f9-78a9ede624c2"))
+	(wire (pts (xy 91.44 254) (xy 106.68 254)) (stroke (width 0) (type default)) (uuid "9c72e752-91fa-493d-be07-80aeb3ecc839"))
+	(junction (at 91.44 250.19) (diameter 0) (color 0 0 0 0) (uuid "dfd27fc0-2079-4802-b029-a809959c3ac1"))
+	(symbol (lib_id "Device:R") (at 91.44 242.57 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "90b1eb92-77bb-4182-9615-da8b75296a6e") (property "Reference" "R5" (at 91.44 236.86 0) (effects (font (size 1.27 1.27)))) (property "Value" "3k3" (at 91.44 248.28 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 91.44 242.57 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 91.44 242.57 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "3889fa7d-37eb-4c21-997f-e68ea88cab5d")) (pin "2" (uuid "56e7f758-c57f-4c73-9a34-83697bda7b04")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "R5") (unit 1)))))
+	(wire (pts (xy 91.44 250.19) (xy 91.44 246.38)) (stroke (width 0) (type default)) (uuid "b6996114-a12f-4ebd-91c8-cef820ba6cd7"))
+	(wire (pts (xy 91.44 238.76) (xy 91.44 236.22)) (stroke (width 0) (type default)) (uuid "f5134de1-a764-4f56-82c0-c9912e7df8a2"))
+	(wire (pts (xy 91.44 236.22) (xy 132.08 236.22)) (stroke (width 0) (type default)) (uuid "dd15e51e-99ee-47f4-911e-405ca77dd170"))
+	(wire (pts (xy 132.08 236.22) (xy 132.08 252.73)) (stroke (width 0) (type default)) (uuid "be981310-1715-4cc3-8dc1-c541908e9c44"))
+	(wire (pts (xy 132.08 252.73) (xy 127 252.73)) (stroke (width 0) (type default)) (uuid "13437b78-7a9a-4d4b-aa9f-7bee24f41774"))
+	(wire (pts (xy 127 255.27) (xy 134.62 255.27)) (stroke (width 0) (type default)) (uuid "8c46930a-3034-4171-9fb9-d95550e8dd9e"))
+	(wire (pts (xy 134.62 255.27) (xy 134.62 260.35)) (stroke (width 0) (type default)) (uuid "45d40801-c636-4bfd-b65f-557cb7384b78"))
+	(wire (pts (xy 134.62 260.35) (xy 77.47 260.35)) (stroke (width 0) (type default)) (uuid "ea661d09-c8bc-4224-a78a-70e1646ecf6c"))
+	(wire (pts (xy 77.47 260.35) (xy 77.47 252.73)) (stroke (width 0) (type default)) (uuid "84b446e7-af9e-4009-b855-d246282af8a7"))
+	(wire (pts (xy 77.47 252.73) (xy 74.93 252.73)) (stroke (width 0) (type default)) (uuid "90cf0dfa-727f-41f3-8cf1-da74d93435d3"))
+	(wire (pts (xy 74.93 255.27) (xy 82.55 255.27)) (stroke (width 0) (type default)) (uuid "4992f66e-65d5-4508-9b66-b8dfaa520c8b"))
+	(global_label "SPEED_+12V" (shape bidirectional) (at 82.55 255.27 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "b8d2e24c-1266-4043-8c37-114e20e137ae") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 74.93 257.81) (xy 82.55 257.81)) (stroke (width 0) (type default)) (uuid "dad22bf4-3b29-41f2-af90-a2c58f68b430"))
+	(global_label "DASH_0V" (shape bidirectional) (at 82.55 257.81 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "3f78460a-c0a0-4848-b948-ac91c3ec91cb") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "USB from the Uno to brewpi hub port 1.4" (exclude_from_sim no) (at 50.8 274.32 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "58baff70-bccd-45a1-9800-de91e9fcc2f4"))
+	(symbol (lib_id "brew:Relay_Module_6ch_5V") (at 299.72 127 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "743cde4c-3a4c-4350-9b7f-56ab287c4694") (property "Reference" "K8" (at 299.72 107.32 0) (effects (font (size 1.27 1.27)))) (property "Value" "ANMBEST 6-ch relay module, high-level trigger" (at 299.72 146.68 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 299.72 127 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 299.72 127 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "df118f1d-01ea-4abf-98d9-fead51940691")) (pin "2" (uuid "9280aa40-7511-4955-995b-cc8ba2f1f341")) (pin "3" (uuid "8b57985c-53fe-4496-aef1-a90f5ac8ec0e")) (pin "4" (uuid "9c783f04-c66d-4abe-8a85-7ce445c5e9b6")) (pin "5" (uuid "3aff3145-d12c-4ce4-881a-99d46f77cede")) (pin "6" (uuid "5a53203b-586e-46d1-a7b0-0ac5558e7f92")) (pin "7" (uuid "88c11121-2290-44b8-adb7-019ccc20c939")) (pin "8" (uuid "eee69cc0-f0dd-418a-84f6-0e9b56f7e4b3")) (pin "9" (uuid "ad03f338-22e7-486b-9f69-65b6b20e5ec5")) (pin "10" (uuid "6694b999-f13d-455a-8782-718e5be423f4")) (pin "11" (uuid "9400df94-d1b6-476c-892e-23d35adbe489")) (pin "12" (uuid "cad29b35-5a82-4eb4-ac57-b0dd2ad31c6b")) (pin "13" (uuid "3aea719b-ee33-4898-98e3-156893267981")) (pin "14" (uuid "aef8a371-fe3a-47a0-a1b0-64d063bfd00d")) (pin "15" (uuid "b20ac833-2f7b-45e5-9e21-439b8ec0eb1b")) (pin "16" (uuid "4d41a9da-64e3-4433-b8f3-9a87a7014122")) (pin "17" (uuid "e2e09ada-025a-4aeb-b1de-72873cd90e8e")) (pin "18" (uuid "85dd9656-7cbf-42cc-b1bf-992e6f2051f3")) (pin "19" (uuid "b201ae71-42b0-4e76-9ec5-82e37e304556")) (pin "20" (uuid "be91e234-6197-4418-801f-a7fadebf1f0b")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "K8") (unit 1)))))
+	(wire (pts (xy 288.29 133.35) (xy 280.67 133.35)) (stroke (width 0) (type default)) (uuid "22ba4157-ea64-4faf-a954-5400717ecd7e"))
+	(global_label "BREWPI_5V" (shape bidirectional) (at 280.67 133.35 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "1132c6f4-56f6-4a52-b2e3-51c44a43af97") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 288.29 135.89) (xy 280.67 135.89)) (stroke (width 0) (type default)) (uuid "b686d1f8-c673-47f4-a4d6-9c463ffe6f3b"))
+	(global_label "BREWPI_GND" (shape bidirectional) (at 280.67 135.89 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "809273e4-e7ef-4d63-8eb1-86525a8be58a") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(symbol (lib_id "brew:Uno_BrewPi") (at 223.52 55.88 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "a511e1b3-d719-4472-904d-28e79adb98e9") (property "Reference" "A4" (at 223.52 48.9 0) (effects (font (size 1.27 1.27)))) (property "Value" "Uno · /dev/unitank-1 · BrewPi Remix · USB port 1.3" (at 223.52 62.86 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 223.52 55.88 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 223.52 55.88 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "e77a2146-ce61-4c2b-9d85-7d9b907a277f")) (pin "2" (uuid "28f0334d-bd2c-46d3-b7b6-27bba915eac4")) (pin "3" (uuid "245c0639-0c14-4353-ac48-e3e02f2cf730")) (pin "4" (uuid "3d801d17-d7dc-4323-8cbc-eca02431454b")) (pin "5" (uuid "84d4fde0-6273-456d-a1d2-8ea335203c00")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "A4") (unit 1)))))
+	(symbol (lib_id "brew:DS18B20_bus") (at 165.1 55.88 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "92b039f2-4629-4bdf-9a97-27ef68e4747c") (property "Reference" "T1" (at 165.1 48.9 0) (effects (font (size 1.27 1.27)))) (property "Value" "DS18B20 unitank-1 thermowell  28BD2057047A3C27" (at 165.1 62.86 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 165.1 55.88 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 165.1 55.88 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "b69d3702-cd83-4524-bc33-21dbeb08c20b")) (pin "2" (uuid "005d8dcb-a3b5-4b3a-a4fe-89b98a001c26")) (pin "3" (uuid "3da6f871-eecf-4245-9461-3712fcd60e21")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "T1") (unit 1)))))
+	(wire (pts (xy 173.99 55.88) (xy 193.04 55.88)) (stroke (width 0) (type default)) (uuid "efa1f836-83d1-4fa8-81a7-32188ead7ad7"))
+	(wire (pts (xy 193.04 55.88) (xy 193.04 53.34)) (stroke (width 0) (type default)) (uuid "1f83a2c4-186d-4525-b09e-657e39ecfad9"))
+	(wire (pts (xy 193.04 53.34) (xy 213.36 53.34)) (stroke (width 0) (type default)) (uuid "0125bb44-7a4c-49ed-a46e-074b76116c00"))
+	(junction (at 193.04 55.88) (diameter 0) (color 0 0 0 0) (uuid "35473832-aa6a-42e7-a061-061dd27de6ea"))
+	(symbol (lib_id "Device:R") (at 193.04 48.26 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "efdc4d75-579f-47af-9f50-8eac3c87bbc4") (property "Reference" "R6" (at 193.04 42.55 0) (effects (font (size 1.27 1.27)))) (property "Value" "4.7k" (at 193.04 53.97 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 193.04 48.26 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 193.04 48.26 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "fff1302b-1571-487b-98e6-822af6dfa955")) (pin "2" (uuid "9426e164-0a00-429c-8b7b-fdf7d1ebc720")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "R6") (unit 1)))))
+	(wire (pts (xy 193.04 55.88) (xy 193.04 52.07)) (stroke (width 0) (type default)) (uuid "d9eae2ca-2bb8-4d2b-a913-fcde210e5033"))
+	(wire (pts (xy 193.04 44.45) (xy 193.04 41.91)) (stroke (width 0) (type default)) (uuid "e5888822-466b-4a71-aea0-f29efd4ec392"))
+	(wire (pts (xy 193.04 41.91) (xy 208.28 41.91)) (stroke (width 0) (type default)) (uuid "907fcc4f-1527-44de-aa08-93bc0d5365e4"))
+	(wire (pts (xy 208.28 41.91) (xy 208.28 55.88)) (stroke (width 0) (type default)) (uuid "f78846a4-1966-4356-86de-fd6af79d6e24"))
+	(wire (pts (xy 208.28 55.88) (xy 213.36 55.88)) (stroke (width 0) (type default)) (uuid "5e7c3b14-76c7-4c59-9dd5-c6fe0f11fc12"))
+	(wire (pts (xy 173.99 53.34) (xy 177.8 53.34)) (stroke (width 0) (type default)) (uuid "31e14e7c-f30c-4292-9902-63f1e5f2d867"))
+	(wire (pts (xy 177.8 53.34) (xy 177.8 39.37)) (stroke (width 0) (type default)) (uuid "c47c147c-7072-4939-8664-dc398d922551"))
+	(wire (pts (xy 177.8 39.37) (xy 208.28 39.37)) (stroke (width 0) (type default)) (uuid "381c4a8d-9581-4245-82c9-f7ed177128c2"))
+	(wire (pts (xy 208.28 39.37) (xy 208.28 41.91)) (stroke (width 0) (type default)) (uuid "c7c6b1c6-4190-4e10-b9ef-ee805dd15bd0"))
+	(junction (at 208.28 41.91) (diameter 0) (color 0 0 0 0) (uuid "19c63be9-ee80-495e-8849-a824c154a6a5"))
+	(wire (pts (xy 173.99 58.42) (xy 180.34 58.42)) (stroke (width 0) (type default)) (uuid "9cdead47-3253-49a0-9834-b983519e54cf"))
+	(wire (pts (xy 180.34 58.42) (xy 180.34 63.5)) (stroke (width 0) (type default)) (uuid "8c555902-8662-4549-8b62-fe51a9921e9b"))
+	(wire (pts (xy 180.34 63.5) (xy 210.82 63.5)) (stroke (width 0) (type default)) (uuid "c0136c2c-3343-42c4-b7e7-f25391a1ac78"))
+	(wire (pts (xy 210.82 63.5) (xy 210.82 58.42)) (stroke (width 0) (type default)) (uuid "36305ec1-7554-4d0b-bee7-a497e01ac5ed"))
+	(wire (pts (xy 210.82 58.42) (xy 213.36 58.42)) (stroke (width 0) (type default)) (uuid "e18fa6c8-1c94-4283-b3dd-9d76bf40e3df"))
+	(text "10-way strip positions 1–3: data · 5 V · GND;  4.7 kΩ pull-up to the Uno 5 V" (exclude_from_sim no) (at 143.51 66.04 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "b43ea79a-f462-49bd-90ef-5d0706c45ed1"))
+	(wire (pts (xy 233.68 54.61) (xy 270.51 54.61)) (stroke (width 0) (type default)) (uuid "c7df6931-74b6-4ea4-9a13-7d0e71934309"))
+	(wire (pts (xy 270.51 54.61) (xy 270.51 118.11)) (stroke (width 0) (type default)) (uuid "d1d3ac75-e273-4dd1-996b-96ec90ae3a58"))
+	(wire (pts (xy 270.51 118.11) (xy 288.29 118.11)) (stroke (width 0) (type default)) (uuid "2c02055d-899c-4dc9-9cfa-a4a46234e286"))
+	(wire (pts (xy 233.68 57.15) (xy 278.13 57.15)) (stroke (width 0) (type default)) (uuid "0f8a6b15-aaad-4719-a449-8159493d5c4b"))
+	(wire (pts (xy 278.13 57.15) (xy 278.13 125.73)) (stroke (width 0) (type default)) (uuid "bbab48a2-51c6-41e0-a578-b9617ef2edb5"))
+	(wire (pts (xy 278.13 125.73) (xy 288.29 125.73)) (stroke (width 0) (type default)) (uuid "c9128e39-9b2b-4674-bdcf-b9942c6f3b18"))
+	(label "HEAT1" (at 234.95 54.61 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "0e04302b-7974-4a42-a2cd-9db96e6e957b"))
+	(label "COOL1" (at 234.95 57.15 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "c8631e1e-d714-4e6d-9094-2db789befdfb"))
+	(wire (pts (xy 311.15 113.03) (xy 318.77 113.03)) (stroke (width 0) (type default)) (uuid "078688dd-0871-4d94-aea7-43d91b2fcabd"))
+	(global_label "H1_FEED" (shape bidirectional) (at 318.77 113.03 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "808cf9c0-ef72-47ea-974b-11bcf12ea4aa") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(symbol (lib_id "brew:FTSs_heating_pad_12V") (at 346.71 116.84 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "d181d0aa-5573-4fef-86a2-efc0b230daa4") (property "Reference" "H1" (at 346.71 111.13 0) (effects (font (size 1.27 1.27)))) (property "Value" "FTSs heating pad 12 V · unitank-1" (at 346.71 122.55 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 346.71 116.84 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 346.71 116.84 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "3e364764-4011-4550-802e-a81563ebca5e")) (pin "2" (uuid "b3377333-f06e-4bf8-ab70-4c02ea8d0a43")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "H1") (unit 1)))))
+	(wire (pts (xy 311.15 115.57) (xy 337.82 115.57)) (stroke (width 0) (type default)) (uuid "ba1369eb-83d5-463d-9228-975ec090cc0d"))
+	(wire (pts (xy 337.82 118.11) (xy 334.01 118.11)) (stroke (width 0) (type default)) (uuid "c69df327-7377-4312-848c-b845b1b38eeb"))
+	(wire (pts (xy 334.01 118.11) (xy 334.01 121.92)) (stroke (width 0) (type default)) (uuid "618ce1bd-fde3-4009-9248-e82d8ae43e05"))
+	(global_label "0V" (shape bidirectional) (at 334.01 121.92 270) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "4bf2dabd-6979-40c1-a945-4e303aca6c88") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 311.15 128.27) (xy 318.77 128.27)) (stroke (width 0) (type default)) (uuid "5cabe51f-7fe8-42e2-893b-104a298025b6"))
+	(global_label "+24V" (shape bidirectional) (at 318.77 128.27 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "950afcbf-e4a9-4b5b-b5fb-c746f537b53a") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(symbol (lib_id "brew:Penguin_XL_pump_24V") (at 346.71 132.08 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "3394e315-f5e9-481a-b8e9-ed7853535531") (property "Reference" "M1" (at 346.71 126.37 0) (effects (font (size 1.27 1.27)))) (property "Value" "Penguin XL glycol pump 24 V · unitank-1" (at 346.71 137.79 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 346.71 132.08 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 346.71 132.08 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "539358a5-f67c-446c-9684-6ef8d5525c1d")) (pin "2" (uuid "41f459ad-0063-443b-83ce-083afc1de208")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "M1") (unit 1)))))
+	(wire (pts (xy 311.15 130.81) (xy 337.82 130.81)) (stroke (width 0) (type default)) (uuid "0246b72d-a6f2-4b3f-bcd0-177bba4f1fdd"))
+	(wire (pts (xy 337.82 133.35) (xy 334.01 133.35)) (stroke (width 0) (type default)) (uuid "f59dd740-08f3-4f28-904b-46966711512e"))
+	(wire (pts (xy 334.01 133.35) (xy 334.01 137.16)) (stroke (width 0) (type default)) (uuid "d9193b08-d19d-42bb-885e-41656a74c3ff"))
+	(global_label "24V_RTN" (shape bidirectional) (at 334.01 137.16 270) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "5f75abd8-0928-4a78-b341-eee31a20ac55") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(symbol (lib_id "brew:Uno_BrewPi") (at 223.52 111.76 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "790757e6-3741-4421-a038-4aa7eb15e2f3") (property "Reference" "A5" (at 223.52 104.78 0) (effects (font (size 1.27 1.27)))) (property "Value" "Uno · /dev/unitank-2 · BrewPi Remix · USB port 1.1" (at 223.52 118.74 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 223.52 111.76 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 223.52 111.76 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "92a1170b-8b87-4bed-892f-27678bb92281")) (pin "2" (uuid "df759b5b-f002-4785-93f5-a27dcafe262e")) (pin "3" (uuid "03a41b03-be46-437a-85bb-c856e8dc21cd")) (pin "4" (uuid "f2abffdd-98bf-40ee-b6fd-b7d6e1e0b47b")) (pin "5" (uuid "bdfeca15-2ccf-499e-a61a-656facc3fa1c")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "A5") (unit 1)))))
+	(symbol (lib_id "brew:DS18B20_bus") (at 165.1 111.76 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "c6dd2c3a-1d2b-48fe-96aa-ebd384806142") (property "Reference" "T2" (at 165.1 104.78 0) (effects (font (size 1.27 1.27)))) (property "Value" "DS18B20 unitank-2 thermowell  28EACCED582001EE" (at 165.1 118.74 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 165.1 111.76 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 165.1 111.76 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "7f57fd89-7e4e-4fd5-b9a6-ae0fc943a95a")) (pin "2" (uuid "a7399e94-e3c4-420b-91dc-f84ba3502a0b")) (pin "3" (uuid "dc037560-a358-4433-a487-b726970cb77a")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "T2") (unit 1)))))
+	(wire (pts (xy 173.99 111.76) (xy 193.04 111.76)) (stroke (width 0) (type default)) (uuid "ba2fc975-a5c2-44b6-835d-b3d161127218"))
+	(wire (pts (xy 193.04 111.76) (xy 193.04 109.22)) (stroke (width 0) (type default)) (uuid "53639eff-f1db-4841-9553-8c797be0f664"))
+	(wire (pts (xy 193.04 109.22) (xy 213.36 109.22)) (stroke (width 0) (type default)) (uuid "fa31e510-a6b4-4edb-8c9f-d829d8dc0817"))
+	(junction (at 193.04 111.76) (diameter 0) (color 0 0 0 0) (uuid "993c8c2a-143c-45e7-93f4-f67ef3e0e99e"))
+	(symbol (lib_id "Device:R") (at 193.04 104.14 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "856e6919-8a08-42f4-a9f8-a5823ed4eb2c") (property "Reference" "R7" (at 193.04 98.43 0) (effects (font (size 1.27 1.27)))) (property "Value" "4.7k" (at 193.04 109.85 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 193.04 104.14 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 193.04 104.14 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "09be0374-3ad7-4ff1-bda8-72668d80bf40")) (pin "2" (uuid "18cab673-0f21-4573-b1c5-c1cdf46ce278")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "R7") (unit 1)))))
+	(wire (pts (xy 193.04 111.76) (xy 193.04 107.95)) (stroke (width 0) (type default)) (uuid "3063f367-78d1-4122-9e1c-49af85fe1bdb"))
+	(wire (pts (xy 193.04 100.33) (xy 193.04 97.79)) (stroke (width 0) (type default)) (uuid "d8c4cd2a-8764-44d1-a59a-35a34f4023c1"))
+	(wire (pts (xy 193.04 97.79) (xy 208.28 97.79)) (stroke (width 0) (type default)) (uuid "9f8ef57d-2e6b-4d05-af54-56151b67f563"))
+	(wire (pts (xy 208.28 97.79) (xy 208.28 111.76)) (stroke (width 0) (type default)) (uuid "3674c5bc-d8d3-4182-a211-0f34e436e803"))
+	(wire (pts (xy 208.28 111.76) (xy 213.36 111.76)) (stroke (width 0) (type default)) (uuid "1d94172f-26ea-4c6d-9f01-47db25164df2"))
+	(wire (pts (xy 173.99 109.22) (xy 177.8 109.22)) (stroke (width 0) (type default)) (uuid "8665a8ce-47df-4ba7-8440-42841e41491e"))
+	(wire (pts (xy 177.8 109.22) (xy 177.8 95.25)) (stroke (width 0) (type default)) (uuid "30656717-8c07-447e-8758-6d9080844885"))
+	(wire (pts (xy 177.8 95.25) (xy 208.28 95.25)) (stroke (width 0) (type default)) (uuid "e7abf6b8-19a1-4133-8ff8-649ee83388d4"))
+	(wire (pts (xy 208.28 95.25) (xy 208.28 97.79)) (stroke (width 0) (type default)) (uuid "721d82dc-3cbc-4ac5-91f9-2d9177407301"))
+	(junction (at 208.28 97.79) (diameter 0) (color 0 0 0 0) (uuid "bab2ff0f-0cd7-470a-8429-f574ace49f0a"))
+	(wire (pts (xy 173.99 114.3) (xy 180.34 114.3)) (stroke (width 0) (type default)) (uuid "6e41738d-d0d0-4a9b-87a9-39fa0b1422af"))
+	(wire (pts (xy 180.34 114.3) (xy 180.34 119.38)) (stroke (width 0) (type default)) (uuid "65655963-4ee4-4ad6-84fc-a007e923aa8a"))
+	(wire (pts (xy 180.34 119.38) (xy 210.82 119.38)) (stroke (width 0) (type default)) (uuid "4eeae4a6-2fe6-40de-8104-3f2168fafe46"))
+	(wire (pts (xy 210.82 119.38) (xy 210.82 114.3)) (stroke (width 0) (type default)) (uuid "c726a824-f901-41ab-a30f-23d46b1b37a0"))
+	(wire (pts (xy 210.82 114.3) (xy 213.36 114.3)) (stroke (width 0) (type default)) (uuid "6400daa7-b343-4e25-8993-a4691aac10a1"))
+	(text "10-way strip positions 4–6: data · 5 V · GND;  4.7 kΩ pull-up to the Uno 5 V" (exclude_from_sim no) (at 143.51 121.92 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "44ef3b65-75b6-48e3-9ab1-f9273bfb7ac2"))
+	(wire (pts (xy 233.68 110.49) (xy 267.97 110.49)) (stroke (width 0) (type default)) (uuid "33e48cd0-1ffe-4a80-90b9-4c2037a8d77e"))
+	(wire (pts (xy 267.97 110.49) (xy 267.97 120.65)) (stroke (width 0) (type default)) (uuid "4369d89a-ed71-4bf1-b74a-4d1b58c8c448"))
+	(wire (pts (xy 267.97 120.65) (xy 288.29 120.65)) (stroke (width 0) (type default)) (uuid "0a7a8993-06f1-4767-a263-84fc03929ad9"))
+	(wire (pts (xy 233.68 113.03) (xy 275.59 113.03)) (stroke (width 0) (type default)) (uuid "c395dd56-8b97-4ac3-9521-f37d1a1bb69a"))
+	(wire (pts (xy 275.59 113.03) (xy 275.59 128.27)) (stroke (width 0) (type default)) (uuid "253e1c62-29e5-4a7f-9e68-43d825471cbb"))
+	(wire (pts (xy 275.59 128.27) (xy 288.29 128.27)) (stroke (width 0) (type default)) (uuid "2a623db3-57f4-4080-8981-699cb72e1091"))
+	(label "HEAT2" (at 234.95 110.49 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "8c669902-976f-44ea-8bd9-d00f662e67b4"))
+	(label "COOL2" (at 234.95 113.03 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "4e8ece51-8a55-43e4-a2e5-fe1bd8f0d9eb"))
+	(wire (pts (xy 311.15 118.11) (xy 318.77 118.11)) (stroke (width 0) (type default)) (uuid "700929fb-5719-419d-9895-c393ebeaafdf"))
+	(global_label "H2_FEED" (shape bidirectional) (at 318.77 118.11 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "b06bb6c3-1c3c-4d94-8371-6a50a0678d01") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(symbol (lib_id "brew:FTSs_heating_pad_12V") (at 346.71 121.92 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "59d00cf7-2649-4323-8ad4-a0c6b706936d") (property "Reference" "H2" (at 346.71 116.21 0) (effects (font (size 1.27 1.27)))) (property "Value" "FTSs heating pad 12 V · unitank-2" (at 346.71 127.63 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 346.71 121.92 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 346.71 121.92 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "9f99b09c-96b9-48b5-91f6-8f39e3c3974c")) (pin "2" (uuid "096b4c3c-15a2-4295-8b5d-e2c791c2df7f")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "H2") (unit 1)))))
+	(wire (pts (xy 311.15 120.65) (xy 337.82 120.65)) (stroke (width 0) (type default)) (uuid "9066c5c1-c9bb-4a61-b5d5-4148455c226d"))
+	(wire (pts (xy 337.82 123.19) (xy 334.01 123.19)) (stroke (width 0) (type default)) (uuid "c7f301eb-9d08-47b9-a722-00ad4690ed35"))
+	(wire (pts (xy 334.01 123.19) (xy 334.01 127)) (stroke (width 0) (type default)) (uuid "ed986253-ee4e-4a0c-a500-26ed83bb6518"))
+	(global_label "0V" (shape bidirectional) (at 334.01 127 270) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "b1ac90f7-9743-4dfa-955c-55e33438ecb7") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 311.15 133.35) (xy 318.77 133.35)) (stroke (width 0) (type default)) (uuid "8cd649dd-e3e9-4e82-99e5-b6119ebca9c8"))
+	(global_label "+24V" (shape bidirectional) (at 318.77 133.35 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "b6b27187-0438-4951-9485-46ad4dd83a5d") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(symbol (lib_id "brew:Penguin_XL_pump_24V") (at 346.71 137.16 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "65a423de-d23e-4261-a2c4-81accff35d9e") (property "Reference" "M2" (at 346.71 131.45 0) (effects (font (size 1.27 1.27)))) (property "Value" "Penguin XL glycol pump 24 V · unitank-2" (at 346.71 142.87 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 346.71 137.16 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 346.71 137.16 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "690376af-64a1-4566-8dcf-7a1e7820ed0e")) (pin "2" (uuid "dbc742e2-9c47-4191-8b6e-3d434f0252b6")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "M2") (unit 1)))))
+	(wire (pts (xy 311.15 135.89) (xy 337.82 135.89)) (stroke (width 0) (type default)) (uuid "2f55e56d-cccc-4b55-9130-bb89e94397e8"))
+	(wire (pts (xy 337.82 138.43) (xy 334.01 138.43)) (stroke (width 0) (type default)) (uuid "8d41ecc1-84f9-4cae-83e7-dced52cb3509"))
+	(wire (pts (xy 334.01 138.43) (xy 334.01 142.24)) (stroke (width 0) (type default)) (uuid "25520ffd-d20a-481f-b470-fa234c5699b0"))
+	(global_label "24V_RTN" (shape bidirectional) (at 334.01 142.24 270) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "3cf2ae8f-0152-45b8-b923-4a86bb313926") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(symbol (lib_id "brew:Uno_BrewPi") (at 223.52 167.64 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "1f28ddcf-8a46-4720-b17a-d1582cc2b37a") (property "Reference" "A6" (at 223.52 160.66 0) (effects (font (size 1.27 1.27)))) (property "Value" "Uno · /dev/chronical · BrewPi Remix · USB port 1.2" (at 223.52 174.62 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 223.52 167.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 223.52 167.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "709e3ad5-dbf9-43e0-8372-a168cb3c01b4")) (pin "2" (uuid "1236b8b5-8ea1-4617-9fa7-c9be5450670c")) (pin "3" (uuid "00850458-2af4-4049-9237-bfd3bb92b1ae")) (pin "4" (uuid "5374b933-d1ba-41d1-918b-14562c773391")) (pin "5" (uuid "ab25a494-0635-4ce8-a2dc-c013f8d22528")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "A6") (unit 1)))))
+	(symbol (lib_id "brew:DS18B20_bus") (at 165.1 167.64 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "9c65904f-baa9-409d-a24d-b6a2d1289ca1") (property "Reference" "T3" (at 165.1 160.66 0) (effects (font (size 1.27 1.27)))) (property "Value" "DS18B20 chronical thermowell  283213C85820014B" (at 165.1 174.62 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 165.1 167.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 165.1 167.64 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "8d74f420-218c-4edd-af21-84a02e3745cf")) (pin "2" (uuid "61c2cd58-ebad-41c0-8721-b9785d060b11")) (pin "3" (uuid "fb0b580f-25bc-441b-aeff-a18ec3a2416d")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "T3") (unit 1)))))
+	(wire (pts (xy 173.99 167.64) (xy 193.04 167.64)) (stroke (width 0) (type default)) (uuid "fd070774-c335-469b-8712-447be5de4cd4"))
+	(wire (pts (xy 193.04 167.64) (xy 193.04 165.1)) (stroke (width 0) (type default)) (uuid "43eb2e73-e46a-4100-9573-98192cd42423"))
+	(wire (pts (xy 193.04 165.1) (xy 213.36 165.1)) (stroke (width 0) (type default)) (uuid "00a7f438-689b-4364-9a3e-83efcca52137"))
+	(junction (at 193.04 167.64) (diameter 0) (color 0 0 0 0) (uuid "8a64a930-86ed-43c9-8c85-5e06fd22404d"))
+	(symbol (lib_id "Device:R") (at 193.04 160.02 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "879517d5-9fdf-4e76-b449-48be5d1c23bd") (property "Reference" "R8" (at 193.04 154.31 0) (effects (font (size 1.27 1.27)))) (property "Value" "4.7k" (at 193.04 165.73 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 193.04 160.02 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 193.04 160.02 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "c18800bc-d8db-41bb-9a96-e0682f7f15ee")) (pin "2" (uuid "56cce995-e73f-415e-aa13-dda3957933ad")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "R8") (unit 1)))))
+	(wire (pts (xy 193.04 167.64) (xy 193.04 163.83)) (stroke (width 0) (type default)) (uuid "7773872a-5652-42f5-a8d3-82da51ba99c5"))
+	(wire (pts (xy 193.04 156.21) (xy 193.04 153.67)) (stroke (width 0) (type default)) (uuid "1ffbb447-a183-4f4b-b608-74b1aff5df70"))
+	(wire (pts (xy 193.04 153.67) (xy 208.28 153.67)) (stroke (width 0) (type default)) (uuid "176b92d9-2ea6-4e41-b999-292efe7eefba"))
+	(wire (pts (xy 208.28 153.67) (xy 208.28 167.64)) (stroke (width 0) (type default)) (uuid "5055c588-afce-45b3-8e82-576c502627c0"))
+	(wire (pts (xy 208.28 167.64) (xy 213.36 167.64)) (stroke (width 0) (type default)) (uuid "214225c5-ebc0-48e7-913c-d8a3c0e97e32"))
+	(wire (pts (xy 173.99 165.1) (xy 177.8 165.1)) (stroke (width 0) (type default)) (uuid "34458d28-f1db-4ffb-82c9-d13efcb5e9cc"))
+	(wire (pts (xy 177.8 165.1) (xy 177.8 151.13)) (stroke (width 0) (type default)) (uuid "77ce2297-9379-430d-aae6-c1ee79fec4ae"))
+	(wire (pts (xy 177.8 151.13) (xy 208.28 151.13)) (stroke (width 0) (type default)) (uuid "db82c06f-ea66-4d23-91fc-1f63ad6c6c5b"))
+	(wire (pts (xy 208.28 151.13) (xy 208.28 153.67)) (stroke (width 0) (type default)) (uuid "fc064f75-b77d-4114-9e23-a3419b2a2207"))
+	(junction (at 208.28 153.67) (diameter 0) (color 0 0 0 0) (uuid "70f8c788-c7e4-4200-84d8-1cbfe721fc08"))
+	(wire (pts (xy 173.99 170.18) (xy 180.34 170.18)) (stroke (width 0) (type default)) (uuid "dada30c3-a85e-403a-88fc-a4b5dbaaf1c6"))
+	(wire (pts (xy 180.34 170.18) (xy 180.34 175.26)) (stroke (width 0) (type default)) (uuid "55de0132-c8ef-40c2-a20b-f9a420ee60f8"))
+	(wire (pts (xy 180.34 175.26) (xy 210.82 175.26)) (stroke (width 0) (type default)) (uuid "c2d79b22-0e36-441c-98a2-837b02e6114f"))
+	(wire (pts (xy 210.82 175.26) (xy 210.82 170.18)) (stroke (width 0) (type default)) (uuid "0e1cb606-47a3-48ca-80c1-8b114487e8ad"))
+	(wire (pts (xy 210.82 170.18) (xy 213.36 170.18)) (stroke (width 0) (type default)) (uuid "f3006c75-e9f8-45ee-aa1f-def65e0575d4"))
+	(text "10-way strip positions 8–10: data · 5 V · GND;  4.7 kΩ pull-up to the Uno 5 V" (exclude_from_sim no) (at 143.51 177.8 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "0bcd4440-3c09-447c-a736-5728ff366973"))
+	(wire (pts (xy 233.68 166.37) (xy 265.43 166.37)) (stroke (width 0) (type default)) (uuid "83226c1c-3980-4c5c-a53e-49bb35f523b5"))
+	(wire (pts (xy 265.43 166.37) (xy 265.43 123.19)) (stroke (width 0) (type default)) (uuid "8deb02dd-91e1-42f9-a964-7479ef04651e"))
+	(wire (pts (xy 265.43 123.19) (xy 288.29 123.19)) (stroke (width 0) (type default)) (uuid "a3d0fefc-8677-419e-a21f-0e17519ae54c"))
+	(wire (pts (xy 233.68 168.91) (xy 273.05 168.91)) (stroke (width 0) (type default)) (uuid "0f43400d-b5d1-41e8-a045-aeba60f4a86d"))
+	(wire (pts (xy 273.05 168.91) (xy 273.05 130.81)) (stroke (width 0) (type default)) (uuid "33f00da9-f7d5-46ae-91ba-b675b73b24a6"))
+	(wire (pts (xy 273.05 130.81) (xy 288.29 130.81)) (stroke (width 0) (type default)) (uuid "7349a95e-1d34-4462-a107-7c34b931cbf7"))
+	(label "HEAT3" (at 234.95 166.37 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "7f246b7d-7ce2-49a3-a992-8da9a8ef6613"))
+	(label "COOL3" (at 234.95 168.91 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "e7a19402-0797-474b-a575-49df944c5ab8"))
+	(wire (pts (xy 311.15 123.19) (xy 318.77 123.19)) (stroke (width 0) (type default)) (uuid "7f5090b1-3f15-4bff-860b-64c59288fc80"))
+	(global_label "H3_FEED" (shape bidirectional) (at 318.77 123.19 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "34a418c6-77fa-4fd2-b2a5-3914fafbadc2") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(symbol (lib_id "brew:FTSs_heating_pad_12V") (at 346.71 127 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "6b4bc8d9-b7fa-48fc-823d-89ad20fc189f") (property "Reference" "H3" (at 346.71 121.29 0) (effects (font (size 1.27 1.27)))) (property "Value" "FTSs heating pad 12 V · chronical" (at 346.71 132.71 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 346.71 127 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 346.71 127 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "52d3748b-b74d-4a99-9721-861688af4e25")) (pin "2" (uuid "7ed2f207-6f8d-4422-a824-a022e6d670ff")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "H3") (unit 1)))))
+	(wire (pts (xy 311.15 125.73) (xy 337.82 125.73)) (stroke (width 0) (type default)) (uuid "724f4ab8-6a93-4eb7-9374-578edcf03395"))
+	(wire (pts (xy 337.82 128.27) (xy 334.01 128.27)) (stroke (width 0) (type default)) (uuid "721fc462-42da-48fd-af7b-54769e826a63"))
+	(wire (pts (xy 334.01 128.27) (xy 334.01 132.08)) (stroke (width 0) (type default)) (uuid "7c3a4016-606c-4936-aaeb-3a0236bbe005"))
+	(global_label "0V" (shape bidirectional) (at 334.01 132.08 270) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "66f0d029-7ac5-457c-830d-69bdb7e2d22b") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 311.15 138.43) (xy 318.77 138.43)) (stroke (width 0) (type default)) (uuid "f168b436-9465-409e-bb71-855336175ef1"))
+	(global_label "+24V" (shape bidirectional) (at 318.77 138.43 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "5356e94e-3e90-4bf8-aac1-483d9fdf3062") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(symbol (lib_id "brew:Penguin_XL_pump_24V") (at 346.71 142.24 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "e88bc054-3394-4d57-8213-a9d4e455f5fe") (property "Reference" "M3" (at 346.71 136.53 0) (effects (font (size 1.27 1.27)))) (property "Value" "Penguin XL glycol pump 24 V · chronical" (at 346.71 147.95 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 346.71 142.24 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 346.71 142.24 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "309429b2-c412-4b14-955d-5119a5573008")) (pin "2" (uuid "c877d60f-6b32-4ef3-99fd-8311b47fc656")) (instances (project "brew-utils" (path "/4c06d13b-d1e8-499c-9a67-f9c4cd230927" (reference "M3") (unit 1)))))
+	(wire (pts (xy 311.15 140.97) (xy 337.82 140.97)) (stroke (width 0) (type default)) (uuid "7ab067ad-505c-4452-b63c-90d173da975d"))
+	(wire (pts (xy 337.82 143.51) (xy 334.01 143.51)) (stroke (width 0) (type default)) (uuid "b5c5dc4b-9404-44c1-94e3-a08a87675d7b"))
+	(wire (pts (xy 334.01 143.51) (xy 334.01 147.32)) (stroke (width 0) (type default)) (uuid "2ee2ac34-c5ae-4d1f-a1c2-faf19c6b064f"))
+	(global_label "24V_RTN" (shape bidirectional) (at 334.01 147.32 270) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "ea7b4768-c7bb-49b5-8778-e334431020d9") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "BrewPi device config on all three: A0 chamber temp, pin 5 chamber heater (Act 1), pin 6 chamber cooler (Act 2), \"not inverted\" — a high closes the relay.\nHeater feeds are the 7.5 A fuses V3–V5 via strip 2; heater 0 V returns to the fuse block V−.  Pump 24 V comes via strip 3 and leaves on strip 4.\nHeat/cool relays: unitank-1 = 1/4, unitank-2 = 2/5, chronical = 3/6.  Unos left→right on the panel in that order." (exclude_from_sim no) (at 223.52 233.68 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "9f6afad9-802a-428f-80ae-cf51ccaf2248"))
+	(sheet_instances (path "/" (page "1")))
+)

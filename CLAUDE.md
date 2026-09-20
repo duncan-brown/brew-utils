@@ -19,6 +19,7 @@ https://www.homebrewtalk.com/threads/brewery-dashboard.726917/
 | `brewpitosmith` | utility | BrewPi Remix beer log → BeerSmith 3 CSV. |
 | `images/` | reference | Switch pod photographs, season 2 dash scan, and the `hw-*` photos of the bench, supply box and control panel used by `HARDWARE.md`. |
 | `HARDWARE.md` | reference | The physical system, walked with the owner: power, fusing, every relay and barrier strip, pin tables for both Pis, all six Arduinos, the fermenter and glycol side. Its "Still to confirm" list is the only part not yet checked. |
+| `schematics/` | reference | KiCad schematics of the wiring, **generated** by `schematics/ksheets.py` via `schematics/kicadgen.py` — edit the Python, not the `.kicad_sch`. Rendered SVGs are `images/schematic-*.svg`. Needs `kicad-cli` (KiCad 10 is installed in /Applications) to export and ERC-check. |
 
 Only `kitt/` is worth changing unless asked otherwise.
 

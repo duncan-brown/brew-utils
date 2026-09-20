@@ -46,6 +46,7 @@ on which Pi — is in [HARDWARE.md](HARDWARE.md).
 | Path | Status | Description |
 | --- | --- | --- |
 | [`kitt/`](kitt/) | **in service** | The current system. `panp/panp.py` drives the whole dashboard; `switchpod/` is the Arduino firmware for the dash keypads. See [kitt/README.md](kitt/README.md) for how it works, and [kitt/DASHBOARD.md](kitt/DASHBOARD.md) for what each gauge means. |
+| [`schematics/`](schematics/) | reference | KiCad schematics of the control electronics, four sheets generated from the wiring in `HARDWARE.md`; rendered as `images/schematic-*.svg`. |
 | `brewpitosmith` | utility | Converts a BrewPi Remix beer log into a CSV that BeerSmith 3 will import, thinned to one row an hour. |
 | `images/` | reference | Photographs of the switch pods, the season 2 dash scan, and the `hw-*` photographs of the bench, supply box and control panel that [HARDWARE.md](HARDWARE.md) refers to. |
 

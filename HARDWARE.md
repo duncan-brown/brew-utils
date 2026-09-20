@@ -213,6 +213,25 @@ flowchart LR
   tilt["3 × Tilt · Red Green Blue"] -.-> tb["TiltBridge"] -. "WiFi" .-> bpx["BrewPi Remix"]
 ```
 
+## Schematics
+
+The wiring is also drawn as **KiCad schematics**, four A3 sheets in
+[`schematics/`](schematics/), generated from the same facts as this file (see
+[schematics/README.md](schematics/README.md) for how). Rendered copies:
+
+| Sheet | Rendered | Covers |
+| --- | --- | --- |
+| 1 | [schematic-sheet1-power.svg](images/schematic-sheet1-power.svg) | the supply box and the `POWER` button circuit |
+| 2 | [schematic-sheet2-rpints.svg](images/schematic-sheet2-rpints.svg) | rpints: PANP, dash power and flow-meter relays, keezer sensors, RaspberryPints Uno, right pod, serial to the tacho and dummies |
+| 3 | [schematic-sheet3-brewpi.svg](images/schematic-sheet3-brewpi.svg) | brewpi: relay drives, hot-side probes, serial to the message centre and speedo, left pod, the three BrewPi controllers with heaters and pumps |
+| 4 | [schematic-sheet4-dash.svg](images/schematic-sheet4-dash.svg) | strip 1 to the Pi converters, DASH POWER to the dash boards, the PANP switches on their strips |
+
+![Sheet 1 — the supply box and the POWER button](images/schematic-sheet1-power.svg)
+
+All four pass KiCad's electrical rules check with no errors. Where this file
+and a sheet disagree, this file was walked with the owner and the sheet was
+drawn from it, so fix the sheet.
+
 ## Power
 
 Everything low-voltage runs from **one 30 A, 12 VDC switching supply**. It

@@ -1,0 +1,1818 @@
+(kicad_sch
+	(version 20250114)
+	(generator "brew-utils")
+	(generator_version "1")
+	(uuid "8e2d1820-b3c9-4b7b-9375-177f76542263")
+	(paper "A3")
+	(title_block
+		(title "brew-utils sheet 1 — supply box and the POWER button")
+		(rev "1")
+		(company "brew-utils")
+	)
+	(lib_symbols
+		(symbol "brew:PSU_12V_30A"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "PS"
+						(at 0 5.08 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "PSU_12V_30A"
+						(at 0 -5.08 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "PSU_12V_30A_0_1"
+						(rectangle
+							(start -7.62 3.81)
+							(end 7.62 -3.81)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "PSU_12V_30A_1_1"
+						(pin passive line
+							(at -10.16 1.27 0)
+							(length 2.54)
+							(name "L"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -10.16 -1.27 0)
+							(length 2.54)
+							(name "N"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 10.16 1.27 180)
+							(length 2.54)
+							(name "+12V"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 10.16 -1.27 180)
+							(length 2.54)
+							(name "0V"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+		(symbol "Device:Fuse"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(in_pos_files yes)
+					(duplicate_pin_numbers_are_jumpers no)
+					(property "Reference" "F"
+						(at 2.032 0 90)
+						(show_name no)
+						(do_not_autoplace no)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "Fuse"
+						(at -1.905 0 90)
+						(show_name no)
+						(do_not_autoplace no)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at -1.778 0 90)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Description" "Fuse"
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "ki_keywords" "fuse"
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "ki_fp_filters" "*Fuse*"
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(symbol "Fuse_0_1"
+						(rectangle
+							(start -0.762 -2.54)
+							(end 0.762 2.54)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type none)
+							)
+						)
+						(polyline
+							(pts
+								(xy 0 2.54)
+								(xy 0 -2.54)
+							)
+							(stroke
+								(width 0)
+								(type default)
+							)
+							(fill
+								(type none)
+							)
+						)
+					)
+					(symbol "Fuse_1_1"
+						(pin passive line
+							(at 0 3.81 270)
+							(length 1.27)
+							(name ""
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 0 -3.81 90)
+							(length 1.27)
+							(name ""
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+						)
+					)
+					(embedded_fonts no)
+				)
+		(symbol "brew:HiLetgo_Latching_Relay"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "K"
+						(at 0 7.62 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "HiLetgo_Latching_Relay"
+						(at 0 -7.62 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "HiLetgo_Latching_Relay_0_1"
+						(rectangle
+							(start -11.43 6.35)
+							(end 11.43 -6.35)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "HiLetgo_Latching_Relay_1_1"
+						(pin passive line
+							(at -13.97 3.81 0)
+							(length 2.54)
+							(name "+12"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -13.97 1.27 0)
+							(length 2.54)
+							(name "0V"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -13.97 -1.27 0)
+							(length 2.54)
+							(name "TRIG"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -13.97 -3.81 0)
+							(length 2.54)
+							(name "TRIG_RTN"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 13.97 2.54 180)
+							(length 2.54)
+							(name "COM"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "5"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 13.97 0 180)
+							(length 2.54)
+							(name "NC"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "6"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 13.97 -2.54 180)
+							(length 2.54)
+							(name "NO"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "7"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+		(symbol "Device:Lamp"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.0254)
+						(hide yes)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(in_pos_files yes)
+					(duplicate_pin_numbers_are_jumpers no)
+					(property "Reference" "LA"
+						(at 0.635 3.81 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(justify left)
+						)
+					)
+					(property "Value" "Lamp"
+						(at 0.635 -3.81 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(justify left)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 2.54 90)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 2.54 90)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Description" "Lamp"
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "ki_keywords" "lamp"
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(symbol "Lamp_0_1"
+						(polyline
+							(pts
+								(xy -1.778 1.778)
+								(xy 1.778 -1.778)
+							)
+							(stroke
+								(width 0)
+								(type default)
+							)
+							(fill
+								(type none)
+							)
+						)
+						(circle
+							(center 0 0)
+							(radius 2.54)
+							(stroke
+								(width 0)
+								(type default)
+							)
+							(fill
+								(type none)
+							)
+						)
+						(polyline
+							(pts
+								(xy 1.778 1.778)
+								(xy -1.778 -1.778)
+							)
+							(stroke
+								(width 0)
+								(type default)
+							)
+							(fill
+								(type none)
+							)
+						)
+					)
+					(symbol "Lamp_1_1"
+						(pin passive line
+							(at 0 -5.08 90)
+							(length 2.54)
+							(name "-"
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 0 5.08 270)
+							(length 2.54)
+							(name "+"
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+						)
+					)
+					(embedded_fonts no)
+				)
+		(symbol "Switch:SW_Push"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 1.016)
+						(hide yes)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(in_pos_files yes)
+					(duplicate_pin_numbers_are_jumpers no)
+					(property "Reference" "SW"
+						(at 1.27 2.54 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(justify left)
+						)
+					)
+					(property "Value" "SW_Push"
+						(at 0 -1.524 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 5.08 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 5.08 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Description" "Push button switch, generic, two pins"
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "ki_keywords" "switch normally-open pushbutton push-button"
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(symbol "SW_Push_0_1"
+						(circle
+							(center -2.032 0)
+							(radius 0.508)
+							(stroke
+								(width 0)
+								(type default)
+							)
+							(fill
+								(type none)
+							)
+						)
+						(polyline
+							(pts
+								(xy 0 1.27)
+								(xy 0 3.048)
+							)
+							(stroke
+								(width 0)
+								(type default)
+							)
+							(fill
+								(type none)
+							)
+						)
+						(circle
+							(center 2.032 0)
+							(radius 0.508)
+							(stroke
+								(width 0)
+								(type default)
+							)
+							(fill
+								(type none)
+							)
+						)
+						(polyline
+							(pts
+								(xy 2.54 1.27)
+								(xy -2.54 1.27)
+							)
+							(stroke
+								(width 0)
+								(type default)
+							)
+							(fill
+								(type none)
+							)
+						)
+						(pin passive line
+							(at -5.08 0 0)
+							(length 2.54)
+							(name "1"
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 5.08 0 180)
+							(length 2.54)
+							(name "2"
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+						)
+					)
+					(embedded_fonts no)
+				)
+		(symbol "brew:Relay_Module_1ch_5V"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "K"
+						(at 0 7.62 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "Relay_Module_1ch_5V"
+						(at 0 -7.62 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "Relay_Module_1ch_5V_0_1"
+						(rectangle
+							(start -7.62 6.35)
+							(end 7.62 -6.35)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "Relay_Module_1ch_5V_1_1"
+						(pin passive line
+							(at -10.16 3.81 0)
+							(length 2.54)
+							(name "IN"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -10.16 1.27 0)
+							(length 2.54)
+							(name "VCC"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -10.16 -1.27 0)
+							(length 2.54)
+							(name "GND"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -10.16 -3.81 0)
+							(length 2.54)
+							(name "COM"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 10.16 1.27 180)
+							(length 2.54)
+							(name "NC"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "5"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 10.16 -1.27 180)
+							(length 2.54)
+							(name "NO"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "6"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+		(symbol "brew:CZH_D-1012_30A"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "K"
+						(at 0 6.35 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "CZH_D-1012_30A"
+						(at 0 -6.35 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "CZH_D-1012_30A_0_1"
+						(rectangle
+							(start -7.62 5.08)
+							(end 7.62 -5.08)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "CZH_D-1012_30A_1_1"
+						(pin passive line
+							(at -10.16 2.54 0)
+							(length 2.54)
+							(name "IN+"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -10.16 0 0)
+							(length 2.54)
+							(name "IN-"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -10.16 -2.54 0)
+							(length 2.54)
+							(name "COM"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 10.16 0 180)
+							(length 2.54)
+							(name "NO"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+		(symbol "brew:CZH_D-1384_Fuse_Block"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "FB"
+						(at 0 10.16 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "CZH_D-1384_Fuse_Block"
+						(at 0 -10.16 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "CZH_D-1384_Fuse_Block_0_1"
+						(rectangle
+							(start -10.16 8.89)
+							(end 10.16 -8.89)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "CZH_D-1384_Fuse_Block_1_1"
+						(pin passive line
+							(at -12.7 1.27 0)
+							(length 2.54)
+							(name "V+"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -12.7 -1.27 0)
+							(length 2.54)
+							(name "V-"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 12.7 6.35 180)
+							(length 2.54)
+							(name "V1:7.5A"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 12.7 3.81 180)
+							(length 2.54)
+							(name "V2:5A"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 12.7 1.27 180)
+							(length 2.54)
+							(name "V3:7.5A"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "5"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 12.7 -1.27 180)
+							(length 2.54)
+							(name "V4:7.5A"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "6"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 12.7 -3.81 180)
+							(length 2.54)
+							(name "V5:7.5A"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "7"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 12.7 -6.35 180)
+							(length 2.54)
+							(name "V6:5A"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "8"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+		(symbol "brew:MGGi_12-24V_15A"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.762)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(property "Reference" "U"
+						(at 0 5.08 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Value" "MGGi_12-24V_15A"
+						(at 0 -5.08 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Footprint" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(property "Description" ""
+						(at 0 0 0)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(hide yes)
+						)
+					)
+					(symbol "MGGi_12-24V_15A_0_1"
+						(rectangle
+							(start -8.89 3.81)
+							(end 8.89 -3.81)
+							(stroke
+								(width 0.254)
+								(type default)
+							)
+							(fill
+								(type background)
+							)
+						)
+					)
+					(symbol "MGGi_12-24V_15A_1_1"
+						(pin passive line
+							(at -11.43 1.27 0)
+							(length 2.54)
+							(name "IN+"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at -11.43 -1.27 0)
+							(length 2.54)
+							(name "IN-"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 11.43 1.27 180)
+							(length 2.54)
+							(name "OUT+"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "3"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 11.43 -1.27 180)
+							(length 2.54)
+							(name "OUT-"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+							(number "4"
+								(effects
+									(font
+										(size 1.016 1.016)
+									)
+								)
+							)
+						)
+					)
+				)
+		(symbol "Device:C_Polarized"
+					(pin_numbers
+						(hide yes)
+					)
+					(pin_names
+						(offset 0.254)
+					)
+					(exclude_from_sim no)
+					(in_bom yes)
+					(on_board yes)
+					(in_pos_files yes)
+					(duplicate_pin_numbers_are_jumpers no)
+					(property "Reference" "C"
+						(at 0.635 2.54 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(justify left)
+						)
+					)
+					(property "Value" "C_Polarized"
+						(at 0.635 -2.54 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+							(justify left)
+						)
+					)
+					(property "Footprint" ""
+						(at 0.9652 -3.81 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Datasheet" ""
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "Description" "Polarized capacitor"
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "ki_keywords" "cap capacitor"
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(property "ki_fp_filters" "CP_*"
+						(at 0 0 0)
+						(show_name no)
+						(do_not_autoplace no)
+						(hide yes)
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(symbol "C_Polarized_0_1"
+						(rectangle
+							(start -2.286 0.508)
+							(end 2.286 1.016)
+							(stroke
+								(width 0)
+								(type default)
+							)
+							(fill
+								(type none)
+							)
+						)
+						(polyline
+							(pts
+								(xy -1.778 2.286)
+								(xy -0.762 2.286)
+							)
+							(stroke
+								(width 0)
+								(type default)
+							)
+							(fill
+								(type none)
+							)
+						)
+						(polyline
+							(pts
+								(xy -1.27 2.794)
+								(xy -1.27 1.778)
+							)
+							(stroke
+								(width 0)
+								(type default)
+							)
+							(fill
+								(type none)
+							)
+						)
+						(rectangle
+							(start 2.286 -0.508)
+							(end -2.286 -1.016)
+							(stroke
+								(width 0)
+								(type default)
+							)
+							(fill
+								(type outline)
+							)
+						)
+					)
+					(symbol "C_Polarized_1_1"
+						(pin passive line
+							(at 0 3.81 270)
+							(length 2.794)
+							(name ""
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+							(number "1"
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+						)
+						(pin passive line
+							(at 0 -3.81 90)
+							(length 2.794)
+							(name ""
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+							(number "2"
+								(effects
+									(font
+										(size 1.27 1.27)
+									)
+								)
+							)
+						)
+					)
+					(embedded_fonts no)
+				)
+	)
+	(text "Sheet 1 — the supply box and the POWER button circuit.  The latch is unlatched at power-up and its output is taken from NC, so the system comes up on mains." (exclude_from_sim no) (at 10.16 10.16 0) (effects (font (size 1.6 1.6)) (justify left top)) (uuid "3f144b1e-2ac6-44df-9ba8-6b2bc967b8bf"))
+	(text "Interlocks: each Pi drives its relay IN high while it is up (power-relay-*.service), opening the NC contact and taking the POWER button out of the trigger loop.  Both Pis must halt before the button does anything." (exclude_from_sim no) (at 10.16 15.24 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid "05743303-1d84-458e-9c48-d6318bf5ed4e"))
+	(wire (pts (xy 25.4 38.1) (xy 406.4 38.1)) (stroke (width 0) (type default)) (uuid "e82d2625-0cbd-46d3-9478-75ece9f78058"))
+	(global_label "+12V_UNSWITCHED" (shape bidirectional) (at 25.4 38.1 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "50f6c131-c8fe-4dd9-a8ac-b89da0a3ad3f") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(global_label "+12V_UNSWITCHED" (shape bidirectional) (at 406.4 38.1 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "77b26ca5-b756-42fd-ac3a-340d2fd309ce") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 25.4 254) (xy 406.4 254)) (stroke (width 0) (type default)) (uuid "6e05d19b-554d-40b8-b162-a6f33bc74043"))
+	(global_label "0V" (shape bidirectional) (at 25.4 254 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "cf7ce30c-b6e7-4504-a7a6-3c11171b2205") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(global_label "0V" (shape bidirectional) (at 406.4 254 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "15a8b3f4-b4ad-41f1-9c22-4b4fd46c5812") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(symbol (lib_id "brew:PSU_12V_30A") (at 50.8 127 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "5ea63bfa-fc94-4ab6-99db-ccc42f8de797") (property "Reference" "PS1" (at 50.8 121.29 0) (effects (font (size 1.27 1.27)))) (property "Value" "12 V 30 A switching supply" (at 50.8 132.71 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 50.8 127 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 50.8 127 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "33e835bd-6179-4697-8058-75c17cbf6fba")) (pin "2" (uuid "30e719ef-532a-4f85-809e-185cdd92f39c")) (pin "3" (uuid "3ae41534-e913-4174-83cd-93167efad541")) (pin "4" (uuid "178d72fe-1a20-41fd-be2a-5acbea371c89")) (instances (project "brew-utils" (path "/8e2d1820-b3c9-4b7b-9375-177f76542263" (reference "PS1") (unit 1)))))
+	(wire (pts (xy 60.96 125.73) (xy 73.66 125.73)) (stroke (width 0) (type default)) (uuid "db79a982-6692-4ec6-a676-fedac6527ce8"))
+	(wire (pts (xy 73.66 125.73) (xy 73.66 38.1)) (stroke (width 0) (type default)) (uuid "02e96a56-2b8f-4178-bc79-166de1fac3f8"))
+	(junction (at 73.66 38.1) (diameter 0) (color 0 0 0 0) (uuid "2b3b8dae-a864-4047-a268-e2e6624b60c6"))
+	(wire (pts (xy 60.96 128.27) (xy 73.66 128.27)) (stroke (width 0) (type default)) (uuid "7930f732-9a72-4fba-ba6c-a4613c66dac0"))
+	(wire (pts (xy 73.66 128.27) (xy 73.66 254)) (stroke (width 0) (type default)) (uuid "7ac296dd-1c6a-4930-b456-204c9102e64d"))
+	(junction (at 73.66 254) (diameter 0) (color 0 0 0 0) (uuid "a58e0e80-55df-44f5-b897-03b7da17b5bd"))
+	(wire (pts (xy 40.64 125.73) (xy 35.56 125.73)) (stroke (width 0) (type default)) (uuid "56161512-5446-4fb3-b9ef-d6bab5c63d01"))
+	(global_label "MAINS_L" (shape bidirectional) (at 35.56 125.73 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "f3e1c36e-94d5-4126-95f1-475855d399f5") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 40.64 128.27) (xy 35.56 128.27)) (stroke (width 0) (type default)) (uuid "b1ebc70f-cfa0-4200-b3f7-7641b71b3499"))
+	(global_label "MAINS_N" (shape bidirectional) (at 35.56 128.27 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "71f235d6-97b3-4637-97e9-0e100760d967") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(symbol (lib_id "Device:Fuse") (at 91.44 53.34 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "5393a2e1-21dc-49cd-a90e-0af4b70ef80c") (property "Reference" "F1" (at 91.44 47.63 0) (effects (font (size 1.27 1.27)))) (property "Value" "3 A" (at 91.44 59.05 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 91.44 53.34 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 91.44 53.34 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "1009e5e9-d360-4a3a-8f61-bd2f9c1b6cc4")) (pin "2" (uuid "1d8a5d4a-6f71-49f5-b59d-9af4597d0f2b")) (instances (project "brew-utils" (path "/8e2d1820-b3c9-4b7b-9375-177f76542263" (reference "F1") (unit 1)))))
+	(wire (pts (xy 91.44 38.1) (xy 91.44 49.53)) (stroke (width 0) (type default)) (uuid "4bb1c3eb-61e8-44c5-8ca2-a0663d83ddf9"))
+	(junction (at 91.44 38.1) (diameter 0) (color 0 0 0 0) (uuid "e7d3633c-8742-49e4-831c-e7c1f2a946fe"))
+	(symbol (lib_id "brew:HiLetgo_Latching_Relay") (at 121.92 78.74 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "85f6b91f-2c33-483c-bc06-211c837c2588") (property "Reference" "K1" (at 121.92 70.49 0) (effects (font (size 1.27 1.27)))) (property "Value" "HiLetgo bistable latching relay" (at 121.92 86.99 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 121.92 78.74 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 121.92 78.74 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "92567e9e-2334-4943-a126-6607a4586f59")) (pin "2" (uuid "ee162cc8-b894-4560-bc1c-93f8af88ed21")) (pin "3" (uuid "85d61448-70e2-4846-8d48-681c9b79583c")) (pin "4" (uuid "25994029-3a2b-47fa-a38a-c3f4ceff9912")) (pin "5" (uuid "a650374a-5464-40a1-826e-e41b19415556")) (pin "6" (uuid "947e59ca-4819-4181-810d-03ac0c81be73")) (pin "7" (uuid "90d5eac8-5b93-40d6-8fab-021c30f660ad")) (instances (project "brew-utils" (path "/8e2d1820-b3c9-4b7b-9375-177f76542263" (reference "K1") (unit 1)))))
+	(wire (pts (xy 91.44 57.15) (xy 91.44 74.93)) (stroke (width 0) (type default)) (uuid "00fd7d39-679e-4397-93c9-9e1cfbe07ae6"))
+	(junction (at 91.44 74.93) (diameter 0) (color 0 0 0 0) (uuid "a032e9d7-8f23-4414-bbcc-04f00c1baa1b"))
+	(wire (pts (xy 91.44 74.93) (xy 107.95 74.93)) (stroke (width 0) (type default)) (uuid "71fe8db1-b8ec-4fa8-9311-11c260c06459"))
+	(wire (pts (xy 91.44 74.93) (xy 91.44 64.77)) (stroke (width 0) (type default)) (uuid "e89105d2-5931-4e30-a1b6-0143decca50d"))
+	(wire (pts (xy 91.44 64.77) (xy 140.97 64.77)) (stroke (width 0) (type default)) (uuid "dbbf30e9-99b2-469f-a58c-049b3334cfcb"))
+	(wire (pts (xy 140.97 64.77) (xy 140.97 76.2)) (stroke (width 0) (type default)) (uuid "9ad1cf13-3ab9-4c26-871e-0798b7b1e275"))
+	(wire (pts (xy 140.97 76.2) (xy 135.89 76.2)) (stroke (width 0) (type default)) (uuid "0cd474de-a0a9-442a-ada0-97864a78ded9"))
+	(wire (pts (xy 107.95 77.47) (xy 102.87 77.47)) (stroke (width 0) (type default)) (uuid "ebd3c65f-416c-4793-b0c2-65fa93d8f364"))
+	(wire (pts (xy 102.87 77.47) (xy 102.87 254)) (stroke (width 0) (type default)) (uuid "6d72c286-38f9-4705-ab8f-f5fdd2d09f25"))
+	(junction (at 102.87 254) (diameter 0) (color 0 0 0 0) (uuid "6f62069e-bf1f-4e76-ac30-967f48c98f2a"))
+	(no_connect (at 135.89 81.28) (uuid "dfa037fd-549f-4543-9d49-3ab258f6e5dd"))
+	(wire (pts (xy 135.89 78.74) (xy 153.67 78.74)) (stroke (width 0) (type default)) (uuid "021191ef-38d0-4547-ac56-ddc10af98411"))
+	(junction (at 153.67 78.74) (diameter 0) (color 0 0 0 0) (uuid "8d6d44c1-3bd6-4450-aa17-0e3096d223e7"))
+	(label "MASTER_RELAY" (at 138.43 78.74 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "692c11bb-e766-44b6-aa84-f9279b5a6bde"))
+	(symbol (lib_id "Device:Lamp") (at 153.67 152.4 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "c7b7fdef-b59e-405f-91f3-aa9423b4fcd3") (property "Reference" "LA1" (at 153.67 145.42 0) (effects (font (size 1.27 1.27)))) (property "Value" "POWER button lamp 12 V" (at 153.67 159.38 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 153.67 152.4 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 153.67 152.4 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "ccd81589-ef66-4b2c-bc88-2294486b5014")) (pin "2" (uuid "b836fc2f-eaf5-4935-a172-96967191a942")) (instances (project "brew-utils" (path "/8e2d1820-b3c9-4b7b-9375-177f76542263" (reference "LA1") (unit 1)))))
+	(wire (pts (xy 153.67 78.74) (xy 153.67 147.32)) (stroke (width 0) (type default)) (uuid "eabf18d6-e848-4ab3-b894-fae54edc8f55"))
+	(wire (pts (xy 153.67 157.48) (xy 153.67 254)) (stroke (width 0) (type default)) (uuid "ad5fe130-f01b-4934-b02e-500a17dac841"))
+	(junction (at 153.67 254) (diameter 0) (color 0 0 0 0) (uuid "96ee13db-ea51-466c-a408-84dd833f8c74"))
+	(symbol (lib_id "Switch:SW_Push") (at 50.8 190.5 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "8bb5f813-250a-464f-abd1-3caef22a7eea") (property "Reference" "SW1" (at 50.8 187.33 0) (effects (font (size 1.27 1.27)))) (property "Value" "POWER button (C · NO)" (at 50.8 193.67 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 50.8 190.5 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 50.8 190.5 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "46dc1811-94d7-49c4-bd04-cbacbaf7943e")) (pin "2" (uuid "60df5f69-3892-48f4-a04b-7c33cc386b30")) (instances (project "brew-utils" (path "/8e2d1820-b3c9-4b7b-9375-177f76542263" (reference "SW1") (unit 1)))))
+	(symbol (lib_id "brew:Relay_Module_1ch_5V") (at 83.82 190.5 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "04e457db-7143-485f-bb97-969b6657c99b") (property "Reference" "K2" (at 83.82 182.25 0) (effects (font (size 1.27 1.27)))) (property "Value" "rpints interlock" (at 83.82 198.75 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 83.82 190.5 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 83.82 190.5 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "f69d4a21-b9f1-44df-99ff-913971d31000")) (pin "2" (uuid "b6581332-1cb9-4dc7-8b5c-3e6cb67a911e")) (pin "3" (uuid "4a1f2892-24c0-4277-96b3-6dc10964aa83")) (pin "4" (uuid "98755d83-c302-40f1-a723-01dab763d457")) (pin "5" (uuid "981cdc7c-6107-437c-8b18-45c708f8a07f")) (pin "6" (uuid "3e65e772-4c96-4af4-8cf7-92f86a01e298")) (instances (project "brew-utils" (path "/8e2d1820-b3c9-4b7b-9375-177f76542263" (reference "K2") (unit 1)))))
+	(symbol (lib_id "brew:Relay_Module_1ch_5V") (at 134.62 190.5 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "0dc0ede8-a9d9-42e9-8adf-e0260605c6d0") (property "Reference" "K3" (at 134.62 182.25 0) (effects (font (size 1.27 1.27)))) (property "Value" "brewpi interlock" (at 134.62 198.75 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 134.62 190.5 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 134.62 190.5 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "911c8e97-017d-46ce-9ad6-88c9a1da8fd3")) (pin "2" (uuid "5c7e312e-2b84-4613-b3ab-5564f94437a3")) (pin "3" (uuid "1bf9f275-a060-4194-82c5-0894b41cff9e")) (pin "4" (uuid "ca5e79be-a2a5-460f-aae9-88f70b4372c6")) (pin "5" (uuid "c0473d89-07a6-46fb-85ea-02f4c3b9c4b4")) (pin "6" (uuid "59aa8e66-c59d-4492-82a1-efd460f8080a")) (instances (project "brew-utils" (path "/8e2d1820-b3c9-4b7b-9375-177f76542263" (reference "K3") (unit 1)))))
+	(wire (pts (xy 55.88 190.5) (xy 73.66 194.31)) (stroke (width 0) (type default)) (uuid "a05d1c71-b58a-4994-8100-fbf075e28d08"))
+	(wire (pts (xy 45.72 190.5) (xy 40.64 190.5)) (stroke (width 0) (type default)) (uuid "c9da43c5-ec84-47b8-9bd5-a83a1336f76f"))
+	(wire (pts (xy 40.64 190.5) (xy 40.64 223.52)) (stroke (width 0) (type default)) (uuid "899207e6-9af7-41a4-a1d9-7d7785f4b428"))
+	(wire (pts (xy 40.64 223.52) (xy 100.33 223.52)) (stroke (width 0) (type default)) (uuid "9c8e84fb-4647-4c37-94e1-12b176b38274"))
+	(wire (pts (xy 100.33 223.52) (xy 100.33 82.55)) (stroke (width 0) (type default)) (uuid "3f4b632a-df59-47d5-8693-2aafb2970ec3"))
+	(wire (pts (xy 100.33 82.55) (xy 107.95 82.55)) (stroke (width 0) (type default)) (uuid "fed20ac6-3e97-4603-ac52-a6ca76326bf5"))
+	(wire (pts (xy 73.66 186.69) (xy 66.04 186.69)) (stroke (width 0) (type default)) (uuid "f5301c4d-6ba5-4aca-9d0e-2793ab0de7ae"))
+	(global_label "RPINTS_IO23" (shape bidirectional) (at 66.04 186.69 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "226c106c-1e8a-4c0a-bbd1-3ef2450f5ad0") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 73.66 189.23) (xy 66.04 189.23)) (stroke (width 0) (type default)) (uuid "bfe7857a-c246-4060-a191-ecc05993625a"))
+	(global_label "RPINTS_5V" (shape bidirectional) (at 66.04 189.23 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "7f3c689b-a934-4e3f-83cd-a403307e1596") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 73.66 191.77) (xy 71.12 191.77)) (stroke (width 0) (type default)) (uuid "5cd9cf2b-3c40-46ae-8280-d87dbb8bc1f4"))
+	(wire (pts (xy 71.12 191.77) (xy 71.12 254)) (stroke (width 0) (type default)) (uuid "525bdd19-15de-486a-b981-7f126c50eeb5"))
+	(junction (at 71.12 254) (diameter 0) (color 0 0 0 0) (uuid "cb44b2b9-0984-4811-bb2f-aee20aa5b378"))
+	(no_connect (at 93.98 191.77) (uuid "56a36eed-b315-47f7-852f-5af0374e17b9"))
+	(wire (pts (xy 124.46 186.69) (xy 116.84 186.69)) (stroke (width 0) (type default)) (uuid "bee5368c-ce45-4cf7-9472-68d5d70d2d26"))
+	(global_label "BREWPI_IO5" (shape bidirectional) (at 116.84 186.69 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "f78e852b-bd96-4618-ba80-a0a11ef68e3d") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 124.46 189.23) (xy 116.84 189.23)) (stroke (width 0) (type default)) (uuid "bac36e3b-a269-4c86-8de5-5f07f0ac914e"))
+	(global_label "BREWPI_5V" (shape bidirectional) (at 116.84 189.23 180) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify right)) (uuid "4216b620-c68c-4dc4-b0c6-a2a72541690e") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(wire (pts (xy 124.46 191.77) (xy 121.92 191.77)) (stroke (width 0) (type default)) (uuid "b5bf27fb-54fe-4af8-ba01-38cf7bc9f286"))
+	(wire (pts (xy 121.92 191.77) (xy 121.92 254)) (stroke (width 0) (type default)) (uuid "78469a66-940e-4dc7-80c0-ff1d7bdf861b"))
+	(junction (at 121.92 254) (diameter 0) (color 0 0 0 0) (uuid "e1d4a551-e862-4275-8282-4e787e545889"))
+	(no_connect (at 144.78 191.77) (uuid "44a9eb0c-072f-4cae-971e-6322cbe05de7"))
+	(wire (pts (xy 93.98 189.23) (xy 124.46 194.31)) (stroke (width 0) (type default)) (uuid "3d4f9c79-d3a8-4565-9b4b-1959e12c49ee"))
+	(wire (pts (xy 144.78 189.23) (xy 149.86 189.23)) (stroke (width 0) (type default)) (uuid "04a777c8-9946-4a14-92af-c41cc79465e9"))
+	(wire (pts (xy 149.86 189.23) (xy 149.86 160.02)) (stroke (width 0) (type default)) (uuid "d3f50b14-a46a-4308-ac41-44560a953dc9"))
+	(wire (pts (xy 149.86 160.02) (xy 104.14 160.02)) (stroke (width 0) (type default)) (uuid "c0cc01bf-a0f1-4bbf-bfa7-4bd3f2fb39cc"))
+	(wire (pts (xy 104.14 160.02) (xy 104.14 80.01)) (stroke (width 0) (type default)) (uuid "dd332a93-09eb-4a5d-b7c8-51bc95d9a0b4"))
+	(wire (pts (xy 104.14 80.01) (xy 107.95 80.01)) (stroke (width 0) (type default)) (uuid "4a9b2aa5-8786-44fe-9743-1f7c26770013"))
+	(text "button NO → K2 COM/NC → K3 COM/NC → TRIG;  button C → TRIG_RTN" (exclude_from_sim no) (at 71.12 213.36 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "6892468f-712e-4ffa-a2af-2c619b6bb887"))
+	(symbol (lib_id "brew:CZH_D-1012_30A") (at 213.36 88.9 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "1f604611-0b6f-4ebd-a7b1-49ba9ab8e347") (property "Reference" "K4" (at 213.36 81.92 0) (effects (font (size 1.27 1.27)))) (property "Value" "D-1012 lower contactor" (at 213.36 95.88 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 213.36 88.9 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 213.36 88.9 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "5eaa82b4-6d6f-4cce-9f21-2c0f4934a44e")) (pin "2" (uuid "2677ebef-044e-487e-8b9a-1c595052c9d4")) (pin "3" (uuid "1509799e-d91c-4588-bbd8-c102432e84f1")) (pin "4" (uuid "44a89d6f-c355-4e08-b370-7c375a90d0a2")) (instances (project "brew-utils" (path "/8e2d1820-b3c9-4b7b-9375-177f76542263" (reference "K4") (unit 1)))))
+	(symbol (lib_id "brew:CZH_D-1012_30A") (at 213.36 165.1 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "04211c1b-d044-4fb3-991a-d25908ad160f") (property "Reference" "K5" (at 213.36 158.12 0) (effects (font (size 1.27 1.27)))) (property "Value" "D-1012 upper contactor" (at 213.36 172.08 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 213.36 165.1 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 213.36 165.1 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "ca05dd17-fa93-48d6-8d4c-3d962d6ac16e")) (pin "2" (uuid "64d64ee0-dd63-41ab-90e1-e57836f386d5")) (pin "3" (uuid "96fffc37-b071-432b-a3cf-65f0582dde5c")) (pin "4" (uuid "4c9b36da-d2dc-48a5-9629-a4158a459e94")) (instances (project "brew-utils" (path "/8e2d1820-b3c9-4b7b-9375-177f76542263" (reference "K5") (unit 1)))))
+	(wire (pts (xy 153.67 78.74) (xy 193.04 78.74)) (stroke (width 0) (type default)) (uuid "4e528c44-7cf0-452a-b7eb-938110b8259e"))
+	(wire (pts (xy 193.04 78.74) (xy 193.04 162.56)) (stroke (width 0) (type default)) (uuid "d8943063-c8d6-4c54-9481-415f45bb80b4"))
+	(junction (at 193.04 86.36) (diameter 0) (color 0 0 0 0) (uuid "d8196487-d48f-4b47-b46f-774cecdb8976"))
+	(wire (pts (xy 193.04 86.36) (xy 203.2 86.36)) (stroke (width 0) (type default)) (uuid "9e190cc7-1a84-43b0-a7da-e1328429bf13"))
+	(wire (pts (xy 193.04 162.56) (xy 203.2 162.56)) (stroke (width 0) (type default)) (uuid "68af1546-fcf1-41b4-9dff-23f808a50d0e"))
+	(wire (pts (xy 203.2 88.9) (xy 198.12 88.9)) (stroke (width 0) (type default)) (uuid "2af6cfa4-c65f-4286-ad07-22f38a885f39"))
+	(wire (pts (xy 198.12 88.9) (xy 198.12 254)) (stroke (width 0) (type default)) (uuid "fffd5be0-c028-4e3d-ada9-ab7fbbac795a"))
+	(junction (at 198.12 254) (diameter 0) (color 0 0 0 0) (uuid "1efe0ea2-6157-4d04-a021-32f30b34ec4f"))
+	(wire (pts (xy 203.2 165.1) (xy 198.12 165.1)) (stroke (width 0) (type default)) (uuid "001c24e2-5baf-46fd-aeaf-4f264973ca21"))
+	(wire (pts (xy 198.12 165.1) (xy 198.12 254)) (stroke (width 0) (type default)) (uuid "b9bfbf1c-079b-4a4f-b345-7a131e121498"))
+	(wire (pts (xy 195.58 38.1) (xy 195.58 91.44)) (stroke (width 0) (type default)) (uuid "132ad202-05df-4a57-aff8-2fb64bf1dda6"))
+	(junction (at 195.58 38.1) (diameter 0) (color 0 0 0 0) (uuid "f76ff6f0-e277-4fe5-b64b-84a324b9f8eb"))
+	(junction (at 195.58 91.44) (diameter 0) (color 0 0 0 0) (uuid "65661ea1-c65e-40a8-85e7-e371e0e1c188"))
+	(wire (pts (xy 195.58 91.44) (xy 203.2 91.44)) (stroke (width 0) (type default)) (uuid "c24b64fd-4b0c-48aa-b9d6-2bf3003288f2"))
+	(wire (pts (xy 195.58 91.44) (xy 195.58 167.64)) (stroke (width 0) (type default)) (uuid "8836144d-7a51-42a7-b0b2-13bbb2bdad78"))
+	(wire (pts (xy 195.58 167.64) (xy 203.2 167.64)) (stroke (width 0) (type default)) (uuid "f9fb7e7a-a2b9-4920-a44d-3d0c2dbb69c9"))
+	(symbol (lib_id "brew:CZH_D-1384_Fuse_Block") (at 299.72 88.9 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "b02f686b-190b-4474-b306-3814a1afa84f") (property "Reference" "FB1" (at 299.72 78.11 0) (effects (font (size 1.27 1.27)))) (property "Value" "D-1384 fuse block, 6 × ATO" (at 299.72 99.69 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 299.72 88.9 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 299.72 88.9 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "b4e9e969-f046-47a2-8d56-ac2f8362f108")) (pin "2" (uuid "6b2f7e73-5d16-4142-82b3-75b9c2f4d6a7")) (pin "3" (uuid "15c7b006-da2f-4721-be00-f85c63c3c72c")) (pin "4" (uuid "879ae4ed-1610-47d6-8559-5270b8112b5c")) (pin "5" (uuid "50af3cf2-6023-4db6-8249-53e54fc736b3")) (pin "6" (uuid "7313d9a1-af23-4baa-b7de-9144f1279f9f")) (pin "7" (uuid "0b88b1ac-e97f-40ad-ab6c-f175c6925515")) (pin "8" (uuid "726daecc-96a2-4ae1-9dbd-4550c0163aaa")) (instances (project "brew-utils" (path "/8e2d1820-b3c9-4b7b-9375-177f76542263" (reference "FB1") (unit 1)))))
+	(wire (pts (xy 223.52 88.9) (xy 279.4 88.9)) (stroke (width 0) (type default)) (uuid "651ffb53-a061-4ea2-a250-e686eaa593d6"))
+	(wire (pts (xy 279.4 88.9) (xy 279.4 87.63)) (stroke (width 0) (type default)) (uuid "f9a976ff-90c2-4f9a-8d64-c71ca50578f0"))
+	(wire (pts (xy 279.4 87.63) (xy 287.02 87.63)) (stroke (width 0) (type default)) (uuid "077fce90-2aea-4870-a411-bcccf4d343ba"))
+	(label "+12V_SWITCHED" (at 226.06 88.9 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "d5317987-8ea1-401e-9ff0-6df2fde05594"))
+	(wire (pts (xy 287.02 90.17) (xy 283.21 90.17)) (stroke (width 0) (type default)) (uuid "0b0a828e-96c5-4d1d-8947-9a7a969a0d42"))
+	(wire (pts (xy 283.21 90.17) (xy 283.21 254)) (stroke (width 0) (type default)) (uuid "39c0ac03-ef07-4ec9-8f0c-de8552468cd5"))
+	(junction (at 283.21 254) (diameter 0) (color 0 0 0 0) (uuid "1b793ee5-4cbf-4650-a58e-c54cc31b46a5"))
+	(wire (pts (xy 312.42 82.55) (xy 317.5 82.55)) (stroke (width 0) (type default)) (uuid "d70fde93-0fee-4301-86ec-fa70dc7701d0"))
+	(global_label "P1_+12V" (shape bidirectional) (at 317.5 82.55 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "54fa49f5-cd4b-4650-a962-23391b92a4ab") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "\"P1\" → strip 1: Pi buck converters and PANP lamps  (sheet 4)" (exclude_from_sim no) (at 345.44 81.534 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "77bc0f87-6b0e-4887-95a2-2e4bc9a20356"))
+	(wire (pts (xy 312.42 85.09) (xy 317.5 85.09)) (stroke (width 0) (type default)) (uuid "4a58fc3e-5e71-408a-9192-2652cbb55329"))
+	(global_label "DASH_POWER_+12V" (shape bidirectional) (at 317.5 85.09 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "cb1cdd6a-06fe-4f27-836f-e746b2b3c5ca") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "\"DASH POWER\" → 4-way block → dash power relays  (sheet 2, 4)" (exclude_from_sim no) (at 345.44 84.074 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "b6bd8589-af86-46d8-9a42-df1d431c44fe"))
+	(wire (pts (xy 312.42 87.63) (xy 317.5 87.63)) (stroke (width 0) (type default)) (uuid "251e7167-914c-4925-800e-3be764924b00"))
+	(global_label "H1_FEED" (shape bidirectional) (at 317.5 87.63 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "d7b9eb78-55a5-4b26-8579-bcfda5f0d9fc") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "strip 2 → relay 1 → heater H1, unitank-1  (sheet 3)" (exclude_from_sim no) (at 345.44 86.614 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "f82f7abf-ceca-408b-849e-21b023aadd32"))
+	(wire (pts (xy 312.42 90.17) (xy 317.5 90.17)) (stroke (width 0) (type default)) (uuid "ca29df5a-639c-426e-9c56-b923677f27b0"))
+	(global_label "H2_FEED" (shape bidirectional) (at 317.5 90.17 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "c149d5a8-abe9-4f86-979a-5869b3364a20") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "strip 2 → relay 2 → heater H2, unitank-2  (sheet 3)" (exclude_from_sim no) (at 345.44 89.154 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "7132ed5c-d655-4a86-b605-b601b45007dc"))
+	(wire (pts (xy 312.42 92.71) (xy 317.5 92.71)) (stroke (width 0) (type default)) (uuid "17a368bb-dbb0-4cad-a2db-62e922961a2e"))
+	(global_label "H3_FEED" (shape bidirectional) (at 317.5 92.71 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "64d1e937-0912-411d-9e05-6a98e36a7e04") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "strip 2 → relay 3 → heater H3, chronical  (sheet 3)" (exclude_from_sim no) (at 345.44 91.694 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "02039837-fbc2-46ce-b81e-1e039f1be1fc"))
+	(no_connect (at 312.42 95.25) (uuid "85aeffe6-b984-4e12-84a5-252ca209f49a"))
+	(text "not connected" (exclude_from_sim no) (at 317.5 94.234 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "c57bec42-d32c-43f3-aa76-68150cdb47da"))
+	(symbol (lib_id "Device:Fuse") (at 266.7 53.34 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "bab01b58-7796-4c23-afed-17691ad18154") (property "Reference" "F2" (at 266.7 47.63 0) (effects (font (size 1.27 1.27)))) (property "Value" "25 A" (at 266.7 59.05 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 266.7 53.34 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 266.7 53.34 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "78b7474c-9734-4a21-ba41-836bd16e81c0")) (pin "2" (uuid "fde626c8-2fb0-48a9-a3f1-38c76a3c96c8")) (instances (project "brew-utils" (path "/8e2d1820-b3c9-4b7b-9375-177f76542263" (reference "F2") (unit 1)))))
+	(wire (pts (xy 266.7 38.1) (xy 266.7 49.53)) (stroke (width 0) (type default)) (uuid "98961656-c7fa-40c7-a340-5db8965be846"))
+	(junction (at 266.7 38.1) (diameter 0) (color 0 0 0 0) (uuid "23c2b798-7eb4-49e7-8ef7-069b1a440b1d"))
+	(symbol (lib_id "brew:MGGi_12-24V_15A") (at 299.72 177.8 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "9b0b40c2-c125-45ab-aa22-3f54883f4fa1") (property "Reference" "U1" (at 299.72 172.09 0) (effects (font (size 1.27 1.27)))) (property "Value" "MGGi 12→24 V boost, 15 A 360 W" (at 299.72 183.51 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 299.72 177.8 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 299.72 177.8 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "d3a70058-311a-4d19-81f0-49e522358b19")) (pin "2" (uuid "dd763ff5-b6cf-4066-a795-1f654803853e")) (pin "3" (uuid "cdc353c6-98bd-4fa9-97a2-15d2962dd55c")) (pin "4" (uuid "7db67ea1-763e-40d6-b359-6320e03f4010")) (instances (project "brew-utils" (path "/8e2d1820-b3c9-4b7b-9375-177f76542263" (reference "U1") (unit 1)))))
+	(wire (pts (xy 266.7 57.15) (xy 266.7 176.53)) (stroke (width 0) (type default)) (uuid "305bc769-2698-4e23-aba7-789bf47af9c8"))
+	(wire (pts (xy 266.7 176.53) (xy 288.29 176.53)) (stroke (width 0) (type default)) (uuid "123f1884-77d7-471c-aad2-dbd4e652588e"))
+	(text "F2 sits hidden behind the contactors" (exclude_from_sim no) (at 269.24 66.04 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "6824c46a-bd48-4878-85a0-b9900bf0e1c9"))
+	(wire (pts (xy 288.29 179.07) (xy 284.48 179.07)) (stroke (width 0) (type default)) (uuid "9bd7e751-db9d-4aad-9763-e6e97fdc2302"))
+	(wire (pts (xy 284.48 179.07) (xy 284.48 254)) (stroke (width 0) (type default)) (uuid "c1cb7be5-2def-489e-8251-7cc83de04e51"))
+	(junction (at 284.48 254) (diameter 0) (color 0 0 0 0) (uuid "bfa652c3-6d13-4a3f-b3fa-fec12fa2dc05"))
+	(wire (pts (xy 311.15 176.53) (xy 316.23 176.53)) (stroke (width 0) (type default)) (uuid "a7f8a838-8b21-4752-bb51-8dc9cc83eff5"))
+	(global_label "+24V" (shape bidirectional) (at 316.23 176.53 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "1a926869-620d-4462-a6b9-67f51f78a8fa") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(text "→ strip 3 → relays 4–6 → glycol pumps  (sheet 3)" (exclude_from_sim no) (at 331.47 175.514 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "89ed75a2-1902-4477-b4a5-a55ec29e084d"))
+	(wire (pts (xy 311.15 179.07) (xy 316.23 179.07)) (stroke (width 0) (type default)) (uuid "41f66b6d-8408-4aba-bbf4-9f8d572ebfc7"))
+	(global_label "24V_RTN" (shape bidirectional) (at 316.23 179.07 0) (fields_autoplaced yes) (effects (font (size 1.27 1.27)) (justify left)) (uuid "dee59ede-a038-4ae2-a4d3-c9fbf5eb354e") (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+	(symbol (lib_id "Device:Fuse") (at 233.68 165.1 90) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "6e6142ef-cc49-47da-a178-e01d4e734769") (property "Reference" "F3" (at 233.68 161.93 0) (effects (font (size 1.27 1.27)))) (property "Value" "25 A" (at 233.68 168.27 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 233.68 165.1 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 233.68 165.1 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "5d3ba17f-b8e3-48a6-be2b-9e83342b4334")) (pin "2" (uuid "e216d792-990d-45ae-a01d-6ac1b0b9cd57")) (instances (project "brew-utils" (path "/8e2d1820-b3c9-4b7b-9375-177f76542263" (reference "F3") (unit 1)))))
+	(wire (pts (xy 223.52 165.1) (xy 229.87 165.1)) (stroke (width 0) (type default)) (uuid "b26d2062-42f4-4a6e-acf2-ded35253a7ea"))
+	(symbol (lib_id "Device:C_Polarized") (at 245.11 203.2 0) (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no) (uuid "82a6dbbf-94d3-416a-b0f9-ae2c581c8857") (property "Reference" "C1" (at 245.11 197.49 0) (effects (font (size 1.27 1.27)))) (property "Value" "Belva BB1D 1 F" (at 245.11 208.91 0) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 245.11 203.2 0) (effects (font (size 1.27 1.27)) (hide yes))) (property "Datasheet" "" (at 245.11 203.2 0) (effects (font (size 1.27 1.27)) (hide yes))) (pin "1" (uuid "b5a3e081-8a02-4d0d-81a9-72ed073be725")) (pin "2" (uuid "fdcab8ec-a956-45e8-884f-b600b0797aa6")) (instances (project "brew-utils" (path "/8e2d1820-b3c9-4b7b-9375-177f76542263" (reference "C1") (unit 1)))))
+	(wire (pts (xy 237.49 165.1) (xy 245.11 165.1)) (stroke (width 0) (type default)) (uuid "0208995f-9efc-4c9b-9615-5de86f278e99"))
+	(wire (pts (xy 245.11 165.1) (xy 245.11 199.39)) (stroke (width 0) (type default)) (uuid "c1a63d78-6103-403e-ae61-92fadc455456"))
+	(wire (pts (xy 245.11 207.01) (xy 245.11 254)) (stroke (width 0) (type default)) (uuid "7f6ae988-a581-47dd-b17d-1a128d0d234e"))
+	(junction (at 245.11 254) (diameter 0) (color 0 0 0 0) (uuid "9e20476d-78ae-432a-8ee7-b1f7e39d01cf"))
+	(text "C1 is effectively in parallel with the converter input while the upper contactor is closed;\nit rides out the supply dip when a 24 V glycol pump starts." (exclude_from_sim no) (at 228.6 190.5 0) (effects (font (size 1.1 1.1)) (justify left top)) (uuid "00d53b0b-9df4-4eff-8794-1d026cc9feb2"))
+	(sheet_instances (path "/" (page "1")))
+)
