@@ -247,10 +247,6 @@ belong; the two `power-relay-*.service` files do not.
 - `panp.path` fires when **any** of its three `PathExists=` conditions holds,
   not all of them. The switch pod thread copes with the adapter being absent,
   so this is cosmetic, but do not describe the unit as waiting for all three.
-- On `brewpi` the brightness handler is built with the speedo bus listed
-  twice, so every brightness message goes out six times rather than three.
-  Kept as is because halving it changes the write count on a bus known to
-  drop messages; it is marked in `setup_brewpi`.
 - `KITTSOCKET` exists only on the `kitt` branch of the brewpi-script-rmx fork,
   which the Pi runs and which is ten commits behind that fork's `main`. It lacks
   main's 2022 tilt-colour-expiry fix; unitank-2 has that fix hand-patched and

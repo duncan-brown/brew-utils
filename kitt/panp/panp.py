@@ -346,11 +346,17 @@ class Wire:
 
 
 class Bus:
-    """One serial bus to the dash. All writes go through the shared Wire."""
+    """One serial bus to the dash. All writes go through the shared Wire.
 
-    def __init__(self, device, wire):
+    `boards` is the destination letters of the boards strapped to this bus,
+    as traced in HARDWARE.md; a message for any other board need not be sent
+    on it.
+    """
+
+    def __init__(self, device, wire, boards):
         self.port = serial.Serial(device, BAUD)
         self.wire = wire
+        self.boards = boards
 
     def write(self, msg):
         with self.wire:
@@ -379,8 +385,8 @@ class Service:
         print(msg)
         self.notifier.notify(f"STATUS={msg}")
 
-    def open_bus(self, device):
-        bus = Bus(device, self.wire)
+    def open_bus(self, device, boards):
+        bus = Bus(device, self.wire, boards)
         self.buses.append(bus)
         return bus
 
@@ -591,7 +597,8 @@ class BrightnessHandler:
     """
 
     # dim (norm) and bright (pursuit) master brightness for every board. each
-    # bus gets all five; a board ignores messages addressed to the others
+    # bus gets the messages for the boards on it, repeated for safety; the
+    # message centre is never dimmed
     DIM = ['>ABD60?', '>BBD60?', '>EBD10?', '>FBD10?', '>GBD10?']
     BRIGHT = ['>ABDFF?', '>BBDFF?', '>EBD40?', '>FBD40?', '>GBD40?']
 
@@ -606,7 +613,8 @@ class BrightnessHandler:
             for bus in self.buses:
                 for _ in range(BRIGHTNESS_REPEATS):
                     for m in msgs:
-                        bus.write(m)
+                        if m[1] in bus.boards:
+                            bus.write(m)
                 self.brightness = channel_state
 
 
@@ -1029,8 +1037,8 @@ def setup_rpints(service, sp_q):
     GPIO.setup(AUTO_MODE_COMM, GPIO.OUT, initial=0)
     GPIO.setwarnings(True)
 
-    dummy = service.open_bus("/dev/ttyAMA0")
-    tacho = service.open_bus("/dev/ttyAMA1")
+    dummy = service.open_bus("/dev/ttyAMA0", "EG")   # red dummy3, dummy6
+    tacho = service.open_bus("/dev/ttyAMA1", "A")
 
     # the bench light, if a bridge is configured on this machine
     hue = HueLight()
@@ -1077,18 +1085,16 @@ def setup_brewpi(service, sp_q):
     for f in FLOWMETER:
         GPIO.setup(f, GPIO.OUT, initial=0)
 
-    msgctr = service.open_bus("/dev/ttyAMA0")
-    speedo = service.open_bus("/dev/ttyAMA1")
+    msgctr = service.open_bus("/dev/ttyAMA0", "C")
+    speedo = service.open_bus("/dev/ttyAMA1", "BF")   # speedo, red/green dummy3
 
     # clear the red/green dummy3 and set to user mode
     time.sleep(1)
     speedo.write(">FHa010101?")
     speedo.write(">FHm000000?")
 
-    # dim the speedo as we are in auto mode initially. the bus is listed twice,
-    # so every brightness message goes out six times rather than three; that
-    # is how it has always been and is left alone here
-    brightness = BrightnessHandler([speedo, speedo])
+    # dim the speedo as we are in auto mode initially
+    brightness = BrightnessHandler([speedo])
     brightness.set_brightness(NORMAL_MODE_COMM, True)
     GPIO.add_event_detect(NORMAL_MODE_COMM, GPIO.BOTH, callback=brightness.set_brightness, bouncetime=50)
     service.handlers.append(brightness)
