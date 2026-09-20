@@ -23,7 +23,7 @@ startup from `socket.gethostname()`. Anything else exits with an error.
 | Loop class | `RPintsLoopHandler` | `BrewPiLoopHandler` |
 | Reads | 6 keezer + 3 lager probes, RaspberryPints MySQL | mash + HLT probes, 3 BrewPi Remix instances |
 | Drives | tacho, red dummy3, dummy6 | speedo, message center, red/green dummy3 |
-| Owns | PANP buttons and lamps, dash power relays | flow meter relays |
+| Owns | PANP buttons and lamps, dash power relays, the Hue bench light | flow meter relays |
 | Mode GPIO | output (tells `brewpi` the mode) | input (follows `rpints`) |
 
 Shared between them: `read_probe_f` and the `get_temps` thread,
@@ -52,6 +52,11 @@ through a `Queue`. The main loop never blocks on I/O.
 Each `loop()` call drains its queues with `drain(q)`, recomputes what should
 be on screen, and writes it out. Queue entries are `(index, value)` tuples.
 
+The bench light runs the other way round: `PANPHandler` queues an on or off
+request from the button callback, and the `HueLight.loop()` thread talks to
+the Hue bridge, which is in another part of the building. A slow or absent
+bridge can therefore never hold up the dash.
+
 The database is polled less often than everything else: `RPintsLoopHandler`
 counts passes and only queries RaspberryPints once every `DATABASE_EVERY`
 passes, which is eleven.
@@ -65,10 +70,20 @@ lines that `brewpi` watches, so both Pis change behaviour together.
 | --- | --- | --- |
 | **Auto** | off (relays cut power to upper and lower dash) | stays on, showing `BREWPI UP` and flow meter status |
 | **Norm** | on, dimmed | captions the lower display |
-| **Pursuit** | on, full brightness, switch pod lamps lit | captions the lower display |
+| **Pursuit** | on, full brightness, switch pod lamps lit, bench light on | captions the lower display |
 
 Leaving Auto clears every display and re-sends brightness, because the boards
 were unpowered and have lost their state.
+
+Pursuit also switches on the Hue light strip over the brewery workbench, at
+full brightness and a chosen white, so there is enough light to read small
+print; Norm and Auto switch it off, as does halting the Pis. `rpints` talks to
+the Hue bridge's v2 API directly, from a worker thread. It is optional and is
+configured by `/usr/local/etc/panp-hue.json`, which is not in this repository
+because it holds the bridge's application key; without the file nothing
+happens, which is the case on `brewpi`. Setting it up, including getting a
+key from the bridge and choosing the colour temperature, is in
+[panp/README.md](panp/README.md).
 
 The Power button is not software at all. It triggers a latching relay that
 switches the whole 12 V supply, and each Pi holds an interlock relay *open*

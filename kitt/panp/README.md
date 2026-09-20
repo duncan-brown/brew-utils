@@ -1,8 +1,10 @@
 # Bench light over the Hue bridge
 
-Pursuit switches a Hue light on at full brightness and a chosen white, so there
-is enough light over the workbench to read small print; Norm and Auto switch it
-off, as does halting the Pis.
+Pursuit switches the Hue light strip over the brewery workbench on at full
+brightness and a chosen white, so there is enough light to read small print;
+Norm and Auto switch it off, as does halting the Pis. The strip is on the
+house's Hue bridge, in another part of the building, and `rpints` drives it
+over WiFi.
 
 It is optional. `panp.py` looks for `/usr/local/etc/panp-hue.json` and does
 nothing at all if it is absent, which is the case on `brewpi`. Nothing needs

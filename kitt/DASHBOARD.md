@@ -240,7 +240,7 @@ ones.
 Pressing one of these on the rpints Pi also signals the brewpi Pi over GPIO, so
 both halves of the dash change together.
 
-Pursuit also switches the Hue bench light over the workbench to full brightness
+Pursuit also switches the Hue light strip over the workbench to full brightness
 and a neutral white, so there is enough light to read small print on things;
 Norm and Auto switch it off again, as does halting the Pis. It is driven
 straight from the bridge's own API rather than through HomeKit, but the bridge

@@ -14,7 +14,7 @@ https://www.homebrewtalk.com/threads/brewery-dashboard.726917/
 
 | Path | Status | What it is |
 | --- | --- | --- |
-| `kitt/panp/` | **live** | The production system. `panp.py` + systemd units. |
+| `kitt/panp/` | **live** | The production system. `panp.py`, its systemd units, and a README on setting up the Hue bench light. |
 | `kitt/switchpod/` | live | Arduino Uno firmware for the resistive keypads. |
 | `brewpitosmith` | utility | BrewPi Remix beer log → BeerSmith 3 CSV. |
 | `images/` | reference | Switch pod photographs, season 2 dash scan, and the `hw-*` photos of the bench, supply box and control panel used by `HARDWARE.md`. |
@@ -42,7 +42,12 @@ One ~1000-line script runs on **both** Pis and branches on
 - **`rpints`** — owns the PANP buttons/lamps, dash power relays, and the GPIO
   lines that signal mode to the other Pi. Reads 6 keezer + 3 lager DS18B20s and
   the RaspberryPints MySQL database. Drives the tacho and the two dummy
-  displays via `RPintsLoopHandler`.
+  displays via `RPintsLoopHandler`. Also switches the **Hue light strip over
+  the workbench** on in Pursuit and off in Norm and Auto (`HueLight`, over
+  the Hue bridge's v2 API from a worker thread). That is configured by
+  `/usr/local/etc/panp-hue.json`, which is not in the repo because it holds
+  the bridge key; with no file the class does nothing, which is how `brewpi`
+  runs. Setup is in `kitt/panp/README.md`.
 - **`brewpi`** — reads mash/HLT probes, polls three BrewPi Remix instances over
   their `KITTSOCKET` unix sockets for temperature and Tilt SG, toggles the five
   flowmeter relays. Drives the speedo and message center via
