@@ -31,7 +31,7 @@ the code.
 | `MPH`, 3 digits | **HLT temperature**, °F, rounded to whole degrees |
 | bargraph above `MPH` | the same HLT temperature — 20 LEDs on 19 addressable steps of 10 °F, one step lighting two LEDs, so 160 °F lights 17 and the line is full at 190 °F |
 | `000.0`, 4 digits | **the selected value** — whatever the left switch pod last chose |
-| 16-LED bargraph above it | the same selected value, scaled to its own range — 16 LEDs on 13 addressable steps, three steps lighting two LEDs; the board clamps anything above 13, so the line is full from step 13 of the 16 the scales are written for |
+| 16-LED bargraph above it | the same selected value, scaled to its own range — 16 LEDs on 13 addressable steps, three steps lighting two LEDs; each mode's span runs from dark to full over those 13 steps |
 | `GUIDANCE`, `SYST. RDY` | unused |
 | alphanumeric row | the message center — see below |
 
@@ -40,10 +40,10 @@ bargraph uses, both depend on the left switch pod:
 
 | Showing | Bargraph spans | Decimal |
 | --- | --- | --- |
-| mash tun temperature | 110 °F upward, 5 °F per LED | `000.0` |
-| HLT temperature | 110 °F upward, 5 °F per LED | `000.0` |
-| unitank 1, unitank 2 or chronical temperature | 34 °F upward, 3 °F per LED | `000.0` |
-| any of those three gravities | 1.000 upward, 0.004 per LED | `0.000` |
+| mash tun temperature | dark at 110 °F, full at 190 °F | `000.0` |
+| HLT temperature | dark at 110 °F, full at 190 °F | `000.0` |
+| unitank 1, unitank 2 or chronical temperature | dark at 34 °F, full at 82 °F | `000.0` |
+| any of those three gravities | dark at 1.000, full at 1.064 | `0.000` |
 
 ## How the bargraphs work
 
@@ -79,11 +79,11 @@ addressable steps, one of which lights two LEDs; the multifunction line is 13
 steps, three of which light two LEDs. That was measured on the board in
 September 2026 by sending step counts with `panp.py` stopped: 16 and 8 lit 17
 and 10, and 19 and 13 filled both lines exactly. The Pi sends each line a step
-count and the board clamps it to the line's maximum, and `panp.py`'s scales are
-written for 16 steps, so the multifunction line reaches full three steps
-early. Note that the physical LED count and the addressable count are
-different numbers on this dash; the private repo records which is which for
-every board.
+count: one step per 10 °F of HLT temperature on the `MPH` line, and for the
+multifunction line each mode's span in `LOWER_DISPLAY` stretched over the 13
+steps, so every scale ends at exactly full. Note that the physical LED count
+and the addressable count are different numbers on this dash; the private repo
+records which is which for every board.
 
 Two consequences worth holding on to.
 

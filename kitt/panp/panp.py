@@ -186,29 +186,35 @@ LEFT_POD_FLOWMETERS = {
 }
 
 
-def _leds(offset, per_led):
-    """Led count for a value on a linear scale starting at `offset`."""
-    return lambda value: (value - offset) // per_led
+# The speedo's two led lines take a step count, and the board clamps it to the
+# line's own maximum. Neither line is one led per step: some steps light a
+# pair. Measured on the board, September 2026.
+SPEED_LINE_STEPS = 19     # 20 leds above MPH, one step lights two
+FUEL_LINE_STEPS = 13      # 16 leds above the multifunction display, three steps light two
 
 
-def _sg_leds(value):
-    """Led count for a gravity, which arrives here already multiplied by 100."""
-    return (value * 10.0 - 1000.0) // 4.0
+def _span(lo, hi):
+    """Steps to light on the multifunction line for a value on a linear scale.
+
+    Dark at `lo`, full at `hi`, whatever the line's step count is.
+    """
+    return lambda value: (value - lo) / (hi - lo) * FUEL_LINE_STEPS
 
 
-# what the lower speedo display shows in each mode: the value, the number of
-# leds to light for it, and the decimal point position (1 is 000.0, 3 is 0.000)
+# what the lower speedo display shows in each mode: the value, the multifunction
+# line's span for it, and the decimal point position (1 is 000.0, 3 is 0.000).
+# gravities arrive already multiplied by 100, so 1.050 is 105.0 here
 LOWER_DISPLAY = {
-    MsgCtrMode.MASH_TEMP:      (lambda h: h.hot_side_temps[0], _leds(110.0, 5.0), 1),
-    MsgCtrMode.MASH_TEMP_C:    (lambda h: (h.hot_side_temps[0] - 32.0) * 5.0 / 9.0, _leds(20.0, 4.0), 1),
-    MsgCtrMode.UNITANK1_TEMP:  (lambda h: h.brewpi_rmx_data[0], _leds(34.0, 3.0), 1),
-    MsgCtrMode.UNITANK2_TEMP:  (lambda h: h.brewpi_rmx_data[2], _leds(34.0, 3.0), 1),
-    MsgCtrMode.CHRONICAL_TEMP: (lambda h: h.brewpi_rmx_data[4], _leds(34.0, 3.0), 1),
-    MsgCtrMode.BREWPI_UP:      (lambda h: h.hot_side_temps[0], _leds(45.0, 10.0), 1),
-    MsgCtrMode.HLT_TEMP:       (lambda h: h.hot_side_temps[1], _leds(110.0, 5.0), 1),
-    MsgCtrMode.UNITANK1_SG:    (lambda h: h.brewpi_rmx_data[1] * 100.0, _sg_leds, 3),
-    MsgCtrMode.UNITANK2_SG:    (lambda h: h.brewpi_rmx_data[3] * 100.0, _sg_leds, 3),
-    MsgCtrMode.CHRONICAL_SG:   (lambda h: h.brewpi_rmx_data[5] * 100.0, _sg_leds, 3),
+    MsgCtrMode.MASH_TEMP:      (lambda h: h.hot_side_temps[0], _span(110.0, 190.0), 1),
+    MsgCtrMode.MASH_TEMP_C:    (lambda h: (h.hot_side_temps[0] - 32.0) * 5.0 / 9.0, _span(20.0, 84.0), 1),
+    MsgCtrMode.UNITANK1_TEMP:  (lambda h: h.brewpi_rmx_data[0], _span(34.0, 82.0), 1),
+    MsgCtrMode.UNITANK2_TEMP:  (lambda h: h.brewpi_rmx_data[2], _span(34.0, 82.0), 1),
+    MsgCtrMode.CHRONICAL_TEMP: (lambda h: h.brewpi_rmx_data[4], _span(34.0, 82.0), 1),
+    MsgCtrMode.BREWPI_UP:      (lambda h: h.hot_side_temps[0], _span(45.0, 205.0), 1),
+    MsgCtrMode.HLT_TEMP:       (lambda h: h.hot_side_temps[1], _span(110.0, 190.0), 1),
+    MsgCtrMode.UNITANK1_SG:    (lambda h: h.brewpi_rmx_data[1] * 100.0, _span(100.0, 106.4), 3),
+    MsgCtrMode.UNITANK2_SG:    (lambda h: h.brewpi_rmx_data[3] * 100.0, _span(100.0, 106.4), 3),
+    MsgCtrMode.CHRONICAL_SG:   (lambda h: h.brewpi_rmx_data[5] * 100.0, _span(100.0, 106.4), 3),
 }
 
 # the message centre's own rotation while the dash is dark
@@ -999,17 +1005,19 @@ class BrewPiLoopHandler:
                     self.msgctr.write(self.msgctr_msg)
                     self.msgctr_mode_old = self.msgctr_mode
 
-                # hlt temperature on the upper display and its led line
+                # hlt temperature on the upper display, and one step of its
+                # led line per ten degrees, so the line is full at 190 F
                 hundreds, tens, ones, tenths = temperature_digits(round(self.hot_side_temps[1]))
-                self.speedo.write(f">BBc{hundreds * 10 + tens:02X}?")
+                steps = min(SPEED_LINE_STEPS, hundreds * 10 + tens)
+                self.speedo.write(f">BBc{steps:02X}?")
                 self.speedo.write(f">BHd0{hundreds}0{tens}0{ones}03?")
 
                 # the selected value on the lower display and its led line
-                source, leds, dp_mode = LOWER_DISPLAY[self.msgctr_mode]
+                source, span, dp_mode = LOWER_DISPLAY[self.msgctr_mode]
                 value = source(self)
-                n_leds = int(math.floor(leds(value)))
-                n_leds = max(0, min(16, n_leds))
-                self.speedo.write(f">BBb{n_leds:02X}?")
+                steps = int(math.floor(span(value)))
+                steps = max(0, min(FUEL_LINE_STEPS, steps))
+                self.speedo.write(f">BBb{steps:02X}?")
                 hundreds, tens, ones, tenths = temperature_digits(value)
                 self.speedo.write(f">BHe0{hundreds}0{tens}0{ones}0{tenths}0{dp_mode}?")
 
