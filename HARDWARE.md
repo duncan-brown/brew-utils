@@ -48,6 +48,171 @@ electronics live, and the KITT dash is the front panel for it.
 Independent of all of it: a Johnson Controls A419 on each keezer holds the
 temperature. The Pis only *watch* the keezers; they never control them.
 
+## Block diagrams
+
+The same system, five ways. GitHub renders these; the ASCII sketch above is the
+fallback for anything that does not.
+
+### Power
+
+Everything on the 12 V side, from the wall to the loads. Fuse values are the
+ones fitted; the contactors are the two D-1012s in the supply box.
+
+```mermaid
+flowchart TB
+  mains["Mains 120 V"] --> psu["12 V 30 A switching supply<br/>(gutted CCTV box)"]
+
+  subgraph box["Supply box"]
+    direction TB
+    psu --> f3["3 A inline"] --> latch["HiLetgo latching relay<br/>trigger: POWER button via two Pi interlocks"]
+    latch -- "NC output · 'master relay'" --> k1["D-1012 lower contactor"]
+    latch -- "NC output" --> k2["D-1012 upper contactor"]
+    psu --> k1 --> fb["D-1384 fuse block · 6 × ATO"]
+    psu --> f25a["25 A inline"] --> mggi["MGGi 12→24 V boost<br/>15 A · 360 W"]
+    k2 --> f25b["25 A inline"] --> cap["Belva BB1D 1 F<br/>buffer capacitor"]
+    cap -. "parallel across<br/>converter input" .- mggi
+  end
+  latch --> plamp["POWER button lamp"]
+
+  subgraph panel["Control panel"]
+    direction TB
+    fb -- "V1 · 7.5 A · 'P1'" --> s1["strip 1 · switched 12 V"]
+    fb -- "V2 · 5 A · 'DASH POWER'" --> dp["DASH POWER block"]
+    fb -- "V3 V4 V5 · 7.5 A each" --> s2["strip 2 · heater feeds"]
+    mggi --> s3["strip 3 · 24 V"]
+    s1 --> buck["2 × SSLHONG 12→5 V USB-C"]
+    s1 --> lamprel["8-way relay module · ch 6–8"]
+    dp --> r4["SunFounder 4-ch relay module"]
+    s2 --> r6h["6-ch relay module · relays 1–3"]
+    s3 --> r6c["6-ch relay module · relays 4–6"] --> s4["strip 4"]
+  end
+
+  buck --> pis["rpints Pi 4 · brewpi Pi 4"]
+  lamprel --> lamps["AUTO · NORM · PURSUIT lamps"]
+  r4 --> dashloads["ch 1 'SPEED' → switch pod lamps<br/>ch 2 'TACHO' → speedo · tacho · dummy6<br/>ch 3 'DUMMY3' → dummy3 E · dummy3 F<br/>ch 4 'COMM' → message centre"]
+  r6h --> heat["3 × FTSs heater pads · 12 V<br/>cables H1–H3"]
+  s4 --> pumps["3 × Penguin XL glycol pumps · 24 V"]
+```
+
+### Controllers and relays
+
+The two Pis, the six Unos, and which relay module each one drives. Sensors are
+in [Sensor buses](#sensor-buses) and the dash serial in
+[Dash serial](#dash-serial).
+
+```mermaid
+flowchart LR
+  subgraph IN["inputs"]
+    direction TB
+    btns["PANP buttons<br/>AUTO NORM PURSUIT"]
+    podR["right switch pod"] --> unoSR["Uno · right pod"]
+    podL["left switch pod"] --> unoSL["Uno · left pod"]
+    unoR["Uno · RaspberryPints sketch<br/>flow meter pulses"]
+    unoF["3 × Uno · BrewPi<br/>unitank-1 · unitank-2 · chronical"]
+    tb["TiltBridge"]
+  end
+
+  subgraph RP["rpints · Raspberry Pi 4 · 10.0.1.31"]
+    direction TB
+    panpR["panp.py<br/>RPintsLoopHandler"]
+    rpdb["RaspberryPints<br/>MariaDB + web"]
+  end
+  subgraph BP["brewpi · Raspberry Pi 4 · 10.0.1.32"]
+    direction TB
+    panpB["panp.py<br/>BrewPiLoopHandler"]
+    bpx["3 × BrewPi Remix"]
+  end
+
+  subgraph OUT["relay modules and outputs"]
+    direction TB
+    r8L["8-way relay module ch 6–8<br/>→ PANP lamps"]
+    r4["SunFounder 4-ch<br/>→ dash power"]
+    r8F["8-way relay module ch 1–5<br/>→ flow meter pulse lines"]
+    r6["6-ch relay module<br/>→ heaters · glycol pumps"]
+    interlock["2 × interlock relays<br/>in the POWER button chain"]
+    hue["Hue bridge · bench light"]
+    kiosk["kiosk browser<br/>http://10.0.1.31/"]
+  end
+
+  btns -- "GPIO 5 · 6 · 16" --> panpR
+  unoSR -- USB --> panpR
+  unoR -- USB --> rpdb
+  unoSL -- USB --> panpB
+  unoF -- USB --> bpx
+  tb -.-> bpx
+  bpx -- "KITTSOCKET" --> panpB
+  panpR == "GPIO 7 · 22<br/>mode lines" ==> panpB
+
+  panpR -- "GPIO 19 · 20 · 12" --> r8L
+  panpR -- "GPIO 17 · 18 · 10" --> r4
+  panpB -- "GPIO 16" --> r4
+  panpB -- "GPIO 2 · 3 · 27 · 21 · 13" --> r8F
+  unoF -- "pins 5 · 6" --> r6
+  panpR -. "IO23, via systemd" .-> interlock
+  panpB -. "IO5, via systemd" .-> interlock
+  panpR -.-> hue
+  rpdb -.-> kiosk
+```
+
+### Dash serial
+
+Two buses per Pi, each through a TXS0108E level shifter with its `OE` on
+GPIO 25, transmit only.
+
+```mermaid
+flowchart LR
+  subgraph RP["rpints"]
+    r0["ttyAMA0 · GPIO 14 TXD"]
+    r1["ttyAMA1 · GPIO 8 CE0"]
+  end
+  subgraph BP["brewpi"]
+    b0["ttyAMA0 · GPIO 14 TXD"]
+    b1["ttyAMA1 · GPIO 8 CE0"]
+  end
+  r0 --> shR["TXS0108E"] --> E["E · red dummy3"] --> G["G · dummy6"]
+  r1 --> shR --> A["A · tacho"]
+  b0 --> shB["TXS0108E"] --> C["C · message centre"]
+  b1 --> shB --> B["B · speedo"] --> F["F · red/green dummy3"]
+```
+
+### The POWER button
+
+Why the button does nothing while a Pi is up, and why the system comes back on
+its own after an outage.
+
+```mermaid
+flowchart TB
+  btn["POWER button · C and NO"] --> i1["rpints interlock relay · NC contact<br/>held open by IO23 while rpints is up"]
+  i1 --> i2["brewpi interlock relay · NC contact<br/>held open by IO5 while brewpi is up"]
+  i2 --> trig["latching module · trigger input"]
+  trig -. "each press toggles" .-> latch["latching module<br/>unlatched at power-up"]
+  latch -- "NC output closed while unlatched" --> coils["D-1012 coils × 2"]
+  coils --> rail["switched 12 V rail<br/>fuse block → strips → Pis · dash · heaters"]
+  rail --> boot["Pis boot · power-relay-*.service<br/>drives IO23 and IO5 high"]
+  boot -. "opens both interlocks" .-> i1
+  halt["sudo halt on both Pis<br/>power-off-*.sh drives the pins low"] -. "closes both interlocks" .-> i1
+```
+
+### Sensor buses
+
+Every one-wire bus and what pulls it up.
+
+```mermaid
+flowchart LR
+  subgraph K["serving keezer — one 8-core cable"]
+    kp["6 × DS18B20 · 5 V from the rpints Uno"]
+    sf["5 × SF800"]
+  end
+  kp -- "data" --> k3["3-way block<br/>2.2 kΩ to Uno 3V3"] --> rp4["rpints GPIO 4"]
+  sf -- "5 pulse lines" --> rel8["8-way relays 1–5"] --> unoR["rpints Uno pins 6–10"]
+
+  lp["3 × DS18B20 · lagering keezer<br/>parasite powered"] -- "data" --> s12a["12-way strip 7<br/>2.2 kΩ to Uno 3V3 on 8"] --> rp26["rpints GPIO 26"]
+  hp["2 × DS18B20 · mash tun and HLT thermowells<br/>parasite powered"] -- "data" --> s12b["12-way strip 10<br/>2.2 kΩ to brewpi 3V3 on 11"] --> bp4["brewpi GPIO 4"]
+
+  fp["3 × DS18B20 · fermenter thermowells"] -- "data · 5 V · GND" --> s10["10-way strip<br/>4.7 kΩ to 5 V per probe"] --> unoF["BrewPi Unos · A0"]
+  tilt["3 × Tilt · Red Green Blue"] -.-> tb["TiltBridge"] -. "WiFi" .-> bpx["BrewPi Remix"]
+```
+
 ## Power
 
 Everything low-voltage runs from **one 30 A, 12 VDC switching supply**. It
