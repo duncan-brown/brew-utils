@@ -9,11 +9,14 @@ part of the building, over WiFi:
   Pis. On the bridge it is named "Brewery Bench Light". Do not confuse it with
   "Brewery Lightstrip", a second strip round the back of the workbench that
   HomeKit and a Hue motion sensor look after and `panp.py` never touches.
-- **The room lights.** `P IND` on the right switch pod turns the brewery's
-  room lights on at a set brightness and `EJECT R` turns them off. Which
-  lights are in that set is a list in the config file; the bench light and
-  the motion-sensor lightstrip are deliberately not in it. See "Room lights"
-  below.
+- **The room lights.** In Auto or Norm, `P IND` on the right switch pod
+  turns the brewery's room lights on at a set brightness and `EJECT R` turns
+  them off. Which lights are in that set is a list in the config file; the
+  bench light and the motion-sensor lightstrip are deliberately not in it.
+  See "Room lights" below.
+- **The bench light's colours.** In Pursuit, with the bench light already
+  on, `P IND` steps it round a cycle of colours and back to its normal white.
+  See "Bench light colours" below.
 
 It is optional. `panp.py` looks for `/usr/local/etc/panp-hue.json` and does
 nothing at all if it is absent, which is the case on `brewpi`. Nothing needs
@@ -131,3 +134,28 @@ and they do nothing.
 Rooms and zones would let one request switch a whole group, but the brewery
 room on the bridge also contains the bench light and the lightstrip, which
 must not follow these keys, so the lights are listed individually.
+
+## Bench light colours
+
+In Pursuit the bench light is on in its normal white, and `P IND` steps it
+through a cycle; the press after the last colour returns to normal, and
+every entry into Pursuit starts the cycle over. The default cycle is warm
+white, red, purple, pale blue. To change it, add a `bench_cycle` list to the
+config, one entry per press, each either a colour temperature or a CIE xy
+colour:
+
+```json
+"bench_cycle": [
+  {"mirek": 450},
+  {"xy": [0.68, 0.31]},
+  {"xy": [0.30, 0.13]},
+  {"xy": [0.24, 0.27]}
+]
+```
+
+The list can be any length. Brightness stays at the config's `brightness`
+throughout. Hue's xy is the CIE 1931 chromaticity the bridge uses for
+colour; the strip clamps anything outside its gamut to the nearest colour it
+can make, so approximate values are fine. Rough landmarks: red about
+(0.68, 0.31), green (0.17, 0.70), blue (0.15, 0.06), and whites near
+(0.31, 0.33); moving toward the white point makes a colour paler.

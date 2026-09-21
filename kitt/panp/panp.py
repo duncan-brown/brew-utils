@@ -582,10 +582,20 @@ class HueLight:
     to hold up the dash: requests go onto a queue and a thread does the talking.
     """
 
+    # the colours P IND steps the bench light through in pursuit, in order; the
+    # press after the last returns to the config's own white. each entry is
+    # either a colour temperature in mirek or a CIE xy colour, and the config
+    # file may replace the list under "bench_cycle" using the same shapes
+    BENCH_CYCLE = [{"mirek": 450},          # warmer white, about 2200 K
+                   {"xy": [0.68, 0.31]},    # red
+                   {"xy": [0.30, 0.13]},    # purple
+                   {"xy": [0.24, 0.27]}]    # pale blue
+
     def __init__(self, path="/usr/local/etc/panp-hue.json"):
         self.cfg = None
         self.q = Queue()
         self.room_lights = []
+        self.bench_cycle = list(self.BENCH_CYCLE)
         try:
             with open(path) as f:
                 cfg = json.load(f)
@@ -596,6 +606,7 @@ class HueLight:
             # config file so the bench light can be tuned without editing code
             self.brightness = float(cfg.get("brightness", 100.0))
             self.mirek = int(cfg.get("mirek", 200))
+            self.bench_cycle = list(cfg.get("bench_cycle", self.BENCH_CYCLE))
             room = cfg.get("room", {})
             self.room_lights = list(room.get("lights", []))
             self.room_brightness = float(room.get("brightness", 100.0))
@@ -611,10 +622,30 @@ class HueLight:
     def configured(self):
         return self.cfg is not None
 
+    def bench_body(self, on, colour=None):
+        """The request that puts the bench light on in its normal white, in one
+        of the cycle's colours, or off."""
+        if not on:
+            return {"on": {"on": False}}
+        body = {"on": {"on": True}, "dimming": {"brightness": self.brightness}}
+        if colour is None:
+            body["color_temperature"] = {"mirek": self.mirek}
+        elif "mirek" in colour:
+            body["color_temperature"] = {"mirek": int(colour["mirek"])}
+        else:
+            x, y = colour["xy"]
+            body["color"] = {"xy": {"x": float(x), "y": float(y)}}
+        return body
+
     def set(self, on):
-        """Ask for the bench light to change and return at once."""
+        """Ask for the bench light to go to its normal white, or off, and return at once."""
         if self.cfg is not None:
-            self.q.put(("bench", on))
+            self.q.put(("bench", self.bench_body(on)))
+
+    def bench_colour(self, step):
+        """Ask for the bench light to take colour `step` of the cycle and return at once."""
+        if self.cfg is not None and 0 <= step < len(self.bench_cycle):
+            self.q.put(("bench", self.bench_body(True, self.bench_cycle[step])))
 
     def room(self, on):
         """Ask for the room lights to change and return at once."""
@@ -636,16 +667,10 @@ class HueLight:
             pass
 
     def put(self, on, timeout=5):
-        """Send the bench light a state. Blocks, so keep it off the dash path."""
+        """Send the bench light its normal white or off. Blocks, so keep it off the dash path."""
         if self.cfg is None:
             return
-        if on:
-            body = {"on": {"on": True},
-                    "dimming": {"brightness": self.brightness},
-                    "color_temperature": {"mirek": self.mirek}}
-        else:
-            body = {"on": {"on": False}}
-        self._put(self.bench, body, timeout)
+        self._put(self.bench, self.bench_body(on), timeout)
 
     def put_room(self, on, timeout=5):
         """Send every room light a state, one request each. Blocks."""
@@ -670,7 +695,7 @@ class HueLight:
                 latest[target] = on
             for target, on in latest.items():
                 if target == "bench":
-                    self.put(on)
+                    self._put(self.bench, on, 5)    # a request body, not a bool
                 else:
                     self.put_room(on)
 
@@ -829,6 +854,10 @@ class RPintsLoopHandler:
         self.view_lager = 0
         # set from the panp button callback when the dash comes back from auto
         self.wake = False
+        # the panp handler, once built, so P IND can tell pursuit from the
+        # other modes; and how far round the bench light's colour cycle it is
+        self.panp = None
+        self.bench_step = 0
 
         self.passes = 0
         self.connection = None
@@ -891,9 +920,21 @@ class RPintsLoopHandler:
                 self.view_lager = RIGHT_POD_LAGERS[pos]
                 self.view = TachoView.LAGER_TEMP
         elif pos == RIGHT_POD_LIGHTS_ON:
-            self.hue.room(True)
+            if self.in_pursuit():
+                # in pursuit the key steps the bench light round its colours
+                # instead; the press after the last colour is the normal white
+                self.bench_step = (self.bench_step + 1) % (len(self.hue.bench_cycle) + 1)
+                if self.bench_step == 0:
+                    self.hue.set(True)
+                else:
+                    self.hue.bench_colour(self.bench_step - 1)
+            else:
+                self.hue.room(True)
         elif pos == RIGHT_POD_LIGHTS_OFF:
             self.hue.room(False)
+
+    def in_pursuit(self):
+        return self.panp is not None and self.panp.state is PANPState.PURSUIT
 
     def tacho_reading(self):
         """What the tacho shows this pass: the digits' value, where the decimal
@@ -929,6 +970,11 @@ class RPintsLoopHandler:
         if self.wake:
             self.wake = False
             self.view, self.view_key = TachoView.MEAN, None
+
+        # every entry into pursuit puts the bench light back to its normal
+        # white (change_state does that), so the colour cycle starts over
+        if not self.in_pursuit():
+            self.bench_step = 0
 
         for sp_val in drain(self.sp_q):
             self.press(sp_val)
@@ -1211,7 +1257,9 @@ def setup_rpints(service, sp_q):
     start_thread(get_temps, LAGER_PROBES, lager_q)
 
     loop_handler = RPintsLoopHandler(service, tacho, dummy, hue, sp_q, keezer_q, lager_q)
-    service.handlers.append(PANPHandler(tacho, dummy, hue, loop_handler.show_mean))
+    panp = PANPHandler(tacho, dummy, hue, loop_handler.show_mean)
+    loop_handler.panp = panp
+    service.handlers.append(panp)
 
     def teardown():
         for p in PANPState:

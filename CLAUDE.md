@@ -44,8 +44,9 @@ One ~1000-line script runs on **both** Pis and branches on
   the RaspberryPints MySQL database. Drives the tacho and the two dummy
   displays via `RPintsLoopHandler`. Also talks to the **Hue bridge**
   (`HueLight`, v2 API from a worker thread): the bench light over the
-  workbench follows Pursuit, and two right-pod keys switch the twelve brewery
-  room lights on and off. Configured by `/usr/local/etc/panp-hue.json`, which
+  workbench follows Pursuit, two right-pod keys switch the twelve brewery
+  room lights on and off, and in Pursuit the "on" key cycles the bench
+  light's colour instead. Configured by `/usr/local/etc/panp-hue.json`, which
   is not in the repo because it holds the bridge key; with no file the class
   does nothing, which is how `brewpi` runs. Setup is in `kitt/panp/README.md`.
 - **`brewpi`** — reads mash/HLT probes, polls three BrewPi Remix instances over

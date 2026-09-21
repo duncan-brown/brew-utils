@@ -306,13 +306,17 @@ from a failed fan.
 | `6 RM` (white) | 1 | lager probe 1, digits and arc | back to the mean |
 | `P ENG` | 3 | lager probe 2 | back to the mean |
 | `AUTO ROOF R` | 5 | lager probe 3 | back to the mean |
-| `P IND` | 7 | brewery room lights **on** at 100 % | |
+| `P IND` | 7 | in Auto or Norm: brewery room lights **on** at 100 %. In Pursuit: the bench light steps to the next colour | |
 | `EJECT R` | 9 | brewery room lights **off** | |
 
-`P IND` and `EJECT R` do not touch the tacho. They switch the twelve room
-lights listed in `/usr/local/etc/panp-hue.json` over the Hue bridge — the
-bench light, which follows Pursuit, and the motion-sensor lightstrip are not
-among them. See [panp/README.md](panp/README.md).
+`P IND` and `EJECT R` do not touch the tacho. In Auto and Norm they switch
+the twelve room lights listed in `/usr/local/etc/panp-hue.json` over the Hue
+bridge — the bench light, which follows Pursuit, and the motion-sensor
+lightstrip are not among them. In Pursuit, where the bench light is already
+on, `P IND` instead cycles it: warm white, red, purple, pale blue, and a
+fifth press back to its normal white. Every entry into Pursuit starts from
+normal. The colours are in the config file. See
+[panp/README.md](panp/README.md).
 
 There are two `6 RM` buttons; the orange one in the left column is keg 4, the
 white one at the top of the right column is lager probe 1.

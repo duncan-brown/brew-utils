@@ -4,6 +4,12 @@
   "key": "PUT_YOUR_BRIDGE_APPLICATION_KEY_HERE",
   "brightness": 100,
   "mirek": 300,
+  "bench_cycle": [
+    {"mirek": 450},
+    {"xy": [0.68, 0.31]},
+    {"xy": [0.30, 0.13]},
+    {"xy": [0.24, 0.27]}
+  ],
   "room": {
     "brightness": 100,
     "lights": [

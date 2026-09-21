@@ -107,7 +107,8 @@ another. The **right** pod (`rpints`) drives the tacho digits and arc: its
 left column is one key per keg, showing the imperial pints left and then the
 US gallons left before returning to the keezer mean, its right
 column shows the three lager probes, and its last two keys switch the brewery
-room lights over the Hue bridge. Coming up from Auto resets the tacho to the
+room lights over the Hue bridge — except that in Pursuit `P IND` cycles the
+bench light's colour instead. Coming up from Auto resets the tacho to the
 mean. The **left** pod (`brewpi`) selects what the lower speedo display shows
 and toggles the flow meter relays. Toggling a flow meter flashes `FLOW n on` on
 the message center for a second, then restores the normal caption.
