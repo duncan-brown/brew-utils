@@ -712,8 +712,10 @@ those displays instead.
 
 The message centre and the speedo are the two boards that get hot: the speedo
 has the most LEDs and the message centre is bolted to its back, all behind a
-solid panel with no airflow. There is an open investigation into the speedo
-running dim, and heat is the leading suspect.
+solid panel with no airflow. The speedo's habit of running dim, which heat
+was suspected of, turned out to be EEPROM wear in its ATmega caused by the
+firmware, fixed in September 2026 — see the EEPROM section of `CLAUDE.md`.
+Nothing points at the heat doing harm, but the boards do run warm.
 
 ### PANP switches
 

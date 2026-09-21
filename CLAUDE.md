@@ -176,9 +176,22 @@ is: **do not repeatedly send a message whose payload changes.**
   lower display, whose tenths digit changes on nearly every update — roughly one
   EEPROM write per second with the dash lit. Fixed in the board firmware in
   September 2026 by holding displayed values in RAM; nothing on the Pi side
-  could have avoided it, because those values genuinely change. **The fix only
-  applies to a board once its ATmega has been reflashed**, so check that before
-  assuming a board is safe.
+  could have avoided it, because those values genuinely change. **Both boards
+  were reflashed on 2026-09-20** (tacho `8eb06b4`, speedo `9b27355`, chips
+  labelled with those hashes), so value writes are now free on every board.
+- **The speedo's dimming was this, not hardware.** For years the speedo ran
+  dimmer than the tacho and got worse, and a fresh ATmega cured it, twice. The
+  cause was in the firmware: the speedo's odometer stored its trip mileage on
+  the same EEPROM bytes as the brightness settings, and with the old
+  save-on-every-value the two rewrote each other about ten times a second
+  while the dash was lit. The brightness byte wore out within hours of use,
+  and every boot then read a stuck-low brightness back from it. Both worn
+  chips were dumped to prove it. `9b27355` moves the settings clear of the
+  odometer. The remaining EEPROM writer while lit is the odometer itself,
+  which counts a phantom speed from an unconnected input and writes a
+  wear-levelled block every twenty seconds or so — about a decade of lit time
+  per cell, and no longer able to affect the display. **Leaving the dash on is
+  fine.** The write-up, with the dumps, is in the private repo's README.
 
 The memory being worn is **inside the ATmega328**, which sits in a socket, and
 the boards carry no external EEPROM. So a worn-out board is repaired by swapping
