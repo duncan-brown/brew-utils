@@ -729,6 +729,24 @@ fill two uxcell 8-core cables exactly, nothing shared on the way to the panel.
 buttons are symmetric from the front, so nothing shows. The yellow/green core of
 each cable is used for `POWER`.
 
+**Relamping.** Per Honeywell's Series 4 datasheet (Mouser `c30099-260707`),
+the button pulls straight out of the housing from the front and the lamp
+comes out with it, held in the button; the new lamp goes into the button and
+the button pushes back in, no tools. The lamp is a **T-3¼ wedge base**: the
+`31` in the part number means they shipped with a 28 V #656 or #152, and the
+12 V lamps fitted are the #161 equivalent. **But `4A13B` is the housing "with
+provision for locked button"**: if the locking mounting clip is fitted, it
+holds the button in and the datasheet says such units cannot be relamped from
+the front — the mounting clip must be slid off from behind the panel first.
+If a button will not pull out with a firm straight pull, that is why; do not
+force it.
+
+**Fault log.** 2026-09-21: the `NORM` lamp went dark intermittently while
+GPIO 20 was high, relay 7's indicator lit and +12 V present at its `NO`
+terminal; pressing keys or moving the desk brought it back and jiggling the
+cable did nothing. So the fault is at the key — a wedge lamp loose in its
+socket, or the lamp spades — not the Pi, the relay or the wiring.
+
 ![The backs of the four PANP switches: Pursuit, Norm, Auto, Power](images/hw-panp-buttons-back.jpg)
 
 The cables land on the **lower two 8-way barrier strips** at the right-hand edge
