@@ -710,6 +710,18 @@ sensor, fuel sender, bar inputs — on their terminal strips. None of those are
 used here; the 2023 firmware extensions exist precisely so the host can set
 those displays instead.
 
+One exception is wired deliberately. The speedo's four optocoupled warning
+inputs, `BAR1`–`BAR4`, each light one of the green light bars behind the
+`GUIDANCE` and `SYST. RDY` legends; Paolo meant them for turn signals and
+dash warnings. On the speedo's own 12-way terminal block the four are
+daisy-chained with white jumpers and fed +12 V by a red wire from the supply
+terminal, so the firmware sees all four asserted and the legends are always
+lit. They are the only lights on the dash the Pi does not control: to use them
+as warning lamps, either move the strap to a Pi GPIO through the existing
+optocouplers, or add a host register in the speedo firmware. The `KMH`/`MPH`
+header beside the ICSP pins is Paolo's units jumper for the car speed input
+and does nothing here.
+
 The message centre and the speedo are the two boards that get hot: the speedo
 has the most LEDs and the message centre is bolted to its back, all behind a
 solid panel with no airflow. The speedo's habit of running dim, which heat
